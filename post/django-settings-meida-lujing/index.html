@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1560678348810">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1560679215814">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://skytotwo.github.io/">
-        <img src="https://skytotwo.github.io//images/avatar.png?v=1560678348810" class="site-logo">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1560679215814" class="site-logo">
         <h1 class="site-title">Totoro の home</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -116,7 +116,7 @@
 <p>在你的 models.py 中添加 FileField 或 ImageField, 并确保定义了upload_to 选项,以告诉 Django 使用MEDIA_ROOT 的哪个子目录保存上传文件.</p>
 </li>
 <li>
-<p>你的数据库中要保存的只是文件的路径(相对于 MEDIA_ROOT). 要想得到这个文件的路径可以用.url方法。例如，如果models里有一个取名为&quot;photo&quot;的ImageField，可以在Html模板里通过{{object.photo.url}}得到该图片的路径。</p>
+<p>你的数据库中要保存的只是文件的路径(相对于 MEDIA_ROOT)，要想得到这个文件的路径可以用&quot;.url&quot;方法。例如，如果models里有一个取名为&quot;photo&quot;的ImageField，可以在Html模板里通过<code>{{object.photo.url}}</code>得到该图片的路径。</p>
 </li>
 </ol>
 <p>settings.py 设置</p>
@@ -139,9 +139,8 @@ MEDIA_URL = '/site_media/'
 <p>将 MEDIA_URL 的site_media 影射到 settings.STATIC_PATH</p>
 <p>models.py 上传图片字段设置</p>
 <pre><code class="language-python">photo = models.ImageField('上传图片',upload_to='photos')
-
-#相当于传到 &quot;D:/Python26/Lib/site-packages/django/bin/newproj/media/photos&quot; 目录下，浏览时通过&quot;/site_media/photos/&quot; 访问。
 </code></pre>
+<p>相当于传到 D:/Python26/Lib/site-packages/django/bin/newproj/media/photos 目录下，浏览时通过/site_media/photos/ 访问。</p>
 
             </div>
             

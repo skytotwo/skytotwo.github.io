@@ -1,0 +1,265 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>django drf实现第三方登录 | Totoro の home</title>
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1560674290054">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://skytotwo.github.io/">
+  <img class="avatar" src="https://skytotwo.github.io//images/avatar.png?v=1560674290054" alt="">
+  </a>
+  <h1 class="site-title">
+    Totoro の home
+  </h1>
+  <p class="site-description">
+    空杯心态，每天进步
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/skytotwo" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              django drf实现第三方登录
+            </h2>
+            <div class="post-info">
+              <time class="post-time">
+                · 2019-06-16 ·
+              </time>
+              
+                <a href="https://skytotwo.github.io//tag/Iv9ahsKWG" class="post-tag">
+                  # Django
+                </a>
+              
+            </div>
+            
+              <div class="post-feature-image" style="background-image: url('http://picture.totoro.site/images/2019/06/16/djangodrf.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>对于现在的网站来说，第三方登陆可以说是一个常用的设计了，通过授权来实现诸如qq，微信，微博等第三方平台的第三方登陆。而对于Django的drf来说，也是可以很好的嵌入第三方登陆模块的。</p>
+<!--more-->
+<p>第三方登录都是采用OAuth2.0规范来实现的，基本流程是：</p>
+<p>1、注册相关平台的开放平台的开发者账号，从而可以新建应用来开发调试。比如说微博就是在微博开放平台；微信就是在微信开放平台，QQ就是在QQ互联。</p>
+<p>2、注册完账号后就可以在相关平台注册应用了。注册应用会得到appkey和appsecrt，这是必要的两个参数，以qq为例：</p>
+<ul>
+<li>（1）、第一步是获取Authorization Code，通过访问文档定义的接口，传递相关必要参数如appkey和appsectrt参数，拼接参数至url，用get方式访问url。</li>
+<li>（2）、第二步是会跳转至第三方登陆页面，输入账号密码登陆成功后，会重定向至预设的redirect_url，并传递回Authorization Code</li>
+<li>（2）、第三步是用Authorization Code获取到Access Token，当页面重定向至设定的重定向url后（通常是网站首页），即可以调用某个接口访问第三方的接口，拼接url传入Authorization Code获取到Access Token，通过Access Token可以获取到用户信息，随后进行注册等操作。</li>
+</ul>
+<p>drf实现第三方登录可以使用现成的框架，如github上的social—app—django，http://python-social-auth.readthedocs.io/en/latest/。</p>
+<p><strong>一般设置步骤是：</strong></p>
+<ol>
+<li>
+<p>安装框架
+pip install social-auth-app-django，安装的时候会附带安装一些依赖，比如social-core等，而框架也是基于social-core开发的。</p>
+</li>
+<li>
+<p>在settings的INSTALLED_APPS中注册
+INSTALLED_APPS = [
+。。。。。
+'social_django',
+]</p>
+</li>
+<li>
+<p>在setting文件的DATABASES中设置数据库引擎，因为第三方登录需要的是innodb，这样做后面的migration才不会出错。</p>
+</li>
+</ol>
+<pre><code class="language-python">DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': &quot;mxshop&quot;,
+        'USER': 'root',
+        'PASSWORD': '123456',
+        'HOST': '127.0.0.1',
+        'OPTIONS': {'init_command' : 'SET default_storage_engine=INNODB;'}
+    }
+}
+</code></pre>
+<ol start="4">
+<li>
+<p>执行migrate，需要生成三个表，而不需要makemigration的原因是在安装的social_django中已经有了ini文件，可以直接进行migrate操作生成表。</p>
+</li>
+<li>
+<p>在setting的AUTHENTICATION_BACKENDS中配置：</p>
+</li>
+</ol>
+<pre><code class="language-python">AUTHENTICATION_BACKENDS = (
+   'social_core.backends.qq.QQOAuth2',
+    'social_core.backends.weibo.WeiboOAuth2',
+    'social_core.backends.weixin.WeixinOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+    ...
+)
+</code></pre>
+<p>其中的qq、weibo和微信名称都是在'social_core.backends中有定义的。</p>
+<ol start="6">
+<li>配置TEMPLATES</li>
+</ol>
+<pre><code class="language-python">TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        ,
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+               。。。。。。
+                'social_django.context_processors.backends', #第三方登录
+                'social_django.context_processors.login_redirect', #第三方登录重定向
+            ],
+        },
+    },
+]
+</code></pre>
+<ol start="7">
+<li>在urls的urlpatterns中添加访问url，该url会封装了两个url，一个是登录至第三方平台，并且传回Authorization Code回来，第二个是用code去获取Access Token拿到用户信息，然后返回本系统，如果本系统登陆了的话就会将第三方平台的账号与已登录的账号做个绑定，如果没有登录则会用第三方返回的信息在本系统生成一个账号，并完成登录。</li>
+</ol>
+<pre><code class="language-python">urlpatterns = [
+。。。。。。
+     #第三方登录url
+     url('', include('social_django.urls', namespace='social')),
+]
+</code></pre>
+<ol start="8">
+<li>
+<p>注意两点：
+（1）、如果url中之前配置过login的url，如jwt的模式
+url(r'^login/<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mrow></mrow><mo mathvariant="normal">′</mo></msup><mo separator="true">,</mo><mi>o</mi><mi>b</mi><mi>t</mi><mi>a</mi><mi>i</mi><msub><mi>n</mi><mi>j</mi></msub><mi>w</mi><msub><mi>t</mi><mi>t</mi></msub><mi>o</mi><mi>k</mi><mi>e</mi><mi>n</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mi mathvariant="normal">一</mi><mi mathvariant="normal">定</mi><mi mathvariant="normal">要</mi><mi mathvariant="normal">在</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>i</mi><mi>n</mi><mi mathvariant="normal">后</mi><mi mathvariant="normal">面</mi><mi mathvariant="normal">用</mi></mrow><annotation encoding="application/x-tex">&#x27;, obtain_jwt_token),
+一定要在login后面用</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.038em;vertical-align:-0.286108em;"></span><span class="mord"><span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">o</span><span class="mord mathdefault">b</span><span class="mord mathdefault">t</span><span class="mord mathdefault">a</span><span class="mord mathdefault">i</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord cjk_fallback">一</span><span class="mord cjk_fallback">定</span><span class="mord cjk_fallback">要</span><span class="mord cjk_fallback">在</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mord cjk_fallback">后</span><span class="mord cjk_fallback">面</span><span class="mord cjk_fallback">用</span></span></span></span>终止，不然会与第三方登录的url的login方法混淆。
+（2）、在拿到Acces Token并拿到相关信息后重定向的页面是在开放平台设置的redict_url，建议返回首页index，地址是本机的地址，也就是服务器的地址，不管是测试还是生产环境，不同于支付宝支付的返回，这里的是浏览器发起的重定向，并不会影响跳转。</p>
+</li>
+<li>
+<p>在settings中配置第三方登录所需要的appkey和sppsecret
+SOCIAL_AUTH_你的第三方名称（在social_core的backend中有）_KEY = 'appkey'
+SOCIAL_AUTH_你的第三方名称（在social_core的backend中有）_SECRET = 'appsecret'</p>
+</li>
+<li>
+<p>因为social_django是适用于django，获取信息返回后，返回的用户信息是给浏览器设置sessionid，但是drf的话，则是使用Token登录，这里则需要重写返回的方法，再返回的时候设置用户“name”和“token”，具体修改的代码位于socia_core的actions.py文件中的do_complete里，方法最后会将返回url，可以先将整个social_core拷贝至新建好的目录下。修改代码如下：</p>
+</li>
+</ol>
+<pre><code class="language-python">from rest_framework_jwt.serializers import jwt_encode_handler, jwt_payload_handler
+
+def do_complete(backend, login, user=None, redirect_name='next', *args, **kwargs):
+	response = backend.strategy.redirect(url)
+	payload = jwt_payload_handler(user)
+	response.set_cookie(&quot;name&quot;, user.name if user.name else user.username, max_age=24*3600)
+	response.set_cookie(&quot;token&quot;, jwt_encode_handler(payload))
+	return response
+</code></pre>
+<p>特别需要注意的是cookie一定要设置过期时间，如上所示。</p>
+
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://skytotwo.github.io//post/asyncio-jian-jie">
+              <h3 class="post-title">
+                asyncio 简介
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: 'c92214c141dbb1e37da6',
+    clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+    repo: 'skytotwo.github.io',
+    owner: 'skytotwo',
+    admin: ['skytotwo'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | 
+  <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

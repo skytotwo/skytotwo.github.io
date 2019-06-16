@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の home</title>
-    <updated>2019-06-16T09:38:27.975Z</updated>
+    <updated>2019-06-16T09:40:41.686Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -21,8 +21,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[Django settings.py 的media路径设置]]></title>
-        <id>https://skytotwo.github.io//post/django-settings-url</id>
-        <link href="https://skytotwo.github.io//post/django-settings-url">
+        <id>https://skytotwo.github.io//post/django-settings-meida-lujing</id>
+        <link href="https://skytotwo.github.io//post/django-settings-meida-lujing">
         </link>
         <updated>2019-06-16T08:45:56.000Z</updated>
         <summary type="html"><![CDATA[<p>Django对media等静态文件的路径配置有自己的一套，在settings和url里面都有对应配置，这里简单做一下介绍。</p>
@@ -61,8 +61,9 @@ MEDIA_URL = '/site_media/'
 <p>将 MEDIA_URL 的site_media 影射到 settings.STATIC_PATH</p>
 <p>models.py 上传图片字段设置</p>
 <pre><code class="language-python">photo = models.ImageField('上传图片',upload_to='photos')
+
+#相当于传到 &quot;D:/Python26/Lib/site-packages/django/bin/newproj/media/photos&quot; 目录下，浏览时通过&quot;/site_media/photos/&quot; 访问。
 </code></pre>
-<p>相当于传到 &quot;D:/Python26/Lib/site-packages/django/bin/newproj/media/photos&quot; 目录下，浏览时通过&quot;/site_media/photos/&quot; 访问。</p>
 ]]></content>
     </entry>
     <entry>

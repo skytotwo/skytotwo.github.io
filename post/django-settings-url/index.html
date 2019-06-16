@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>测试 | Totoro の home</title>
+<title>Django settings.py 的media路径设置 | Totoro の home</title>
 <meta name="description" content="空杯心态，每天进步">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -87,20 +87,54 @@
       <div class="sm-12 md-8 col">
         <div class="paper">
           <article class="article">
-            <h1>测试</h1>
+            <h1>Django settings.py 的media路径设置</h1>
             <p class="article-meta">
-              2019-06-14
+              2019-06-16
+              
+                <a href="https://skytotwo.github.io//tag/Iv9ahsKWG" class="badge warning">
+                  Django
+                </a>
               
             </p>
             
-              <img src="https://skytotwo.github.io//post-images/ce-shi.jpg" alt="测试">
+              <img src="http://picture.totoro.site/images/2019/06/16/1562632_a245_2.jpg" alt="Django settings.py 的media路径设置">
             
             <div class="post-content">
-              <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<p>####3测试</p>
-<p>————</p>
+              <!-- more -->
+<p>在一个 models 中使用 FileField 或 ImageField 需要以下步骤:</p>
+<ol>
+<li>
+<p>在你的 settings 文件中, 定义一个完整路径给MEDIA_ROOT 以便让 Django在此处保存上传文件. (出于性能考虑,这些文件并不保存到数据库.) 定义MEDIA_URL 作为该目录的公共 URL. 要确保该目录对 WEB 服务器用户帐号是可写的.</p>
+</li>
+<li>
+<p>在你的 models.py 中添加 FileField 或 ImageField, 并确保定义了upload_to 选项,以告诉 Django 使用MEDIA_ROOT 的哪个子目录保存上传文件.</p>
+</li>
+<li>
+<p>你的数据库中要保存的只是文件的路径(相对于 MEDIA_ROOT). 要想得到这个文件的路径可以用.url方法。例如，如果models里有一个取名为&quot;photo&quot;的ImageField，可以在Html模板里通过{{object.photo.url}}得到该图片的路径。</p>
+</li>
+</ol>
+<p>settings.py 设置</p>
+<p>媒体文件的绝对路径：</p>
+<pre><code class="language-python"># Absolute path to the directory that holds media.
+# Example: &quot;/home/media/media.lawrence.com/&quot;   
+MEDIA_ROOT = 'D:/Python26/Lib/site-packages/django/bin/newproj/media'
+</code></pre>
+<p>媒体文件的相对路径：</p>
+<pre><code class="language-python"># URL that handles the media served from MEDIA_ROOT.
+# Example: &quot;http://media.lawrence.com&quot;
+MEDIA_URL = '/site_media/' 
+</code></pre>
+<p>设置静态文件路径</p>
+<pre><code class="language-python">STATIC_PATH = 'D:/Python26/Lib/site-packages/django/bin/newproj/media'
+</code></pre>
+<p>urls.py 影射路径</p>
+<pre><code class="language-python">(r'^site_media/(?P&lt;path&gt;.*)$', 'django.views.static.serve',{'document_root': settings.STATIC_PATH}),
+</code></pre>
+<p>将 MEDIA_URL 的site_media 影射到 settings.STATIC_PATH</p>
+<p>models.py 上传图片字段设置</p>
+<pre><code class="language-python">photo = models.ImageField('上传图片',upload_to='photos')
+</code></pre>
+<p>相当于传到 D:/Python26/Lib/site-packages/django/bin/newproj/media/photos 目录下，浏览时通过/site_media/photos/ 访问。</p>
 
             </div>
           </article>
@@ -111,9 +145,9 @@
               <div class="next">
                 下一篇
               </div>
-              <a href="https://skytotwo.github.io//post/hello-gridea">
+              <a href="https://skytotwo.github.io//post/django-drf-disanfang">
                 <h3 class="post-title">
-                  Hello Gridea
+                  django drf实现第三方登录
                 </h3>
               </a>
             </div>
@@ -198,7 +232,7 @@
           Django
         </a>
       
-        <a href="https://skytotwo.github.io//tag/gridea" class="badge ">
+        <a href="https://skytotwo.github.io//tag/gridea" class="badge secondary">
           Gridea
         </a>
       

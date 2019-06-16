@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の home</title>
-    <updated>2019-06-16T08:38:14.121Z</updated>
+    <updated>2019-06-16T09:16:34.758Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,49 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の home</rights>
+    <entry>
+        <title type="html"><![CDATA[Django settings.py 的media路径设置]]></title>
+        <id>https://skytotwo.github.io//post/django-settings-url</id>
+        <link href="https://skytotwo.github.io//post/django-settings-url">
+        </link>
+        <updated>2019-06-16T08:45:56.000Z</updated>
+        <content type="html"><![CDATA[<!-- more -->
+<p>在一个 models 中使用 FileField 或 ImageField 需要以下步骤:</p>
+<ol>
+<li>
+<p>在你的 settings 文件中, 定义一个完整路径给MEDIA_ROOT 以便让 Django在此处保存上传文件. (出于性能考虑,这些文件并不保存到数据库.) 定义MEDIA_URL 作为该目录的公共 URL. 要确保该目录对 WEB 服务器用户帐号是可写的.</p>
+</li>
+<li>
+<p>在你的 models.py 中添加 FileField 或 ImageField, 并确保定义了upload_to 选项,以告诉 Django 使用MEDIA_ROOT 的哪个子目录保存上传文件.</p>
+</li>
+<li>
+<p>你的数据库中要保存的只是文件的路径(相对于 MEDIA_ROOT). 要想得到这个文件的路径可以用.url方法。例如，如果models里有一个取名为&quot;photo&quot;的ImageField，可以在Html模板里通过{{object.photo.url}}得到该图片的路径。</p>
+</li>
+</ol>
+<p>settings.py 设置</p>
+<p>媒体文件的绝对路径：</p>
+<pre><code class="language-python"># Absolute path to the directory that holds media.
+# Example: &quot;/home/media/media.lawrence.com/&quot;   
+MEDIA_ROOT = 'D:/Python26/Lib/site-packages/django/bin/newproj/media'
+</code></pre>
+<p>媒体文件的相对路径：</p>
+<pre><code class="language-python"># URL that handles the media served from MEDIA_ROOT.
+# Example: &quot;http://media.lawrence.com&quot;
+MEDIA_URL = '/site_media/' 
+</code></pre>
+<p>设置静态文件路径</p>
+<pre><code class="language-python">STATIC_PATH = 'D:/Python26/Lib/site-packages/django/bin/newproj/media'
+</code></pre>
+<p>urls.py 影射路径</p>
+<pre><code class="language-python">(r'^site_media/(?P&lt;path&gt;.*)$', 'django.views.static.serve',{'document_root': settings.STATIC_PATH}),
+</code></pre>
+<p>将 MEDIA_URL 的site_media 影射到 settings.STATIC_PATH</p>
+<p>models.py 上传图片字段设置</p>
+<pre><code class="language-python">photo = models.ImageField('上传图片',upload_to='photos')
+</code></pre>
+<p>相当于传到 D:/Python26/Lib/site-packages/django/bin/newproj/media/photos 目录下，浏览时通过/site_media/photos/ 访问。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[django drf实现第三方登录]]></title>
         <id>https://skytotwo.github.io//post/django-drf-disanfang</id>

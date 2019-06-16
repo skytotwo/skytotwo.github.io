@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
-    <title>Totoro の home</title>
-    <updated>2019-06-16T10:28:35.445Z</updated>
+    <title>Totoro の Home</title>
+    <updated>2019-06-16T10:31:22.981Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
     <subtitle>空杯心态，每天进步</subtitle>
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
-    <rights>All rights reserved 2019, Totoro の home</rights>
+    <rights>All rights reserved 2019, Totoro の Home</rights>
     <entry>
         <title type="html"><![CDATA[Django settings.py 的media路径设置]]></title>
         <id>https://skytotwo.github.io//post/django-settings-meida-lujing</id>

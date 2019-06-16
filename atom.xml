@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の home</title>
-    <updated>2019-06-16T09:32:51.593Z</updated>
+    <updated>2019-06-16T09:38:27.975Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -62,7 +62,7 @@ MEDIA_URL = '/site_media/'
 <p>models.py 上传图片字段设置</p>
 <pre><code class="language-python">photo = models.ImageField('上传图片',upload_to='photos')
 </code></pre>
-<p>相当于传到 D:/Python26/Lib/site-packages/django/bin/newproj/media/photos 目录下，浏览时通过/site_media/photos/ 访问。</p>
+<p>相当于传到 &quot;D:/Python26/Lib/site-packages/django/bin/newproj/media/photos&quot; 目录下，浏览时通过&quot;/site_media/photos/&quot; 访问。</p>
 ]]></content>
     </entry>
     <entry>

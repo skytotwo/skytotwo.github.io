@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の home</title>
-    <updated>2019-06-16T10:00:32.201Z</updated>
+    <updated>2019-06-16T10:06:44.603Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -38,7 +38,7 @@
 <p>在你的 models.py 中添加 FileField 或 ImageField, 并确保定义了upload_to 选项,以告诉 Django 使用MEDIA_ROOT 的哪个子目录保存上传文件.</p>
 </li>
 <li>
-<p>你的数据库中要保存的只是文件的路径(相对于 MEDIA_ROOT)，要想得到这个文件的路径可以用&quot;.url&quot;方法。例如，如果models里有一个取名为&quot;photo&quot;的ImageField，可以在Html模板里通过<code>{{object.photo.url}}</code>得到该图片的路径。</p>
+<p>你的数据库中要保存的只是文件的路径(相对于 MEDIA_ROOT)，要想得到这个文件的路径可以用&quot;.url&quot;方法。例如，如果models里有一个取名为&quot;photo&quot;的ImageField，可以在Html模板里通过双花括号加object.photo.url得到该图片的路径。</p>
 </li>
 </ol>
 <p>settings.py 设置</p>
@@ -60,7 +60,8 @@ MEDIA_URL = '/site_media/'
 </code></pre>
 <p>将 MEDIA_URL 的site_media 影射到 settings.STATIC_PATH</p>
 <p>models.py 上传图片字段设置</p>
-<pre><code class="language-python">photo = models.ImageField('上传图片',upload_to='photos')
+<pre><code class="language-python">{{test}}
+photo = models.ImageField('上传图片',upload_to='photos')
 </code></pre>
 <p>相当于传到 D:/Python26/Lib/site-packages/django/bin/newproj/media/photos 目录下，浏览时通过/site_media/photos/ 访问。</p>
 ]]></content>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の home</title>
-    <updated>2019-06-16T09:40:41.686Z</updated>
+    <updated>2019-06-16T09:45:51.155Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -28,7 +28,7 @@
         <summary type="html"><![CDATA[<p>Django对media等静态文件的路径配置有自己的一套，在settings和url里面都有对应配置，这里简单做一下介绍。</p>
 ]]></summary>
         <content type="html"><![CDATA[<p>Django对media等静态文件的路径配置有自己的一套，在settings和url里面都有对应配置，这里简单做一下介绍。</p>
-<!-- more -->
+<!--more-->
 <p>在一个 models 中使用 FileField 或 ImageField 需要以下步骤:</p>
 <ol>
 <li>

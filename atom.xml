@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-08-05T03:49:09.876Z</updated>
+    <updated>2019-08-05T03:53:30.024Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,53 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[微信小程序学习记要（上）]]></title>
+        <id>https://skytotwo.github.io//post/wechat-miniapp-learning-mark</id>
+        <link href="https://skytotwo.github.io//post/wechat-miniapp-learning-mark">
+        </link>
+        <updated>2019-08-05T03:49:54.000Z</updated>
+        <summary type="html"><![CDATA[<p>几年前小程序火爆的时候，自己也跟着学习了一下，有许多小细节需要注意的，这里做一点记录</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>几年前小程序火爆的时候，自己也跟着学习了一下，有许多小细节需要注意的，这里做一点记录</p>
+<!-- more -->
+<p>1、图片等尺寸应该使用rpx自适应标准，素材应该选用iphone6作为标准。<br>
+遵循原则是：1px（物理像素）=1rpx=0.5pt（逻辑像素）<br>
+所以如果素材是750px，则编写尺寸则是750rpx。<br>
+2、在页面布局中，横向元素应该使用rpx，纵向大部分情况下是使用px，因为横向拉伸效果明显，需要自适应。<br>
+3、编写样式的时候，可以用class或者style。而其中规则是，一般静态的样式，不太会改变的样式就用class，一些动态的样式就用style，style每一次编译的时候都回去解析样式，性能上来说，所有都放在style里，性能会降低。<br>
+4、要让元素隐藏，可以使用wx:if=&quot;false&quot;,false的值也可以从js中绑定过来，用{{false}}表示。<br>
+5、数据绑定wx:for所传的对象的代称为“wx:for-item=item”。<br>
+6、wx:for 循环需要放在block块中，如下：</p>
+<pre><code class="language-xml">&lt;block wx:for=&quot;{{posts_key}}&quot;&gt;
+    ......
+&lt;/block&gt;
+</code></pre>
+<p>7、点击冒泡事件：除了submit等少数事件外，其余均符合冒泡事件。即触发子元素后，父元素也会被触发。如果不想触发父元素，可以不使用bind前缀，使用catch前缀。<br>
+8、使用template模板的原因，是因为将循环代码块抽离，可以达到多个页面复用的效果，直接引入就可以使用。<br>
+9、template模板在 wx:for 循环中的使用，传递数据可以直接data=&quot;{{item}}&quot;,如下：</p>
+<pre><code class="language-xml">&lt;block wx:for=&quot;{{posts_key}}&quot;&gt;
+    &lt;!-- template--&gt;
+    &lt;template is=&quot;postItem&quot; data=&quot;{{item}}&quot;/&gt;
+&lt;/block&gt;
+</code></pre>
+<p>10、以下是几种引入方式：<br>
+js引入方式（必须是相对路径，不然会报错！）</p>
+<pre><code class="language-javascript">var postsData = require('../../data/posts-data.js');
+</code></pre>
+<p>template在wxml中的引入（路径可以相对也可以绝对）</p>
+<pre><code class="language-xml">&lt;import src=&quot;post-item/post-item-template.wxml&quot;/&gt;
+</code></pre>
+<p>样式文件在wxss中的引入</p>
+<pre><code class="language-xml">@import &quot;post-item/post-item-template.wxss&quot;;
+</code></pre>
+<p>11、数据文件要让外部使用，需要在里面自定义一个接口，暴露出去，如下：</p>
+<pre><code class="language-javascript">module.exports = {
+  postList: local_database
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[附件上传至FTP和从FTP下载的代码]]></title>
         <id>https://skytotwo.github.io//post/upload-or-download-ftp</id>

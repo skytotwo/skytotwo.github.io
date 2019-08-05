@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-08-05T04:26:03.392Z</updated>
+    <updated>2019-08-05T04:31:13.551Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,294 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[利用java正则表达式来解析并获取指定的字符串]]></title>
+        <id>https://skytotwo.github.io//post/java-regex</id>
+        <link href="https://skytotwo.github.io//post/java-regex">
+        </link>
+        <updated>2019-08-05T04:27:09.000Z</updated>
+        <summary type="html"><![CDATA[<p><strong>Java的正则表达式不仅可以用来匹配验证字符串是否符合标准类型，还可以用来解析字符串，获取自己想要得到的数据。在java.util.regex包下提供了系列的类来对字符串进行匹配。</strong></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><strong>Java的正则表达式不仅可以用来匹配验证字符串是否符合标准类型，还可以用来解析字符串，获取自己想要得到的数据。在java.util.regex包下提供了系列的类来对字符串进行匹配。</strong></p>
+<!-- more -->
+<p>来看一下下面的例子：</p>
+<pre><code class="language-java">publicstatic String parse (String s){
+    Pattern pattern =Pattern.compile(&quot;charset=(.+?)\&quot;&quot;);//匹配的模式
+     //通配符中也要加入转移字符 (.+?)代表要查找的内容
+    Matcher matcher=pattern.matcher(s);
+    while(matcher.find()){
+       System.out.println(matcher.group(1)); //每次返回第一个即可 可用groupcount()方法来查看捕获的组数个数
+    }
+    return s;
+}
+</code></pre>
+<p><strong>要匹配一下类型的字符串：<br>
+其中标红的部分为想要获取的数据，注意这里要获取的数据长度不固定，并且可能为unicode<br>
+Gb2312等其他编码类型，在这里我们所希望获取的是其编码方式。</strong><br>
+具体应用实例：</p>
+<pre><code class="language-java">package URL;
+import java.NET.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.io.BufferedReader;
+importjava.io.InputStream;
+import java.io.InputStreamReader;
+importjava.util.regex.*;
+publicclass DataFromURL {
+publicstatic String parse (String s){
+    Pattern pattern =Pattern.compile(&quot;charset=(.+?)\&quot;&quot;);
+    //通配符中也要加入转移字符 (.+?)代表要查找的内容
+    Matcher matcher=pattern.matcher(s);
+    while(matcher.find()){
+       System.out.println(matcher.group(1));
+    }
+    return s;
+}
+publicstaticvoidgetDataFromURL(String url){
+    try{
+        URL u=new URL(url);//通过连接创建URL对象
+        BufferedReader reader=new BufferedReader(new       InputStreamReader(u.openStream(),&quot;gb2312&quot;));//采用gb2312方式打开输入流
+        intc;
+       /*while((c=reader.read())!=-1)//该方法为每个字符读取
+        {
+            System.out.print((char)c);
+        }*/
+        String s;
+        while((s=reader.readLine())!=null){//不为空一次性读取一行
+        //System.out.println(s);
+            if(s.contains(&quot;charset&quot;)){
+                 parse(s);
+            }
+        }
+    }catch(Exception e){
+       e.printStackTrace();
+    }
+}
+}
+</code></pre>
+<p>附录正则表达式说明：</p>
+<p>众所周知，在程序开发中，难免会遇到需要匹配、查找、替换、判断字符串的情况发生，而这些情况有时又比较复杂，如果用纯编码方式解决，往往会浪费程序员的时间及精力。因此，学习及使用正则表达式，便成了解决这一矛盾的主要手段。<br>
+大 家都知道，正则表达式是一种可以用于模式匹配和替换的规范，一个正则表达式就是由普通的字符（例如字符a到z）以及特殊字符（元字符）组成的文字模式，它 用以描述在查找文字主体时待匹配的一个或多个字符串。正则表达式作为一个模板，将某个字符模式与所搜索的字符串进行匹配。<br>
+自从jdk1.4推出java.util.regex包，就为我们提供了很好的JAVA正则表达式应用平台。</p>
+<p>因为正则表达式是一个很庞杂的体系，所以我仅例举些入门的概念，更多的请参阅相关书籍及自行摸索。</p>
+<p>// 反斜杠<br>
+/t 间隔 ('/u0009')<br>
+/n 换行 ('/u000A')<br>
+/r 回车 ('/u000D')<br>
+/d 数字 等价于[0-9]<br>
+/D 非数字 等价于[^0-9]<br>
+/s 空白符号 [/t/n/x0B/f/r]<br>
+/S 非空白符号 [^/t/n/x0B/f/r]<br>
+/w 单独字符 [a-zA-Z_0-9]<br>
+/W 非单独字符 [^a-zA-Z_0-9]<br>
+/f 换页符<br>
+/e Escape<br>
+/b 一个单词的边界<br>
+/B 一个非单词的边界<br>
+/G 前一个匹配的结束</p>
+<p>^为限制开头<br>
+^java    条件限制为以Java为开头字符<br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">为</mi><mi mathvariant="normal">限</mi><mi mathvariant="normal">制</mi><mi mathvariant="normal">结</mi><mi mathvariant="normal">尾</mi><mi>j</mi><mi>a</mi><mi>v</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">为限制结尾
+java</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord cjk_fallback">为</span><span class="mord cjk_fallback">限</span><span class="mord cjk_fallback">制</span><span class="mord cjk_fallback">结</span><span class="mord cjk_fallback">尾</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">a</span></span></span></span>    条件限制为以java为结尾字符<br>
+.  条件限制除/n以外任意一个单独字符<br>
+java..    条件限制为java后除换行外任意两个字符</p>
+<p>加入特定限制条件「[]」<br>
+[a-z]    条件限制在小写a to z范围中一个字符<br>
+[A-Z]    条件限制在大写A to Z范围中一个字符<br>
+[a-zA-Z] 条件限制在小写a to z或大写A to Z范围中一个字符<br>
+[0-9]    条件限制在小写0 to 9范围中一个字符<br>
+[0-9a-z] 条件限制在小写0 to 9或a to z范围中一个字符<br>
+[0-9[a-z]] 条件限制在小写0 to 9或a to z范围中一个字符(交集)</p>
+<p>[]中加入<sup>后加再次限制条件「[</sup>]」<br>
+[^a-z]    条件限制在非小写a to z范围中一个字符<br>
+[^A-Z]    条件限制在非大写A to Z范围中一个字符<br>
+[^a-zA-Z] 条件限制在非小写a to z或大写A to Z范围中一个字符<br>
+[^0-9]    条件限制在非小写0 to 9范围中一个字符<br>
+[^0-9a-z] 条件限制在非小写0 to 9或a to z范围中一个字符<br>
+[^0-9[a-z]] 条件限制在非小写0 to 9或a to z范围中一个字符(交集)</p>
+<p>在限制条件为特定字符出现0次以上时，可以使用「<em>」<br>
+J</em>    0个以上J<br>
+.*    0个以上任意字符<br>
+J.*D    J与D之间0个以上任意字符</p>
+<p>在限制条件为特定字符出现1次以上时，可以使用「+」<br>
+J+    1个以上J<br>
+.+    1个以上任意字符<br>
+J.+D    J与D之间1个以上任意字符</p>
+<p>在限制条件为特定字符出现有0或1次以上时，可以使用「?」<br>
+JA?    J或者JA出现</p>
+<p>限制为连续出现指定次数字符「{a}」<br>
+J{2}    JJ<br>
+J{3}    JJJ<br>
+文字a个以上，并且「{a,}」<br>
+J{3,}    JJJ,JJJJ,JJJJJ,???(3次以上J并存)<br>
+文字个以上，b个以下「{a,b}」<br>
+J{3,5}    JJJ或JJJJ或JJJJJ<br>
+两者取一「|」<br>
+J|A    J或A<br>
+Java|Hello    Java或Hello</p>
+<p>「()」中规定一个组合类型<br>
+比如，我查询index中间的数据，可写作(.+?)</p>
+<p>在使用Pattern.compile函数时，可以加入控制正则表达式的匹配行为的参数：<br>
+PatternPattern.compile(String regex, int flag)</p>
+<p>flag的取值范围如下：<br>
+Pattern.CANON_EQ    当且仅当两个字符的&quot;正规分解(canonical decomposition)&quot;都完全相同的情况下，才认定匹配。比如用了这个标志之后，表达式&quot;a/u030A&quot;会匹配&quot;?&quot;。默认情况下，不考虑&quot;规 范相等性(canonical equivalence)&quot;。<br>
+Pattern.CASE_INSENSITIVE(?i)    默认情况下，大小写不明感的匹配只适用于US-ASCII字符集。这个标志能让表达式忽略大小写进行匹配。要想对Unicode字符进行大小不明感的匹 配，只要将UNICODE_CASE与这个标志合起来就行了。<br>
+Pattern.COMMENTS(?x)    在这种模式下，匹配时会忽略(正则表达式里的)空格字符(译者注：不是指表达式里的&quot;//s&quot;，而是指表达式里的空格，tab，回车之类)。注释从#开始，一直到这行结束。可以通过嵌入式的标志来启用Unix行模式。<br>
+Pattern.DOTALL(?s)    在这种模式下，表达式'.'可以匹配任意字符，包括表示一行的结束符。默认情况下，表达式'.'不匹配行的结束符。<br>
+Pattern.MULTILINE<br>
+(?m)    在这种模式下，'^'和'<span class='katex-error' title='ParseError: KaTeX parse error: Expected group after &#039;^&#039; at position 19: …匹配一行的开始和结束。此外，&#039;^̲&#039;仍然匹配字符串的开始，&#039;'>&#039;分别匹配一行的开始和结束。此外，&#039;^&#039;仍然匹配字符串的开始，&#039;</span>'也匹配字符串的结束。默认情况下，这两个表达式仅仅匹配字符串的开始和结束。<br>
+Pattern.UNICODE_CASE<br>
+(?u)    在这个模式下，如果你还启用了CASE_INSENSITIVE标志，那么它会对Unicode字符进行大小写不明感的匹配。默认情况下，大小写不敏感的匹配只适用于US-ASCII字符集。<br>
+Pattern.UNIX_LINES(?d)    在这个模式下，只有'/n'才被认作一行的中止，并且与'.'，'^'，以及'$'进行匹配。</p>
+<p>抛开空泛的概念，下面写出几个简单的Java正则用例：</p>
+<p>◆比如，在字符串包含验证时</p>
+<p>//查找以Java开头,任意结尾的字符串<br>
+Patternpattern = Pattern.compile(&quot;^Java.*&quot;);<br>
+Matchermatcher = pattern.matcher(&quot;Java不是人&quot;);<br>
+boolean b=matcher.matches();<br>
+//当条件满足时，将返回true，否则返回false<br>
+System.out.println(b);</p>
+<p>◆以多条件分割字符串时<br>
+Pattern pattern =Pattern.compile(&quot;[, |]+&quot;);<br>
+String[] strs =pattern.split(&quot;Java Hello World  Java,Hello,,World|Sun&quot;);<br>
+for (inti=0;i<br>
+System.out.println(strs[i]);<br>
+}</p>
+<p>◆文字替换（首次出现字符）<br>
+Pattern pattern =Pattern.compile(&quot;正则表达式&quot;);<br>
+Matcher matcher =pattern.matcher(&quot;正则表达式 HelloWorld,正则表达式 Hello World&quot;);<br>
+//替换第一个符合正则的数据<br>
+System.out.println(matcher.replaceFirst(&quot;Java&quot;));</p>
+<p>◆文字替换（全部）<br>
+Pattern pattern =Pattern.compile(&quot;正则表达式&quot;);<br>
+Matcher matcher =pattern.matcher(&quot;正则表达式 HelloWorld,正则表达式 Hello World&quot;);<br>
+//替换第一个符合正则的数据<br>
+System.out.println(matcher.replaceAll(&quot;Java&quot;));</p>
+<p>◆文字替换（置换字符）<br>
+Pattern pattern =Pattern.compile(&quot;正则表达式&quot;);<br>
+Matcher matcher =pattern.matcher(&quot;正则表达式 HelloWorld,正则表达式 Hello World &quot;);<br>
+StringBuffer sbr =new StringBuffer();<br>
+while(matcher.find()) {<br>
+matcher.appendReplacement(sbr, &quot;Java&quot;);<br>
+}<br>
+matcher.appendTail(sbr);<br>
+System.out.println(sbr.toString());</p>
+<p>◆验证是否为邮箱地址</p>
+<p>Stringstr=&quot;ceponline@yahoo.com.cn&quot;;<br>
+Pattern pattern =Pattern.compile(&quot;[//w//.//-]+@([//w//-]+//.)+[//w//-]+&quot;,Pattern.CASE_INSENSITIVE);<br>
+Matcher matcher =pattern.matcher(str);<br>
+System.out.println(matcher.matches());</p>
+<p>◆去除html标记<br>
+Pattern pattern =Pattern.compile(&quot;&lt;.+?&gt;&quot;, Pattern.DOTALL);<br>
+Matcher matcher =pattern.matcher(&quot;主页&quot;);<br>
+String string =matcher.replaceAll(&quot;&quot;);<br>
+System.out.println(string);</p>
+<p>◆查找html中对应条件字符串<br>
+Pattern pattern =Pattern.compile(&quot;href=/&quot;(.+?)/&quot;&quot;);<br>
+Matcher matcher =pattern.matcher(&quot;主页&quot;);<br>
+if(matcher.find())<br>
+System.out.println(matcher.group(1));<br>
+}</p>
+<p>◆截取http://地址<br>
+//截取url<br>
+Pattern pattern =Pattern.compile(&quot;(http://|https://){1}[//w//.//-/:]+&quot;);<br>
+Matcher matcher =pattern.matcher(&quot;dsdsdsfdf&quot;);<br>
+StringBuffer buffer= new StringBuffer();<br>
+while(matcher.find()){<br>
+buffer.append(matcher.group());<br>
+buffer.append(&quot;/r/n&quot;);<br>
+System.out.println(buffer.toString());<br>
+}</p>
+<p>◆替换指定{}中文字</p>
+<p>String str =&quot;Java目前的发展史是由{0}年-{1}年&quot;;<br>
+String[][]object={new String[]{&quot;//{0//}&quot;,&quot;1995&quot;},newString[]{&quot;//{1//}&quot;,&quot;2007&quot;}};<br>
+System.out.println(replace(str,object));</p>
+<pre><code class="language-java">public staticString replace(final String sourceString,Object[] object) {
+	Stringtemp=sourceString;    
+	for(int i=0;i
+		String[]result=(String[])object[i];
+		Pattern   pattern = Pattern.compile(result[0]);
+		Matcher matcher =pattern.matcher(temp);
+		temp=matcher.replaceAll(result[1]);
+		}
+		return temp;
+}
+
+</code></pre>
+<p>◆以正则条件查询指定目录下文件</p>
+<pre><code class="language-java">//用于缓存文件列表
+      private ArrayList files = new ArrayList();
+      //用于承载文件路径
+      private String _path;
+      //用于承载未合并的正则公式
+      private String _regexp;
+
+      class MyFileFilter implements FileFilter {
+
+            /**
+             * 匹配文件名称
+             */
+            public boolean accept(File file) {
+              try {
+                Patternpattern = Pattern.compile(_regexp);
+                Matchermatch = pattern.matcher(file.getName());               
+                returnmatch.matches();
+              } catch (Exception e) {
+                returntrue;
+              }
+            }
+          }
+
+      /**
+       * 解析输入流
+       * @param inputs
+       */
+      FilesAnalyze (String path,String regexp){
+          getFileName(path,regexp);
+      }
+
+      /**
+       * 分析文件名并加入files
+       * @param input
+       */
+      private void getFileName(String path,String regexp) {
+          //目录
+            _path=path;
+            _regexp=regexp;
+            File directory = new File(_path);
+            File[] filesFile =directory.listFiles(new MyFileFilter());
+            if (filesFile == null) return;
+            for (int j = 0; j
+             files.add(filesFile[j]);
+            }
+            return;
+          }
+
+      /**
+       * 显示输出信息
+       * @param out
+       */
+      public void print (PrintStream out) {
+          Iterator elements = files.iterator();
+          while (elements.hasNext()) {
+              File file=(File)elements.next();
+                 out.println(file.getPath());    
+          }
+      }
+
+      public static void output(String path,String regexp) {
+
+          FilesAnalyze fileGroup1 = newFilesAnalyze(path,regexp);
+          fileGroup1.print(System.out);
+      }
+
+      public static void main (String[] args) {
+         output(&quot;C://&quot;,&quot;[A-z|.]*&quot;);
+      }
+</code></pre>
+<p>Java正则的功用还有很多，事实上只要是字符处理，就没有正则做不到的事情存在。（当然，正则解释时较耗时间就是了|||……）</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[java程序实现删除本地文件]]></title>
         <id>https://skytotwo.github.io//post/java-delete-file</id>
@@ -982,52 +1270,6 @@ response.set_cookie(settings.CSRF_COOKIE_NAME,request.META[&quot;CSRF_COOKIE&quo
 csrftoken与cookie中的token比较：<br>
 if not constant_time_compare(request_csrf_token, csrf_token):</p>
 <p>对于前后端分离的 ajax 去调用的话  需要在传递的参数里带上    csrfmiddlewaretoken: &quot;{{ csrf_token }}&quot;</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Django settings.py 的media路径设置]]></title>
-        <id>https://skytotwo.github.io//post/django-settings-meida-lujing</id>
-        <link href="https://skytotwo.github.io//post/django-settings-meida-lujing">
-        </link>
-        <updated>2019-06-16T08:45:56.000Z</updated>
-        <summary type="html"><![CDATA[<p>Django对media等静态文件的路径配置有自己的一套，在settings和url里面都有对应配置，这里简单做一下介绍。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>Django对media等静态文件的路径配置有自己的一套，在settings和url里面都有对应配置，这里简单做一下介绍。</p>
-<!--more-->
-<p>在一个 models 中使用 FileField 或 ImageField 需要以下步骤:</p>
-<ol>
-<li>
-<p>在你的 settings 文件中, 定义一个完整路径给MEDIA_ROOT 以便让 Django在此处保存上传文件. (出于性能考虑,这些文件并不保存到数据库.) 定义MEDIA_URL 作为该目录的公共 URL. 要确保该目录对 WEB 服务器用户帐号是可写的.</p>
-</li>
-<li>
-<p>在你的 models.py 中添加 FileField 或 ImageField, 并确保定义了upload_to 选项,以告诉 Django 使用MEDIA_ROOT 的哪个子目录保存上传文件.</p>
-</li>
-<li>
-<p>你的数据库中要保存的只是文件的路径(相对于 MEDIA_ROOT)，要想得到这个文件的路径可以用&quot;.url&quot;方法。例如，如果models里有一个取名为&quot;photo&quot;的ImageField，可以在Html模板里通过双花括号加object.photo.url得到该图片的路径。</p>
-</li>
-</ol>
-<p>settings.py 设置</p>
-<p>媒体文件的绝对路径：</p>
-<pre><code class="language-python"># Absolute path to the directory that holds media.
-# Example: &quot;/home/media/media.lawrence.com/&quot;   
-MEDIA_ROOT = 'D:/Python26/Lib/site-packages/django/bin/newproj/media'
-</code></pre>
-<p>媒体文件的相对路径：</p>
-<pre><code class="language-python"># URL that handles the media served from MEDIA_ROOT.
-# Example: &quot;http://media.lawrence.com&quot;
-MEDIA_URL = '/site_media/' 
-</code></pre>
-<p>设置静态文件路径</p>
-<pre><code class="language-python">STATIC_PATH = 'D:/Python26/Lib/site-packages/django/bin/newproj/media'
-</code></pre>
-<p>urls.py 影射路径</p>
-<pre><code class="language-python">(r'^site_media/(?P&lt;path&gt;.*)$', 'django.views.static.serve',{'document_root': settings.STATIC_PATH}),
-</code></pre>
-<p>将 MEDIA_URL 的site_media 影射到 settings.STATIC_PATH</p>
-<p>models.py 上传图片字段设置</p>
-<pre><code class="language-python">photo = models.ImageField('上传图片',upload_to='photos')
-</code></pre>
-<p>相当于传到 D:/Python26/Lib/site-packages/django/bin/newproj/media/photos 目录下，浏览时通过/site_media/photos/ 访问。</p>
 ]]></content>
     </entry>
 </feed>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>微信小程序学习记要（上） | Totoro の Home</title>
+<title>python中dict和set实现原理 | Totoro の Home</title>
 <meta name="description" content="空杯心态，每天进步">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -98,57 +98,40 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">微信小程序学习记要（上）</h2>
+            <h2 class="post-title">python中dict和set实现原理</h2>
             <div class="post-date">2019-08-05</div>
             
-              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/05/030014pyf9sk.jpg')">
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/05/maxresdefault.jpg')">
               </div>
             
             <div class="post-content">
-              <p>几年前小程序火爆的时候，自己也跟着学习了一下，有许多小细节需要注意的，这里做一点记录</p>
-<!-- more -->
-<p>1、图片等尺寸应该使用rpx自适应标准，素材应该选用iphone6作为标准。<br>
-遵循原则是：1px（物理像素）=1rpx=0.5pt（逻辑像素）<br>
-所以如果素材是750px，则编写尺寸则是750rpx。<br>
-2、在页面布局中，横向元素应该使用rpx，纵向大部分情况下是使用px，因为横向拉伸效果明显，需要自适应。<br>
-3、编写样式的时候，可以用class或者style。而其中规则是，一般静态的样式，不太会改变的样式就用class，一些动态的样式就用style，style每一次编译的时候都回去解析样式，性能上来说，所有都放在style里，性能会降低。<br>
-4、要让元素隐藏，可以使用wx:if=&quot;false&quot;,false的值也可以从js中绑定过来，用{{false}}表示。<br>
-5、数据绑定wx:for所传的对象的代称为“wx:for-item=item”。<br>
-6、wx:for 循环需要放在block块中，如下：</p>
-<pre><code class="language-xml">&lt;block wx:for=&quot;{{posts_key}}&quot;&gt;
-    ......
-&lt;/block&gt;
-</code></pre>
-<p>7、点击冒泡事件：除了submit等少数事件外，其余均符合冒泡事件。即触发子元素后，父元素也会被触发。如果不想触发父元素，可以不使用bind前缀，使用catch前缀。<br>
-8、使用template模板的原因，是因为将循环代码块抽离，可以达到多个页面复用的效果，直接引入就可以使用。<br>
-9、template模板在 wx:for 循环中的使用，传递数据可以直接data=&quot;{{item}}&quot;,如下：</p>
-<pre><code class="language-xml">&lt;block wx:for=&quot;{{posts_key}}&quot;&gt;
-    &lt;!-- template--&gt;
-    &lt;template is=&quot;postItem&quot; data=&quot;{{item}}&quot;/&gt;
-&lt;/block&gt;
-</code></pre>
-<p>10、以下是几种引入方式：<br>
-js引入方式（必须是相对路径，不然会报错！）</p>
-<pre><code class="language-javascript">var postsData = require('../../data/posts-data.js');
-</code></pre>
-<p>template在wxml中的引入（路径可以相对也可以绝对）</p>
-<pre><code class="language-xml">&lt;import src=&quot;post-item/post-item-template.wxml&quot;/&gt;
-</code></pre>
-<p>样式文件在wxss中的引入</p>
-<pre><code class="language-xml">@import &quot;post-item/post-item-template.wxss&quot;;
-</code></pre>
-<p>11、数据文件要让外部使用，需要在里面自定义一个接口，暴露出去，如下：</p>
-<pre><code class="language-javascript">module.exports = {
-  postList: local_database
-}
-</code></pre>
+              <p>python的dict和set设计上是很巧妙的，底层是用c语言编写，哈希表实现，这样确保了高效的数据处理。</p>
+<!-- more --> 
+<p>1、dict的性能远高于list<br>
+2、list的查询消耗随着查询数量的增大而增大<br>
+3、dict的查询消耗并不会随着查询数量的增大而增大</p>
+<p><strong>dict内部实现是根据哈西表来实现的：</strong><br>
+<img src="http://picture.totoro.site/images/2019/08/05/20180407100709_810.png" alt="20180407100709_810.png"></p>
+<p>1、当申明dict变量的时候，就会在内存中开辟一个连续的数组空间。<br>
+2、连续的空间是允许存在空白的，这是为了后续能够实现在原空间内插入数据。<br>
+3、如果在后续插入数据的时候，发现原空间中空白的比例小于原空间的三分之一，就会再申请开辟一段连续啊的空间用于存储，将原有的数据搬迁出来和新的数据一起插入新的空间中。（这时候顺序会打乱）<br>
+4、dict查找时，会根据key值计算出在hash表中的位置，hash表中的键值对位置是唯一的。计算的方式是根据key值的后一位组合元素进行计算，计算过程中如果发现hash表中已经存在值，就加上key值前一位进行计算，最终找出value值的位置。如下：<br>
+<img src="http://picture.totoro.site/images/2019/08/05/20180407102108_979.png" alt="20180407102108_979.png"><br>
+abc —— key ，根据c来计算位置，如果计算结果被别的值占据，则用bc来计算。</p>
+<p>5、dict查找性能快的原因是，直接对key值进行hash计算，因为开辟的数组空间是连续的，有偏移量的，直接将偏移量返回，就能马上找到value值在哪里。</p>
+<hr>
+<p><strong>原理概要</strong><br>
+1、dict或者set的值，都必须是可以hash的，不可变的值都是可以被hash的，如str、fronzenset、tuple，或者自己定义的类，实现了__hash__这个魔法方法的，都可以被hash。<br>
+2、dict的内存花销大，但是查询速度快，自定义的对象或者python的内部对象都是用dict来包装的。<br>
+3、dict的存储顺序和元素的添加顺序有关。<br>
+4、添加数据有可能改变已有数据的顺序。</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://skytotwo.github.io//tag/Eqaw7RxRY" class="tag">
-                    小程序
+                  <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="tag">
+                    python
                   </a>
                 
               </div>
@@ -156,9 +139,9 @@ js引入方式（必须是相对路径，不然会报错！）</p>
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://skytotwo.github.io//post/upload-or-download-ftp">
+                <a href="https://skytotwo.github.io//post/wechat-miniapp-learning-mark">
                   <h3 class="post-title">
-                    附件上传至FTP和从FTP下载的代码
+                    微信小程序学习记要（上）
                   </h3>
                 </a>
               </div>

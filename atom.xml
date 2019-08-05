@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-08-05T03:53:30.024Z</updated>
+    <updated>2019-08-05T04:02:41.956Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,36 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[python中dict和set实现原理]]></title>
+        <id>https://skytotwo.github.io//post/python-dict-set</id>
+        <link href="https://skytotwo.github.io//post/python-dict-set">
+        </link>
+        <updated>2019-08-05T03:55:32.000Z</updated>
+        <summary type="html"><![CDATA[<p>python的dict和set设计上是很巧妙的，底层是用c语言编写，哈希表实现，这样确保了高效的数据处理。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>python的dict和set设计上是很巧妙的，底层是用c语言编写，哈希表实现，这样确保了高效的数据处理。</p>
+<!-- more --> 
+<p>1、dict的性能远高于list<br>
+2、list的查询消耗随着查询数量的增大而增大<br>
+3、dict的查询消耗并不会随着查询数量的增大而增大</p>
+<p><strong>dict内部实现是根据哈西表来实现的：</strong><br>
+<img src="http://picture.totoro.site/images/2019/08/05/20180407100709_810.png" alt="20180407100709_810.png"></p>
+<p>1、当申明dict变量的时候，就会在内存中开辟一个连续的数组空间。<br>
+2、连续的空间是允许存在空白的，这是为了后续能够实现在原空间内插入数据。<br>
+3、如果在后续插入数据的时候，发现原空间中空白的比例小于原空间的三分之一，就会再申请开辟一段连续啊的空间用于存储，将原有的数据搬迁出来和新的数据一起插入新的空间中。（这时候顺序会打乱）<br>
+4、dict查找时，会根据key值计算出在hash表中的位置，hash表中的键值对位置是唯一的。计算的方式是根据key值的后一位组合元素进行计算，计算过程中如果发现hash表中已经存在值，就加上key值前一位进行计算，最终找出value值的位置。如下：<br>
+<img src="http://picture.totoro.site/images/2019/08/05/20180407102108_979.png" alt="20180407102108_979.png"><br>
+abc —— key ，根据c来计算位置，如果计算结果被别的值占据，则用bc来计算。</p>
+<p>5、dict查找性能快的原因是，直接对key值进行hash计算，因为开辟的数组空间是连续的，有偏移量的，直接将偏移量返回，就能马上找到value值在哪里。</p>
+<hr>
+<p><strong>原理概要</strong><br>
+1、dict或者set的值，都必须是可以hash的，不可变的值都是可以被hash的，如str、fronzenset、tuple，或者自己定义的类，实现了__hash__这个魔法方法的，都可以被hash。<br>
+2、dict的内存花销大，但是查询速度快，自定义的对象或者python的内部对象都是用dict来包装的。<br>
+3、dict的存储顺序和元素的添加顺序有关。<br>
+4、添加数据有可能改变已有数据的顺序。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[微信小程序学习记要（上）]]></title>
         <id>https://skytotwo.github.io//post/wechat-miniapp-learning-mark</id>

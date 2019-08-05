@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>python中dict和set实现原理 | Totoro の Home</title>
+<title>java程序实现删除本地文件 | Totoro の Home</title>
 <meta name="description" content="空杯心态，每天进步">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -98,40 +98,74 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">python中dict和set实现原理</h2>
+            <h2 class="post-title">java程序实现删除本地文件</h2>
             <div class="post-date">2019-08-05</div>
             
-              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/05/maxresdefault.jpg')">
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/05/javastudy.png')">
               </div>
             
             <div class="post-content">
-              <p>python的dict和set设计上是很巧妙的，底层是用c语言编写，哈希表实现，这样确保了高效的数据处理。</p>
-<!-- more --> 
-<p>1、dict的性能远高于list<br>
-2、list的查询消耗随着查询数量的增大而增大<br>
-3、dict的查询消耗并不会随着查询数量的增大而增大</p>
-<p><strong>dict内部实现是根据哈西表来实现的：</strong><br>
-<img src="http://picture.totoro.site/images/2019/08/05/20180407100709_810.png" alt="20180407100709_810.png"></p>
-<p>1、当申明dict变量的时候，就会在内存中开辟一个连续的数组空间。<br>
-2、连续的空间是允许存在空白的，这是为了后续能够实现在原空间内插入数据。<br>
-3、如果在后续插入数据的时候，发现原空间中空白的比例小于原空间的三分之一，就会再申请开辟一段连续啊的空间用于存储，将原有的数据搬迁出来和新的数据一起插入新的空间中。（这时候顺序会打乱）<br>
-4、dict查找时，会根据key值计算出在hash表中的位置，hash表中的键值对位置是唯一的。计算的方式是根据key值的后一位组合元素进行计算，计算过程中如果发现hash表中已经存在值，就加上key值前一位进行计算，最终找出value值的位置。如下：<br>
-<img src="http://picture.totoro.site/images/2019/08/05/20180407102108_979.png" alt="20180407102108_979.png"><br>
-abc —— key ，根据c来计算位置，如果计算结果被别的值占据，则用bc来计算。</p>
-<p>5、dict查找性能快的原因是，直接对key值进行hash计算，因为开辟的数组空间是连续的，有偏移量的，直接将偏移量返回，就能马上找到value值在哪里。</p>
-<hr>
-<p><strong>原理概要</strong><br>
-1、dict或者set的值，都必须是可以hash的，不可变的值都是可以被hash的，如str、fronzenset、tuple，或者自己定义的类，实现了__hash__这个魔法方法的，都可以被hash。<br>
-2、dict的内存花销大，但是查询速度快，自定义的对象或者python的内部对象都是用dict来包装的。<br>
-3、dict的存储顺序和元素的添加顺序有关。<br>
-4、添加数据有可能改变已有数据的顺序。</p>
+              <p>之前有用到过在项目里删除本地文件，记录下代码。</p>
+<!-- more -->
+<pre><code class="language-java">import Java.io.File;
+public class Test {
+public static void main(String args[]) {
+   Test t = new Test();
+   delFolder(&quot;d:/test&quot;);
+   System.out.println(&quot;OK&quot;);
+}
+// 删除文件夹
+// param folderPath 文件夹完整绝对路径
+public static void delFolder(String folderPath) {
+   try {
+    delAllFile(folderPath); // 删除完里面所有内容
+    String filePath = folderPath;
+    filePath = filePath.toString();
+    java.io.File myFilePath = new java.io.File(filePath);
+    myFilePath.delete(); // 删除空文件夹
+   } catch (Exception e) {
+    e.printStackTrace();
+   }
+}
+// 删除指定文件夹下所有文件
+// param path 文件夹完整绝对路径
+public static boolean delAllFile(String path) {
+   boolean flag = false;
+   File file = new File(path);
+   if (!file.exists()) {
+    return flag;
+   }
+   if (!file.isDirectory()) {
+    return flag;
+   }
+   String[] tempList = file.list();
+   File temp = null;
+   for (int i = 0; i &lt; tempList.length; i++) {
+    if (path.endsWith(File.separator)) {
+     temp = new File(path + tempList[i]);
+    } else {
+temp = new File(path + File.separator + tempList[i]);
+    }
+    if (temp.isFile()) {
+     temp.delete();
+    }
+    if (temp.isDirectory()) {
+       delAllFile(path + &quot;/&quot; + tempList[i]);// 先删除文件夹里面的文件
+       delFolder(path + &quot;/&quot; + tempList[i]);// 再删除空文件夹
+     flag = true;
+    }
+   }
+   return flag;
+}
+}
+</code></pre>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="tag">
-                    python
+                  <a href="https://skytotwo.github.io//tag/wpLYFim1c" class="tag">
+                    java
                   </a>
                 
               </div>
@@ -139,9 +173,9 @@ abc —— key ，根据c来计算位置，如果计算结果被别的值占据�
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://skytotwo.github.io//post/wechat-miniapp-learning-mark">
+                <a href="https://skytotwo.github.io//post/js-cookie-set">
                   <h3 class="post-title">
-                    微信小程序学习记要（上）
+                    网页登陆页面设置Cookie
                   </h3>
                 </a>
               </div>

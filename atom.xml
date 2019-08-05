@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-08-05T04:02:41.956Z</updated>
+    <updated>2019-08-05T04:10:19.062Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,260 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[Scrapy Item Loaders机制详解]]></title>
+        <id>https://skytotwo.github.io//post/scrapy-item-loaders</id>
+        <link href="https://skytotwo.github.io//post/scrapy-item-loaders">
+        </link>
+        <updated>2019-08-05T04:03:20.000Z</updated>
+        <summary type="html"><![CDATA[<p>scrapy中的item其实设计上使用的是面向对象的模式，将爬取的数据字段组合封装，进一步交由管道处理存储，这里对其机制做相关讲解。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>scrapy中的item其实设计上使用的是面向对象的模式，将爬取的数据字段组合封装，进一步交由管道处理存储，这里对其机制做相关讲解。</p>
+<!-- more -->
+<h4 id="1-items"><strong>1. Items</strong></h4>
+<p>爬虫的主要任务就是从非结构化的数据中获得结构化的数据。<br>
+Item 对象是种简单的容器，保存了爬取到得数据。 其提供了 类似于词典(dictionary-like) 的API以及用于声明可用字段的简单语法。</p>
+<p><strong>声明Item</strong><br>
+Item使用简单的class定义语法以及 Field 对象来声明。例如:</p>
+<pre><code class="language-python">import scrapy
+
+class Product(scrapy.Item):
+    name = scrapy.Field()
+    price = scrapy.Field()
+    stock = scrapy.Field()
+    last_updated = scrapy.Field(serializer=str)
+</code></pre>
+<p><strong>Item字段：</strong><br>
+Field 对象指明了每个字段的元数据(metadata)。例如上面例子中 last_updated 中指明了该字段的序列化函数。</p>
+<p>可以为每个字段指明任何类型的元数据。Field 对象对接受的值没有任何限制。Field 对象中保存的每个键可以由多个组件使用，并且只有这些组件知道这个键的存在。设置 Field 对象的主要目的就是在一个地方定义好所有的元数据。</p>
+<p>需要注意的是，用来声明item的 Field 对象并没有被赋值为class的属性。 不过您可以通过 Item.fields 属性进行访问。</p>
+<h4 id="2-用item-loader来填充item"><strong>2. 用Item Loader来填充Item</strong></h4>
+<p>Item Loaders提供了一种便捷的方式填充抓取到的 Items 。 虽然Items可以使用自带的类字典形式API填充，但是Items Loaders提供了更便捷的API， 可以分析原始数据并对Item进行赋值。</p>
+<p>从另一方面来说， Items 提供保存抓取数据的 容器 ， 而 Item Loaders提供的是 填充 容器的机制。</p>
+<p>Item Loaders提供的是一种灵活，高效的机制，可以更方便的被spider或source format (HTML, XML, etc)扩展，并override更易于维护的、不同的内容分析规则。</p>
+<p>要使用Item Loader, 你必须先将它实例化. 可以使用类似字典的对象来进行实例化, 或者不使用对象也可以, 当不用对象进行实例化的时候,Item会自动使用 ItemLoader.default_item_class 属性中指定的Item 类在Item Loader constructor中实例化.</p>
+<p>然后,你开始收集数值到Item Loader时,通常使用 Selectors. 你可以在同一个item field 里面添加多个数值;Item Loader将知道如何用合适的处理函数来“添加”这些数值.</p>
+<p>下面是在 Spider 中典型的Item Loader的用法, 使用 Items chapter 中声明的 Product item:</p>
+<pre><code class="language-python">from scrapy.contrib.loader import ItemLoader
+from myproject.items import Product
+
+def parse(self, response):
+    l = ItemLoader(item=Product(), response=response)
+    l.add_xpath('name', '//div[@class=&quot;product_name&quot;]')
+    l.add_xpath('name', '//div[@class=&quot;product_title&quot;]')
+    l.add_xpath('price', '//p[@id=&quot;price&quot;]')
+    l.add_css('stock', 'p#stock]')
+    l.add_value('last_updated', 'today') # you can also use literal values
+    return l.load_item()
+</code></pre>
+<p>我们可以看到发现 name 字段被从页面中两个不同的XPath位置提取:</p>
+<pre><code class="language-python">//div[@class=&quot;product_name&quot;]
+//div[@class=&quot;product_title&quot;]
+</code></pre>
+<p>换言之,数据通过用 add_xpath() 的方法,把从两个不同的XPath位置提取的数据收集起来. 这是将在以后分配给 name 字段中的数据｡</p>
+<p>之后,类似的请求被用于 price 和 stock 字段 (后者使用 CSS selector 和 add_css() 方法), 最后使用不同的方法 add_value() 对 last_update 填充文本值( today ).</p>
+<p>最终, 当所有数据被收集起来之后, 调用 ItemLoader.load_item() 方法, 实际上填充并且返回了之前通过调用 add_xpath(), add_css(), and add_value() 所提取和收集到的数据的Item.</p>
+<h4 id="3-输入处理器与输出处理器"><strong>3. 输入处理器与输出处理器</strong></h4>
+<ol>
+<li>Item Loader在每个字段中都包含了一个输入处理器和一个输出处理器｡</li>
+<li>输入处理器收到数据时立刻提取数据 (通过 add_xpath(), add_css() 或者 add_value() 方法) 之后输入处理器的结果被收集起来并且保存在ItemLoader内(但尚未分配给该Item).</li>
+<li>收集到所有的数据后, 调用 ItemLoader.load_item() 方法来填充,并得到填充后的 Item 对象。在这一步中先调用输出处理器来处理之前收集到的数据，然后再存入Item中。输出处理器的结果是被分配到Item的最终值｡</li>
+</ol>
+<p>需要注意的是，输入和输出处理器都是可调用对象，调用时传入需要被分析的数据， 处理后返回分析得到的值。因此你可以使用任意函数作为输入、输出处理器。 唯一需注意的是它们必须接收一个（并且只是一个）迭代器性质的positional参数。</p>
+<h4 id="4-声明items-loaders"><strong>4. 声明Items Loaders</strong></h4>
+<p>Item Loaders 的声明类似于Items，以class的语法来声明：</p>
+<pre><code class="language-python">from scrapy.contrib.loader import ItemLoader
+from scrapy.contrib.loader.processor import TakeFirst, MapCompose, Join
+
+class ProductLoader(ItemLoader):
+    default_output_processor = TakeFirst()
+    name_in = MapCompose(unicode.title)
+    name_out = Join()
+    price_in = MapCompose(unicode.strip)
+    # ...
+</code></pre>
+<p>input processors 以_in为后缀来声明，output processors 以_out 为后缀来声明。也可以用ItemLoader.default_input_processor 和ItemLoader.default_output_processor 属性来声明默认的 input/output processors。</p>
+<h4 id="5-声明input-and-output-processors"><strong>5. 声明Input and Output Processors</strong></h4>
+<p>前面讲到，input and output processors可以在定义Item Loaders的时候声明，这是非常普遍的使用方法。但是，你也可以在定义Item的时候声明输入输出处理器。下面是例子：</p>
+<pre><code class="language-python">import scrapy
+from scrapy.contrib.loader.processor import Join, MapCompose, TakeFirst
+from w3lib.html import remove_tags
+
+def filter_price(value):
+    if value.isdigit():
+        return value
+
+class ProductItem(scrapy.Item):
+    name = scrapy.Field(
+        input_processor=MapCompose(remove_tags),
+        output_processor=Join(),
+    )
+    price = scrapy.Field(
+        input_processor=MapCompose(remove_tags, filter_price),
+        output_processor=TakeFirst(),
+    )
+</code></pre>
+<p>使用Item：</p>
+<pre><code class="language-bash">&gt;&gt;&gt; from scrapy.contrib.loader import ItemLoader
+&gt;&gt;&gt; il = ItemLoader(item=Product())
+&gt;&gt;&gt; il.add_value('name', [u'Welcome to my', u'&lt;strong&gt;website&lt;/strong&gt;'])
+&gt;&gt;&gt; il.add_value('price', [u'€', u'&lt;span&gt;1000&lt;/span&gt;'])
+&gt;&gt;&gt; il.load_item()
+{'name': u'Welcome to my website', 'price': u'1000'}
+</code></pre>
+<p>关于集中声明 input and output processors方式的优先级排序如下：</p>
+<ol>
+<li>在Item Loader 中声明的 field-specific 属性: field_in and field_out (most precedence)</li>
+<li>Item中的字段元数据(input_processor and output_processor key)</li>
+<li>Item Loader 默认处理器: ItemLoader.default_input_processor() and ItemLoader.default_output_processor() (least precedence)</li>
+</ol>
+<h4 id="6-item-loader-context"><strong>6. Item Loader Context</strong></h4>
+<p>Item Loader Context 是一个被Item Loader中的输入输出处理器共享的任意的键值对字典。它能在Item Loader声明、实例化、使用的时候传入。它用于调整输入输出处理器的行为。</p>
+<p>举例来讲，函数parse_length用于接收text值并且获取其长度：</p>
+<pre><code class="language-python">def parse_length(text, loader_context):
+    unit = loader_context.get('unit', 'm')
+    # ... length parsing code goes here ... 
+    return parsed_length
+</code></pre>
+<p>通过接收一个loader_context参数，这个函数告诉Item Loader它能够接收Item Loader context。于是当函数被调用的时候Item Loader传递当前的active context给它。</p>
+<p>有多种方式改变Item Loader context的值：</p>
+<ol>
+<li>
+<p>修改当前 active Item Loader context：</p>
+<p>loader = ItemLoader(product)<br>
+loader.context[‘unit’] = ‘cm’</p>
+</li>
+<li>
+<p>在Item Loader实例化的时候：</p>
+<p>loader = ItemLoader(product, unit=’cm’)</p>
+</li>
+<li>
+<p>对于那些支持带Item Loader context实例化的输入输出处理器（例如MapCompose），在Item Loader声明的时候修改它context：</p>
+<pre><code class="language-python">class ProductLoader(ItemLoader): 
+length_out = MapCompose(parse_length, unit=’cm’)
+</code></pre>
+</li>
+</ol>
+<h4 id="7-itemloader-object"><strong>7. ItemLoader object</strong></h4>
+<p>参见官方文档</p>
+<h4 id="8-重用和扩展item-loaders"><strong>8. 重用和扩展Item Loaders</strong></h4>
+<p>当你的项目逐渐变大，使用了越来越多的spider的时候，维护变成了一个基本的问题。尤其是当你需要处理每个spider的许多不同的解析规则的时候，会出现很多的异常，迫使你开始考虑重用的问题。</p>
+<p>Item Loader支持传统的Python继承机制来处理spider之间的差异。</p>
+<p>例如，有些网站把它们的产Product名用三个短线封装起来（如：---Plasma TV---），而你想要去掉这些东西。</p>
+<p>你可以通过reusing and extending默认Product Item Loader的方式去掉短线：</p>
+<pre><code class="language-python">from scrapy.loader.processors import MapCompose
+from myproject.ItemLoaders import ProductLoader
+
+def strip_dashes(x):
+    return x.strip('-')
+
+class SiteSpecificLoader(ProductLoader):
+    name_in = MapCompose(strip_dashes, ProductLoader.name_in)
+</code></pre>
+<p>另一种情形时继承Item Loader也很有用：有多种格式的源数据（如XML, HTML），在XML版本里面你想要去除CDATA:</p>
+<pre><code class="language-python">from scrapy.loader.processors import MapCompose
+from myproject.ItemLoaders import ProductLoader
+from myproject.utils.xml import remove_cdata
+
+class XmlProductLoader(ProductLoader):
+    name_in = MapCompose(remove_cdata, ProductLoader.name_in)
+</code></pre>
+<p>这便是扩展输入处理器的方法。</p>
+<ul>
+<li>
+<p>对于输出处理器，更常用的方式是在Item字段元数据里声明。因为通常它们依赖于具体的字段而不是网站。</p>
+</li>
+<li>
+<p>还有很多其他方式开扩展、继承和覆盖Item Loader，不同的层次结构适于不同的项目。Scrapy只是提供了这些机制，不强制要求具体的组织方式。</p>
+</li>
+</ul>
+<h4 id="9-内置的处理器"><strong>9. 内置的处理器</strong></h4>
+<p>尽管你可以使用可调用的函数作为输入输出处理器，Scrapy提供了一些常用的处理器。有些处理器，如MapCompose（通常用于输入处理器），能把多个函数执行的结果按顺序组合起来产生最终的输出。</p>
+<p>下面是一些内置的处理器：</p>
+<p><strong>9.1 Identity</strong></p>
+<p>class scrapy.loader.processors.Identity<br>
+最简单的处理器，不进行任何处理，直接返回原来的数据。无参数。</p>
+<p><strong>9.2 TakeFirst</strong></p>
+<p>class scrapy.loader.processors.TakeFirst<br>
+返回第一个非空(non-null/non-empty)值，常用于单值字段的输出处理器。无参数。</p>
+<p>示例如下：</p>
+<pre><code class="language-python">&gt;&gt;&gt; from scrapy.loader.processors import TakeFirst
+&gt;&gt;&gt; proc = TakeFirst()
+&gt;&gt;&gt; proc(['', 'one', 'two', 'three'])
+'one'
+</code></pre>
+<p><strong>9.3 Join</strong></p>
+<p>class scrapy.loader.processors.Join(separator=u’ ‘)<br>
+返回用分隔符连接后的值。分隔符默认为空格。不接受Loader contexts。</p>
+<p>当使用默认分隔符的时候，这个处理器等同于这个函数：</p>
+<pre><code class="language-python">u' '.join
+</code></pre>
+<p>使用示例：</p>
+<pre><code class="language-python">&gt;&gt;&gt; from scrapy.loader.processors import Join
+&gt;&gt;&gt; proc = Join()
+&gt;&gt;&gt; proc(['one', 'two', 'three'])
+u'one two three'
+&gt;&gt;&gt; proc = Join('&lt;br&gt;')
+&gt;&gt;&gt; proc(['one', 'two', 'three'])
+u'one&lt;br&gt;two&lt;br&gt;three'
+</code></pre>
+<p><strong>9.4 Compose</strong></p>
+<p>class scrapy.loader.processors.Compose(*functions, **default_loader_context)<br>
+用给定的多个函数的组合而构造的处理器。每个输入值被传递到第一个函数，然后其输出再传递到第二个函数，诸如此类，直到最后一个函数返回整个处理器的输出。</p>
+<p>默认情况下，当遇到None值的时候停止处理。可以通过传递参数stop_on_none=False改变这种行为。</p>
+<p>使用示例：</p>
+<pre><code class="language-python">&gt;&gt;&gt; from scrapy.loader.processors import Compose
+&gt;&gt;&gt; proc = Compose(lambda v: v[0], str.upper)
+&gt;&gt;&gt; proc(['hello', 'world'])
+'HELLO'
+</code></pre>
+<p>每个函数可以选择接收一个loader_context参数。</p>
+<p><strong>9.5 MapCompose</strong></p>
+<p>class scrapy.loader.processors.MapCompose(*functions, **default_loader_context)<br>
+与Compose处理器类似，区别在于各个函数结果在内部传递的方式：</p>
+<ol>
+<li>
+<p>输入值是被迭代的处理的，每一个元素被单独传入第一个函数进行处理。处理的结果被l连接起来(concatenate)形成一个新的迭代器，并被传入第二个函数，以此类推，直到最后一个函数。最后一个函数的输出被连接起来形成处理器的输出。</p>
+</li>
+<li>
+<p>每个函数能返回一个值或者一个值列表，也能返回None(会被下一个函数所忽略)</p>
+</li>
+<li>
+<p>这个处理器提供了方便的方式来组合多个处理单值的函数。因此它常用与输入处理器，因为用extract()函数提取出来的值是一个unicode strings列表。</p>
+</li>
+</ol>
+<p>下面的例子能说明这个处理器的工作方式：</p>
+<pre><code class="language-python">&gt;&gt;&gt; def filter_world(x):
+...     return None if x == 'world' else x
+...
+&gt;&gt;&gt; from scrapy.loader.processors import MapCompose
+&gt;&gt;&gt; proc = MapCompose(filter_world, unicode.upper)
+&gt;&gt;&gt; proc([u'hello', u'world', u'this', u'is', u'scrapy'])
+[u'HELLO, u'THIS', u'IS', u'SCRAPY']
+</code></pre>
+<p>与Compose处理器类似，它也能接受Loader context。</p>
+<p><strong>9.6 SelectJmes</strong></p>
+<p>class scrapy.loader.processors.SelectJmes(json_path)<br>
+查询指定的JSON path并返回输出。需要jmespath(https://github.com/jmespath/jmespath.py)支持。每次接受一个输入。</p>
+<p>示例：</p>
+<pre><code class="language-python">&gt;&gt;&gt; from scrapy.loader.processors import SelectJmes, Compose, MapCompose
+&gt;&gt;&gt; proc = SelectJmes(&quot;foo&quot;) #for direct use on lists and dictionaries
+&gt;&gt;&gt; proc({'foo': 'bar'})
+'bar'
+&gt;&gt;&gt; proc({'foo': {'bar': 'baz'}})
+{'bar': 'baz'}
+</code></pre>
+<p>与Json一起使用：</p>
+<pre><code class="language-python">&gt;&gt;&gt; import json
+&gt;&gt;&gt; proc_single_json_str = Compose(json.loads, SelectJmes(&quot;foo&quot;))
+&gt;&gt;&gt; proc_single_json_str('{&quot;foo&quot;: &quot;bar&quot;}')
+u'bar'
+&gt;&gt;&gt; proc_json_list = Compose(json.loads, MapCompose(SelectJmes('foo')))
+&gt;&gt;&gt; proc_json_list('[{&quot;foo&quot;:&quot;bar&quot;}, {&quot;baz&quot;:&quot;tar&quot;}]')
+[u'bar']
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[python中dict和set实现原理]]></title>
         <id>https://skytotwo.github.io//post/python-dict-set</id>

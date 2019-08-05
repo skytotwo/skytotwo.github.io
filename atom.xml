@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-08-05T03:30:51.308Z</updated>
+    <updated>2019-08-05T03:32:36.190Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -16,9 +16,9 @@
         <link href="https://skytotwo.github.io//post/django-csrf">
         </link>
         <updated>2019-08-05T03:25:42.000Z</updated>
-        <summary type="html"><![CDATA[<p>test</p>
+        <summary type="html"><![CDATA[<p>Django的设计中同样考虑到了csrf攻击问题，对此，使用middleware中间件来实现相关功能。</p>
 ]]></summary>
-        <content type="html"><![CDATA[<p>test</p>
+        <content type="html"><![CDATA[<p>Django的设计中同样考虑到了csrf攻击问题，对此，使用middleware中间件来实现相关功能。</p>
 <!-- more -->
 <p>分类：<br>
 django为用户实现防止跨站请求伪造的功能，通过中间件 django.middleware.csrf.CsrfViewMiddleware 来完成。而对于django中设置防跨站请求伪造功能有分为全局和局部。<br>

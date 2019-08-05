@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-08-05T04:10:19.062Z</updated>
+    <updated>2019-08-05T04:16:07.171Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,176 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[网页登陆页面设置Cookie]]></title>
+        <id>https://skytotwo.github.io//post/js-cookie-set</id>
+        <link href="https://skytotwo.github.io//post/js-cookie-set">
+        </link>
+        <updated>2019-08-05T04:11:45.000Z</updated>
+        <summary type="html"><![CDATA[<p>cookie是保存http协议状态的一个重要手段，基本上所有网站都会使用到cookie机制，cookie是session的一个实现方式，当然现在还有token来代替cookie，但cookie依旧是很重要的一个模式，这里在js中实现设置cookie进而实现登陆访问。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>cookie是保存http协议状态的一个重要手段，基本上所有网站都会使用到cookie机制，cookie是session的一个实现方式，当然现在还有token来代替cookie，但cookie依旧是很重要的一个模式，这里在js中实现设置cookie进而实现登陆访问。</p>
+<!-- more -->
+<pre><code class="language-javascript">&lt;%@ page contentType=&quot;text/html; charset=GB2312&quot;%&gt;
+&lt;%@ page import=&quot;tellhow.commonweb.system.*&quot; %&gt;
+&lt;%
+   String useraccounts=&quot;&quot;;
+   String userpassword=&quot;&quot;;
+   String Messageinfo=&quot;请输入用户信息&quot;;
+   useraccounts=request.getParameter(&quot;accounts&quot;);
+   userpassword=request.getParameter(&quot;password&quot;);
+   String flag = request.getParameter(&quot;flag&quot;)==null?&quot;&quot;:request.getParameter(&quot;flag&quot;);//flag为1则为从oms系统登陆 
+   if(useraccounts!=null&amp;&amp;userpassword!=null){
+   if(!useraccounts.equals(&quot;null&quot;)&amp;&amp;!useraccounts.equals(&quot;&quot;)&amp;&amp;!userpassword.equals(&quot;null&quot;)&amp;&amp;!userpassword.equals(&quot;&quot;)){
+   loginBean myloginbean=new loginBean();
+   myloginbean.init(pageContext);
+   int retval;
+   retval=myloginbean.checkuserlogin(useraccounts,userpassword,flag);
+   switch(retval)
+   {
+      case 1:
+         // response.sendRedirect(&quot;system/index_manage.jsp&quot;);
+         // response.sendRedirect(&quot;gz/index.jsp&quot;);
+         String url = request.getContextPath() + &quot;/getUserMsg.do?method=getUserInfo&amp;username=&quot; + useraccounts;
+         System.out.println(url);
+         response.sendRedirect(url);
+      break;
+      case -1:
+          Messageinfo=&quot;您输入的密码不对，请重新输入!&quot;;
+      break;
+      case -2:
+          Messageinfo=&quot;您输入的用户不存在，请重新输入!&quot;;
+      break;
+   }
+   }
+ }
+%&gt;
+&lt;script language=&quot;javascript&quot; type=&quot;text/javascript&quot;&gt;
+	function window_Onload(){
+	  loginfrm.accounts.focus();
+	}
+	function onInputKeyup(){
+	  if(event.keyCode==13){
+	  		if(event.srcElement.name==&quot;accounts&quot;){
+	      		loginfrm.password.focus();
+	      		return;
+    		}
+    		if(event.srcElement.name==&quot;password&quot;){
+	      		loginfrm.submit();
+	      		return;
+    		}
+  	  }
+	}
+&lt;/script&gt;
+&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;
+&quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=gb2312&quot;&gt;
+&lt;title&gt;网站管理系统&lt;/title&gt;
+&lt;!--[if lte IE 6]&gt;
+&lt;script src=&quot;../css/mycss/js/DD_belatedPNG_0.0.8a.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    DD_belatedPNG.fix('*');
+&lt;/script&gt;
+&lt;![endif]--&gt;
+&lt;link href=&quot;css/mycss/style/public.css&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot; /&gt;
+&lt;script src=&quot;css/mycss/js/jquery.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;css/mycss/js/index.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/jquery-1.8.3.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/jquery.cookie.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body  onload=&quot;window_Onload();getCookie();&quot;&gt;
+&lt;FORM action=login.jsp method=post name=&quot;loginfrm&quot;&gt;
+&lt;div class=&quot;main_area&quot;&gt;
+    &lt;div class=&quot;main_left_area&quot;&gt;&lt;img src=&quot;css/mycss/images/logo_bg01.png&quot; width=&quot;280&quot; height=&quot;130&quot; /&gt;&lt;/div&gt;
+    &lt;div class=&quot;main_mid_area&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;main_right_area&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;main_info_area&quot;&gt;
+        &lt;div class=&quot;fill01_area&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;title_area&quot;&gt;&lt;img src=&quot;css/mycss/images/main_bg02.png&quot; width=&quot;487&quot; height=&quot;46&quot; alt=&quot;网站管理系统&quot;/&gt;&lt;/div&gt;
+        &lt;div class=&quot;fill02_area&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;login_area&quot;&gt;
+            &lt;div class=&quot;login_left_area&quot;&gt;
+                &lt;div class=&quot;fill03_area&quot;&gt;&lt;/div&gt;
+                &lt;div class=&quot;login_info_area&quot;&gt;
+                    &lt;span&gt;用户名：&lt;/span&gt;&lt;input name=&quot;accounts&quot; id=&quot;accounts&quot; type=&quot;text&quot; onkeyup=&quot;onInputKeyup();&quot;&gt;
+                    &lt;div class=&quot;fill04_area&quot;&gt;&lt;/div&gt;
+                    &lt;span&gt;密　码：&lt;/span&gt;&lt;input name=&quot;password&quot; id=&quot;password&quot; type=&quot;password&quot; onkeyup=&quot;onInputKeyup();&quot;&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;login_right_area&quot;&gt;
+                &lt;a  onclick=&quot;savedata();&quot;&gt;&lt;/a&gt;
+            &lt;/div&gt;
+            &lt;!-- &lt;a class=&quot;href03_area&quot; href=&quot;/login.jsp?accounts=guest&amp;password=1&quot;&gt;&lt;span &gt;&lt;/span&gt;&lt;font face=&quot;verdana&quot; size=&quot;3&quot; color=&quot;black&quot;&gt; 来宾访问&lt;/font&gt;&lt;/a&gt; --&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;login_href_area&quot;&gt;
+            &lt;input type=&quot;checkbox&quot; id=&quot;boxchange&quot; name=&quot;checkbox&quot; value=&quot;1&quot;/&gt;
+            &lt;a&gt;记住用户名密码&lt;/a&gt;
+            &lt;a class=&quot;href03_area&quot; href=&quot;/login.jsp?accounts=guest&amp;password=1&quot;&gt;&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;flag_area&quot;&gt;&lt;%=Messageinfo%&gt;&lt;/div&gt;
+        &lt;div &gt;&lt;/div&gt;
+        &lt;div &gt;&lt;/div&gt;
+        &lt;div class=&quot;login_href_areabottom&quot;&gt;&lt;font &gt;调控中心用户请使用OMS账户登录,其他用户请点击“来宾访问”&lt;/font&gt;&lt;/div&gt;
+        &lt;div class=&quot;foot_area&quot;&gt;广州供电局有限公司 版权所有  技术支持:泰豪软件&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+	var checkstate = null;//标识符，是为了在保存前调用设置cookie方法的进行判断
+	$(&quot;#boxchange&quot;).change(function() { 
+		if(document.all.checkbox.checked){ 
+        	 checkstate = &quot;1&quot;;
+         }else{
+        	 checkstate = &quot;0&quot;;
+        }
+         
+	});
+	function savedata(){
+		//存储cookie
+	  	if(&quot;1&quot; == checkstate){  
+				setCookie();
+				//$.cookie(&quot;pwd&quot;,&quot;&quot;);
+		}else if(&quot;0&quot; == checkstate){
+			$.cookie('login_code', null, { expires: -1 });
+	  		$.cookie('pwd', null, { expires: -1 });
+		}
+		loginfrm.submit();
+	}
+		
+	//设置cookie
+	function setCookie(){ //设置cookie    
+       var loginCode = $(&quot;#accounts&quot;).val(); //获取用户名信息    
+       var pwd = $(&quot;#password&quot;).val(); //获取登陆密码信息    
+       $.cookie('login_code',loginCode, { expires: 7 });//调用jquery.cookie.js中的方法设置cookie中的用户名    
+       $.cookie('pwd',pwd, { expires: 7 });//调用jquery.cookie.js中的方法设置cookie中的登陆密码
+    }   
+	function getCookie(){ //获取cookie    
+        var loginCode = $.cookie('login_code'); //获取cookie中的用户名    
+        var pwd =  $.cookie('pwd'); //获取cookie中的登陆密码    
+        if(loginCode){//用户名存在的话把用户名填充到用户名文本框    
+           $(&quot;#accounts&quot;).val(loginCode);    
+        }    
+        if(pwd){//密码存在的话把密码填充到密码文本框    
+           $(&quot;#password&quot;).val(pwd);   
+        } 
+      //选中保存秘密的复选框
+        if(loginCode != null &amp;&amp; loginCode != '' &amp;&amp; pwd != null &amp;&amp; pwd != ''){
+        $(&quot;[name='checkbox']&quot;).attr(&quot;checked&quot;,&quot;true&quot;);   
+       	   checkstate = &quot;1&quot;;
+         }else{
+         	checkstate = &quot;0&quot;;
+      }
+ }     
+
+&lt;/script&gt;
+&lt;/html&gt;
+
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Scrapy Item Loaders机制详解]]></title>
         <id>https://skytotwo.github.io//post/scrapy-item-loaders</id>
@@ -915,522 +1085,6 @@ def do_complete(backend, login, user=None, redirect_name='next', *args, **kwargs
 	return response
 </code></pre>
 <p>特别需要注意的是cookie一定要设置过期时间，如上所示。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[asyncio 简介]]></title>
-        <id>https://skytotwo.github.io//post/asyncio-jian-jie</id>
-        <link href="https://skytotwo.github.io//post/asyncio-jian-jie">
-        </link>
-        <updated>2019-06-14T13:30:12.000Z</updated>
-        <summary type="html"><![CDATA[<p>一直对asyncio这个库比较感兴趣，毕竟这是官网也非常推荐的一个实现高并发的一个模块，python也是在python 3.4中引入了协程的概念。也通过这次整理更加深刻理解这个模块的使用</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>一直对asyncio这个库比较感兴趣，毕竟这是官网也非常推荐的一个实现高并发的一个模块，python也是在python 3.4中引入了协程的概念。也通过这次整理更加深刻理解这个模块的使用</p>
-<!--more-->
-<h3 id="asyncio-是干什么的">asyncio 是干什么的？</h3>
-<h4 id="异步网络操作">异步网络操作</h4>
-<ul>
-<li>并发</li>
-<li>协程</li>
-</ul>
-<p>python3.0时代，标准库里的异步网络模块：select(非常底层) python3.0时代，第三方异步网络库：Tornado python3.4时代，asyncio：支持TCP,子进程。</p>
-<p>现在的asyncio，有了很多的模块已经在支持：aiohttp,aiodns,aioredis等等 https://github.com/aio-libs 这里列出了已经支持的内容，并在持续更新</p>
-<p>当然到目前为止实现协程的不仅仅只有asyncio,tornado和gevent都实现了类似功能</p>
-<hr>
-<p><strong>关于asyncio的一些关键字的说明：</strong></p>
-<ul>
-<li>
-<p>event_loop 事件循环：程序开启一个无限循环，把一些函数注册到事件循环上，当满足事件发生的时候，调用相应的协程函数</p>
-</li>
-<li>
-<p>coroutine 协程：协程对象，指一个使用async关键字定义的函数，它的调用不会立即执行函数，而是会返回一个协程对象。协程对象需要注册到事件循环，由事件循环调用。</p>
-</li>
-<li>
-<p>task 任务：一个协程对象就是一个原生可以挂起的函数，任务则是对协程进一步封装，其中包含了任务的各种状态</p>
-</li>
-<li>
-<p>future: 代表将来执行或没有执行的任务的结果。它和task上没有本质上的区别</p>
-</li>
-<li>
-<p>async/await 关键字：python3.5用于定义协程的关键字，async定义一个协程，await用于挂起阻塞的异步调用接口。</p>
-</li>
-</ul>
-<p>看了上面这些关键字，你可能扭头就走了，其实一开始了解和研究asyncio这个模块有种抵触，自己也不知道为啥，这也导致很长一段时间，这个模块自己也基本就没有关注和使用，但是随着工作上用python遇到各种性能问题的时候，自己告诉自己还是要好好学习学习这个模块。</p>
-<hr>
-<h4 id="定义一个协程"><strong>定义一个协程</strong></h4>
-<pre><code class="language-python">import time
-import asyncio
-
-
-now = lambda : time.time()
-
-
-async def do_some_work(x):
-    print(&quot;waiting:&quot;, x)
-
-start = now()
-# 这里是一个协程对象，这个时候do_some_work函数并没有执行
-coroutine = do_some_work(2)
-print(coroutine)
-#  创建一个事件loop
-loop = asyncio.get_event_loop()
-# 将协程加入到事件循环loop
-loop.run_until_complete(coroutine)
-
-print(&quot;Time:&quot;,now()-start)
-</code></pre>
-<p>在上面带中我们通过async关键字定义一个协程（coroutine）,当然协程不能直接运行，需要将协程加入到事件循环loop中</p>
-<p>**asyncio.get_event_loop：**创建一个事件循环，然后使用run_until_complete将协程注册到事件循环，并启动事件循环</p>
-<hr>
-<h4 id="创建一个task"><strong>创建一个task</strong></h4>
-<p>协程对象不能直接运行，在注册事件循环的时候，其实是run_until_complete方法将协程包装成为了一个任务（task）对象. task对象是Future类的子类，保存了协程运行后的状态，用于未来获取协程的结果</p>
-<pre><code class="language-python">import asyncio
-import time
-
-
-now = lambda: time.time()
-
-
-async def do_some_work(x):
-    print(&quot;waiting:&quot;, x)
-
-start = now()
-
-coroutine = do_some_work(2)
-loop = asyncio.get_event_loop()
-task = loop.create_task(coroutine)
-print(task)
-loop.run_until_complete(task)
-print(task)
-print(&quot;Time:&quot;,now()-start)
-</code></pre>
-<p>结果为：</p>
-<pre><code class="language-python">&lt;Task pending coro=&lt;do_some_work() running at /app/py_code/study_asyncio/simple_ex2.py:13&gt;&gt;
-waiting: 2
-&lt;Task finished coro=&lt;do_some_work() done, defined at /app/py_code/study_asyncio/simple_ex2.py:13&gt; result=None&gt;
-Time: 0.0003514289855957031
-</code></pre>
-<p>创建task后，在task加入事件循环之前为pending状态，当完成后，状态为finished</p>
-<p>关于上面通过loop.create_task(coroutine)创建task,同样的可以通过 asyncio.ensure_future(coroutine)创建task</p>
-<p>关于这两个命令的官网解释： https://docs.python.org/3/library/asyncio-task.html#asyncio.ensure_future</p>
-<pre><code class="language-python">asyncio.ensure_future(coro_or_future, *, loop=None)
-Schedule the execution of a coroutine object: wrap it in a future. Return a Task object.
-
-If the argument is a Future, it is returned directly.
-</code></pre>
-<p>https://docs.python.org/3/library/asyncio-eventloop.html#asyncio.AbstractEventLoop.create_task</p>
-<pre><code class="language-python">AbstractEventLoop.create_task(coro)
-Schedule the execution of a coroutine object: wrap it in a future. Return a Task object.
-
-Third-party event loops can use their own subclass of Task for interoperability. In this case, the result type is a subclass of Task.
-
-This method was added in Python 3.4.2. Use the async() function to support also older Python versions
-</code></pre>
-<hr>
-<h4 id="绑定回调"><strong>绑定回调</strong></h4>
-<p>绑定回调，在task执行完成的时候可以获取执行的结果，回调的最后一个参数是future对象，通过该对象可以获取协程返回值。</p>
-<pre><code class="language-python">import time
-import asyncio
-
-
-now = lambda : time.time()
-
-
-async def do_some_work(x):
-    print(&quot;waiting:&quot;,x)
-    return &quot;Done after {}s&quot;.format(x)
-
-
-def callback(future):
-    print(&quot;callback:&quot;,future.result())
-
-
-start = now()
-coroutine = do_some_work(2)
-loop = asyncio.get_event_loop()
-task = asyncio.ensure_future(coroutine)
-print(task)
-task.add_done_callback(callback)
-print(task)
-loop.run_until_complete(task)
-
-print(&quot;Time:&quot;, now()-start)
-</code></pre>
-<p>结果为：</p>
-<pre><code class="language-python">&lt;Task pending coro=&lt;do_some_work() running at /app/py_code/study_asyncio/simple_ex3.py:13&gt;&gt;
-&lt;Task pending coro=&lt;do_some_work() running at /app/py_code/study_asyncio/simple_ex3.py:13&gt; cb=[callback() at /app/py_code/study_asyncio/simple_ex3.py:18]&gt;
-waiting: 2
-callback: Done after 2s
-Time: 0.00039196014404296875
-</code></pre>
-<p>通过add_done_callback方法给task任务添加回调函数，当task（也可以说是coroutine）执行完成的时候,就会调用回调函数。并通过参数future获取协程执行的结果。这里我们创建 的task和回调里的future对象实际上是同一个对象</p>
-<hr>
-<h4 id="阻塞和await"><strong>阻塞和await</strong></h4>
-<p>使用async可以定义协程对象，使用await可以针对耗时的操作进行挂起，就像生成器里的yield一样，函数让出控制权。协程遇到await，事件循环将会挂起该协程，执行别的协程，直到其他的协程也挂起或者执行完毕，再进行下一个协程的执行</p>
-<p>耗时的操作一般是一些IO操作，例如网络请求，文件读取等。我们使用asyncio.sleep函数来模拟IO操作。协程的目的也是让这些IO操作异步化。</p>
-<pre><code class="language-python">import asyncio
-import time
-
-
-
-now = lambda :time.time()
-
-async def do_some_work(x):
-    print(&quot;waiting:&quot;,x)
-    # await 后面就是调用耗时的操作
-    await asyncio.sleep(x)
-    return &quot;Done after {}s&quot;.format(x)
-
-
-start = now()
-
-coroutine = do_some_work(2)
-loop = asyncio.get_event_loop()
-task = asyncio.ensure_future(coroutine)
-loop.run_until_complete(task)
-
-print(&quot;Task ret:&quot;, task.result())
-print(&quot;Time:&quot;, now() - start)
-</code></pre>
-<p>在await asyncio.sleep(x)，因为这里sleep了，模拟了阻塞或者耗时操作，这个时候就会让出控制权。 即当遇到阻塞调用的函数的时候，使用await方法将协程的控制权让出,以便loop调用其他的协程。</p>
-<hr>
-<h4 id="并发和并行"><strong>并发和并行</strong></h4>
-<ul>
-<li>
-<p>并发：指的是一段时间内执行多想任务</p>
-</li>
-<li>
-<p>并行：指的是用同一个时间点执行多个任务。</p>
-</li>
-</ul>
-<p>下面这个例子非常形象：</p>
-<p>并发情况下是一个老师在同一时间段辅助不同的人功课。并行则是好几个老师分别同时辅助多个学生功课。简而言之就是一个人同时吃三个馒头还是三个人同时分别吃一个的情况，吃一个馒头算一个任务</p>
-<pre><code class="language-python">import asyncio
-import time
-
-
-now = lambda :time.time()
-
-
-async def do_some_work(x):
-    print(&quot;Waiting:&quot;,x)
-    await asyncio.sleep(x)
-    return &quot;Done after {}s&quot;.format(x)
-
-start = now()
-
-coroutine1 = do_some_work(1)
-coroutine2 = do_some_work(2)
-coroutine3 = do_some_work(4)
-
-tasks = [
-    asyncio.ensure_future(coroutine1),
-    asyncio.ensure_future(coroutine2),
-    asyncio.ensure_future(coroutine3)
-]
-
-loop = asyncio.get_event_loop()
-loop.run_until_complete(asyncio.wait(tasks))
-
-for task in tasks:
-    print(&quot;Task ret:&quot;,task.result())
-
-print(&quot;Time:&quot;,now()-start)
-</code></pre>
-<p>运行结果：</p>
-<pre><code class="language-python">Waiting: 1
-Waiting: 2
-Waiting: 4
-Task ret: Done after 1s
-Task ret: Done after 2s
-Task ret: Done after 4s
-Time: 4.004154920578003
-</code></pre>
-<p>总时间为4s左右。4s的阻塞时间，足够前面两个协程执行完毕。如果是同步顺序的任务，那么至少需要7s。此时我们使用了aysncio实现了并发。asyncio.wait(tasks) 也可以使用 asyncio.gather(*tasks) ,前者接受一个task列表，后者接收一堆task。</p>
-<p>关于asyncio.gather和asyncio.wait官网的说明：</p>
-<p>https://docs.python.org/3/library/asyncio-task.html#asyncio.gather</p>
-<pre><code class="language-python">Return a future aggregating results from the given coroutine objects or futures.
-
-All futures must share the same event loop. If all the tasks are done successfully, the returned future’s result is the list of results (in the order of the original sequence, not necessarily the order of results arrival). If return_exceptions is true, exceptions in the tasks are treated the same as successful results, and gathered in the result list; otherwise, the first raised exception will be immediately propagated to the returned future.
-</code></pre>
-<p>https://docs.python.org/3/library/asyncio-task.html#asyncio.wait</p>
-<pre><code class="language-python">Wait for the Futures and coroutine objects given by the sequence futures to complete. Coroutines will be wrapped in Tasks. Returns two sets of Future: (done, pending).
-
-The sequence futures must not be empty.
-
-timeout can be used to control the maximum number of seconds to wait before returning. timeout can be an int or float. If timeout is not specified or None, there is no limit to the wait time.
-
-return_when indicates when this function should return.
-</code></pre>
-<hr>
-<h4 id="协程嵌套"><strong>协程嵌套</strong></h4>
-<p>使用async可以定义协程，协程用于耗时的io操作，我们也可以封装更多的io操作过程，这样就实现了嵌套的协程，即一个协程中await了另外一个协程，如此连接起来。</p>
-<pre><code class="language-python">import asyncio
-import time
-
-
-now = lambda: time.time()
-
-async def do_some_work(x):
-    print(&quot;waiting:&quot;,x)
-    await asyncio.sleep(x)
-    return &quot;Done after {}s&quot;.format(x)
-
-async def main():
-    coroutine1 = do_some_work(1)
-    coroutine2 = do_some_work(2)
-    coroutine3 = do_some_work(4)
-    tasks = [
-        asyncio.ensure_future(coroutine1),
-        asyncio.ensure_future(coroutine2),
-        asyncio.ensure_future(coroutine3)
-    ]
-
-    dones, pendings = await asyncio.wait(tasks)
-    for task in dones:
-        print(&quot;Task ret:&quot;, task.result())
-
-    # results = await asyncio.gather(*tasks)
-    # for result in results:
-    #     print(&quot;Task ret:&quot;,result)
-
-
-start = now()
-
-loop = asyncio.get_event_loop()
-loop.run_until_complete(main())
-print(&quot;Time:&quot;, now()-start)
-</code></pre>
-<p>如果我们把上面代码中的：</p>
-<pre><code class="language-python">    dones, pendings = await asyncio.wait(tasks)
-    for task in dones:
-        print(&quot;Task ret:&quot;, task.result())
-</code></pre>
-<p>替换为：</p>
-<pre><code class="language-python">results = await asyncio.gather(*tasks)
- for result in results:
-     print(&quot;Task ret:&quot;,result)
-</code></pre>
-<p>这样得到的就是一个结果的列表</p>
-<p>不在main协程函数里处理结果，直接返回await的内容，那么最外层的run_until_complete将会返回main协程的结果。 将上述的代码更改为：</p>
-<pre><code class="language-python">import asyncio
-import time
-
-
-now = lambda: time.time()
-
-async def do_some_work(x):
-    print(&quot;waiting:&quot;,x)
-    await asyncio.sleep(x)
-    return &quot;Done after {}s&quot;.format(x)
-
-async def main():
-    coroutine1 = do_some_work(1)
-    coroutine2 = do_some_work(2)
-    coroutine3 = do_some_work(4)
-    tasks = [
-        asyncio.ensure_future(coroutine1),
-        asyncio.ensure_future(coroutine2),
-        asyncio.ensure_future(coroutine3)
-    ]
-    return await asyncio.gather(*tasks)
-
-start = now()
-
-loop = asyncio.get_event_loop()
-results = loop.run_until_complete(main())
-for result in results:
-    print(&quot;Task ret:&quot;,result)
-
-print(&quot;Time:&quot;, now()-start)
-</code></pre>
-<p>或者返回使用asyncio.wait方式挂起协程。</p>
-<p>将代码更改为：</p>
-<pre><code class="language-python">import asyncio
-import time
-
-
-now = lambda: time.time()
-
-async def do_some_work(x):
-    print(&quot;waiting:&quot;,x)
-    await asyncio.sleep(x)
-    return &quot;Done after {}s&quot;.format(x)
-
-async def main():
-    coroutine1 = do_some_work(1)
-    coroutine2 = do_some_work(2)
-    coroutine3 = do_some_work(4)
-    tasks = [
-        asyncio.ensure_future(coroutine1),
-        asyncio.ensure_future(coroutine2),
-        asyncio.ensure_future(coroutine3)
-    ]
-    return await asyncio.wait(tasks)
-
-start = now()
-
-loop = asyncio.get_event_loop()
-done,pending = loop.run_until_complete(main())
-for task in done:
-    print(&quot;Task ret:&quot;,task.result())
-
-print(&quot;Time:&quot;, now()-start)
-</code></pre>
-<p>也可以使用asyncio的as_completed方法</p>
-<pre><code class="language-python">import asyncio
-import time
-
-
-now = lambda: time.time()
-
-async def do_some_work(x):
-    print(&quot;waiting:&quot;,x)
-    await asyncio.sleep(x)
-    return &quot;Done after {}s&quot;.format(x)
-
-async def main():
-    coroutine1 = do_some_work(1)
-    coroutine2 = do_some_work(2)
-    coroutine3 = do_some_work(4)
-    tasks = [
-        asyncio.ensure_future(coroutine1),
-        asyncio.ensure_future(coroutine2),
-        asyncio.ensure_future(coroutine3)
-    ]
-    for task in asyncio.as_completed(tasks):
-        result = await task
-        print(&quot;Task ret: {}&quot;.format(result))
-
-start = now()
-
-loop = asyncio.get_event_loop()
-loop.run_until_complete(main())
-print(&quot;Time:&quot;, now()-start)
-</code></pre>
-<p>从上面也可以看出，协程的调用和组合非常灵活，主要体现在对于结果的处理：如何返回，如何挂起</p>
-<hr>
-<h4 id="协程的停止"><strong>协程的停止</strong></h4>
-<p>future对象有几个状态：</p>
-<ul>
-<li>Pending</li>
-<li>Running</li>
-<li>Done</li>
-<li>Cacelled<br>
-创建future的时候，task为pending，事件循环调用执行的时候当然就是running，调用完毕自然就是done，如果需要停止事件循环，就需要先把task取消。可以使用asyncio.Task获取事件循环的task</li>
-</ul>
-<pre><code class="language-python">import asyncio
-import time
-
-
-now = lambda :time.time()
-
-
-async def do_some_work(x):
-    print(&quot;Waiting:&quot;,x)
-    await asyncio.sleep(x)
-    return &quot;Done after {}s&quot;.format(x)
-
-coroutine1 =do_some_work(1)
-coroutine2 =do_some_work(2)
-coroutine3 =do_some_work(2)
-
-tasks = [
-    asyncio.ensure_future(coroutine1),
-    asyncio.ensure_future(coroutine2),
-    asyncio.ensure_future(coroutine3),
-]
-
-start = now()
-
-loop = asyncio.get_event_loop()
-try:
-    loop.run_until_complete(asyncio.wait(tasks))
-except KeyboardInterrupt as e:
-    print(asyncio.Task.all_tasks())
-    for task in asyncio.Task.all_tasks():
-        print(task.cancel())
-    loop.stop()
-    loop.run_forever()
-finally:
-    loop.close()
-
-print(&quot;Time:&quot;,now()-start)
-</code></pre>
-<p>启动事件循环之后，马上ctrl+c，会触发run_until_complete的执行异常 KeyBorardInterrupt。然后通过循环asyncio.Task取消future。可以看到输出如下：</p>
-<pre><code class="language-python">Waiting: 1
-Waiting: 2
-Waiting: 2
-^C{&lt;Task finished coro=&lt;do_some_work() done, defined at /app/py_code/study_asyncio/simple_ex10.py:13&gt; result='Done after 1s'&gt;, &lt;Task pending coro=&lt;do_some_work() running at /app/py_code/study_asyncio/simple_ex10.py:15&gt; wait_for=&lt;Future pending cb=[Task._wakeup()]&gt; cb=[_wait.&lt;locals&gt;._on_completion() at /usr/local/lib/python3.5/asyncio/tasks.py:428]&gt;, &lt;Task pending coro=&lt;do_some_work() running at /app/py_code/study_asyncio/simple_ex10.py:15&gt; wait_for=&lt;Future pending cb=[Task._wakeup()]&gt; cb=[_wait.&lt;locals&gt;._on_completion() at /usr/local/lib/python3.5/asyncio/tasks.py:428]&gt;, &lt;Task pending coro=&lt;wait() running at /usr/local/lib/python3.5/asyncio/tasks.py:361&gt; wait_for=&lt;Future pending cb=[Task._wakeup()]&gt;&gt;}
-False
-True
-True
-True
-Time: 1.0707225799560547
-</code></pre>
-<p>True表示cannel成功，loop stop之后还需要再次开启事件循环，最后在close，不然还会抛出异常</p>
-<p>循环task，逐个cancel是一种方案，可是正如上面我们把task的列表封装在main函数中，main函数外进行事件循环的调用。这个时候，main相当于最外出的一个task，那么处理包装的main函数即可。</p>
-<hr>
-<h4 id="不同线程的事件循环"><strong>不同线程的事件循环</strong></h4>
-<p>很多时候，我们的事件循环用于注册协程，而有的协程需要动态的添加到事件循环中。一个简单的方式就是使用多线程。当前线程创建一个事件循环，然后在新建一个线程，在新线程中启动事件循环。当前线程不会被block。</p>
-<pre><code class="language-python">import asyncio
-from threading import Thread
-import time
-
-now = lambda :time.time()
-
-def start_loop(loop):
-    asyncio.set_event_loop(loop)
-    loop.run_forever()
-
-def more_work(x):
-    print('More work {}'.format(x))
-    time.sleep(x)
-    print('Finished more work {}'.format(x))
-
-start = now()
-new_loop = asyncio.new_event_loop()
-t = Thread(target=start_loop, args=(new_loop,))
-t.start()
-print('TIME: {}'.format(time.time() - start))
-
-new_loop.call_soon_threadsafe(more_work, 6)
-new_loop.call_soon_threadsafe(more_work, 3)
-</code></pre>
-<p>启动上述代码之后，当前线程不会被block，新线程中会按照顺序执行call_soon_threadsafe方法注册的more_work方法， 后者因为time.sleep操作是同步阻塞的，因此运行完毕more_work需要大致6 + 3</p>
-<hr>
-<h4 id="新线程协程"><strong>新线程协程</strong></h4>
-<pre><code class="language-python">import asyncio
-import time
-from threading import Thread
-
-now = lambda :time.time()
-
-
-def start_loop(loop):
-    asyncio.set_event_loop(loop)
-    loop.run_forever()
-
-async def do_some_work(x):
-    print('Waiting {}'.format(x))
-    await asyncio.sleep(x)
-    print('Done after {}s'.format(x))
-
-def more_work(x):
-    print('More work {}'.format(x))
-    time.sleep(x)
-    print('Finished more work {}'.format(x))
-
-start = now()
-new_loop = asyncio.new_event_loop()
-t = Thread(target=start_loop, args=(new_loop,))
-t.start()
-print('TIME: {}'.format(time.time() - start))
-
-asyncio.run_coroutine_threadsafe(do_some_work(6), new_loop)
-asyncio.run_coroutine_threadsafe(do_some_work(4), new_loop)
-</code></pre>
-<p>上述的例子，主线程中创建一个new_loop，然后在另外的子线程中开启一个无限事件循环。 主线程通过run_coroutine_threadsafe新注册协程对象。这样就能在子线程中进行事件循环的并发操作，同时主线程又不会被block。一共执行的时间大概在6s左右。</p>
 ]]></content>
     </entry>
 </feed>

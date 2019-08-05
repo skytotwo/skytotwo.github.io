@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Hello Gridea | Totoro の Home</title>
+<title>Django中 CSRF 理解 原理 及 使用 | Totoro の Home</title>
 <meta name="description" content="空杯心态，每天进步">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -98,45 +98,65 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Hello Gridea</h2>
-            <div class="post-date">2018-12-12</div>
+            <h2 class="post-title">Django中 CSRF 理解 原理 及 使用</h2>
+            <div class="post-date">2019-08-05</div>
             
-              <div class="feature-container" style="background-image: url('https://skytotwo.github.io//post-images/hello-gridea.png')">
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/05/csrf-cross-site-request-forgery.jpg')">
               </div>
             
             <div class="post-content">
-              <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+              <p>test</p>
 <!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="http://hvenotes.fehey.com/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>𝖶𝗂𝗇𝖽𝗈𝗐𝗌</strong> 或 <strong>𝖬𝖺𝖼𝖮𝖲</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
+<p>分类：<br>
+django为用户实现防止跨站请求伪造的功能，通过中间件 django.middleware.csrf.CsrfViewMiddleware 来完成。而对于django中设置防跨站请求伪造功能有分为全局和局部。<br>
+全局：<br>
+中间件 django.middleware.csrf.CsrfViewMiddleware<br>
+局部：<br>
+@csrf_protect，为当前函数强制设置防跨站请求伪造功能，即便settings中没有设置全局中间件。<br>
+@csrf_exempt，取消当前函数防跨站请求伪造功能，即便settings中设置了全局中间件。</p>
+<p>Django中CSRF防护原理：<br>
+在用户访问django的可信站点时，django反馈给用户的表单中有一个隐含字段csrftoken，这个值是在服务器端随机生成的，每一次提交表单都会生成不同的值。当用户提交django的表单时，服务器校验这个表单的csrftoken是否和自己保存的一致，来判断用户的合法性。当用户被csrf攻击从其他站点发送精心编制的攻击请求时，由于其他站点不可能知道隐藏的csrftoken字段的信息这样在服务器端就会校验失败，攻击被成功防御，这样就能避免被 CSRF 攻击。</p>
+<ol>
+<li>在返回的 HTTP 响应的 cookie 里，django 会为你添加一个 csrftoken 字段，其值为一个自动生成的 token</li>
+<li>在所有的 POST 表单时，必须包含一个 csrfmiddlewaretoken 字段 （只需要在模板里加一个 tag， django 就会自动帮你生成，见下面）</li>
+<li>在处理 POST 请求之前，django 会验证这个请求的 cookie 里的 csrftoken 字段的值和提交的表单里的 csrfmiddlewaretoken 字段的值是否一样。如果一样，则表明这是一个合法的请求，否则，这个请求可能是来自于别人的 csrf 攻击，返回 403 Forbidden.</li>
+<li>在所有 ajax POST 请求里，添加一个 X-CSRFTOKEN header，其值为 cookie 里的 csrftoken 的值<br>
+Django中使用 CSRF 防护</li>
+<li>GET 请求不要用有副作用。任何处理 GET 请求的代码对资源的访问都一定要是“只读“的。</li>
+<li>启用 django.middleware.csrf.CsrfViewMiddleware 中间件</li>
+<li>使用POST 表单元素时，加上{% csrf_token %}</li>
+<li>渲染模块使用 RequestContext。RequestContext 会处理 csrf_token , 从而自动为表单添加一个名为 csrfmiddlewaretoken 的 input<br>
+Django中CSRF防护解析：</li>
+</ol>
+<p>csrftoken的生成方式如下：<br>
+md5_constructor(&quot;%s%s&quot; % (randrange(0, _MAX_CSRF_KEY), settings.SECRET_KEY)).hexdigest()<br>
+● 1<br>
+设置csrftoken:<br>
+response.set_cookie(settings.CSRF_COOKIE_NAME,request.META[&quot;CSRF_COOKIE&quot;], max_age = 60 * 60 * 24 * 7 * 52, domain=settings.CSRF_COOKIE_DOMAIN)<br>
+● 2<br>
+csrftoken与cookie中的token比较：<br>
+if not constant_time_compare(request_csrf_token, csrf_token):</p>
+<p>对于前后端分离的 ajax 去调用的话  需要在传递的参数里带上    csrfmiddlewaretoken: &quot;{{ csrf_token }}&quot;</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://skytotwo.github.io//tag/gridea" class="tag">
-                    Gridea
+                  <a href="https://skytotwo.github.io//tag/Iv9ahsKWG" class="tag">
+                    Django
                   </a>
                 
               </div>
             
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/django-settings-meida-lujing">
+                  <h3 class="post-title">
+                    Django settings.py 的media路径设置
+                  </h3>
+                </a>
+              </div>
             
 
             

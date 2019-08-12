@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Linux常用命令简记 | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1565599431091">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1565599431091" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Linux常用命令简记</h2>
+            <div class="post-date">2019-08-12</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/images.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>linux下的命令繁多，熟悉相关命令对工作可以提高便利性，下面列举了一些常用的命令。</p>
+<!-- more -->
+<p>ls: 查看文件夹下文件和文件夹列表</p>
+<p>ls -lah</p>
+<p>-l: 列表形式显示</p>
+<p>-a: 查看所有目录，包括隐藏目录</p>
+<p>-h: 以易读的方式显示文件大小</p>
+<p>-s: 显示文件占用的data block空间大小</p>
+<p>-S: 按文件大小降序排列</p>
+<p>-t: 按文件m/a/ctime降序排列</p>
+<p>-r: 逆序排列</p>
+<p>-R: 递归遍历</p>
+<p>cp: 复制文件或目录</p>
+<p>cp -ai ~/test ~/Downloads/</p>
+<p>-a: 相当与 -pdr，重要参数</p>
+<p>-p: 连同文件属性一起复制过去(备份时常用)</p>
+<p>-d: 如果源文件为链接文件的属性，则复制后的文件为链接文件，而不是真实文件本身</p>
+<p>-r: 递归的复制所有文件</p>
+<p>-i: 当遇到已存在文件时，询问用户</p>
+<p>top: 查看系统进程资源占用情况</p>
+<p>top -d 2 -p 1234 : 将资源使用情况更新时间设为2秒，查看的进程为pid 1234</p>
+<p>top中的PRI和NI是进程的优先级，其中Priority(new)=Priority(Old)+Nice, PRI越小表示进程优先级越高，用户仅可以调整NI值，所以将NI调整为负值可以提高进程优先级，</p>
+<p>NI的调整范围是 -20～19</p>
+<p>在top程序界面内快捷键</p>
+<p>shift + p : 按cpu使用率排序</p>
+<p>shift + M : 按内存使用率排序</p>
+<p>r : 调整process的NICE值</p>
+<p>q : 退出top</p>
+<p>使用 nice 和 renice 命令调整进程优先级</p>
+<p>nice -n 10 vim &amp; : 运行一个vim,并将他的nice值设置为10</p>
+<p>renice -10 1234 : 将pid为1234的进程的nice值调整为-10</p>
+<p>ps: 显示详细进程信息</p>
+<p>常用格式: ps aux</p>
+<p>a 显示所有用户进程,包括其他用户</p>
+<p>u 以用户为主的格式显示进程状况</p>
+<p>x 显示不受终端控制的进程</p>
+<p>ps -l : 以特定格式现实当前用户shell进程</p>
+<p>ps axjf : 以工作格式现实所有用户进程的树状图</p>
+<p>ps -ef : 使用全格式显示所有进程</p>
+<p>-e: 显示所有进程</p>
+<p>-f: 使用全格式</p>
+<p>mv: 移动或重命名文件或文件夹</p>
+<p>常用格式: mv -f test1/ test2/</p>
+<p>-f 强制模式,在移动前不询问</p>
+<p>test1/ 待移动文件夹</p>
+<p>test2/ 移动到的目标文件夹</p>
+<p>常用格式: mv file1 file2 dir1/</p>
+<p>将file1 file2 移动到 dir1</p>
+<p>find: 查找文件或文件夹</p>
+<p>常用格式: find / -type f -iname '*test'</p>
+<p>/ 查找的目录,此处为更根目录</p>
+<p>-type f,d,l 类型：普通文件，目录，链接文件</p>
+<p>-iname 查找文件名,并忽略大小写</p>
+<p>'*test' 要查找的文件名,此处是以test结尾的文件名</p>
+<p>-mtime n/+n/-n : 指定最后修改时间在 n天前24小时内 / (n+1)天前无限小时 / n天至今 的文件 find ~/ -mtime +4 查找5天前的文件</p>
+<p>-newer file: 查找mtime比 file 新的文件 find ~/ -newer test</p>
+<p>df: 查看磁盘使用情况</p>
+<p>常用格式: df -aTh</p>
+<p>-a 显示所有文件系统的磁盘使用情况，包括0块（block）的文件系统，如/proc文件系统</p>
+<p>-T 显示磁盘类型,如ext4</p>
+<p>-h 根据目前磁盘空间和使用情况 以更易读的方式显示</p>
+<p>cat: 显示文件内容,或合并两个文件</p>
+<p>常用格式: cat myfile</p>
+<p>常用格式: cat -n myfile1 &gt; myfile2</p>
+<p>-n 对myfile1数据加上行号</p>
+<p>myfile1 需要复制数据的文件</p>
+<p>myfile2 复制数据的目标文件,会将myfile2的原数据清空</p>
+<p>常用格式: cat -n myfile1 myfile2 &gt; myfile3</p>
+<p>myfile1 myfile2 需要合并的文件</p>
+<p>myfile3 合并后保存的文件</p>
+<p>chmod: 改变文件或文件夹的权限</p>
+<p>常用格式: chmod 664 myfile</p>
+<p>664 文件权限码,此处为默认新建文件权限,rw-rw-r--</p>
+<p>chmod u=rwx g=rwx o=rwx myfile</p>
+<p>将myfile的权限改为用户为rwx,用户组为rwx,其他用户为rwx</p>
+<p>chgrp: 改变文件或文件夹所属用户组</p>
+<p>常用格式: chgrp root myfile</p>
+<p>root 修改到的目标用户组</p>
+<p>myfile 需要修改的文件名</p>
+<p>chown: 改变文件或文件夹所有者</p>
+<p>常用格式: chown -R lewis.mygroup filename</p>
+<p>-R: 当前目录下的所有文件和文件夹</p>
+<p>lewis.mygroup: 将所有者改为mygroup用户组的lewis用户</p>
+<p>filename: 需要修改所有者的文件或文件夹名称</p>
+<p>grep: 字符串查找,常用于其他命令的结果中的查找</p>
+<p>常用格式: ls -l | grep myfile</p>
+<p>myfile 需要查找的字符串</p>
+<p>ls -l | grep -vi 'test'</p>
+<p>查找除了test或TEST之外的内容</p>
+<p>wc: 统计文件中的单词书,字节数,行数</p>
+<p>常用格式: wc -wml myfile</p>
+<p>-w 文件中的单词数</p>
+<p>-m 文件中的字符数</p>
+<p>-c 文件的字节数</p>
+<p>-l 文件的行数</p>
+<p>tar: 解压或压缩文件</p>
+<p>常用格式: tar -zcv -f ~/Downloads/downloads.tar.gz ~/Downloads</p>
+<p>将Downloads的文件压缩到一个叫downloads.tar.gz的文件</p>
+<p>-z 使用gzip解压或压缩</p>
+<p>-c 建立压缩文件</p>
+<p>-v 显示执行过程</p>
+<p>-f 需要操作的文件</p>
+<p>tar -zvcp -f backup.tar.gz --exclude=/etc/*.sh /etc</p>
+<p>备份etc文件夹下除了.sh结尾的所有文件到 backup.tar.gz</p>
+<p>-p 压缩时保留文件原有的属性，备份常用</p>
+<p>--exclude 不打包的文件</p>
+<p>常用格式: tar -xjv -f ./test.tar.bz2 -C ./test/　　#解压文件到指定目录</p>
+<p>-x 解压文件</p>
+<p>-j 以bzip2解压或压缩</p>
+<p>-C 解压到指定目录</p>
+<p>常用格式: tar -zv -f ./test.tar.gz　　#查看压缩包文件</p>
+<p>-t: 查看压缩包文件</p>
+<p>ctrl+z: 挂起当前任务</p>
+<p>jobs: 查看后台任务</p>
+<p>fg: 将一个后台任务启动后调至前台执行</p>
+<p>常用格式: fg %1</p>
+<p>%1: 任务号,可以从jobs命令查看得到</p>
+<p>bg: 将一个后台任务启动后调至后台执行</p>
+<p>常用格式: bg %1</p>
+<p>%1: 任务号,可以从jobs命令查看得到</p>
+<p>mount: 挂载一个设备</p>
+<p>mount -a</p>
+<p>读取/etc/fstab文件，将未挂在的设备全都挂载上去</p>
+<p>mount -n -o remount,rw /</p>
+<p>-n ： 不将挂在记录写入/etc/mtab</p>
+<p>在单用户模式时，将根目录重新挂载变成读写模式</p>
+<p>mount -o iocharset=gb2312,ro -t ntfs /dev/sda5 /mnt/windrived</p>
+<p>-o： 额外参数， iocharset: 设置编码， ro 只读</p>
+<p>-t ntfs: 设置要挂载设备的文件系统，有super block信息的磁盘分区可以不需要次参数</p>
+<p>/dev/sda5: 要挂载的设备路径</p>
+<p>/mnt/windrived: 要挂在的目标挂载点</p>
+<p>mount -o loop /home/alexis/game.iso /mnt/iso</p>
+<p>挂载特殊设备，如镜像文件，文件系统文件</p>
+<p>umount: 卸载一个设备</p>
+<p>常用格式: umount -l /mnt/windrived</p>
+<p>-l: lazy umount,等到设备空闲的时候自动卸载之</p>
+<p>此外umount命令也可以使用设备名来卸载设备，例如 umount -f /dev/sda3</p>
+<p>kill: 杀掉一个进程</p>
+<p>常用格式: kill -9 1234</p>
+<p>-9: 强制杀掉他,也可以用-SIGKILL</p>
+<p>1234: 进程pid,可以有ps aux查看获得</p>
+<p>进程信号：</p>
+<p>1 ： 重启进程</p>
+<p>9 ： 强制结束进程</p>
+<p>15 ： 正常结束进程</p>
+<p>17 ： 挂起进程，相当与ctrl+z</p>
+<p>kill -l : 列出所有可用的进程信号量</p>
+<p>killall: 杀掉同名进程</p>
+<p>常用格式: killall -KILL chromium</p>
+<p>-KILL: 强制终止,这里加进程信号量,和kill命令的一样</p>
+<p>chromium: 要杀掉的同名进程名</p>
+<p>tail: 显示文件尾部内容</p>
+<p>常用格式: tail -1 /etc/passwd, tail -f /etc/passwd</p>
+<p>-1: 显示最后一行内容</p>
+<p>-f: 显示最后十行内容,并不断更新</p>
+<p>useradd: 添加用户账号</p>
+<p>常用格式: useradd testuser -u 1234 -g root -d /home/testuser -s /bin/bash</p>
+<p>-u: 设置用户uid</p>
+<p>-g: 设置用户组</p>
+<p>-d: 设置用户根目录</p>
+<p>-s: 设置用户启动shell</p>
+<p>简记: 此命令会在/etc/passwd /etc/shadow中添加两条记录</p>
+<p>userdel: 删除用户账号</p>
+<p>常用格式: userdel -r testuser</p>
+<p>-r: 删除用户相关,如用户根目录,但如果用户根目录是由其他用户创建的则不会删除</p>
+<p>usermod: 修改用户属性</p>
+<p>常用格式: usermod -L testuser , usermod -U testuser</p>
+<p>-L: lock,禁用用户</p>
+<p>-U: unlock,启用用户</p>
+<p>常用格式: usermod -g mygroup testuser</p>
+<p>-g: 修改用户组, 将 testuser 用户组改为mygroup</p>
+<p>groupadd: 添加用户</p>
+<p>常用格式: groupadd mygroup -g 1234</p>
+<p>-g: 设置用户组uid</p>
+<p>groupdel: 删除用户组</p>
+<p>常用格式: groupdel mygroup</p>
+<p>ln: 建立文件链接</p>
+<p>常用格式: ln file fileln, ln -s file filesln</p>
+<p>-s: 建立软链接,不加上 -s 则建立硬链接</p>
+<p>注意建立链接请用绝对路径，不然链接文件会出现错误</p>
+<p>seq: 生成一个序列</p>
+<p>常用格式: seq -w 1 100</p>
+<p>-w: 等宽序列,生成 001 002 003 ... 099 100</p>
+<p>常用格式: seq -f &quot;str%03g&quot; 1 100</p>
+<p>-f &quot;str%03g&quot;: 指定生成格式,此处用str拼接 1~100的序列, 1~100为3位等宽数字,不够的用0补齐,不写0则用空格补齐,如图</p>
+<p>seq -f '%0.f' 10000000000 10000000000</p>
+<p>seq在生成大数字会默认使用科学计数法, 这个格式可以避免使用科学计数法</p>
+<p>ifconfig: 网络设备设置</p>
+<p>常用格式: ifconfig -a</p>
+<p>-a: 显示所有网络设备,包括未启用的网络设备</p>
+<p>常用格式: ifconfig eth0 up</p>
+<p>eth0 up: 激活第一块网卡</p>
+<p>iwconfig: 无线网络设备设置</p>
+<p>chkconfig: 管理linux daemon（包括 stand alone 和 super daemon管理的服务）</p>
+<p>常用格式: chkconfig --level 0123456 network on</p>
+<p>--level 0123456 network on: 在系统级别为0123456时启动network服务</p>
+<p>chkconfig --add testdaemon : 加入自定义的服务，testdaemon位于/etc/init.d</p>
+<p>chkconfig --del testdaemon : 删除自定义的服务</p>
+<p>lspci: 查看所有pci设备</p>
+<p>lsusb: 查看所有usb设备</p>
+<p>scp: 远程复制命令</p>
+<p>常用格式: scp -P 1234 /root/test root@192.168.3.3:/var/www/io/</p>
+<p>-P 1234: 目标主机端口号</p>
+<p>root@192.168.3.3:/var/www/io/: 将test文件复制到192.168.3.3的/var/www/io文件夹,使用root账号登录</p>
+<p>passwd: 修改密码</p>
+<p>netstat: 查看端口状态</p>
+<p>常用格式: netstat -anptu</p>
+<p>a: 显示所有连接的socket</p>
+<p>n: 用IP代替域名</p>
+<p>p: 显示连接的程序以及PID</p>
+<p>t: 显示tcp连接</p>
+<p>u：显示udp连接</p>
+<p>du: 查看文件夹和文件大小</p>
+<p>常用格式: du -sh ./*</p>
+<p>./*： 统计当前文件夹下所有文件夹容量情况</p>
+<p>h: 以用户友好的方式显示文件大小</p>
+<p>s: 只显示顶层文件夹的容量，不显示子文件夹的容量</p>
+<p>统计结果递归包括子目录下所有文件大小总和</p>
+<p>du -Ssh ./</p>
+<p>统计当前目录所有文件大小，统计出来的总和不包括子目录内的文件</p>
+<p>make : 编译源码</p>
+<p>make mrproper : 清除编译过程产生的中间文件以及配置文件</p>
+<p>make clean : 仅仅清除编译过程产生的中间文件</p>
+<p>fdisk: 磁盘管理工具</p>
+<p>fdisk -l ： 列出磁盘分区信息</p>
+<p>fdisk /dev/sda # 注意没有 sda1 或者 sda2 这个数字</p>
+<p>对 /dev/sda 这块磁盘进行管理，可以增加分区，删除分区等</p>
+<p>使用fdisk添加或删除分区后，执行 partprobe 让内核更新系统分区表</p>
+<p>mkfs: 分区格式化，在使用fdisk分区以后可以是用此命令格式化分区</p>
+<p>mkfs -t ext4 /dev/sda8</p>
+<p>-t: 指定分区格式，此处将sda8分区格式化成ext4分区</p>
+<p>unzip: 解压zip压缩包</p>
+<p>unzip test.zip -d ./test　　#将test.zip的文件解压到test文件夹</p>
+<p>unzip -v test.zip　　#查看压缩包文件</p>
+<p>uname: 查看系统信息</p>
+<p>uname -a : 查看所有系统信息</p>
+<p>tracerout: 路由跟踪</p>
+<p>traceroute -T --sport=3324 -p 80 www.google.com</p>
+<p>-T : 使用 tcp 的方式来 trace. 除了 -T 还可以用 -I 表示 ICMP, -U 表示 UDP, Linux 下默认是 UDP</p>
+<p>--sport : 指定源端口</p>
+<p>-p : 指定目标端口</p>
+<p>nslookup: 域名信息查看</p>
+<p>nslookup www.google.com</p>
+<p>init: 切换系统 level</p>
+<p>init 0/3/5/6</p>
+<p>0: 关机</p>
+<p>3: 命令行模式</p>
+<p>5: 图形界面模式</p>
+<p>6: 重启</p>
+<p>sync: 将内存中未保存数据同步到硬盘</p>
+<p>shutdown: 关机/开机等</p>
+<p>shutdown -h now &quot;alexis shutdown the server&quot;: 立即关机,并发送通知消息&quot;alexis shutdown the server&quot;给其他用户</p>
+<p>shutdown -r 20:30 : 在20：30分重启</p>
+<p>shutdown -k 10 &quot;i will shutdown the server in 10 minutes&quot; : 不是真正的关机，只是发送消息给其他用户</p>
+<p>ctrl+d: 相当与在shell中输入exit</p>
+<p>忘记root密码后的处理方法</p>
+<p>1.进入grub菜单后按e键，进入编辑模式</p>
+<p>2.在kernel那行的最后空格，并键入 single</p>
+<p>3.F10启动</p>
+<p>4.输入新密码重启</p>
+<p>last: 列出登入系统的用户相关信息</p>
+<p>last -xnR 10 -f /var/www/wtmp -i 127.0.0.1 -id alexis</p>
+<p>-x: 显示登入登出信息</p>
+<p>-n: 显示的行数</p>
+<p>-R: 去掉hostname栏位</p>
+<p>-f: 指定log文件， /var/log/wtmp为linux记录所有用户登入相关信息的日志文件，默认用的就是这个，可以不加 -f，而/var/www/btmp则更为详细，记录了远程登录信息，如SSH</p>
+<p>-i: 指定查询的id</p>
+<p>-id: 指定查询的用户名</p>
+<p>nl: 显示文件内容并显示行数</p>
+<p>od： 以二进制形式显示文件内容</p>
+<p>od -t c test</p>
+<p>-t: 指定显示类型， a 默认字符， c askii， d 十进制， f 浮点数， o 八进制， x 十六进制</p>
+<p>关于文件时间，文件的时间有三个</p>
+<p>modification time (mtime): 文件最后修改时间</p>
+<p>access time (atime): 文件最后读取时间</p>
+<p>status time (ctime): 文件属性最后修改时间， chmod 什么的</p>
+<p>默认的ls和ll显示的时间是 modification time，如果要显示atime，ctime，可以添加--time参数</p>
+<p>ls -l --time=atime test</p>
+<p>显示的就是test文件的最后访问时间</p>
+<p>可以用touch来更新文件时间，此命令更新的是mtime和atime，而ctime则无法更改</p>
+<p>touch test</p>
+<p>可把test文件的m/atime更新为当前时间</p>
+<p>touch -d &quot;2 days ago&quot; test</p>
+<p>可把test文件的m/atime改为两天前</p>
+<p>xargs: 将某命令输出作为另一个命令的参数输入</p>
+<p>sudo find /usr/local/test/bin -type f -iname ‘*.sh’ | xargs -i sudo ln -l /usr/local/test/bin/{} /usr/bin/{}</p>
+<p>这条命令批量建立软链接，其中 xargs -i 参数表示用 {} 代表管道前的命令的标准输出结果</p>
+<p>xargs -I 则是指令管道前的命令的标准输出结果替换符号，例如 xargs -I {} sudo lin -l /test/bin/{} /usr/bin/{}</p>
+<p>tar -tz -f test.tar.gz | xargs -i rm -rf {}</p>
+<p>这个命令可以用来删除你一不小心散落一地的节操</p>
+<p>ls | xargs -i -e'test' file {}</p>
+<p>将ls的结果作为file的参数输出，并且在遇到 test 的时候停止</p>
+<p>egrep: 正则匹配</p>
+<p>find /var/www -type f | egrep -name '*.(c|php)$'</p>
+<p>获取所有后缀为.c .php的文件</p>
+<p>file: 查看文件类型</p>
+<p>locate: 通过数据库文件 /var/lib/mlocate 来查找文件，其速度会比find快很多</p>
+<p>由于该数据库文件是定时跟新的，所以查找前可以先更新数据库</p>
+<p>updatedb</p>
+<p>locate -i -r .*.php$</p>
+<p>查找所有以php结尾的文件，忽略大小</p>
+<p>whiereis : 命令用来查找path里的位置，例如 whereis ls</p>
+<p>which : 用来在path里查找可执行文件的位置，查找出来的东西比whereis少</p>
+<p>ldd (library dependency discovery) ： 查找共享库的依赖包</p>
+<p>ldd $(which mysqld)</p>
+<p>chattr +x/-x: 给文件添加特殊属性</p>
+<p>chattr +a test: 让test只能添加内容，不能修改和删除内容</p>
+<p>chattr +i test: 让test不能删除，改名，设置软链接，也不能写入，添加数据</p>
+<p>chattr -ai test: 去除 ai 属性</p>
+<p>lsattr: 列出文件的特殊属性</p>
+<p>dumpe2fs: 查看ext文件系统信息</p>
+<p>dumpe2fs -h /dev/sda1</p>
+<p>-h: 只显示super block的信息，不加则会现实所有 block group的信息</p>
+<p>fsck: 文件系统检测修复工具</p>
+<p>fsck -CaDf /dev/sda8</p>
+<p>-C: 现实进度条</p>
+<p>-a: 自动修复问题sector</p>
+<p>-D: ext文件系统专有选项，可以对文件系统的目录进行优化</p>
+<p>-f: ext文件系统专有选项， 对没有unclean标志的磁盘分区也强制检查</p>
+<p>e2label: 修改磁盘分区卷标</p>
+<p>e2label /dev/sda7 &quot;Smilodon&quot;</p>
+<p>hdparm: 磁盘性能测试</p>
+<p>hdparm -tT /dev/sda</p>
+<p>-t: 测试实际读取性能</p>
+<p>-T: 测试磁盘cache读取性能</p>
+<p>生成磁盘分区文件并挂载</p>
+<p>dd： 转换和复制文件</p>
+<p>dd if=/dev/zero of=/home/alexis/loopdev bs=1M count=512</p>
+<p>使用/dev/zero生成一个blocksize为1M，一共512M大小的/home/alexis/loopdev文件</p>
+<p>mkfs -t ext4 /home/alexis/loopdev</p>
+<p>将loopdev格式化成ext4文件系统</p>
+<p>mount -o loop /home/alexis/loopdev /mnt/linux/test</p>
+<p>将刚刚生成的那个文件挂载到系统中</p>
+<p>生成新的swap空间</p>
+<p>dd if=/dev/zero of=/home/alexis/swapdev bs=1M count=128 #生成大文件</p>
+<p>mkswap /home/alexis/swapdev #格式化成swap</p>
+<p>swapon /home/alexis/swapdev #启动swap</p>
+<p>free #查看内存和Swap的使用情况</p>
+<p>parted： 分区工具，可以支持2TB以上的空间分区</p>
+<p>parted /dev/sda print</p>
+<p>打印所有分区状况，打印出来的比fdisk -l要好看哦～</p>
+<p>parted /dev/sda mkpart logical ext4 210.2G 270.2G</p>
+<p>创建一个逻辑分区，格式是ext4,柱面从210.2G~270.2G,比起fdisk n和mkfs -t来说简单一点。一步到位</p>
+<p>parted /dev/sda rm 9</p>
+<p>删除 /dev/sda9 分区</p>
+<p>操作系统备份组合 dump/restore</p>
+<p>dump: 备份文件系统或目录</p>
+<p>dump -W #输出/etc/fstab文件里所有挂载设备的备份记录</p>
+<p>dump -S /dev/sda2 #预测某个设备不压缩备份需要的空间</p>
+<p>dump -u0 -j9 -f loop0.dump.0.bz2 /dev/loop0</p>
+<p>这条命令备份/dev/loop0到loop0.dump.0.bz2里</p>
+<p>-u 将备份记录写入到文件 /var/lib/dumpdatas, 具体的日志文件因系统而异</p>
+<p>-0 备份级别，0～9，0为全量备份，1～9为增量备份，1的增量备份相对与0而呀，2相对与1而言，依次类推</p>
+<p>-j 使用bzip2进行压缩，后面的数字 -j9 为压缩等级，从1~9,压缩率依次增加，速度依次减慢</p>
+<p>-f 指定要备份文件的文件名</p>
+<p>/dev/loop0 要备份的文件系统</p>
+<p>restore: 查看或恢复dump出来的备份文件</p>
+<p>restore -t -f loop0.dump</p>
+<p>查看loop0.dump里的文件信息</p>
+<p>-t 查看备份文件具体信息</p>
+<p>-f 指定要操作的文件</p>
+<p>restore -C -f loop0.dump</p>
+<p>-C 将备份文件与当前挂载的文件系统比较</p>
+<p>restore -r -f loop0.dump</p>
+<p>将loop0.dump还原到当前目录的文件系统，如果是增量备份的还原，则需要继续执行 restore -r -f loop0.dump.1 . 2. 3 等等</p>
+<p>使用dd备份MBR或整个磁盘备份</p>
+<p>dd if=/dev/sda of=mbr.dd bs=512 count=1</p>
+<p>备份sda的前512Bytes，实际上就是备份了MBR和Partition Table</p>
+<p>dd if=/dev/sda1 of=sda1.dd.wholedisk</p>
+<p>备份整个sda1</p>
+<p>mkisofs: 做镜像</p>
+<p>cdrecord: 通过镜像文件刻录光盘</p>
+<p>cpio: 高级备份工具，参数巨多，暂时搁置</p>
+<p>type: 查看命令的类型信息</p>
+<p>type cd --&gt; cd is a shell builtin</p>
+<p>表示 cd 是bash命令的内置命令</p>
+<p>type ll --&gt; ll is aliased to `ls -alF'</p>
+<p>表示ll是ls的别名</p>
+<p>type mysql --&gt; mysql is /usr/bin/mysql</p>
+<p>表示mysql是外部命令，并显示其来源</p>
+<p>umask: 显示创建文件或文件夹的时候的默认权限</p>
+<p>umask --&gt; 0002</p>
+<p>表示创建该文件时，文件默认权限是 -rw-rw-rw- 减去 --------w- = -rw-rw-r--</p>
+<p>创建目录时，目录的默认权限是 -rwxrwxrwx 减去 --------w- = -rwxrwxr-x</p>
+<p>Linux文件特殊权限</p>
+<p>SUID：</p>
+<p>让用户在执行文件时暂时获取文件所有者的权限，例如sudo。该属性只能用于二进制可执行程序，其显示如下</p>
+<p>-rwsr-xr-x 1 root root 69708 Jun 1 11:53 /usr/bin/sudo</p>
+<p>SGID：</p>
+<p>对二进制可执行文件而言，让用户在执行程序时暂时获取程序用户组的权限，显示如下<br>
+-rwx--s--x 1 root root 24 Oct 14 00:05 /usr/bin/locate</p>
+<p>对于目录而言, 用户在次目录下的有效用户组将会变为该目录的用户组<br>
+SBIT：</p>
+<p>该属性仅对目录有效，用户在该目录下创建的文件和目录，仅有root和该用户才能删除</p>
+<p>drwxrwxrwt 12 root root 4096 Nov 20 11:11 /tmp</p>
+<p>设置这三个属性很简单 chmod 7755</p>
+<p>其中第一个7是特殊属性 ， 4: SUID, 2: SGID, 1： SBIT</p>
+<p>route : 路由管理命令</p>
+<p>route add -net 192.168.0 netmask 255.255.255.0 gw 10.8.1.1</p>
+<p>添加路由</p>
+<p>-net : 表示这是一个网域</p>
+<p>-host : 表示这是一个具体主机</p>
+<p>netmask， gw： 子网掩码， 网关</p>
+<p>route -n</p>
+<p>查看路由状态， -n 不显示主机名称，直接显示ip</p>
+<p>route del -net 192.168.2.0</p>
+<p>删除路由</p>
+<p>alias: 设置命令别名</p>
+<p>alias lm='ls -l | more'</p>
+<p>以后执行lm命令的时候就相当与执行了 ls -l | more</p>
+<p>unalias: 取消别名</p>
+<p>unalias lm</p>
+<p>history: 查看历史命令</p>
+<p>linux bash执行的历史命令都会存放在 ~/.bash_history，每次注销bash的时候会将内存中的history内容写入文件，history命令查看的是内存中的历史命令</p>
+<p>history 10: 查看最后的10条历史命令</p>
+<p>history -w: 强制将内存中的历史写入~/.bash_history 文件</p>
+<p>!number: 执行第 number 条历史命令</p>
+<p>!command： 执行 history中以 command 开头的最近的那条历史命令</p>
+<p>!!: 执行上一条历史命令</p>
+<p>cut： 切分输出内容</p>
+<p>cut infile -d ':' -f 2</p>
+<p>-d: 切分的分割符</p>
+<p>-f: 要选取的切分后的列号</p>
+<p>cut -c 5-12</p>
+<p>获取每行的第5至12个字符</p>
+<p>tr： 删除或替换信息内容</p>
+<p>cat test | tr -d ':'</p>
+<p>删除 ： 符号</p>
+<p>cat test | tr '[a-z]' '[A-Z]'</p>
+<p>将小写字母替换成大写字母</p>
+<p>col： 转换tab和其他特殊字符</p>
+<p>cat test | col -x</p>
+<p>将tab转换为对等的空格</p>
+<p>cat test | col -b</p>
+<p>所有反斜杠 \ 只保留反斜杠最后连接的那个字符</p>
+<p>join： 合并两个文件中含有相同数据的行</p>
+<p>join -t ':' -1 4 ~/test -2 3 ~/test2</p>
+<p>用分隔符 : 切分每一行的数据，若第一个文件的第四列和第二个文件的第三列相同，则合并两行，默认是比较每行的第一列，如果相同则合并</p>
+<p>paste： 合并两个文件的内容，以tab隔开</p>
+<p>paste file1 file2</p>
+<p>expand: 将tab替换成空格</p>
+<p>expand file -t 10</p>
+<p>将file的tab编程10个空格</p>
+<p>split： 文件大小切割</p>
+<p>split -b 300k test TMP</p>
+<p>将test文件按照300k每个的大小切分，切分出来的文件前缀是 TMP， 他们是 TMPaa TMPab TMPac ...</p>
+<p>split -l 10 test TMP</p>
+<p>将test文件按照每10行切分一次切分</p>
+<p>time： 计算命令执行时间</p>
+<p>time ls</p>
+<p>sort: 对输出进行排序</p>
+<p>cat ~/test | sort</p>
+<p>cat ~/test | sort -t ':' -k 3</p>
+<p>用：号切割，并按照第3列排序</p>
+<p>last | cut -d ' ' -f 1 | sort</p>
+<p>uniq: 将连续重复的数据只显示一行</p>
+<p>last | cut -d ' ' -f 1 | sort | uniq -c</p>
+<p>统计所有重复的行的条数</p>
+<p>tee: 双向重定向</p>
+<p>last | tee last.list</p>
+<p>将last的输出同时输出到stdout也重定向到last.list</p>
+<p>last | tee -a last.list</p>
+<p>-a: append，即追加到文件尾</p>
+<p>bash判断命令test 与 []</p>
+<p>test用于判断变量属性，它的结果不会输出，但是通过返回信号表示，例如运行完以后可以通过<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;&amp;&#039; at position 10: ?来查看结果,或者&amp;̲&amp; || 来控制后续命令的执行…'>?来查看结果,或者&amp;&amp; || 来控制后续命令的执行
+复制代码 alexis@Smilodon:~/scripts</span> ls sh01.sh sh02.sh sh03.sh alexis@Smilodon:~/scripts$ test -e alexis@Smilodon:~/scripts$ echo <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>?</mo><mn>0</mn><mi>a</mi><mi>l</mi><mi>e</mi><mi>x</mi><mi>i</mi><mi>s</mi><mi mathvariant="normal">@</mi><mi>S</mi><mi>m</mi><mi>i</mi><mi>l</mi><mi>o</mi><mi>d</mi><mi>o</mi><mi>n</mi><mo>:</mo><mtext> </mtext><mi mathvariant="normal">/</mi><mi>s</mi><mi>c</mi><mi>r</mi><mi>i</mi><mi>p</mi><mi>t</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">? 0 alexis@Smilodon:~/scripts</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mclose">?</span><span class="mord">0</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">e</span><span class="mord mathdefault">x</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mord">@</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault">m</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mord mathdefault">o</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mspace nobreak"> </span><span class="mord">/</span><span class="mord mathdefault">s</span><span class="mord mathdefault">c</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">i</span><span class="mord mathdefault">p</span><span class="mord mathdefault">t</span><span class="mord mathdefault">s</span></span></span></span> test -e sh01.sh &amp;&amp; echo &quot;exist&quot; || echo &quot;not exist&quot; exist alexis@Smilodon:~/scripts$ test -e nofile &amp;&amp; echo &quot;exist&quot; || echo &quot;not exist&quot; not exist alexis@Smilodon:~/scripts$ 复制代码</p>
+<p>其他判断参数如下</p>
+<p>测试的标志	代表意义</p>
+<p>关於某个档名的『文件类型』判断，如 test -e filename 表示存在否 -e	该『档名』是否存在？(常用) -f	该『档名』是否存在且为文件(file)？(常用) -d	该『档名』是否存在且为目录(directory)？(常用) -b	该『档名』是否存在且为一个 block device 装置？ -c	该『档名』是否存在且为一个 character device 装置？ -S	该『档名』是否存在且为一个 Socket 文件？ -p	该『档名』是否存在且为一个 FIFO (pipe) 文件？ -L	该『档名』是否存在且为一个连结档？<br>
+关於文件的权限侦测，如 test -r filename 表示可读否 (但 root 权限常有例外) -r	侦测该档名是否存在且具有『可读』的权限？ -w	侦测该档名是否存在且具有『可写』的权限？ -x	侦测该档名是否存在且具有『可运行』的权限？ -u	侦测该档名是否存在且具有『SUID』的属性？ -g	侦测该档名是否存在且具有『SGID』的属性？ -k	侦测该档名是否存在且具有『Sticky bit』的属性？ -s	侦测该档名是否存在且为『非空白文件』？<br>
+两个文件之间的比较，如： test file1 -nt file2 -nt	(newer than)判断 file1 是否比 file2 新 -ot	(older than)判断 file1 是否比 file2 旧 -ef	判断 file1 与 file2 是否为同一文件，可用在判断 hard link 的判定上。 主要意义在判定，两个文件是否均指向同一个 inode 哩！<br>
+关於两个整数之间的判定，例如 test n1 -eq n2 -eq	两数值相等 (equal) -ne	两数值不等 (not equal) -gt	n1 大於 n2 (greater than) -lt	n1 小於 n2 (less than) -ge	n1 大於等於 n2 (greater than or equal) -le	n1 小於等於 n2 (less than or equal)<br>
+判定字串的数据 test -z string	判定字串是否为 0 ？若 string 为空字串，则为 true test -n string	判定字串是否非为 0 ？若 string 为空字串，则为 false。 注： -n 亦可省略 test str1 = str2	判定 str1 是否等於 str2 ，若相等，则回传 true test str1 != str2	判定 str1 是否不等於 str2 ，若相等，则回传 false<br>
+多重条件判定，例如： test -r filename -a -x filename -a	(and)两状况同时成立！例如 test -r file -a -x file，则 file 同时具有 r 与 x 权限时，才回传 true。 -o	(or)两状况任何一个成立！例如 test -r file -o -x file，则 file 具有 r 或 x 权限时，就可回传 true。 !	反相状态，如 test ! -x file ，当 file 不具有 x 时，回传 true<br>
+使用中括号 [ ] 来判断，使用[ ]需要注意的有<br>
+括号两端和判断字符两旁必须有空格，如用 _ 表示空格，则是 [&quot;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>v</mi><mi>a</mi><mi>r</mi><mn>1</mn><mi mathvariant="normal">&quot;</mi><mo>=</mo><mo>=</mo><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">var1&quot;==&quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord">1</span><span class="mord">&quot;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord">&quot;</span></span></span></span>var2&quot;]</p>
+<p>变量变量用双引号扩起来，否则会出现 &quot;Too many arguments&quot; 的错误</p>
+<p>3） 字符串用双引号或单引号扩起来</p>
+<p>以下是shell示例脚本</p>
+<p>复制代码 #!/bin/bash</p>
+<p>use 'test' command to dump file properties</p>
+<p>echo &quot;Please enter a file name, and I will dump the file properties&quot; read -p &quot;Enter your file name here: &quot; filename</p>
+<p>判断该变量是否是个非空字符串</p>
+<p>test -z $filename &amp;&amp; echo &quot;You MUST input a filename&quot; &amp;&amp; exit 0</p>
+<p>判断文件是否存在</p>
+<p>test ! -e <span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;&amp;&#039; at position 10: filename &amp;̲&amp; echo &quot;file &#039;'>filename &amp;&amp; echo &quot;file &#039;</span>filename' DOES NOT exist&quot; &amp;&amp; exit 0</p>
+<p>检查文件类型与属性</p>
+<p>test -f $filename &amp;&amp; filetype=&quot;regular file&quot; test -d $filename &amp;&amp; filetype=&quot;directory&quot; test -r $filename &amp;&amp; perm=&quot;readable&quot; test -w <span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;&amp;&#039; at position 10: filename &amp;̲&amp; perm=&quot;'>filename &amp;&amp; perm=&quot;</span>perm writable&quot; test -x <span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;&amp;&#039; at position 10: filename &amp;̲&amp; perm=&quot;'>filename &amp;&amp; perm=&quot;</span>perm executable&quot;</p>
+<p>输出文件属性</p>
+<p>echo &quot;File '$filename' is a $filetype&quot; echo &quot;And the permissions are : $perm&quot; 复制代码</p>
+<p>复制代码 #!/bin/bash</p>
+<p>test []</p>
+<p>read -p &quot;Please input (Y/N)&quot; yn</p>
+<p>使用 -o 表示 or</p>
+<p>[ &quot;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>y</mi><mi>n</mi><mi mathvariant="normal">&quot;</mi><mo>=</mo><mo>=</mo><mi mathvariant="normal">&quot;</mi><mi>Y</mi><mi mathvariant="normal">&quot;</mi><mo>−</mo><mi>o</mi><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">yn&quot; == &quot;Y&quot; -o &quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord mathdefault">n</span><span class="mord">&quot;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord">&quot;</span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span><span class="mord">&quot;</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">o</span><span class="mord">&quot;</span></span></span></span>yn&quot; == &quot;y&quot; ] &amp;&amp; echo &quot;OK, continue&quot; &amp;&amp; exit 0 [ &quot;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>y</mi><mi>n</mi><mi mathvariant="normal">&quot;</mi><mo>=</mo><mo>=</mo><mi mathvariant="normal">&quot;</mi><mi>N</mi><mi mathvariant="normal">&quot;</mi><mo>−</mo><mi>o</mi><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">yn&quot; == &quot;N&quot; -o &quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord mathdefault">n</span><span class="mord">&quot;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord">&quot;</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mord">&quot;</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">o</span><span class="mord">&quot;</span></span></span></span>yn&quot; == &quot;n&quot; ] &amp;&amp; echo &quot;OK, interrupt&quot; &amp;&amp; exit 0 echo &quot;I don't know what you choice is&quot; &amp;&amp; exit 0 复制代码</p>
+<p>id : 显示用户的用户id和用户组id信息</p>
+<p>alexis@Smilodon:~/scripts$ id alexis uid=1000(alexis) gid=1000(alexis) groups=1000(alexis),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),109(lpadmin),124(sambashare)</p>
+<p>finger ： 显示用户信息</p>
+<p>复制代码 alexis@Smilodon:~/scripts$ finger alexis Login: alexis Name: Alexis Directory: /home/alexis Shell: /bin/bash On since Wed Jan 16 17:32 (CST) on tty7 1 hour 35 minutes idle On since Wed Jan 16 17:56 (CST) on pts/0 from :0.0 No mail. No Plan. 复制代码</p>
+<p>newgrp : 更改当前用户的有效群组(创建文件时显示的群组)</p>
+<p>newgrp sudo : 把当前用户有效群组改为sudo</p>
+<p>su : 切换用户身份</p>
+<p>su - : 以login-shell的方式切换到root，会重新读出login-shell配置</p>
+<p>su -l alexis : 以login-shell的方式切换到alexis</p>
+<p>sudo与sudoers文件</p>
+<p>要使用sudo命令必须通过sudoers文件授权，切换到root用户编辑sudoers文件，加入一下行</p>
+<p>alexis ALL=（ALL） ALL</p>
+<p>%sudo ALL=(ALL) ALL</p>
+<p>第一列表示授权的用户或用户组(带%的为用户组)</p>
+<p>第二列的ALL表示可以从任何ip的主机使用sudo</p>
+<p>第三列的(ALL)表示alexis可以通过sudo切换为任何用户下达命令</p>
+<p>第四列的ALL表示用户可以通过sudo下达所有命令</p>
+<p>w, who : 查看当前在线用户状况</p>
+<p>lastlog: 查看所有用户最后登录情况</p>
+<p>write ： 发送信息给其他在线用户</p>
+<p>write alexis pst/1 ： 发送消息给 pst/1 的 alexis</p>
+<p>mesg [y/n] : 接受或拒绝write的消息(root的消息除外)</p>
+<p>wall ： 广播信息给所有用户</p>
+<p>wall &quot;I will shutdown the system in 3 minutes&quot;</p>
+<p>一次性计划任务 at 的使用</p>
+<p>at ： 可以执行一次计划任务，并且有nohup效果，即不会因为会话结束而被中断</p>
+<p>at的用户管理文件是/etc/at.allow /etc/at.deny</p>
+<p>存在at.allow，则在at.allow文件中的所有用户可以执行at任务，不存在的用户不可执行at任务<br>
+2.存在at.deny，则在at.deny文件中的用户不可执行at人物，不存在的用户可以执行at任务</p>
+<p>3.如果两个文件都不存在，则只有root可执行at任务</p>
+<p>命令格式</p>
+<p>at -l 或 atq ： 查看所有at任务</p>
+<p>atrm [jobid] : 删除第jobid号任务</p>
+<p>at TIME : 在TIME时间内执行任务，TIME可以是HH:MM， HH：MM yyyy-mm-dd, now +5 minutes, 04pm +3 days</p>
+<p>之后会进入一个shell，将你要执行的命令输入在shell中，最后ctrl+d(EOF)退出</p>
+<p>周期性计划任务crontab</p>
+<p>crontab ： 可以执行周期性计划任务，此命令的计划任务是针对用户而言的</p>
+<p>crontab的管理文件是/etc/cron.allow, /etc/cron.deny.其管理规则与at的相同</p>
+<p>crontab -u username -l : 列出某用户的所有计划任务，不加-u为列出当前用户的任务</p>
+<p>crontab -r : 删除所有计划任务</p>
+<p>crontab -e : 编辑计划任务，此计划任务的文件一般是自动创建于/var/spool/cron文件夹内</p>
+<p>编辑计划任务的格式</p>
+<p>0 12 * * * mail dmtsai -s &quot;at 12:00&quot; &lt; /home/dmtsai/.bashrc 计划任务一共6个栏位，分别表示</p>
+<p>代表意义	分钟	小时	日期	月份	周	命令 数字范围	0-59	0-23	1-31	1-12	0-7	需要执行的命令</p>
+<p>需要注意的是：周栏位的0和7都代表周日，且周不能与日月同时使用，否则会有问题，下面还有一些特殊的表示方法</p>
+<p>特殊字符	代表意义 *(星号)	代表任何时刻都接受的意思！举例来说，范例一内那个日、月、周都是 * ， 就代表著『不论何月、何日的礼拜几的 12:00 都运行后续命令』的意思！ ,(逗号)	代表分隔时段的意思。举例来说，如果要下达的工作是 3:00 与 6:00 时，就会是： 0 3,6 * * * command 时间参数还是有五栏，不过第二栏是 3,6 ，代表 3 与 6 都适用！ -(减号)	代表一段时间范围内，举例来说， 8 点到 12 点之间的每小时的 20 分都进行一项工作： 20 8-12 * * * command 仔细看到第二栏变成 8-12 喔！代表 8,9,10,11,12 都适用的意思！ /n(斜线)	那个 n 代表数字，亦即是『每隔 n 单位间隔』的意思，例如每五分钟进行一次，则： */5 * * * * command 很简单吧！用 * 与 /5 来搭配，也可以写成 0-59/5 ，相同意思！</p>
+<p>如果是要编辑系统的计划任务，而不是针对用户的计划任务，可以使用/etc/crontab文件，编辑他</p>
+<p>复制代码</p>
+<p>/etc/crontab: system-wide crontab</p>
+<p>Unlike any other crontab you don't have to run the `crontab'</p>
+<p>command to install the new version when you edit this file</p>
+<p>and files in /etc/cron.d. These files also have username fields,</p>
+<p>that none of the other crontabs do.</p>
+<p>SHELL=/bin/sh PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin</p>
+<p>m h dom mon dow user command</p>
+<p>17 * * * * root cd / &amp;&amp; run-parts --report /etc/cron.hourly 25 6 * * * root test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.daily ) 47 6 * * 7 root test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.weekly ) 52 6 1 * * root test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.monthly )</p>
+<p>复制代码 注意这个文件和crontab命令的区别，他多了一个user栏位，这里用来标注命令的运行者，其他地方和使用crontab命令一样</p>
+<p>nohup : 无终止运行命令</p>
+<p>使用nohup运行命令可以使命令在session断开后继续运行，比如用ssh登录的时候</p>
+<p>nohup ./test.sh &amp;</p>
+<p>这样test.sh在退出ssh登录后依然运行</p>
+<p>pstree : 以树状形式现实进程关系</p>
+<p>pstree -Aup</p>
+<p>A : 程序间用ascii字节连接</p>
+<p>u : 显示进程所属用户id</p>
+<p>p : 现实进程pid</p>
+<p>dmesg : 显示开机时内核检测的硬件信息</p>
+<p>fuser : 通过文件显示使用该文件的用户</p>
+<p>fuser -uv sh01.sh</p>
+<p>u : 除了显示pid，也显示pid对应的用户名</p>
+<p>v : 现实详细的文件相关信息， ACCESS 和 COMMAND</p>
+<p>ACCESS有以下几种</p>
+<p>c ：此程序在当前的目录下(非次目录)； e ：可被触发为运行状态； f ：是一个被开启的文件； r ：代表顶层目录 (root directory)； F ：该文件被开启了，不过在等待回应中； m ：可能为分享的动态函式库； COMMAND 是使用该文件的命令</p>
+<p>modprobe : 模块管理命令</p>
+<p>modprobe vfat : 加载vfat模块</p>
+<p>modprobe -r vfat : 删除vfat模块</p>
+<p>modprobe -l : 列出所有可用模块</p>
+<p>lsmod : 列出已加载模块</p>
+<p>modinfo : 查看模块详情</p>
+<p>modinfo vfat</p>
+<p>man hier : Description of the file system hierarchy</p>
+<p>cat /etc/issue : 查看linux的发行版本</p>
+<p>rsync : 将远程主机数据同步到本地</p>
+<p>rsync -avzP bkuser@192.168.10.1:/bk/remotebackup /localbackup</p>
+<p>将远端的 remotebackup 备份到本地</p>
+<p>-a 参数，相当于-rlptgoD，-r 是递归 -l 是链接文件，意思是拷贝链接文件；-p 表示保持文件原有权限；-t 保持文件原有时间；-g 保持文件原有用户组；-o 保持文件原有属主；-D 相当于块设备文件； -z 传输时压缩； -P 传输进度； -v 传输时的进度等信息，和-P有点关系，自己试试。可以看文档；</p>
+<p>rsync -chavzP --rsync-path=&quot;sudo rsync&quot; source 192.168.1.1:/dst</p>
+<p>使用 sudo 用户将数据 rsync 到 dst</p>
+<p>apt-get update : 跟新软件列表 apt-get upgrade : 更新现有软件 apt-get dist-upgrade : 更新disribution</p>
+<p>sar -n DEV 1 100</p>
+<p>查看网络流量, 每1秒输出一次, 输出100次, 输出内容</p>
+<p>sar 还可以监控cpu -u, 内存 -r 具体看man</p>
+<p>mac</p>
+<p>lsof -i -P: 可以用来查看端口</p>
+<p>-i: 只显示网络地址</p>
+<p>-P: 让端口号不会转化成端口名</p>
+<p>sudo tcpdump -X -i lo0 src host 127.0.0.1 and port 8081</p>
+<p>-X: 将数据转换成ASCII</p>
+<p>-i: 指定网卡</p>
+<p>src: 指定源地址</p>
+<p>dest: 指定目标地址</p>
+<p>port: 端口</p>
+<p>stty: tty 设置</p>
+<p>stty -ixon 开启 XON 流控制, 开启这个以后 reverse search(ctrl+r) 可以使用 ctrl+r ctrl+s 来向前向后查找</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/OM99oRtav" class="tag">
+                    linux
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/java-get-url">
+                  <h3 class="post-title">
+                    java获取当前路径的几种方法
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

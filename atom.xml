@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-08-12T09:10:03.046Z</updated>
+    <updated>2019-08-12T09:17:27.604Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,149 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[Python 生成器原理详解]]></title>
+        <id>https://skytotwo.github.io//post/python-generators</id>
+        <link href="https://skytotwo.github.io//post/python-generators">
+        </link>
+        <updated>2019-08-12T09:11:26.000Z</updated>
+        <summary type="html"><![CDATA[<p>原文出处： MichaelDiBernardo   译文出处：你逗比<br>
+这篇文章是对 500 Lines or Less 一书中高效爬虫一章的部分翻译，原文在此 -&gt; How Python Generators Work。建议结合《流畅的 Python》食用。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>原文出处： MichaelDiBernardo   译文出处：你逗比<br>
+这篇文章是对 500 Lines or Less 一书中高效爬虫一章的部分翻译，原文在此 -&gt; How Python Generators Work。建议结合《流畅的 Python》食用。</p>
+<!-- more --> 
+<p>在掌握 Python 生成器之前，你必须了解常规 Python 函数的工作原理。通常，当一个 Python 函数调用子程序（subroutine）时，这个子程序将一直持有控制权，只有当子程序结束（返回或者抛出异常）后，控制权才还给调用者：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; def foo():
+...     bar()
+...
+&gt;&gt;&gt; def bar():
+...     pass
+</code></pre>
+<p>标准的 Python 解释器是用 C 写的。解释器用一个叫做 PyEval_EvalFrameEx 的 C 函数来执行 Python 函数。它接受一个 Python 的堆栈帧（stack frame）对象，并在这个堆栈帧的上下文中执行 Python 字节码。这是 foo 的字节码：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; import dis
+&gt;&gt;&gt; dis.dis(foo)
+  2           0 LOAD_GLOBAL              0 (bar)
+              3 CALL_FUNCTION            0 (0 positional, 0 keyword pair)
+              6 POP_TOP
+              7 LOAD_CONST               0 (None)
+             10 RETURN_VALUE
+</code></pre>
+<p>foo 函数将 bar 加载到堆栈中并调用它，然后从堆栈中弹出返回值，最后加载并返回 None。</p>
+<p>当 PyEval_EvalFrameEx 遇到 CALL_FUNCTION 字节码的时候，它会创建一个新的 Python 堆栈帧，然后用这个新的帧作为参数递归调用 PyEval_EvalFrameEx 来执行 bar。</p>
+<p>Python 的堆栈帧是分配在堆内存中的，理解这一点非常重要！Python 解释器是个普通的 C 程序，所以它的堆栈帧就是普通的堆栈。但是它操作的 Python 堆栈帧是在堆上的。除了其他惊喜之外，这意味着 Python 的堆栈帧可以在它的调用之外存活。(FIXME: 可以在它调用结束后存活)。要以交互方式查看，请从 bar 内保存当前帧：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; import inspect
+&gt;&gt;&gt; frame = None
+&gt;&gt;&gt; def foo():
+...     bar()
+...
+&gt;&gt;&gt; def bar():
+...     global frame
+...     frame = inspect.currentframe()
+...
+&gt;&gt;&gt; foo()
+&gt;&gt;&gt; # The frame was executing the code for 'bar'.
+&gt;&gt;&gt; frame.f_code.co_name
+'bar'
+&gt;&gt;&gt; # Its back pointer refers to t
+&gt;&gt;&gt; def bar():
+...     global frame
+...     frame = inspect.currentframe()he frame for 'foo'.
+&gt;&gt;&gt; caller_frame = frame.f_back
+&gt;&gt;&gt; caller_frame.f_code.co_name
+'foo'
+</code></pre>
+<p><img src="http://picture.totoro.site/images/2019/08/12/20180411135711_504.png" alt="20180411135711_504.png"></p>
+<p>现在这项技术被用到了 Python 生成器（generator）上——使用代码对象和堆栈帧这些相同的组件来产生奇妙的效果。</p>
+<p>这是一个生成器函数（generator function）：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; def gen_fn():
+...     result = yield 1
+...     print('result of yield: {}'.format(result))
+...     result2 = yield 2
+...     print('result of 2nd yield: {}'.format(result2))
+...     return 'done'
+...
+</code></pre>
+<p>当 Python 将 gen_fn 编译为字节码时，它会看到 yield 语句，然后知道 gen_fn 是个生成器函数，而不是普通函数。它会设置一个标志来记住这个事实：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; # The generator flag is bit position 5.
+&gt;&gt;&gt; generator_bit = 1 &lt;&lt; 5
+&gt;&gt;&gt; bool(gen_fn.__code__.co_flags &amp; generator_bit)
+True
+</code></pre>
+<p>当你调用一个生成器函数时，Python 会看到生成器标志，实际上并不运行该函数，而是创建一个生成器（generator）：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; gen = gen_fn()
+&gt;&gt;&gt; type(gen)
+&lt;class 'generator'&gt;
+</code></pre>
+<p>Python 生成器封装了一个堆栈帧和一个对生成器函数代码的引用，在这里就是对 gen_fn 函数体的引用：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; gen.gi_code.co_name
+'gen_fn'
+</code></pre>
+<p>调用 gen_fn 产生的所有生成器都指向同一个代码对象，但是每个都有自己的堆栈帧。这个堆栈帧并不存在于实际的堆栈上，它在堆内存上等待着被使用<br>
+<img src="http://picture.totoro.site/images/2019/08/12/20180411135750_765.png" alt="20180411135750_765.png"><br>
+堆栈帧有个 “last instruction”(FIXME: translate this or not?) 指针，指向最近执行的那条指令。刚开始的时候 last instruction 指针是 -1，意味着生成器尚未开始：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; gen.gi_frame.f_lasti
+-1
+</code></pre>
+<p>当我们调用 send 时，生成器达到第一个 yield 处然后暂停执行。send 的返回值是 1，这是因为 gen 把 1 传给了 yield 表达式：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; gen.send(None)
+1
+</code></pre>
+<p>现在生成器的指令指针（instruction pointer）向前移动了 3 个字节码，这些是编译好的 56 字节的 Python 代码的一部分：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; gen.gi_frame.f_lasti
+3
+&gt;&gt;&gt; len(gen.gi_code.co_code)
+56
+</code></pre>
+<p>生成器可以在任何时候被任何函数恢复执行，因为它的堆栈帧实际上不在堆栈上——它在堆（内存）上。生成器在调用调用层次结构中的位置不是固定的，它不需要遵循常规函数执行时遵循的先进后出顺序。生成器被是被解放了的，它像云一样浮动。</p>
+<p>我们可以将 “hello” 发送到这个生成器中，它会成为 yield 表达式的值，然后生成器会继续执行，直到产出（yield）了 2：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; gen.send('hello')
+result of yield: hello
+2
+</code></pre>
+<p>现在这个生成器的堆栈帧包含局部变量 result：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; gen.gi_frame.f_locals
+{'result': 'hello'}
+
+</code></pre>
+<p>从 gen_fn 创建的其他生成器将具有自己的堆栈帧和局部变量。</p>
+<p>当我们再次调用 send 时，生成器将从它第二个 yield 处继续执行，然后以产生特殊异常 StopIteration 结束：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; gen.send('goodbye')
+result of 2nd yield: goodbye
+Traceback (most recent call last):
+    File &quot;&lt;input&gt;&quot;, line 1, in &lt;module&gt;
+StopIteration: done
+
+</code></pre>
+<p>异常有一个值，它是那个生成器的返回值：字符串 “done”。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[微信小程序支付  带java后端]]></title>
         <id>https://skytotwo.github.io//post/wechat-pay-java</id>
@@ -2037,176 +2180,6 @@ temp = new File(path + File.separator + tempList[i]);
    return flag;
 }
 }
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[网页登陆页面设置Cookie]]></title>
-        <id>https://skytotwo.github.io//post/js-cookie-set</id>
-        <link href="https://skytotwo.github.io//post/js-cookie-set">
-        </link>
-        <updated>2019-08-05T04:11:45.000Z</updated>
-        <summary type="html"><![CDATA[<p>cookie是保存http协议状态的一个重要手段，基本上所有网站都会使用到cookie机制，cookie是session的一个实现方式，当然现在还有token来代替cookie，但cookie依旧是很重要的一个模式，这里在js中实现设置cookie进而实现登陆访问。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>cookie是保存http协议状态的一个重要手段，基本上所有网站都会使用到cookie机制，cookie是session的一个实现方式，当然现在还有token来代替cookie，但cookie依旧是很重要的一个模式，这里在js中实现设置cookie进而实现登陆访问。</p>
-<!-- more -->
-<pre><code class="language-javascript">&lt;%@ page contentType=&quot;text/html; charset=GB2312&quot;%&gt;
-&lt;%@ page import=&quot;tellhow.commonweb.system.*&quot; %&gt;
-&lt;%
-   String useraccounts=&quot;&quot;;
-   String userpassword=&quot;&quot;;
-   String Messageinfo=&quot;请输入用户信息&quot;;
-   useraccounts=request.getParameter(&quot;accounts&quot;);
-   userpassword=request.getParameter(&quot;password&quot;);
-   String flag = request.getParameter(&quot;flag&quot;)==null?&quot;&quot;:request.getParameter(&quot;flag&quot;);//flag为1则为从oms系统登陆 
-   if(useraccounts!=null&amp;&amp;userpassword!=null){
-   if(!useraccounts.equals(&quot;null&quot;)&amp;&amp;!useraccounts.equals(&quot;&quot;)&amp;&amp;!userpassword.equals(&quot;null&quot;)&amp;&amp;!userpassword.equals(&quot;&quot;)){
-   loginBean myloginbean=new loginBean();
-   myloginbean.init(pageContext);
-   int retval;
-   retval=myloginbean.checkuserlogin(useraccounts,userpassword,flag);
-   switch(retval)
-   {
-      case 1:
-         // response.sendRedirect(&quot;system/index_manage.jsp&quot;);
-         // response.sendRedirect(&quot;gz/index.jsp&quot;);
-         String url = request.getContextPath() + &quot;/getUserMsg.do?method=getUserInfo&amp;username=&quot; + useraccounts;
-         System.out.println(url);
-         response.sendRedirect(url);
-      break;
-      case -1:
-          Messageinfo=&quot;您输入的密码不对，请重新输入!&quot;;
-      break;
-      case -2:
-          Messageinfo=&quot;您输入的用户不存在，请重新输入!&quot;;
-      break;
-   }
-   }
- }
-%&gt;
-&lt;script language=&quot;javascript&quot; type=&quot;text/javascript&quot;&gt;
-	function window_Onload(){
-	  loginfrm.accounts.focus();
-	}
-	function onInputKeyup(){
-	  if(event.keyCode==13){
-	  		if(event.srcElement.name==&quot;accounts&quot;){
-	      		loginfrm.password.focus();
-	      		return;
-    		}
-    		if(event.srcElement.name==&quot;password&quot;){
-	      		loginfrm.submit();
-	      		return;
-    		}
-  	  }
-	}
-&lt;/script&gt;
-&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;
-&quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
-&lt;html&gt;
-&lt;head&gt;
-&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=gb2312&quot;&gt;
-&lt;title&gt;网站管理系统&lt;/title&gt;
-&lt;!--[if lte IE 6]&gt;
-&lt;script src=&quot;../css/mycss/js/DD_belatedPNG_0.0.8a.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
-&lt;script type=&quot;text/javascript&quot;&gt;
-    DD_belatedPNG.fix('*');
-&lt;/script&gt;
-&lt;![endif]--&gt;
-&lt;link href=&quot;css/mycss/style/public.css&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot; /&gt;
-&lt;script src=&quot;css/mycss/js/jquery.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;css/mycss/js/index.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;js/jquery-1.8.3.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;js/jquery.cookie.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
-&lt;/head&gt;
-&lt;body  onload=&quot;window_Onload();getCookie();&quot;&gt;
-&lt;FORM action=login.jsp method=post name=&quot;loginfrm&quot;&gt;
-&lt;div class=&quot;main_area&quot;&gt;
-    &lt;div class=&quot;main_left_area&quot;&gt;&lt;img src=&quot;css/mycss/images/logo_bg01.png&quot; width=&quot;280&quot; height=&quot;130&quot; /&gt;&lt;/div&gt;
-    &lt;div class=&quot;main_mid_area&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;main_right_area&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;main_info_area&quot;&gt;
-        &lt;div class=&quot;fill01_area&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;title_area&quot;&gt;&lt;img src=&quot;css/mycss/images/main_bg02.png&quot; width=&quot;487&quot; height=&quot;46&quot; alt=&quot;网站管理系统&quot;/&gt;&lt;/div&gt;
-        &lt;div class=&quot;fill02_area&quot;&gt;&lt;/div&gt;
-        &lt;div class=&quot;login_area&quot;&gt;
-            &lt;div class=&quot;login_left_area&quot;&gt;
-                &lt;div class=&quot;fill03_area&quot;&gt;&lt;/div&gt;
-                &lt;div class=&quot;login_info_area&quot;&gt;
-                    &lt;span&gt;用户名：&lt;/span&gt;&lt;input name=&quot;accounts&quot; id=&quot;accounts&quot; type=&quot;text&quot; onkeyup=&quot;onInputKeyup();&quot;&gt;
-                    &lt;div class=&quot;fill04_area&quot;&gt;&lt;/div&gt;
-                    &lt;span&gt;密　码：&lt;/span&gt;&lt;input name=&quot;password&quot; id=&quot;password&quot; type=&quot;password&quot; onkeyup=&quot;onInputKeyup();&quot;&gt;
-                &lt;/div&gt;
-            &lt;/div&gt;
-            &lt;div class=&quot;login_right_area&quot;&gt;
-                &lt;a  onclick=&quot;savedata();&quot;&gt;&lt;/a&gt;
-            &lt;/div&gt;
-            &lt;!-- &lt;a class=&quot;href03_area&quot; href=&quot;/login.jsp?accounts=guest&amp;password=1&quot;&gt;&lt;span &gt;&lt;/span&gt;&lt;font face=&quot;verdana&quot; size=&quot;3&quot; color=&quot;black&quot;&gt; 来宾访问&lt;/font&gt;&lt;/a&gt; --&gt;
-        &lt;/div&gt;
-        &lt;div class=&quot;login_href_area&quot;&gt;
-            &lt;input type=&quot;checkbox&quot; id=&quot;boxchange&quot; name=&quot;checkbox&quot; value=&quot;1&quot;/&gt;
-            &lt;a&gt;记住用户名密码&lt;/a&gt;
-            &lt;a class=&quot;href03_area&quot; href=&quot;/login.jsp?accounts=guest&amp;password=1&quot;&gt;&lt;/a&gt;
-        &lt;/div&gt;
-        &lt;div class=&quot;flag_area&quot;&gt;&lt;%=Messageinfo%&gt;&lt;/div&gt;
-        &lt;div &gt;&lt;/div&gt;
-        &lt;div &gt;&lt;/div&gt;
-        &lt;div class=&quot;login_href_areabottom&quot;&gt;&lt;font &gt;调控中心用户请使用OMS账户登录,其他用户请点击“来宾访问”&lt;/font&gt;&lt;/div&gt;
-        &lt;div class=&quot;foot_area&quot;&gt;广州供电局有限公司 版权所有  技术支持:泰豪软件&lt;/div&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
-&lt;/form&gt;
-&lt;/body&gt;
-&lt;script type=&quot;text/javascript&quot;&gt;
-	var checkstate = null;//标识符，是为了在保存前调用设置cookie方法的进行判断
-	$(&quot;#boxchange&quot;).change(function() { 
-		if(document.all.checkbox.checked){ 
-        	 checkstate = &quot;1&quot;;
-         }else{
-        	 checkstate = &quot;0&quot;;
-        }
-         
-	});
-	function savedata(){
-		//存储cookie
-	  	if(&quot;1&quot; == checkstate){  
-				setCookie();
-				//$.cookie(&quot;pwd&quot;,&quot;&quot;);
-		}else if(&quot;0&quot; == checkstate){
-			$.cookie('login_code', null, { expires: -1 });
-	  		$.cookie('pwd', null, { expires: -1 });
-		}
-		loginfrm.submit();
-	}
-		
-	//设置cookie
-	function setCookie(){ //设置cookie    
-       var loginCode = $(&quot;#accounts&quot;).val(); //获取用户名信息    
-       var pwd = $(&quot;#password&quot;).val(); //获取登陆密码信息    
-       $.cookie('login_code',loginCode, { expires: 7 });//调用jquery.cookie.js中的方法设置cookie中的用户名    
-       $.cookie('pwd',pwd, { expires: 7 });//调用jquery.cookie.js中的方法设置cookie中的登陆密码
-    }   
-	function getCookie(){ //获取cookie    
-        var loginCode = $.cookie('login_code'); //获取cookie中的用户名    
-        var pwd =  $.cookie('pwd'); //获取cookie中的登陆密码    
-        if(loginCode){//用户名存在的话把用户名填充到用户名文本框    
-           $(&quot;#accounts&quot;).val(loginCode);    
-        }    
-        if(pwd){//密码存在的话把密码填充到密码文本框    
-           $(&quot;#password&quot;).val(pwd);   
-        } 
-      //选中保存秘密的复选框
-        if(loginCode != null &amp;&amp; loginCode != '' &amp;&amp; pwd != null &amp;&amp; pwd != ''){
-        $(&quot;[name='checkbox']&quot;).attr(&quot;checked&quot;,&quot;true&quot;);   
-       	   checkstate = &quot;1&quot;;
-         }else{
-         	checkstate = &quot;0&quot;;
-      }
- }     
-
-&lt;/script&gt;
-&lt;/html&gt;
-
 </code></pre>
 ]]></content>
     </entry>

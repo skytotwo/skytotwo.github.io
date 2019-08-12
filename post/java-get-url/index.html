@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>java获取当前路径的几种方法 | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1565599046115">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1565599046115" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">java获取当前路径的几种方法</h2>
+            <div class="post-date">2019-08-12</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/java-2327538_960_720.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>java开发过程中经常需要获取当前路径，而java也有相应的内置函数来对此提供支持，下面来介绍一下。</p>
+<!-- more -->
+<p>1、利用System.getProperty()函数获取当前路径：<br>
+System.out.println(System.getProperty(&quot;user.dir&quot;));//user.dir指定了当前的路径</p>
+<p>2、使用File提供的函数获取当前路径：<br>
+File directory = new File(&quot;&quot;);//设定为当前文件夹<br>
+try{<br>
+System.out.println(directory.getCanonicalPath());//获取标准的路径<br>
+System.out.println(directory.getAbsolutePath());//获取绝对路径<br>
+}catch(Exceptin e){}</p>
+<p>File.getCanonicalPath()和File.getAbsolutePath()大约只是对于new File(&quot;.&quot;)和new File(&quot;..&quot;)两种路径有所区别。</p>
+<p>对于getCanonicalPath()函数，“.&quot;就表示当前的文件夹，而”..“则表示当前文件夹的上一级文件夹<br>
+对于getAbsolutePath()函数，则不管”.”、“..”，返回当前的路径加上你在new File()时设定的路径<br>
+至于getPath()函数，得到的只是你在new File()时设定的路径</p>
+<p>比如当前的路径为 C:/test ：<br>
+File directory = new File(&quot;abc&quot;);<br>
+directory.getCanonicalPath(); //得到的是C:/test/abc<br>
+directory.getAbsolutePath();    //得到的是C:/test/abc<br>
+direcotry.getPath();                    //得到的是abc</p>
+<p>File directory = new File(&quot;.&quot;);<br>
+directory.getCanonicalPath(); //得到的是C:/test<br>
+directory.getAbsolutePath();    //得到的是C:/test/.<br>
+direcotry.getPath();                    //得到的是.</p>
+<p>File directory = new File(&quot;..&quot;);<br>
+directory.getCanonicalPath(); //得到的是C:/<br>
+directory.getAbsolutePath();    //得到的是C:/test/..<br>
+direcotry.getPath();                    //得到的是..</p>
+<p>另外：System.getProperty()中的字符串参数如下：</p>
+<pre><code class="language-java">System.getProperty()参数大全 
+java.version                                Java Runtime Environment version  
+java.vendor                                Java Runtime Environment vendor  
+java.vendor.url                           Java vendor URL  
+java.home                                Java installation directory  
+java.vm.specification.version   Java Virtual Machine specification version  
+java.vm.specification.vendor    Java Virtual Machine specification vendor  
+java.vm.specification.name      Java Virtual Machine specification name  
+java.vm.version                        Java Virtual Machine implementation version  
+java.vm.vendor                        Java Virtual Machine implementation vendor  
+java.vm.name                        Java Virtual Machine implementation name  
+java.specification.version        Java Runtime Environment specification version  
+java.specification.vendor         Java Runtime Environment specification vendor  
+java.specification.name           Java Runtime Environment specification name  
+java.class.version                    Java class format version number  
+java.class.path                      Java class path  
+java.library.path                 List of paths to search when loading libraries  
+java.io.tmpdir                       Default temp file path  
+java.compiler                       Name of JIT compiler to use  
+java.ext.dirs                       Path of extension directory or directories  
+os.name                              Operating system name  
+os.arch                                  Operating system architecture  
+os.version                       Operating system version  
+file.separator                         File separator (&quot;/&quot; on UNIX)  
+path.separator                  Path separator (&quot;:&quot; on UNIX)  
+line.separator                       Line separator (&quot;/n&quot; on UNIX)  
+user.name                        User’s account name  
+user.home                              User’s home directory  
+user.dir                               User’s current working directory
+</code></pre>
+<h4 id="java中获取路径">JAVA中获取路径:</h4>
+<p><strong>1.jsp中取得路径：</strong></p>
+<p>以工程名为TEST为例：</p>
+<p>(1)得到包含工程名的当前页面全路径：request.getRequestURI()<br>
+结果：/TEST/test.jsp<br>
+(2)得到工程名：request.getContextPath()<br>
+结果：/TEST<br>
+(3)得到当前页面所在目录下全名称：request.getServletPath()<br>
+结果：如果页面在jsp目录下 /TEST/jsp/test.jsp<br>
+(4)得到页面所在服务器的全路径：application.getRealPath(&quot;页面.jsp&quot;)<br>
+结果：D:/resin/webapps/TEST/test.jsp<br>
+(5)得到页面所在服务器的绝对路径：absPath=new java.io.File(application.getRealPath(request.getRequestURI())).getParent();<br>
+结果：D:/resin/webapps/TEST</p>
+<p><strong>2.在类中取得路径：</strong></p>
+<p>(1)类的绝对路径：Class.class.getClass().getResource(&quot;/&quot;).getPath()<br>
+结果：/D:/TEST/WebRoot/WEB-INF/classes/pack/<br>
+(2)得到工程的路径：System.getProperty(&quot;user.dir&quot;)<br>
+结果：D:/TEST</p>
+<p><strong>3.在Servlet中取得路径：</strong></p>
+<p>(1)得到工程目录：request.getSession().getServletContext().getRealPath(&quot;&quot;) 参数可具体到包名。<br>
+结果：E:/Tomcat/webapps/TEST<br>
+(2)得到IE地址栏地址：request.getRequestURL()<br>
+结果：http://localhost:8080/TEST/test<br>
+(3)得到相对地址：request.getRequestURI()<br>
+结果：/TEST/test</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/wpLYFim1c" class="tag">
+                    java
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/java-regex">
+                  <h3 class="post-title">
+                    利用java正则表达式来解析并获取指定的字符串
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

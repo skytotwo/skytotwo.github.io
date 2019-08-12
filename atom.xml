@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-08-05T04:31:13.551Z</updated>
+    <updated>2019-08-12T08:37:29.206Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,99 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[java获取当前路径的几种方法]]></title>
+        <id>https://skytotwo.github.io//post/java-get-url</id>
+        <link href="https://skytotwo.github.io//post/java-get-url">
+        </link>
+        <updated>2019-08-12T08:31:12.000Z</updated>
+        <summary type="html"><![CDATA[<p>java开发过程中经常需要获取当前路径，而java也有相应的内置函数来对此提供支持，下面来介绍一下。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>java开发过程中经常需要获取当前路径，而java也有相应的内置函数来对此提供支持，下面来介绍一下。</p>
+<!-- more -->
+<p>1、利用System.getProperty()函数获取当前路径：<br>
+System.out.println(System.getProperty(&quot;user.dir&quot;));//user.dir指定了当前的路径</p>
+<p>2、使用File提供的函数获取当前路径：<br>
+File directory = new File(&quot;&quot;);//设定为当前文件夹<br>
+try{<br>
+System.out.println(directory.getCanonicalPath());//获取标准的路径<br>
+System.out.println(directory.getAbsolutePath());//获取绝对路径<br>
+}catch(Exceptin e){}</p>
+<p>File.getCanonicalPath()和File.getAbsolutePath()大约只是对于new File(&quot;.&quot;)和new File(&quot;..&quot;)两种路径有所区别。</p>
+<p>对于getCanonicalPath()函数，“.&quot;就表示当前的文件夹，而”..“则表示当前文件夹的上一级文件夹<br>
+对于getAbsolutePath()函数，则不管”.”、“..”，返回当前的路径加上你在new File()时设定的路径<br>
+至于getPath()函数，得到的只是你在new File()时设定的路径</p>
+<p>比如当前的路径为 C:/test ：<br>
+File directory = new File(&quot;abc&quot;);<br>
+directory.getCanonicalPath(); //得到的是C:/test/abc<br>
+directory.getAbsolutePath();    //得到的是C:/test/abc<br>
+direcotry.getPath();                    //得到的是abc</p>
+<p>File directory = new File(&quot;.&quot;);<br>
+directory.getCanonicalPath(); //得到的是C:/test<br>
+directory.getAbsolutePath();    //得到的是C:/test/.<br>
+direcotry.getPath();                    //得到的是.</p>
+<p>File directory = new File(&quot;..&quot;);<br>
+directory.getCanonicalPath(); //得到的是C:/<br>
+directory.getAbsolutePath();    //得到的是C:/test/..<br>
+direcotry.getPath();                    //得到的是..</p>
+<p>另外：System.getProperty()中的字符串参数如下：</p>
+<pre><code class="language-java">System.getProperty()参数大全 
+java.version                                Java Runtime Environment version  
+java.vendor                                Java Runtime Environment vendor  
+java.vendor.url                           Java vendor URL  
+java.home                                Java installation directory  
+java.vm.specification.version   Java Virtual Machine specification version  
+java.vm.specification.vendor    Java Virtual Machine specification vendor  
+java.vm.specification.name      Java Virtual Machine specification name  
+java.vm.version                        Java Virtual Machine implementation version  
+java.vm.vendor                        Java Virtual Machine implementation vendor  
+java.vm.name                        Java Virtual Machine implementation name  
+java.specification.version        Java Runtime Environment specification version  
+java.specification.vendor         Java Runtime Environment specification vendor  
+java.specification.name           Java Runtime Environment specification name  
+java.class.version                    Java class format version number  
+java.class.path                      Java class path  
+java.library.path                 List of paths to search when loading libraries  
+java.io.tmpdir                       Default temp file path  
+java.compiler                       Name of JIT compiler to use  
+java.ext.dirs                       Path of extension directory or directories  
+os.name                              Operating system name  
+os.arch                                  Operating system architecture  
+os.version                       Operating system version  
+file.separator                         File separator (&quot;/&quot; on UNIX)  
+path.separator                  Path separator (&quot;:&quot; on UNIX)  
+line.separator                       Line separator (&quot;/n&quot; on UNIX)  
+user.name                        User’s account name  
+user.home                              User’s home directory  
+user.dir                               User’s current working directory
+</code></pre>
+<h4 id="java中获取路径">JAVA中获取路径:</h4>
+<p><strong>1.jsp中取得路径：</strong></p>
+<p>以工程名为TEST为例：</p>
+<p>(1)得到包含工程名的当前页面全路径：request.getRequestURI()<br>
+结果：/TEST/test.jsp<br>
+(2)得到工程名：request.getContextPath()<br>
+结果：/TEST<br>
+(3)得到当前页面所在目录下全名称：request.getServletPath()<br>
+结果：如果页面在jsp目录下 /TEST/jsp/test.jsp<br>
+(4)得到页面所在服务器的全路径：application.getRealPath(&quot;页面.jsp&quot;)<br>
+结果：D:/resin/webapps/TEST/test.jsp<br>
+(5)得到页面所在服务器的绝对路径：absPath=new java.io.File(application.getRealPath(request.getRequestURI())).getParent();<br>
+结果：D:/resin/webapps/TEST</p>
+<p><strong>2.在类中取得路径：</strong></p>
+<p>(1)类的绝对路径：Class.class.getClass().getResource(&quot;/&quot;).getPath()<br>
+结果：/D:/TEST/WebRoot/WEB-INF/classes/pack/<br>
+(2)得到工程的路径：System.getProperty(&quot;user.dir&quot;)<br>
+结果：D:/TEST</p>
+<p><strong>3.在Servlet中取得路径：</strong></p>
+<p>(1)得到工程目录：request.getSession().getServletContext().getRealPath(&quot;&quot;) 参数可具体到包名。<br>
+结果：E:/Tomcat/webapps/TEST<br>
+(2)得到IE地址栏地址：request.getRequestURL()<br>
+结果：http://localhost:8080/TEST/test<br>
+(3)得到相对地址：request.getRequestURI()<br>
+结果：/TEST/test</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[利用java正则表达式来解析并获取指定的字符串]]></title>
         <id>https://skytotwo.github.io//post/java-regex</id>
@@ -1228,48 +1321,6 @@ response.setHeader(&quot;Content-disposition&quot;,&quot;attachment; filename=&q
 <pre><code class="language-javascript">$(&quot;table&quot;).attr(&quot;border&quot;,'0');
 	window.print();
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Django中 CSRF 理解 原理 及 使用]]></title>
-        <id>https://skytotwo.github.io//post/django-csrf</id>
-        <link href="https://skytotwo.github.io//post/django-csrf">
-        </link>
-        <updated>2019-08-05T03:25:42.000Z</updated>
-        <summary type="html"><![CDATA[<p>Django的设计中同样考虑到了csrf攻击问题，对此，使用middleware中间件来实现相关功能。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>Django的设计中同样考虑到了csrf攻击问题，对此，使用middleware中间件来实现相关功能。</p>
-<!-- more -->
-<p>分类：<br>
-django为用户实现防止跨站请求伪造的功能，通过中间件 django.middleware.csrf.CsrfViewMiddleware 来完成。而对于django中设置防跨站请求伪造功能有分为全局和局部。<br>
-全局：<br>
-中间件 django.middleware.csrf.CsrfViewMiddleware<br>
-局部：<br>
-@csrf_protect，为当前函数强制设置防跨站请求伪造功能，即便settings中没有设置全局中间件。<br>
-@csrf_exempt，取消当前函数防跨站请求伪造功能，即便settings中设置了全局中间件。</p>
-<p>Django中CSRF防护原理：<br>
-在用户访问django的可信站点时，django反馈给用户的表单中有一个隐含字段csrftoken，这个值是在服务器端随机生成的，每一次提交表单都会生成不同的值。当用户提交django的表单时，服务器校验这个表单的csrftoken是否和自己保存的一致，来判断用户的合法性。当用户被csrf攻击从其他站点发送精心编制的攻击请求时，由于其他站点不可能知道隐藏的csrftoken字段的信息这样在服务器端就会校验失败，攻击被成功防御，这样就能避免被 CSRF 攻击。</p>
-<ol>
-<li>在返回的 HTTP 响应的 cookie 里，django 会为你添加一个 csrftoken 字段，其值为一个自动生成的 token</li>
-<li>在所有的 POST 表单时，必须包含一个 csrfmiddlewaretoken 字段 （只需要在模板里加一个 tag， django 就会自动帮你生成，见下面）</li>
-<li>在处理 POST 请求之前，django 会验证这个请求的 cookie 里的 csrftoken 字段的值和提交的表单里的 csrfmiddlewaretoken 字段的值是否一样。如果一样，则表明这是一个合法的请求，否则，这个请求可能是来自于别人的 csrf 攻击，返回 403 Forbidden.</li>
-<li>在所有 ajax POST 请求里，添加一个 X-CSRFTOKEN header，其值为 cookie 里的 csrftoken 的值<br>
-Django中使用 CSRF 防护</li>
-<li>GET 请求不要用有副作用。任何处理 GET 请求的代码对资源的访问都一定要是“只读“的。</li>
-<li>启用 django.middleware.csrf.CsrfViewMiddleware 中间件</li>
-<li>使用POST 表单元素时，加上{% csrf_token %}</li>
-<li>渲染模块使用 RequestContext。RequestContext 会处理 csrf_token , 从而自动为表单添加一个名为 csrfmiddlewaretoken 的 input<br>
-Django中CSRF防护解析：</li>
-</ol>
-<p>csrftoken的生成方式如下：<br>
-md5_constructor(&quot;%s%s&quot; % (randrange(0, _MAX_CSRF_KEY), settings.SECRET_KEY)).hexdigest()<br>
-● 1<br>
-设置csrftoken:<br>
-response.set_cookie(settings.CSRF_COOKIE_NAME,request.META[&quot;CSRF_COOKIE&quot;], max_age = 60 * 60 * 24 * 7 * 52, domain=settings.CSRF_COOKIE_DOMAIN)<br>
-● 2<br>
-csrftoken与cookie中的token比较：<br>
-if not constant_time_compare(request_csrf_token, csrf_token):</p>
-<p>对于前后端分离的 ajax 去调用的话  需要在传递的参数里带上    csrfmiddlewaretoken: &quot;{{ csrf_token }}&quot;</p>
 ]]></content>
     </entry>
 </feed>

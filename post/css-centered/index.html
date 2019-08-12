@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>css图片居中(水平居中和垂直居中) | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1565600746867">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1565600746867" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">css图片居中(水平居中和垂直居中)</h2>
+            <div class="post-date">2019-08-12</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/1_OFsc0SD55jhi8cjo7aCA4w.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <p>css图片居中分css图片水平居中和垂直居中两种情况，有时候还需要图片同时水平垂直居中，下面分几种居中情况分别介绍:</p>
+ <!-- more -->
+<h4 id="css图片水平居中">css图片水平居中</h4>
+<p><strong>1.利用margin: 0 auto实现图片水平居中</strong></p>
+<p>利用margin: 0 auto实现图片居中就是在图片上加上css样式margin: 0 auto 如下：</p>
+<pre><code class="language-javascript">&lt;div style=&quot;text-align: center; width: 500px; border: green solid 1px;&quot;&gt;
+&lt;img alt=&quot;&quot; src=&quot;https://www.baidu.com/img/baidu_jgylogo3.gif&quot; style=&quot;margin: 0 auto;&quot; /&gt;
+&lt;/div&gt;
+</code></pre>
+<p><strong>2.利用文本的水平居中属性text-align: center</strong></p>
+<p>代码如下:</p>
+<pre><code class="language-javascript">&lt;div style=&quot;text-align: center; width: 500px; border: green solid 1px;&quot;&gt;
+&lt;img alt=&quot;&quot; src=&quot;https://www.baidu.com/img/baidu_jgylogo3.gif&quot; style=&quot;display: inline-block;&quot; /&gt;
+&lt;/div&gt;
+</code></pre>
+<h4 id="css图片垂直居中">css图片垂直居中</h4>
+<p><strong>1.利用高==行高实现图片垂直居中</strong></p>
+<p>这种方法是要注明高度才可以使用，代码如下：</p>
+<pre><code class="language-javascript">&lt;div style=&quot;text-align: center; width: 500px;height:200px; line-height:200px; border: green solid 1px;&quot;&gt;
+   &lt;img alt=&quot;&quot; src=&quot;https://www.baidu.com/img/baidu_jgylogo3.gif&quot; style=&quot;display: inline-block; vertical-align: middle;&quot; /&gt;
+&lt;/div&gt;
+</code></pre>
+<p><strong>2.利用table实现图片垂直居中</strong></p>
+<p>利用table的方法是利用了table的垂直居中属性，代码如下：</p>
+<p>这里使用display: table;和display: table-cell;来模拟table，这种方法并不兼容IE6/IE7，IE67不支持display: table，如果你不需要支持IE67那就可以用</p>
+<p>缺点：当你设置了display: table;可能会改变你的原有布局</p>
+<pre><code class="language-javascript">&lt;div style=&quot;text-align: center; width: 500px;height:200px; display: table;border: green solid 1px;&quot;&gt;
+   &lt;span style=&quot;display: table-cell; vertical-align: middle; &quot;&gt;
+       &lt;img alt=&quot;&quot; src=&quot;https://www.baidu.com/img/baidu_jgylogo3.gif&quot; style=&quot;display: inline-block;&quot; /&gt;
+   &lt;/span&gt;
+&lt;/div&gt;
+</code></pre>
+<p><strong>3.利用绝对定位实现图片垂直居中</strong></p>
+<p>如果已知图片的宽度和高度可以这样，代码如下：</p>
+<pre><code class="language-javascript">&lt;div style=&quot;width: 500px;height:200px; position: relative; border: green solid 1px;&quot;&gt;
+    &lt;img alt=&quot;&quot; src=&quot;https://www.baidu.com/img/baidu_jgylogo3.gif&quot; style=&quot;width: 120px; height: 40px;position: absolute; left:50%; top: 50%; margin-left: -60px;margin-top: -20px;&quot; /&gt;
+&lt;/div&gt;
+</code></pre>
+<p><strong>4.移动端可以利用flex布局实现css图片垂直居中</strong></p>
+<p>移动端一般浏览器版本都比较高，所以可以大胆的使用flex布局，（flex布局参考css3的flex布局用法）演示代码如下：</p>
+<p>css代码：</p>
+<pre><code class="language-javascript">&lt;style type=&quot;text/css&quot;&gt;
+
+        .ui-flex {
+            display: -webkit-box !important;
+            display: -webkit-flex !important;
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap
+        }
+
+        .ui-flex, .ui-flex *, .ui-flex :after, .ui-flex :before {
+            box-sizing: border-box
+        }
+
+        .ui-flex.justify-center {
+            -webkit-box-pack: center;
+            -webkit-justify-content: center;
+            -ms-flex-pack: center;
+            justify-content: center
+        }
+        .ui-flex.center {
+            -webkit-box-pack: center;
+            -webkit-justify-content: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            -ms-flex-align: center;
+            align-items: center
+        }
+    &lt;/style&gt;
+</code></pre>
+<p>html代码：</p>
+<pre><code class="language-javascript">&lt;div class=&quot;ui-flex justify-center center&quot; style=&quot;border: green solid 1px; width: 500px; height: 200px;&quot;&gt;
+    &lt;div class=&quot;cell&quot;&gt;
+    &lt;img alt=&quot;&quot; src=&quot;https://www.baidu.com/img/baidu_jgylogo3.gif&quot; style=&quot;&quot; /&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/cRz-_tW8O" class="tag">
+                    前端
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/wechat-learning-2">
+                  <h3 class="post-title">
+                    微信小程序学习记要（下）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

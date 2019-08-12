@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-08-12T09:02:48.124Z</updated>
+    <updated>2019-08-12T09:05:49.207Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,98 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[css图片居中(水平居中和垂直居中)]]></title>
+        <id>https://skytotwo.github.io//post/css-centered</id>
+        <link href="https://skytotwo.github.io//post/css-centered">
+        </link>
+        <updated>2019-08-12T09:03:37.000Z</updated>
+        <summary type="html"><![CDATA[<p>css图片居中分css图片水平居中和垂直居中两种情况，有时候还需要图片同时水平垂直居中，下面分几种居中情况分别介绍:</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>css图片居中分css图片水平居中和垂直居中两种情况，有时候还需要图片同时水平垂直居中，下面分几种居中情况分别介绍:</p>
+ <!-- more -->
+<h4 id="css图片水平居中">css图片水平居中</h4>
+<p><strong>1.利用margin: 0 auto实现图片水平居中</strong></p>
+<p>利用margin: 0 auto实现图片居中就是在图片上加上css样式margin: 0 auto 如下：</p>
+<pre><code class="language-javascript">&lt;div style=&quot;text-align: center; width: 500px; border: green solid 1px;&quot;&gt;
+&lt;img alt=&quot;&quot; src=&quot;https://www.baidu.com/img/baidu_jgylogo3.gif&quot; style=&quot;margin: 0 auto;&quot; /&gt;
+&lt;/div&gt;
+</code></pre>
+<p><strong>2.利用文本的水平居中属性text-align: center</strong></p>
+<p>代码如下:</p>
+<pre><code class="language-javascript">&lt;div style=&quot;text-align: center; width: 500px; border: green solid 1px;&quot;&gt;
+&lt;img alt=&quot;&quot; src=&quot;https://www.baidu.com/img/baidu_jgylogo3.gif&quot; style=&quot;display: inline-block;&quot; /&gt;
+&lt;/div&gt;
+</code></pre>
+<h4 id="css图片垂直居中">css图片垂直居中</h4>
+<p><strong>1.利用高==行高实现图片垂直居中</strong></p>
+<p>这种方法是要注明高度才可以使用，代码如下：</p>
+<pre><code class="language-javascript">&lt;div style=&quot;text-align: center; width: 500px;height:200px; line-height:200px; border: green solid 1px;&quot;&gt;
+   &lt;img alt=&quot;&quot; src=&quot;https://www.baidu.com/img/baidu_jgylogo3.gif&quot; style=&quot;display: inline-block; vertical-align: middle;&quot; /&gt;
+&lt;/div&gt;
+</code></pre>
+<p><strong>2.利用table实现图片垂直居中</strong></p>
+<p>利用table的方法是利用了table的垂直居中属性，代码如下：</p>
+<p>这里使用display: table;和display: table-cell;来模拟table，这种方法并不兼容IE6/IE7，IE67不支持display: table，如果你不需要支持IE67那就可以用</p>
+<p>缺点：当你设置了display: table;可能会改变你的原有布局</p>
+<pre><code class="language-javascript">&lt;div style=&quot;text-align: center; width: 500px;height:200px; display: table;border: green solid 1px;&quot;&gt;
+   &lt;span style=&quot;display: table-cell; vertical-align: middle; &quot;&gt;
+       &lt;img alt=&quot;&quot; src=&quot;https://www.baidu.com/img/baidu_jgylogo3.gif&quot; style=&quot;display: inline-block;&quot; /&gt;
+   &lt;/span&gt;
+&lt;/div&gt;
+</code></pre>
+<p><strong>3.利用绝对定位实现图片垂直居中</strong></p>
+<p>如果已知图片的宽度和高度可以这样，代码如下：</p>
+<pre><code class="language-javascript">&lt;div style=&quot;width: 500px;height:200px; position: relative; border: green solid 1px;&quot;&gt;
+    &lt;img alt=&quot;&quot; src=&quot;https://www.baidu.com/img/baidu_jgylogo3.gif&quot; style=&quot;width: 120px; height: 40px;position: absolute; left:50%; top: 50%; margin-left: -60px;margin-top: -20px;&quot; /&gt;
+&lt;/div&gt;
+</code></pre>
+<p><strong>4.移动端可以利用flex布局实现css图片垂直居中</strong></p>
+<p>移动端一般浏览器版本都比较高，所以可以大胆的使用flex布局，（flex布局参考css3的flex布局用法）演示代码如下：</p>
+<p>css代码：</p>
+<pre><code class="language-javascript">&lt;style type=&quot;text/css&quot;&gt;
+
+        .ui-flex {
+            display: -webkit-box !important;
+            display: -webkit-flex !important;
+            display: -ms-flexbox !important;
+            display: flex !important;
+            -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap
+        }
+
+        .ui-flex, .ui-flex *, .ui-flex :after, .ui-flex :before {
+            box-sizing: border-box
+        }
+
+        .ui-flex.justify-center {
+            -webkit-box-pack: center;
+            -webkit-justify-content: center;
+            -ms-flex-pack: center;
+            justify-content: center
+        }
+        .ui-flex.center {
+            -webkit-box-pack: center;
+            -webkit-justify-content: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            -ms-flex-align: center;
+            align-items: center
+        }
+    &lt;/style&gt;
+</code></pre>
+<p>html代码：</p>
+<pre><code class="language-javascript">&lt;div class=&quot;ui-flex justify-center center&quot; style=&quot;border: green solid 1px; width: 500px; height: 200px;&quot;&gt;
+    &lt;div class=&quot;cell&quot;&gt;
+    &lt;img alt=&quot;&quot; src=&quot;https://www.baidu.com/img/baidu_jgylogo3.gif&quot; style=&quot;&quot; /&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[微信小程序学习记要（下）]]></title>
         <id>https://skytotwo.github.io//post/wechat-learning-2</id>
@@ -1807,36 +1899,6 @@ u'bar'
 &gt;&gt;&gt; proc_json_list('[{&quot;foo&quot;:&quot;bar&quot;}, {&quot;baz&quot;:&quot;tar&quot;}]')
 [u'bar']
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[python中dict和set实现原理]]></title>
-        <id>https://skytotwo.github.io//post/python-dict-set</id>
-        <link href="https://skytotwo.github.io//post/python-dict-set">
-        </link>
-        <updated>2019-08-05T03:55:32.000Z</updated>
-        <summary type="html"><![CDATA[<p>python的dict和set设计上是很巧妙的，底层是用c语言编写，哈希表实现，这样确保了高效的数据处理。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>python的dict和set设计上是很巧妙的，底层是用c语言编写，哈希表实现，这样确保了高效的数据处理。</p>
-<!-- more --> 
-<p>1、dict的性能远高于list<br>
-2、list的查询消耗随着查询数量的增大而增大<br>
-3、dict的查询消耗并不会随着查询数量的增大而增大</p>
-<p><strong>dict内部实现是根据哈西表来实现的：</strong><br>
-<img src="http://picture.totoro.site/images/2019/08/05/20180407100709_810.png" alt="20180407100709_810.png"></p>
-<p>1、当申明dict变量的时候，就会在内存中开辟一个连续的数组空间。<br>
-2、连续的空间是允许存在空白的，这是为了后续能够实现在原空间内插入数据。<br>
-3、如果在后续插入数据的时候，发现原空间中空白的比例小于原空间的三分之一，就会再申请开辟一段连续啊的空间用于存储，将原有的数据搬迁出来和新的数据一起插入新的空间中。（这时候顺序会打乱）<br>
-4、dict查找时，会根据key值计算出在hash表中的位置，hash表中的键值对位置是唯一的。计算的方式是根据key值的后一位组合元素进行计算，计算过程中如果发现hash表中已经存在值，就加上key值前一位进行计算，最终找出value值的位置。如下：<br>
-<img src="http://picture.totoro.site/images/2019/08/05/20180407102108_979.png" alt="20180407102108_979.png"><br>
-abc —— key ，根据c来计算位置，如果计算结果被别的值占据，则用bc来计算。</p>
-<p>5、dict查找性能快的原因是，直接对key值进行hash计算，因为开辟的数组空间是连续的，有偏移量的，直接将偏移量返回，就能马上找到value值在哪里。</p>
-<hr>
-<p><strong>原理概要</strong><br>
-1、dict或者set的值，都必须是可以hash的，不可变的值都是可以被hash的，如str、fronzenset、tuple，或者自己定义的类，实现了__hash__这个魔法方法的，都可以被hash。<br>
-2、dict的内存花销大，但是查询速度快，自定义的对象或者python的内部对象都是用dict来包装的。<br>
-3、dict的存储顺序和元素的添加顺序有关。<br>
-4、添加数据有可能改变已有数据的顺序。</p>
 ]]></content>
     </entry>
 </feed>

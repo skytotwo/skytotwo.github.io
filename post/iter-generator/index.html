@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>完全理解 Python 迭代对象、迭代器、生成器 | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1565601795598">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1565601795598" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">完全理解 Python 迭代对象、迭代器、生成器</h2>
+            <div class="post-date">2019-08-12</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/20180411145647_562.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>原文出处： liuzhijun</p>
+<p>本文源自RQ作者的一篇博文，原文是Iterables vs. Iterators vs. Generators。<br>
+在了解Python的数据结构时，容器(container)、可迭代对象(iterable)、迭代器(iterator)、生成器(generator)、列表/集合/字典推导式(list,set,dict comprehension)众多概念参杂在一起，难免让初学者一头雾水，我将用一篇文章试图将这些概念以及它们之间的关系捋清楚。</p>
+<!-- more -->
+<p><img src="http://picture.totoro.site/images/2019/08/12/20180411145647_562.png" alt="20180411145647_562.png"></p>
+<h3 id="容器container"><strong>容器(container)</strong></h3>
+<p>容器是一种把多个元素组织在一起的数据结构，容器中的元素可以逐个地迭代获取，可以用in, not in关键字判断元素是否包含在容器中。通常这类数据结构把所有的元素存储在内存中（也有一些特例，并不是所有的元素都放在内存，比如迭代器和生成器对象）在Python中，常见的容器对象有：</p>
+<p>list, deque, ….<br>
+set, frozensets, ….<br>
+dict, defaultdict, OrderedDict, Counter, ….<br>
+tuple, namedtuple, …<br>
+str<br>
+容器比较容易理解，因为你就可以把它看作是一个盒子、一栋房子、一个柜子，里面可以塞任何东西。从技术角度来说，当它可以用来询问某个元素是否包含在其中时，那么这个对象就可以认为是一个容器，比如 list，set，tuples都是容器对象：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; assert 1 in [1, 2, 3]      # lists
+&gt;&gt;&gt; assert 4 not in [1, 2, 3]
+&gt;&gt;&gt; assert 1 in {1, 2, 3}      # sets
+&gt;&gt;&gt; assert 4 not in {1, 2, 3}
+&gt;&gt;&gt; assert 1 in (1, 2, 3)      # tuples
+&gt;&gt;&gt; assert 4 not in (1, 2, 3)
+</code></pre>
+<p>询问某元素是否在dict中用dict的中key：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; d = {1: 'foo', 2: 'bar', 3: 'qux'}
+&gt;&gt;&gt; assert 1 in d
+&gt;&gt;&gt; assert 'foo' not in d  # 'foo' 不是dict中的元素
+</code></pre>
+<p>询问某substring是否在string中：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; s = 'foobar'
+&gt;&gt;&gt; assert 'b' in s
+&gt;&gt;&gt; assert 'x' not in s
+&gt;&gt;&gt; assert 'foo' in s
+</code></pre>
+<p>其实in 和 not in也是调用了可迭代对象内部的迭代器，一次次迭代比对是否存在里面。</p>
+<p>尽管绝大多数容器都提供了某种方式来获取其中的每一个元素，但这并不是容器本身提供的能力，而是可迭代对象赋予了容器这种能力，当然并不是所有的容器都是可迭代的，比如：Bloom filter，虽然Bloom filter可以用来检测某个元素是否包含在容器中，但是并不能从容器中获取其中的每一个值，因为Bloom filter压根就没把元素存储在容器中，而是通过一个散列函数映射成一个值保存在数组中。</p>
+<h3 id="可迭代对象iterable"><strong>可迭代对象(iterable)</strong></h3>
+<p>刚才说过，很多容器都是可迭代对象，此外还有更多的对象同样也是可迭代对象，比如处于打开状态的files，sockets等等。但凡是可以返回一个迭代器的对象都可称之为可迭代对象，听起来可能有点困惑，没关系，先看一个例子：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; x = [1, 2, 3]
+&gt;&gt;&gt; y = iter(x)
+&gt;&gt;&gt; z = iter(x)
+&gt;&gt;&gt; next(y)
+1
+&gt;&gt;&gt; next(y)
+2
+&gt;&gt;&gt; next(z)
+1
+&gt;&gt;&gt; type(x)
+&lt;class 'list'&gt;
+&gt;&gt;&gt; type(y)
+&lt;class 'list_iterator'&gt;
+</code></pre>
+<p>这里x是一个可迭代对象，可迭代对象和容器一样是一种通俗的叫法，并不是指某种具体的数据类型，list是可迭代对象，dict是可迭代对象，set也是可迭代对象。y和z是两个独立的迭代器，迭代器内部持有一个状态，该状态用于记录当前迭代所在的位置，以方便下次迭代的时候获取正确的元素。迭代器有一种具体的迭代器类型，比如list_iterator，set_iterator。可迭代对象实现了__iter__方法，该方法返回一个迭代器对象。</p>
+<p>当运行代码：</p>
+<pre><code class="language-python">Python
+
+x = [1, 2, 3]
+for elem in x:
+    ...
+</code></pre>
+<p>实际执行情况是：<br>
+<img src="http://picture.totoro.site/images/2019/08/12/20180411145705_448.png" alt="20180411145705_448.png"></p>
+<p>反编译该段代码，你可以看到解释器显示地调用GET_ITER指令，相当于调用iter(x)，FOR_ITER指令就是调用next()方法，不断地获取迭代器中的下一个元素，但是你没法直接从指令中看出来，因为他被解释器优化过了。</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; import dis
+&gt;&gt;&gt; x = [1, 2, 3]
+&gt;&gt;&gt; dis.dis('for _ in x: pass')
+  1           0 SETUP_LOOP              14 (to 17)
+              3 LOAD_NAME                0 (x)
+              6 GET_ITER
+        &gt;&gt;    7 FOR_ITER                 6 (to 16)
+             10 STORE_NAME               1 (_)
+             13 JUMP_ABSOLUTE            7
+        &gt;&gt;   16 POP_BLOCK
+        &gt;&gt;   17 LOAD_CONST               0 (None)
+             20 RETURN_VALUE
+</code></pre>
+<h3 id="迭代器iterator"><strong>迭代器(iterator)</strong></h3>
+<p>那么什么迭代器呢？它是一个带状态的对象，他能在你调用next()方法的时候返回容器中的下一个值，任何实现了__iter__和__next__()（python2中实现next()）方法的对象都是迭代器，__iter__返回迭代器自身，__next__返回容器中的下一个值，如果容器中没有更多元素了，则抛出StopIteration异常，至于它们到底是如何实现的这并不重要。</p>
+<p>所以，迭代器就是实现了工厂模式的对象，它在你每次你询问要下一个值的时候给你返回。有很多关于迭代器的例子，比如itertools函数返回的都是迭代器对象。</p>
+<p>生成无限序列：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; from itertools import count
+&gt;&gt;&gt; counter = count(start=13)
+&gt;&gt;&gt; next(counter)
+13
+&gt;&gt;&gt; next(counter)
+14
+</code></pre>
+<p>从一个有限序列中生成无限序列：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; from itertools import cycle
+&gt;&gt;&gt; colors = cycle(['red', 'white', 'blue'])
+&gt;&gt;&gt; next(colors)
+'red'
+&gt;&gt;&gt; next(colors)
+'white'
+&gt;&gt;&gt; next(colors)
+'blue'
+&gt;&gt;&gt; next(colors)
+'red'
+</code></pre>
+<p>从无限的序列中生成有限序列：</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; from itertools import islice
+&gt;&gt;&gt; colors = cycle(['red', 'white', 'blue'])  # infinite
+&gt;&gt;&gt; limited = islice(colors, 0, 4)            # finite
+&gt;&gt;&gt; for x in limited:                         
+...     print(x)
+red
+white
+blue
+red
+</code></pre>
+<p>为了更直观地感受迭代器内部的执行过程，我们自定义一个迭代器，以斐波那契数列为例：</p>
+<pre><code class="language-python">Python
+
+class Fib:
+    def __init__(self):
+        self.prev = 0
+        self.curr = 1
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        value = self.curr
+        self.curr += self.prev
+        self.prev = value
+        return value
+
+&gt;&gt;&gt; f = Fib()
+&gt;&gt;&gt; list(islice(f, 0, 10))
+[1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
+</code></pre>
+<p>Fib既是一个可迭代对象（因为它实现了__iter__方法），又是一个迭代器（因为实现了__next__方法）。实例变量prev和curr用户维护迭代器内部的状态。每次调用next()方法的时候做两件事：</p>
+<p>为下一次调用next()方法修改状态<br>
+为当前这次调用生成返回结果<br>
+迭代器就像一个懒加载的工厂，等到有人需要的时候才给它生成值返回，没调用的时候就处于休眠状态等待下一次调用。</p>
+<h3 id="生成器generator"><strong>生成器(generator)</strong></h3>
+<p><strong>生成器算得上是Python语言中最吸引人的特性之一，生成器其实是一种特殊的迭代器，不过这种迭代器更加优雅。它不需要再像上面的类一样写__iter__()和__next__()方法了，只需要一个yiled关键字。 生成器一定是迭代器（反之不成立），因此任何生成器也是以一种懒加载的模式生成值。</strong></p>
+<p>用生成器来实现斐波那契数列的例子是：</p>
+<pre><code class="language-python">Python
+
+def fib():
+    prev, curr = 0, 1
+    while True:
+        yield curr
+        prev, curr = curr, curr + prev
+
+&gt;&gt;&gt; f = fib()
+&gt;&gt;&gt; list(islice(f, 0, 10))
+[1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
+</code></pre>
+<p><strong>fib就是一个普通的python函数，它特殊的地方在于函数体中没有return关键字，函数的返回值是一个生成器对象。当执行f=fib()返回的是一个生成器对象，此时函数体中的代码并不会执行，只有显示或隐示地调用next的时候才会真正执行里面的代码。</strong></p>
+<p>生成器在Python中是一个非常强大的编程结构，可以用更少地中间变量写流式代码，此外，相比其它容器对象它更能节省内存和CPU，当然它可以用更少的代码来实现相似的功能。现在就可以动手重构你的代码了，但凡看到类似：</p>
+<pre><code class="language-python">Python
+
+def something():
+    result = []
+    for ... in ...:
+        result.append(x)
+    return result
+</code></pre>
+<p>都可以用生成器函数来替换：</p>
+<pre><code class="language-python">Python
+
+def iter_something():
+    for ... in ...:
+        yield x
+</code></pre>
+<h4 id="生成器表达式generator-expression">生成器表达式(generator expression)</h4>
+<p>生成器表达式是列表推倒式的生成器版本，看起来像列表推导式，但是它返回的是一个生成器对象而不是列表对象。</p>
+<pre><code class="language-python">Python
+
+&gt;&gt;&gt; a = (x*x for x in range(10))
+&gt;&gt;&gt; a
+&lt;generator object &lt;genexpr&gt; at 0x401f08&gt;
+&gt;&gt;&gt; sum(a)
+285
+</code></pre>
+<p>总结</p>
+<ul>
+<li>容器是一系列元素的集合，str、list、set、dict、file、sockets对象都可以看作是容器，容器都可以被迭代（用在for，while等语句中），因此他们被称为可迭代对象。</li>
+<li>可迭代对象实现了__iter__方法，该方法返回一个迭代器对象。</li>
+<li>迭代器持有一个内部状态的字段，用于记录下次迭代返回值，它实现了__next__和__iter__方法，迭代器不会一次性把所有元素加载到内存，而是需要的时候才生成返回结果。</li>
+<li>生成器是一种特殊的迭代器，它的返回值不是通过return而是用yield。</li>
+</ul>
+<p>参考链接：https://docs.python.org/3/library/stdtypes.html#iterator-types</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="tag">
+                    python
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/python-generators">
+                  <h3 class="post-title">
+                    Python 生成器原理详解
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-08-12T09:33:12.798Z</updated>
+    <updated>2019-08-12T09:33:59.466Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -146,12 +146,10 @@ Revisiting thread priorities and the new GIL</p>
         <link href="https://skytotwo.github.io//post/iter-generator">
         </link>
         <updated>2019-08-12T09:18:58.000Z</updated>
-        <summary type="html"><![CDATA[<p>原文出处： liuzhijun</p>
-<p>本文源自RQ作者的一篇博文，原文是Iterables vs. Iterators vs. Generators。<br>
+        <summary type="html"><![CDATA[<p>本文源自RQ作者的一篇博文，原文是Iterables vs. Iterators vs. Generators。<br>
 在了解Python的数据结构时，容器(container)、可迭代对象(iterable)、迭代器(iterator)、生成器(generator)、列表/集合/字典推导式(list,set,dict comprehension)众多概念参杂在一起，难免让初学者一头雾水，我将用一篇文章试图将这些概念以及它们之间的关系捋清楚。</p>
 ]]></summary>
-        <content type="html"><![CDATA[<p>原文出处： liuzhijun</p>
-<p>本文源自RQ作者的一篇博文，原文是Iterables vs. Iterators vs. Generators。<br>
+        <content type="html"><![CDATA[<p>本文源自RQ作者的一篇博文，原文是Iterables vs. Iterators vs. Generators。<br>
 在了解Python的数据结构时，容器(container)、可迭代对象(iterable)、迭代器(iterator)、生成器(generator)、列表/集合/字典推导式(list,set,dict comprehension)众多概念参杂在一起，难免让初学者一头雾水，我将用一篇文章试图将这些概念以及它们之间的关系捋清楚。</p>
 <!-- more -->
 <p><img src="http://picture.totoro.site/images/2019/08/12/20180411145647_562.png" alt="20180411145647_562.png"></p>
@@ -347,7 +345,8 @@ def iter_something():
 <li>迭代器持有一个内部状态的字段，用于记录下次迭代返回值，它实现了__next__和__iter__方法，迭代器不会一次性把所有元素加载到内存，而是需要的时候才生成返回结果。</li>
 <li>生成器是一种特殊的迭代器，它的返回值不是通过return而是用yield。</li>
 </ul>
-<p>参考链接：https://docs.python.org/3/library/stdtypes.html#iterator-types</p>
+<p>原文出处： liuzhijun<br>
+参考链接：https://docs.python.org/3/library/stdtypes.html#iterator-types</p>
 ]]></content>
     </entry>
     <entry>

@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1565602387778">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1565602436347">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://skytotwo.github.io/">
-        <img src="https://skytotwo.github.io//images/avatar.png?v=1565602387778" class="site-logo">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1565602436347" class="site-logo">
         <h1 class="site-title">Totoro の Home</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -105,8 +105,7 @@
               </div>
             
             <div class="post-content">
-              <p>原文出处： liuzhijun</p>
-<p>本文源自RQ作者的一篇博文，原文是Iterables vs. Iterators vs. Generators。<br>
+              <p>本文源自RQ作者的一篇博文，原文是Iterables vs. Iterators vs. Generators。<br>
 在了解Python的数据结构时，容器(container)、可迭代对象(iterable)、迭代器(iterator)、生成器(generator)、列表/集合/字典推导式(list,set,dict comprehension)众多概念参杂在一起，难免让初学者一头雾水，我将用一篇文章试图将这些概念以及它们之间的关系捋清楚。</p>
 <!-- more -->
 <p><img src="http://picture.totoro.site/images/2019/08/12/20180411145647_562.png" alt="20180411145647_562.png"></p>
@@ -302,7 +301,8 @@ def iter_something():
 <li>迭代器持有一个内部状态的字段，用于记录下次迭代返回值，它实现了__next__和__iter__方法，迭代器不会一次性把所有元素加载到内存，而是需要的时候才生成返回结果。</li>
 <li>生成器是一种特殊的迭代器，它的返回值不是通过return而是用yield。</li>
 </ul>
-<p>参考链接：https://docs.python.org/3/library/stdtypes.html#iterator-types</p>
+<p>原文出处： liuzhijun<br>
+参考链接：https://docs.python.org/3/library/stdtypes.html#iterator-types</p>
 
             </div>
             

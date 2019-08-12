@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>微信小程序支付  带java后端 | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1565601000845">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1565601000845" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">微信小程序支付  带java后端</h2>
+            <div class="post-date">2019-08-12</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/b3465065ae1ebd2d.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <p>话不多说，直接开撸。</p>
+<!-- more -->
+<p>支付流程步骤：</p>
+<p>1）首先调用wx.login方法获取code，通过code获取openid；</p>
+<p>2）java后台调用统一下单支付接口（这里会进行第一次签名），用来获取prepay_id；</p>
+<p>3）java后台再次调用签名（这里会进行第二次签名），并返回支付需要用使用的参数；</p>
+<p>4）小程序前端wx.requestPayment方法发起微信支付；</p>
+<p>5）java后台接收来自微信服务器的通知并处理结果。</p>
+<p>详细步骤可参考：https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=7_4&amp;index=3</p>
+<p>demo链接: https://pan.baidu.com/s/1v8QWUE1m2EnA4uAoAZtRRQ 密码: cgrt</p>
+<p>一、获取openid，</p>
+<p>这里的代码可以参考博主的另外一篇文章http://www.listenlife.cn:8080/post/34  中的3.1 代码模块，代码先贴上，如果了解更多点击链接查看</p>
+<p>小程序端代码</p>
+<pre><code class="language-javascript">[javascript] view plain copy
+wx.login({    
+  success: function (res) {    
+    var service_url = 'https://???/???/weixin/api/login?code=' + res.code;//需要将服务器域名添加到小程序的request合法域名中，而且必须是https开头    
+    wx.request({    
+      url: l,    
+      data: {},    
+      method: 'GET',    
+      success: function (res) {    
+        console.log(res);    
+        if (res.data != null &amp;&amp; res.data != undefined &amp;&amp; res.data != '') {    
+          wx.setStorageSync(&quot;openid&quot;, res.data.openid);//将获取的openid存到缓存中    
+        }    
+      }    
+    });    
+  }    
+});
+</code></pre>
+<p>java后端代码</p>
+<pre><code class="language-java">[java] view plain copy
+/**  
+  * 小程序后台登录，向微信平台发送获取access_token请求，并返回openId  
+  * @param code  
+  * @return 用户凭证  
+  * @throws WeixinException  
+  * @throws IOException   
+  * @throws JsonMappingException   
+  * @throws JsonParseException   
+  */    
+ @RequestMapping(&quot;login&quot;)    
+ @ResponseBody    
+ public Map&lt;String, Object&gt; login(String code, HttpServletRequest request) throws WeixinException, JsonParseException, JsonMappingException, IOException {    
+     if (code == null || code.equals(&quot;&quot;)) {    
+         throw new WeixinException(&quot;invalid null, code is null.&quot;);    
+     }    
+         
+     Map&lt;String, Object&gt; ret = new HashMap&lt;String, Object&gt;();    
+     //拼接参数    
+     String param = &quot;?grant_type=&quot; + grant_type + &quot;&amp;appid=&quot; + appid + &quot;&amp;secret=&quot; + secret + &quot;&amp;js_code=&quot; + code;    
+         
+     System.out.println(&quot;https://api.weixin.qq.com/sns/jscode2session&quot; + param);    
+         
+     //创建请求对象    
+     HttpsClient http = new HttpsClient();    
+     //调用获取access_token接口    
+     Response res = http.get(&quot;https://api.weixin.qq.com/sns/jscode2session&quot; + param);    
+     //根据请求结果判定，是否验证成功    
+     JSONObject jsonObj = res.asJSONObject();    
+     if (jsonObj != null) {    
+         Object errcode = jsonObj.get(&quot;errcode&quot;);    
+         if (errcode != null) {    
+             //返回异常信息    
+             throw new WeixinException(getCause(Integer.parseInt(errcode.toString())));    
+         }    
+             
+         ObjectMapper mapper = new ObjectMapper();    
+         OAuthJsToken oauthJsToken = mapper.readValue(jsonObj.toJSONString(),OAuthJsToken.class);    
+         ret.put(&quot;openid&quot;, oauthJsToken.getOpenid());    
+     }    
+     return ret;    
+ }
+</code></pre>
+<p>二、小程序调用java后端接口，生成最终签名和相关参数小程序端代码：</p>
+<pre><code class="language-javascript">[javascript] view plain copy
+var that = this;  
+      wx.request({  
+        url: service_url + 'wxPay',  
+        data: { },  
+        method: 'GET',  
+        success: function (res) {  
+          console.log(res);  
+           that.doWxPay(res.data);  
+        }  
+      }); 
+</code></pre>
+<p>java端代码：</p>
+<pre><code class="language-java">[java] view plain copy
+/** 
+     * @Description: 发起微信支付 
+     * @param request 
+     */  
+    public Json wxPay(Integer openid, HttpServletRequest request){  
+        try{  
+            //生成的随机字符串  
+            String nonce_str = StringUtils.getRandomStringByLength(32);  
+            //商品名称  
+            String body = &quot;测试商品名称&quot;;  
+            //获取客户端的ip地址  
+            String spbill_create_ip = IpUtil.getIpAddr(request);  
+              
+            //组装参数，用户生成统一下单接口的签名  
+            Map&lt;String, String&gt; packageParams = new HashMap&lt;String, String&gt;();  
+            packageParams.put(&quot;appid&quot;, WxPayConfig.appid);  
+            packageParams.put(&quot;mch_id&quot;, WxPayConfig.mch_id);  
+            packageParams.put(&quot;nonce_str&quot;, nonce_str);  
+            packageParams.put(&quot;body&quot;, body);  
+            packageParams.put(&quot;out_trade_no&quot;, &quot;123456789&quot;);//商户订单号  
+            packageParams.put(&quot;total_fee&quot;, &quot;1&quot;);//支付金额，这边需要转成字符串类型，否则后面的签名会失败  
+            packageParams.put(&quot;spbill_create_ip&quot;, spbill_create_ip);  
+            packageParams.put(&quot;notify_url&quot;, WxPayConfig.notify_url);//支付成功后的回调地址  
+            packageParams.put(&quot;trade_type&quot;, WxPayConfig.TRADETYPE);//支付方式  
+            packageParams.put(&quot;openid&quot;, openid);  
+                 
+                String prestr = PayUtil.createLinkString(packageParams); // 把数组所有元素，按照“参数=参数值”的模式用“&amp;”字符拼接成字符串   
+              
+                //MD5运算生成签名，这里是第一次签名，用于调用统一下单接口  
+                String mysign = PayUtil.sign(prestr, WxPayConfig.key, &quot;utf-8&quot;).toUpperCase();  
+              
+            //拼接统一下单接口使用的xml数据，要将上一步生成的签名一起拼接进去  
+            String xml = &quot;&lt;xml&gt;&quot; + &quot;&lt;appid&gt;&quot; + WxPayConfig.appid + &quot;&lt;/appid&gt;&quot;   
+                    + &quot;&lt;body&gt;&lt;![CDATA[&quot; + body + &quot;]]&gt;&lt;/body&gt;&quot;   
+                    + &quot;&lt;mch_id&gt;&quot; + WxPayConfig.mch_id + &quot;&lt;/mch_id&gt;&quot;   
+                    + &quot;&lt;nonce_str&gt;&quot; + nonce_str + &quot;&lt;/nonce_str&gt;&quot;   
+                    + &quot;&lt;notify_url&gt;&quot; + WxPayConfig.notify_url + &quot;&lt;/notify_url&gt;&quot;   
+                    + &quot;&lt;openid&gt;&quot; + order.getOpenId() + &quot;&lt;/openid&gt;&quot;   
+                    + &quot;&lt;out_trade_no&gt;&quot; + order.getOrderNo() + &quot;&lt;/out_trade_no&gt;&quot;   
+                    + &quot;&lt;spbill_create_ip&gt;&quot; + spbill_create_ip + &quot;&lt;/spbill_create_ip&gt;&quot;   
+                    + &quot;&lt;total_fee&gt;&quot; + order.getPayMoney() + &quot;&lt;/total_fee&gt;&quot;  
+                    + &quot;&lt;trade_type&gt;&quot; + WxPayConfig.TRADETYPE + &quot;&lt;/trade_type&gt;&quot;   
+                    + &quot;&lt;sign&gt;&quot; + mysign + &quot;&lt;/sign&gt;&quot;  
+                    + &quot;&lt;/xml&gt;&quot;;  
+              
+            System.out.println(&quot;调试模式_统一下单接口 请求XML数据：&quot; + xml);  
+  
+            //调用统一下单接口，并接受返回的结果  
+            String result = PayUtil.httpRequest(WxPayConfig.pay_url, &quot;POST&quot;, xml);  
+              
+            System.out.println(&quot;调试模式_统一下单接口 返回XML数据：&quot; + result);  
+              
+            // 将解析结果存储在HashMap中     
+            Map map = PayUtil.doXMLParse(result);  
+              
+            String return_code = (String) map.get(&quot;return_code&quot;);//返回状态码  
+              
+            Map&lt;String, Object&gt; response = new HashMap&lt;String, Object&gt;();//返回给小程序端需要的参数  
+            if(return_code==&quot;SUCCESS&quot;||return_code.equals(return_code)){     
+                String prepay_id = (String) map.get(&quot;prepay_id&quot;);//返回的预付单信息     
+                response.put(&quot;nonceStr&quot;, nonce_str);  
+                response.put(&quot;package&quot;, &quot;prepay_id=&quot; + prepay_id);  
+                Long timeStamp = System.currentTimeMillis() / 1000;     
+                response.put(&quot;timeStamp&quot;, timeStamp + &quot;&quot;);//这边要将返回的时间戳转化成字符串，不然小程序端调用wx.requestPayment方法会报签名错误  
+                //拼接签名需要的参数  
+                String stringSignTemp = &quot;appId=&quot; + WxPayConfig.appid + &quot;&amp;nonceStr=&quot; + nonce_str + &quot;&amp;package=prepay_id=&quot; + prepay_id+ &quot;&amp;signType=MD5&amp;timeStamp=&quot; + timeStamp;     
+                //再次签名，这个签名用于小程序端调用wx.requesetPayment方法  
+                String paySign = PayUtil.sign(stringSignTemp, WxPayConfig.key, &quot;utf-8&quot;).toUpperCase();  
+                  
+                response.put(&quot;paySign&quot;, paySign);  
+            }  
+              
+            response.put(&quot;appid&quot;, WxPayConfig.appid);  
+              
+            return response;  
+        }catch(Exception e){  
+            e.printStackTrace();  
+        }  
+        return null;  
+    }  
+    /** 
+     * StringUtils工具类方法 
+     * 获取一定长度的随机字符串，范围0-9，a-z 
+     * @param length：指定字符串长度 
+     * @return 一定长度的随机字符串 
+     */  
+    public static String getRandomStringByLength(int length) {  
+        String base = &quot;abcdefghijklmnopqrstuvwxyz0123456789&quot;;  
+        Random random = new Random();  
+        StringBuffer sb = new StringBuffer();  
+        for (int i = 0; i &lt; length; i++) {  
+            int number = random.nextInt(base.length());  
+            sb.append(base.charAt(number));  
+        }  
+        return sb.toString();  
+       }  
+    /** 
+     * IpUtils工具类方法 
+     * 获取真实的ip地址 
+     * @param request 
+     * @return 
+     */  
+    public static String getIpAddr(HttpServletRequest request) {  
+        String ip = request.getHeader(&quot;X-Forwarded-For&quot;);  
+        if(StringUtils.isNotEmpty(ip) &amp;&amp; !&quot;unKnown&quot;.equalsIgnoreCase(ip)){  
+             //多次反向代理后会有多个ip值，第一个ip才是真实ip  
+            int index = ip.indexOf(&quot;,&quot;);  
+            if(index != -1){  
+                return ip.substring(0,index);  
+            }else{  
+                return ip;  
+            }  
+        }  
+        ip = request.getHeader(&quot;X-Real-IP&quot;);  
+        if(StringUtils.isNotEmpty(ip) &amp;&amp; !&quot;unKnown&quot;.equalsIgnoreCase(ip)){  
+           return ip;  
+        }  
+        return request.getRemoteAddr();  
+    } 
+</code></pre>
+<p>WxPayConfig小程序配置文件</p>
+<pre><code class="language-java">[java] view plain copy
+/** 
+ * 小程序微信支付的配置文件 
+ * @author  
+ * 
+ */  
+public class WxPayConfig {  
+    //小程序appid  
+    public static final String appid = &quot;&quot;;  
+    //微信支付的商户id  
+    public static final String mch_id = &quot;&quot;;  
+    //微信支付的商户密钥  
+    public static final String key = &quot;&quot;;  
+    //支付成功后的服务器回调url  
+    public static final String notify_url = &quot;https://??/??/weixin/api/wxNotify&quot;;  
+    //签名方式，固定值  
+    public static final String SIGNTYPE = &quot;MD5&quot;;  
+    //交易类型，小程序支付的固定值为JSAPI  
+    public static final String TRADETYPE = &quot;JSAPI&quot;;  
+    //微信统一下单接口地址  
+    public static final String pay_url = &quot;https://api.mch.weixin.qq.com/pay/unifiedorder&quot;;  
+}  
+
+PayUtils工具类
+[java] view plain copy
+import java.io.BufferedReader;  
+import java.io.ByteArrayInputStream;  
+import java.io.IOException;  
+import java.io.InputStream;  
+import java.io.InputStreamReader;  
+import java.io.OutputStream;  
+import java.io.UnsupportedEncodingException;  
+import java.net.HttpURLConnection;  
+import java.net.URL;  
+import java.security.SignatureException;  
+import java.util.ArrayList;  
+import java.util.Collections;  
+import java.util.HashMap;  
+import java.util.Iterator;  
+import java.util.List;  
+import java.util.Map;  
+  
+import org.apache.commons.codec.digest.DigestUtils;  
+import org.jdom.Document;  
+import org.jdom.Element;  
+import org.jdom.JDOMException;  
+import org.jdom.input.SAXBuilder;  
+  
+public class PayUtil {  
+     /**   
+     * 签名字符串   
+     * @param text需要签名的字符串   
+     * @param key 密钥   
+     * @param input_charset编码格式   
+     * @return 签名结果   
+     */     
+    public static String sign(String text, String key, String input_charset) {     
+        text = text + &quot;&amp;key=&quot; + key;     
+        return DigestUtils.md5Hex(getContentBytes(text, input_charset));     
+    }     
+    /**   
+     * 签名字符串   
+     *  @param text需要签名的字符串   
+     * @param sign 签名结果   
+     * @param key密钥   
+     * @param input_charset 编码格式   
+     * @return 签名结果   
+     */     
+    public static boolean verify(String text, String sign, String key, String input_charset) {     
+        text = text + key;     
+        String mysign = DigestUtils.md5Hex(getContentBytes(text, input_charset));     
+        if (mysign.equals(sign)) {     
+            return true;     
+        } else {     
+            return false;     
+        }     
+    }     
+    /**   
+     * @param content   
+     * @param charset   
+     * @return   
+     * @throws SignatureException   
+     * @throws UnsupportedEncodingException   
+     */     
+    public static byte[] getContentBytes(String content, String charset) {     
+        if (charset == null || &quot;&quot;.equals(charset)) {     
+            return content.getBytes();     
+        }     
+        try {     
+            return content.getBytes(charset);     
+        } catch (UnsupportedEncodingException e) {     
+            throw new RuntimeException(&quot;MD5签名过程中出现错误,指定的编码集不对,您目前指定的编码集是:&quot; + charset);     
+        }     
+    }     
+      
+    private static boolean isValidChar(char ch) {     
+        if ((ch &gt;= '0' &amp;&amp; ch &lt;= '9') || (ch &gt;= 'A' &amp;&amp; ch &lt;= 'Z') || (ch &gt;= 'a' &amp;&amp; ch &lt;= 'z'))     
+            return true;     
+        if ((ch &gt;= 0x4e00 &amp;&amp; ch &lt;= 0x7fff) || (ch &gt;= 0x8000 &amp;&amp; ch &lt;= 0x952f))     
+            return true;// 简体中文汉字编码     
+        return false;     
+    }     
+    /**   
+     * 除去数组中的空值和签名参数   
+     * @param sArray 签名参数组   
+     * @return 去掉空值与签名参数后的新签名参数组   
+     */     
+    public static Map&lt;String, String&gt; paraFilter(Map&lt;String, String&gt; sArray) {     
+        Map&lt;String, String&gt; result = new HashMap&lt;String, String&gt;();     
+        if (sArray == null || sArray.size() &lt;= 0) {     
+            return result;     
+        }     
+        for (String key : sArray.keySet()) {     
+            String value = sArray.get(key);     
+            if (value == null || value.equals(&quot;&quot;) || key.equalsIgnoreCase(&quot;sign&quot;)     
+                    || key.equalsIgnoreCase(&quot;sign_type&quot;)) {     
+                continue;     
+            }     
+            result.put(key, value);     
+        }     
+        return result;     
+    }     
+    /**   
+     * 把数组所有元素排序，并按照“参数=参数值”的模式用“&amp;”字符拼接成字符串   
+     * @param params 需要排序并参与字符拼接的参数组   
+     * @return 拼接后字符串   
+     */     
+    public static String createLinkString(Map&lt;String, String&gt; params) {     
+        List&lt;String&gt; keys = new ArrayList&lt;String&gt;(params.keySet());     
+        Collections.sort(keys);     
+        String prestr = &quot;&quot;;     
+        for (int i = 0; i &lt; keys.size(); i++) {     
+            String key = keys.get(i);     
+            String value = params.get(key);     
+            if (i == keys.size() - 1) {// 拼接时，不包括最后一个&amp;字符     
+                prestr = prestr + key + &quot;=&quot; + value;     
+            } else {     
+                prestr = prestr + key + &quot;=&quot; + value + &quot;&amp;&quot;;     
+            }     
+        }     
+        return prestr;     
+    }     
+    /**   
+     *   
+     * @param requestUrl请求地址   
+     * @param requestMethod请求方法   
+     * @param outputStr参数   
+     */     
+    public static String httpRequest(String requestUrl,String requestMethod,String outputStr){     
+        // 创建SSLContext     
+        StringBuffer buffer = null;     
+        try{     
+            URL url = new URL(requestUrl);     
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();     
+            conn.setRequestMethod(requestMethod);     
+            conn.setDoOutput(true);     
+            conn.setDoInput(true);     
+            conn.connect();     
+            //往服务器端写内容     
+            if(null !=outputStr){     
+                OutputStream os=conn.getOutputStream();     
+                os.write(outputStr.getBytes(&quot;utf-8&quot;));     
+                os.close();     
+            }     
+            // 读取服务器端返回的内容     
+            InputStream is = conn.getInputStream();     
+            InputStreamReader isr = new InputStreamReader(is, &quot;utf-8&quot;);     
+            BufferedReader br = new BufferedReader(isr);     
+            buffer = new StringBuffer();     
+            String line = null;     
+            while ((line = br.readLine()) != null) {     
+                buffer.append(line);     
+            }     
+[java] view plain copy
+                br.close();  
+        }catch(Exception e){     
+            e.printStackTrace();     
+        }  
+        return buffer.toString();  
+    }       
+    public static String urlEncodeUTF8(String source){     
+        String result=source;     
+        try {     
+            result=java.net.URLEncoder.encode(source, &quot;UTF-8&quot;);     
+        } catch (UnsupportedEncodingException e) {     
+            // TODO Auto-generated catch block     
+            e.printStackTrace();     
+        }     
+        return result;     
+    }   
+    /** 
+     * 解析xml,返回第一级元素键值对。如果第一级元素有子节点，则此节点的值是子节点的xml数据。 
+     * @param strxml 
+     * @return 
+     * @throws JDOMException 
+     * @throws IOException 
+     */  
+    public static Map doXMLParse(String strxml) throws Exception {  
+        if(null == strxml || &quot;&quot;.equals(strxml)) {  
+            return null;  
+        }  
+          
+        Map m = new HashMap();  
+        InputStream in = String2Inputstream(strxml);  
+        SAXBuilder builder = new SAXBuilder();  
+        Document doc = builder.build(in);  
+        Element root = doc.getRootElement();  
+        List list = root.getChildren();  
+        Iterator it = list.iterator();  
+        while(it.hasNext()) {  
+            Element e = (Element) it.next();  
+            String k = e.getName();  
+            String v = &quot;&quot;;  
+            List children = e.getChildren();  
+            if(children.isEmpty()) {  
+                v = e.getTextNormalize();  
+            } else {  
+                v = getChildrenText(children);  
+            }  
+              
+            m.put(k, v);  
+        }  
+          
+        //关闭流  
+        in.close();  
+          
+        return m;  
+    }  
+    /** 
+     * 获取子结点的xml 
+     * @param children 
+     * @return String 
+     */  
+    public static String getChildrenText(List children) {  
+        StringBuffer sb = new StringBuffer();  
+        if(!children.isEmpty()) {  
+            Iterator it = children.iterator();  
+            while(it.hasNext()) {  
+                Element e = (Element) it.next();  
+                String name = e.getName();  
+                String value = e.getTextNormalize();  
+                List list = e.getChildren();  
+                sb.append(&quot;&lt;&quot; + name + &quot;&gt;&quot;);  
+                if(!list.isEmpty()) {  
+                    sb.append(getChildrenText(list));  
+                }  
+                sb.append(value);  
+                sb.append(&quot;&lt;/&quot; + name + &quot;&gt;&quot;);  
+            }  
+        }  
+          
+        return sb.toString();  
+    }  
+    public static InputStream String2Inputstream(String str) {  
+        return new ByteArrayInputStream(str.getBytes());  
+    }  
+} 
+</code></pre>
+<p>三、小程序端发起最终支付，调用微信付款</p>
+<pre><code class="language-javascript">[javascript] view plain copy
+doWxPay(param){  
+        //小程序发起微信支付  
+            wx.requestPayment({  
+              timeStamp: param.data.timeStamp,//记住，这边的timeStamp一定要是字符串类型的，不然会报错，我这边在java后端包装成了字符串类型了  
+              nonceStr: param.data.nonceStr,  
+              package: param.data.package,  
+              signType: 'MD5',  
+              paySign: param.data.paySign,  
+              success: function (event) {  
+                // success     
+                console.log(event);  
+                  
+                wx.showToast({  
+                  title: '支付成功',  
+                  icon: 'success',  
+                  duration: 2000  
+                });  
+              },  
+              fail: function (error) {  
+                // fail     
+                console.log(&quot;支付失败&quot;)  
+                console.log(error)  
+              },  
+              complete: function () {  
+                // complete     
+                console.log(&quot;pay complete&quot;)  
+              }  
+            });  
+    } 
+</code></pre>
+<p>四、微信服务器通知java后端</p>
+<pre><code class="language-java">[java] view plain copy
+/** 
+     * @Description:微信支付     
+     * @return 
+     * @throws Exception  
+     */  
+    @RequestMapping(value=&quot;/wxNotify&quot;)  
+    @ResponseBody  
+    public void wxNotify(HttpServletRequest request,HttpServletResponse response) throws Exception{  
+        BufferedReader br = new BufferedReader(new InputStreamReader((ServletInputStream)request.getInputStream()));  
+        String line = null;  
+        StringBuilder sb = new StringBuilder();  
+        while((line = br.readLine()) != null){  
+            sb.append(line);  
+        }  
+[java] view plain copy
+        br.close();  
+        //sb为微信返回的xml  
+        String notityXml = sb.toString();  
+        String resXml = &quot;&quot;;  
+        System.out.println(&quot;接收到的报文：&quot; + notityXml);  
+      
+        Map map = PayUtil.doXMLParse(notityXml);  
+          
+        String returnCode = (String) map.get(&quot;return_code&quot;);  
+        if(&quot;SUCCESS&quot;.equals(returnCode)){  
+            //验证签名是否正确  
+            if(PayUtil.verify(PayUtil.createLinkString(map), (String)map.get(&quot;sign&quot;), WxPayConfig.key, &quot;utf-8&quot;)){  
+                /**此处添加自己的业务逻辑代码start**/  
+                  
+                  
+                /**此处添加自己的业务逻辑代码end**/  
+                //通知微信服务器已经支付成功  
+                resXml = &quot;&lt;xml&gt;&quot; + &quot;&lt;return_code&gt;&lt;![CDATA[SUCCESS]]&gt;&lt;/return_code&gt;&quot;  
+                + &quot;&lt;return_msg&gt;&lt;![CDATA[OK]]&gt;&lt;/return_msg&gt;&quot; + &quot;&lt;/xml&gt; &quot;;  
+            }  
+        }else{  
+            resXml = &quot;&lt;xml&gt;&quot; + &quot;&lt;return_code&gt;&lt;![CDATA[FAIL]]&gt;&lt;/return_code&gt;&quot;  
+            + &quot;&lt;return_msg&gt;&lt;![CDATA[报文为空]]&gt;&lt;/return_msg&gt;&quot; + &quot;&lt;/xml&gt; &quot;;  
+        }  
+        System.out.println(resXml);  
+        System.out.println(&quot;微信支付回调数据结束&quot;);  
+  
+  
+        BufferedOutputStream out = new BufferedOutputStream(  
+                response.getOutputStream());  
+        out.write(resXml.getBytes());  
+        out.flush();  
+        out.close();  
+    } 
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/Eqaw7RxRY" class="tag">
+                    小程序
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/css-centered">
+                  <h3 class="post-title">
+                    css图片居中(水平居中和垂直居中)
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

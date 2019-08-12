@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-08-12T08:43:54.598Z</updated>
+    <updated>2019-08-12T08:48:14.175Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,25 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[Mac下android_sdk配置环境变量]]></title>
+        <id>https://skytotwo.github.io//post/mac-android-env</id>
+        <link href="https://skytotwo.github.io//post/mac-android-env">
+        </link>
+        <updated>2019-08-12T08:44:49.000Z</updated>
+        <summary type="html"><![CDATA[<p>之前用mac做过安卓开发，然后安卓sdk的配置环境变量上遇到过坑，这里记录一下。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>之前用mac做过安卓开发，然后安卓sdk的配置环境变量上遇到过坑，这里记录一下。</p>
+<!-- more -->
+<p>1、启动Terminal终端工具<br>
+2、输入cd ~/ 进入当前用户的home目录<br>
+3、创建：touch .bash_profile<br>
+4、打开并编辑：open .bash_profile<br>
+5、在文件中写入以下内容：export PATH=${PATH}:这里是platform-tools 的绝对路径，以我的为例：/Volumes/workplace/sdk/platform-tools/<br>
+6、执行如下命令：source .bash_profile<br>
+7、验证：输入adb回车。如果未显示command not found，说明此命令有效，环境变量设置完成。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Linux常用命令简记]]></title>
         <id>https://skytotwo.github.io//post/linux-command</id>
@@ -1779,121 +1798,6 @@ public class SFTPConstants {
 	public static final String SFTP_REQ_LOC = &quot;location&quot;;
 }
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[js代码判断浏览器种类]]></title>
-        <id>https://skytotwo.github.io//post/js-check-browser</id>
-        <link href="https://skytotwo.github.io//post/js-check-browser">
-        </link>
-        <updated>2019-08-05T03:38:17.000Z</updated>
-        <summary type="html"><![CDATA[<p>很多时候，前端需要对当前浏览器类型进行判断，进而触发不同的操作，这里使用js代码对浏览器的种类进行判断。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>很多时候，前端需要对当前浏览器类型进行判断，进而触发不同的操作，这里使用js代码对浏览器的种类进行判断。</p>
-<!-- more -->
-<p>第一种，只区分浏览器，不考虑版本<br>
-复制代码 代码如下:</p>
-<pre><code class="language-javascript">function myBrowser(){
-    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
-    var isOpera = userAgent.indexOf(&quot;Opera&quot;) &gt; -1;
-    if (isOpera) {
-        return &quot;Opera&quot;
-    }; //判断是否Opera浏览器
-    if (userAgent.indexOf(&quot;Firefox&quot;) &gt; -1) {
-        return &quot;FF&quot;;
-    } //判断是否Firefox浏览器
-    if (userAgent.indexOf(&quot;Chrome&quot;) &gt; -1){
-  		return &quot;Chrome&quot;;
- 	}
-    if (userAgent.indexOf(&quot;Safari&quot;) &gt; -1) {
-        return &quot;Safari&quot;;
-    } //判断是否Safari浏览器
-    if (userAgent.indexOf(&quot;compatible&quot;) &gt; -1 &amp;&amp; userAgent.indexOf(&quot;MSIE&quot;) &gt; -1 &amp;&amp; !isOpera) {
-        return &quot;IE&quot;;
-    }; //判断是否IE浏览器
-}
-</code></pre>
-<p>//以下是调用上面的函数</p>
-<pre><code class="language-javascript">var mb = myBrowser();
-if (&quot;IE&quot; == mb) {
-    alert(&quot;我是 IE&quot;);
-}
-if (&quot;FF&quot; == mb) {
-    alert(&quot;我是 Firefox&quot;);
-}
-if (&quot;Chrome&quot; == mb) {
-    alert(&quot;我是 Chrome&quot;);
-}
-if (&quot;Opera&quot; == mb) {
-    alert(&quot;我是 Opera&quot;);
-}
-if (&quot;Safari&quot; == mb) {
-    alert(&quot;我是 Safari&quot;);
-}
-</code></pre>
-<p>第二种，区分浏览器，并考虑IE5.5 6 7 8<br>
-复制代码 代码如下:</p>
-<pre><code class="language-javascript">function myBrowser(){
-    var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
-    var isOpera = userAgent.indexOf(&quot;Opera&quot;) &gt; -1; //判断是否Opera浏览器
-    var isIE = userAgent.indexOf(&quot;compatible&quot;) &gt; -1 &amp;&amp; userAgent.indexOf(&quot;MSIE&quot;) &gt; -1 &amp;&amp; !isOpera; //判断是否IE浏览器
-    var isFF = userAgent.indexOf(&quot;Firefox&quot;) &gt; -1; //判断是否Firefox浏览器
-    var isSafari = userAgent.indexOf(&quot;Safari&quot;) &gt; -1; //判断是否Safari浏览器
-    if (isIE) {
-        var IE5 = IE55 = IE6 = IE7 = IE8 = false;
-        var reIE = new RegExp(&quot;MSIE (\\d+\\.\\d+);&quot;);
-        reIE.test(userAgent);
-        var fIEVersion = parseFloat(RegExp[&quot;$1&quot;]);
-        IE55 = fIEVersion == 5.5;
-        IE6 = fIEVersion == 6.0;
-        IE7 = fIEVersion == 7.0;
-        IE8 = fIEVersion == 8.0;
-        if (IE55) {
-            return &quot;IE55&quot;;
-        }
-        if (IE6) {
-            return &quot;IE6&quot;;
-        }
-        if (IE7) {
-            return &quot;IE7&quot;;
-        }
-        if (IE8) {
-            return &quot;IE8&quot;;
-        }
-    }//isIE end
-    if (isFF) {
-        return &quot;FF&quot;;
-    }
-    if (isOpera) {
-        return &quot;Opera&quot;;
-    }
-}//myBrowser() end
-</code></pre>
-<p>//以下是调用上面的函数</p>
-<pre><code class="language-javascript">if (myBrowser() == &quot;FF&quot;) {
-    alert(&quot;我是 Firefox&quot;);
-}
-if (myBrowser() == &quot;Opera&quot;) {
-    alert(&quot;我是 Opera&quot;);
-}
-if (myBrowser() == &quot;Safari&quot;) {
-    alert(&quot;我是 Safari&quot;);
-}
-if (myBrowser() == &quot;IE55&quot;) {
-    alert(&quot;我是 IE5.5&quot;);
-}
-if (myBrowser() == &quot;IE6&quot;) {
-    alert(&quot;我是 IE6&quot;);
-}
-if (myBrowser() == &quot;IE7&quot;) {
-    alert(&quot;我是 IE7&quot;);
-}
-if (myBrowser() == &quot;IE8&quot;) {
-    alert(&quot;我是 IE8&quot;);
-}
-</code></pre>
-<p>下面给出一个判断当前浏览器是IE的JS代码.<br>
-原理是利用了IE与标准浏览器在处理数组的toString方法的差异做成的。对于标准游览器，如果数组里面最后一个字符为逗号，JS引擎会自动剔除它。</p>
 ]]></content>
     </entry>
 </feed>

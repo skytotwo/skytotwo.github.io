@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Collections模块基本介绍 | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1566806129271">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1566806129271" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="http://picture.totoro.site/" class="site-nav">
+            图床
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Collections模块基本介绍</h2>
+            <div class="post-date">2019-08-26</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/1493039268469_47.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>我们都知道，Python拥有一些内置的数据类型，比如str, int, list, tuple, dict等， collections模块在这些内置数据类型的基础上，提供了几个额外的数据类型，更便捷的实现了一些功能。</p>
+ <!-- more -->
+<p>共由以下组成：</p>
+<ul>
+<li><strong>namedtuple()</strong>: 生成可以使用名字来访问元素内容的tuple子类</li>
+<li><strong>deque</strong>: 双端队列，可以快速的从另外一侧追加和推出对象</li>
+<li><strong>Counter</strong>: 计数器，主要用来计数</li>
+<li><strong>OrderedDict</strong>: 有序字典</li>
+<li><strong>defaultdict</strong>: 带有默认值的字典</li>
+</ul>
+<h3 id="1-可命名元组namedtuple">1、可命名元组(namedtuple)</h3>
+<p><strong>作用：namedtuple主要用来产生可以使用名称来访问元素的数据对象，通常用来增强代码的可读性， 在访问一些tuple类型的数据时尤其好用。</strong></p>
+<pre><code class="language-python">class Mytuple(__builtin__.tuple)
+ |  Mytuple(x, y)
+ |  
+ |  Method resolution order:
+ |      Mytuple
+ |      __builtin__.tuple
+ |      __builtin__.object
+ |  
+ |  Methods defined here:
+ |  
+ |  __getnewargs__(self)
+ |      Return self as a plain tuple.  Used by copy and pickle.
+ |  
+ |  __getstate__(self)
+ |      Exclude the OrderedDict from pickling
+ |  
+ |  __repr__(self)
+ |      Return a nicely formatted representation string
+ |  
+ |  _asdict(self)
+ |      Return a new OrderedDict which maps field names to their values
+ |  
+ |  _replace(_self, **kwds)
+ |      Return a new Mytuple object replacing specified fields with new values
+ |  
+ |  ----------------------------------------------------------------------
+ |  Class methods defined here:
+ |  
+ |  _make(cls, iterable, new=&lt;built-in method __new__ of type object&gt;, len=&lt;built-in function len&gt;) from __builtin__.type
+ |      Make a new Mytuple object from a sequence or iterable
+ |  
+ |  ----------------------------------------------------------------------
+ |  Static methods defined here:
+ |  
+ |  __new__(_cls, x, y)
+ |      Create new instance of Mytuple(x, y)
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |  
+ |  __dict__
+ |      Return a new OrderedDict which maps field names to their values
+ |  
+ |  x
+ |      Alias for field number 0
+ |  
+ |  y
+ |      Alias for field number 1
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data and other attributes defined here:
+ |  
+ |  _fields = ('x', 'y')
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from __builtin__.tuple:
+ |  
+ |  __add__(...)
+ |      x.__add__(y) &lt;==&gt; x+y
+ |  
+ |  __contains__(...)
+ |      x.__contains__(y) &lt;==&gt; y in x
+ |  
+ |  __eq__(...)
+ |      x.__eq__(y) &lt;==&gt; x==y
+ |  
+ |  __ge__(...)
+ |      x.__ge__(y) &lt;==&gt; x&gt;=y
+ |  
+ |  __getattribute__(...)
+ |      x.__getattribute__('name') &lt;==&gt; x.name
+ |  
+ |  __getitem__(...)
+ |      x.__getitem__(y) &lt;==&gt; x[y]
+ |  
+ |  __getslice__(...)
+ |      x.__getslice__(i, j) &lt;==&gt; x[i:j]
+ |      
+ |      Use of negative indices is not supported.
+ |  
+ |  __gt__(...)
+ |      x.__gt__(y) &lt;==&gt; x&gt;y
+ |  
+ |  __hash__(...)
+ |      x.__hash__() &lt;==&gt; hash(x)
+ |  
+ |  __iter__(...)
+ |      x.__iter__() &lt;==&gt; iter(x)
+ |  
+ |  __le__(...)
+ |      x.__le__(y) &lt;==&gt; x&lt;=y
+ |  
+ |  __len__(...)
+ |      x.__len__() &lt;==&gt; len(x)
+ |  
+ |  __lt__(...)
+ |      x.__lt__(y) &lt;==&gt; x&lt;y
+ |  
+ |  __mul__(...)
+ |      x.__mul__(n) &lt;==&gt; x*n
+ |  
+ |  __ne__(...)
+ |      x.__ne__(y) &lt;==&gt; x!=y
+ |  
+ |  __rmul__(...)
+ |      x.__rmul__(n) &lt;==&gt; n*x
+ |  
+ |  __sizeof__(...)
+ |      T.__sizeof__() -- size of T in memory, in bytes
+ |  
+ |  count(...)
+ |      T.count(value) -&gt; integer -- return number of occurrences of value
+ |  
+ |  index(...)
+ |      T.index(value, [start, [stop]]) -&gt; integer -- return first index of value.
+ |      Raises ValueError if the value is not present.
+
+Mytuple
+
+Mytuple
+
+namedtuple
+</code></pre>
+<p>创建一个自己的可扩展tuple的类（包含tuple所有功能以及其他功能的类型），在根据类创建对象，然后调用对象最长用于坐标，普通的元组类似于列表以index编号来访问，而自定义可扩展的可以类似于字典的keys进行访问</p>
+<p>下例列举用collections.namedtuple以及普通元组进行元素调用的实例子。</p>
+<pre><code class="language-python">实例1：
+
+【collections方法】
+import collections　　　　　　　　#导入collections模块
+ 
+mytuple = collections.namedtuple('mytuple',['x','y','z'])　　　#调用namedtuple方法来定义mytuple的变量，并创建一个名称为['x','y','z']的列表。
+ 
+a = mytuple(3,5,7)　　　　　　　　#给mytuple赋值，这里赋值的（3,5,7）是分别赋值给['x','y','z']这个列表中每个元素的。
+print(a)
+&gt;&gt;&gt;mytuple(x=3, y=5, z=7)  　　 #打印结果可以看出赋值的每个值已经传给了列表中对应的每个元素中了。
+ 
+print(a.x)　　　　　　　　　　　　 #上述我们把mytuple赋给了变量a,所以a=mytuple。那么我们在调用mytuple中的元素时，要使用a.x,a.y,a.z的方式去调用。
+ 
+&gt;&gt;&gt;3
+ 
+print(a.x*a.z)　　　　　　　　　　#a.x=3，a.z=7那么再相乘结果为21
+ 
+&gt;&gt;&gt;21
+</code></pre>
+<p><strong>【普通tuple调用方法】</strong></p>
+<pre><code class="language-python">mytuple = (3,5,7)　　　　　　　　#生成一个普通的数字元组
+print(mytuple)
+ 
+&gt;&gt;&gt;(3,5,7)
+ 
+print(mytuple[0]*mytuple[2])   #在做元素调用以及算法计算时，因为元组调用元素跟列表一样是通过index编号来访问的所以要取出每个元素必须使用坐标，然后再做计算。
+ 
+&gt;&gt;&gt;21
+</code></pre>
+<p><strong>总结：通过上述方法可以看出使用collections模块中的namedtuple方法可以给每个元素起别名，通过名称调用的方式来获取值使用。而普通元组的方法必须通过下标的方式来取值。</strong></p>
+<p>实例2：</p>
+<pre><code class="language-python">from collections import namedtuple　　　　　　　　　　　　　　　　#通过from import的方式直接调用collections模块中namedtuple这个方法。而import collections是导入这个模块中所有的方法。这种调用在使用时必须collections.namedtuple的方式来使用。
+ 
+websites = [
+    ('Sohu', 'http://www.google.com/', u'liupeng'),
+    ('Sina', 'http://www.sina.com.cn/', u'tony'),
+    ('163', 'http://www.163.com/', u'jack')
+]　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　#假设我们有一个列表，列表中有三个元组，每个元组中的元素都是不同格式的字符串
+ 
+Website = namedtuple('Website_list', ['name', 'url', 'founder'])  #通过调用namedtuple，来设置一个列表'Website_list'是这个列表的别名.而['name','url','founder']的命名是分别为了分配给大列表websites中哥哥元组中的各个元素的。
+for i in websites:　　　　　　　　　　　　　　　　　　　　　　　　　# for循环websites这个大列表，这里的i循环得出的结果是这个大列表中每个元组
+    x = Website._make(i)　　　　　　　　　　　　　　　　　　　　　 #从已经存在迭代对象或者序列生成一个新的命名元组。 Website是namedtuple('Website_list', ['name', 'url', 'founder'])的内容，._make(i)是websites各个元组的内容，把这两个元组重组成新的元组。
+    print (x)　　　　　　　　　　　　　　　　　　　　　　　　　　　　#x打印结果如下，生成了新的命名元组。是使用了namedtuple中._make的方法生成的。
+ 
+# Result:
+Website_list(name='Sohu', url='http://www.google.com/', founder='liupeng')
+Website_list(name='Sina', url='http://www.sina.com.cn/', founder='tony')
+Website_list(name='163', url='http://www.163.com/', founder='jack')
+</code></pre>
+<h3 id="2-队列deque"><strong>2、队列(deque)</strong></h3>
+<p><strong>作用：deque其实是 double-ended queue 的缩写，翻译过来就是双端队列，它最大的好处就是实现了从队列 头部快速增加和取出对象: .popleft(), .appendleft() 。</strong></p>
+<pre><code class="language-python"> 
+class Queue:
+    &quot;&quot;&quot;Create a queue object with a given maximum size.
+
+    If maxsize is &lt;= 0, the queue size is infinite.
+    &quot;&quot;&quot;
+    def __init__(self, maxsize=0):
+        self.maxsize = maxsize
+        self._init(maxsize)
+        # mutex must be held whenever the queue is mutating.  All methods
+        # that acquire mutex must release it before returning.  mutex
+        # is shared between the three conditions, so acquiring and
+        # releasing the conditions also acquires and releases mutex.
+        self.mutex = _threading.Lock()
+        # Notify not_empty whenever an item is added to the queue; a
+        # thread waiting to get is notified then.
+        self.not_empty = _threading.Condition(self.mutex)
+        # Notify not_full whenever an item is removed from the queue;
+        # a thread waiting to put is notified then.
+        self.not_full = _threading.Condition(self.mutex)
+        # Notify all_tasks_done whenever the number of unfinished tasks
+        # drops to zero; thread waiting to join() is notified to resume
+        self.all_tasks_done = _threading.Condition(self.mutex)
+        self.unfinished_tasks = 0
+
+    def task_done(self):
+        &quot;&quot;&quot;Indicate that a formerly enqueued task is complete.
+
+        Used by Queue consumer threads.  For each get() used to fetch a task,
+        a subsequent call to task_done() tells the queue that the processing
+        on the task is complete.
+
+        If a join() is currently blocking, it will resume when all items
+        have been processed (meaning that a task_done() call was received
+        for every item that had been put() into the queue).
+
+        Raises a ValueError if called more times than there were items
+        placed in the queue.
+        &quot;&quot;&quot;
+        self.all_tasks_done.acquire()
+        try:
+            unfinished = self.unfinished_tasks - 1
+            if unfinished &lt;= 0:
+                if unfinished &lt; 0:
+                    raise ValueError('task_done() called too many times')
+                self.all_tasks_done.notify_all()
+            self.unfinished_tasks = unfinished
+        finally:
+            self.all_tasks_done.release()
+
+    def join(self):
+        &quot;&quot;&quot;Blocks until all items in the Queue have been gotten and processed.
+
+        The count of unfinished tasks goes up whenever an item is added to the
+        queue. The count goes down whenever a consumer thread calls task_done()
+        to indicate the item was retrieved and all work on it is complete.
+
+        When the count of unfinished tasks drops to zero, join() unblocks.
+        &quot;&quot;&quot;
+        self.all_tasks_done.acquire()
+        try:
+            while self.unfinished_tasks:
+                self.all_tasks_done.wait()
+        finally:
+            self.all_tasks_done.release()
+
+    def qsize(self):
+        &quot;&quot;&quot;Return the approximate size of the queue (not reliable!).&quot;&quot;&quot;
+        self.mutex.acquire()
+        n = self._qsize()
+        self.mutex.release()
+        return n
+
+    def empty(self):
+        &quot;&quot;&quot;Return True if the queue is empty, False otherwise (not reliable!).&quot;&quot;&quot;
+        self.mutex.acquire()
+        n = not self._qsize()
+        self.mutex.release()
+        return n
+
+    def full(self):
+        &quot;&quot;&quot;Return True if the queue is full, False otherwise (not reliable!).&quot;&quot;&quot;
+        self.mutex.acquire()
+        n = 0 &lt; self.maxsize == self._qsize()
+        self.mutex.release()
+        return n
+
+    def put(self, item, block=True, timeout=None):
+        &quot;&quot;&quot;Put an item into the queue.
+
+        If optional args 'block' is true and 'timeout' is None (the default),
+        block if necessary until a free slot is available. If 'timeout' is
+        a non-negative number, it blocks at most 'timeout' seconds and raises
+        the Full exception if no free slot was available within that time.
+        Otherwise ('block' is false), put an item on the queue if a free slot
+        is immediately available, else raise the Full exception ('timeout'
+        is ignored in that case).
+        &quot;&quot;&quot;
+        self.not_full.acquire()
+        try:
+            if self.maxsize &gt; 0:
+                if not block:
+                    if self._qsize() == self.maxsize:
+                        raise Full
+                elif timeout is None:
+                    while self._qsize() == self.maxsize:
+                        self.not_full.wait()
+                elif timeout &lt; 0:
+                    raise ValueError(&quot;'timeout' must be a non-negative number&quot;)
+                else:
+                    endtime = _time() + timeout
+                    while self._qsize() == self.maxsize:
+                        remaining = endtime - _time()
+                        if remaining &lt;= 0.0:
+                            raise Full
+                        self.not_full.wait(remaining)
+            self._put(item)
+            self.unfinished_tasks += 1
+            self.not_empty.notify()
+        finally:
+            self.not_full.release()
+
+    def put_nowait(self, item):
+        &quot;&quot;&quot;Put an item into the queue without blocking.
+
+        Only enqueue the item if a free slot is immediately available.
+        Otherwise raise the Full exception.
+        &quot;&quot;&quot;
+        return self.put(item, False)
+
+    def get(self, block=True, timeout=None):
+        &quot;&quot;&quot;Remove and return an item from the queue.
+
+        If optional args 'block' is true and 'timeout' is None (the default),
+        block if necessary until an item is available. If 'timeout' is
+        a non-negative number, it blocks at most 'timeout' seconds and raises
+        the Empty exception if no item was available within that time.
+        Otherwise ('block' is false), return an item if one is immediately
+        available, else raise the Empty exception ('timeout' is ignored
+        in that case).
+        &quot;&quot;&quot;
+        self.not_empty.acquire()
+        try:
+            if not block:
+                if not self._qsize():
+                    raise Empty
+            elif timeout is None:
+                while not self._qsize():
+                    self.not_empty.wait()
+            elif timeout &lt; 0:
+                raise ValueError(&quot;'timeout' must be a non-negative number&quot;)
+            else:
+                endtime = _time() + timeout
+                while not self._qsize():
+                    remaining = endtime - _time()
+                    if remaining &lt;= 0.0:
+                        raise Empty
+                    self.not_empty.wait(remaining)
+            item = self._get()
+            self.not_full.notify()
+            return item
+        finally:
+            self.not_empty.release()
+
+    def get_nowait(self):
+        &quot;&quot;&quot;Remove and return an item from the queue without blocking.
+
+        Only get an item if one is immediately available. Otherwise
+        raise the Empty exception.
+        &quot;&quot;&quot;
+        return self.get(False)
+
+    # Override these methods to implement other queue organizations
+    # (e.g. stack or priority queue).
+    # These will only be called with appropriate locks held
+
+    # Initialize the queue representation
+    def _init(self, maxsize):
+        self.queue = deque()
+
+    def _qsize(self, len=len):
+        return len(self.queue)
+
+    # Put a new item in the queue
+    def _put(self, item):
+        self.queue.append(item)
+
+    # Get an item from the queue
+    def _get(self):
+        return self.queue.popleft()
+
+Queue.Queue
+
+queue
+</code></pre>
+<pre><code class="language-python">a = collections.deque(range(9))　　　　 　　#通过调用collections中deque方法来创建一个数字列表。[0,1,2,3,4,5,6,7,8]
+a.appendleft(4)　　　　　　　　　　　　　　　　#.appendleft（传参）  是把传的参数添加到列表的最左边。appendleft一次只支持传一个参数。
+a.extend([1,2,3,4,5])　　　　　　　　　　　　#.extend（）以及append（）方法是把传的参数添加到列表的最后边。而.extend（【列表，或者元组】）可以把列表中的各个元素传到列表中生成一个新的列表。
+print(a.count(3))　　　　　　　　　　　　　　 #a.count()括号中的参数可以指定。count是查看出现的次数的。按照上例除了生成原列表中生成的数字3以外，我们在extend列表的时候又有一个3，所以count出来的结果应该是2.说明3出现了2次。
+
+print(a)
+</code></pre>
+<pre><code class="language-python">import collections
+from collections import deque
+
+data = collections.deque()
+
+data.extendleft([('Sohu', 'http://www.google.com/', u'liupeng'),
+    ('Sina', 'http://www.sina.com.cn/', u'tony'),
+    ('163', 'http://www.163.com/', u'jack')])
+
+
+li = []
+
+for i in data:
+    li.append(i)
+print(li)
+
+nam = collections.namedtuple('website',['name','url','founder'])
+
+for i in li:
+    x = nam._make(i)
+    print(x)
+</code></pre>
+<h3 id="3-counter计数器"><strong>3、counter计数器</strong></h3>
+<p><strong>计数器是一个非常常用的功能需求，collections也贴心的为你提供了这个功能。如果counter(dict)是对字典的一个补充，如果counter(list)则是对列表的补充，初步测试对字典的值进行排序。</strong></p>
+<pre><code class="language-python">
+########################################################################
+###  Counter
+########################################################################
+
+class Counter(dict):
+    '''Dict subclass for counting hashable items.  Sometimes called a bag
+    or multiset.  Elements are stored as dictionary keys and their counts
+    are stored as dictionary values.
+
+    &gt;&gt;&gt; c = Counter('abcdeabcdabcaba')  # count elements from a string
+
+    &gt;&gt;&gt; c.most_common(3)                # three most common elements
+    [('a', 5), ('b', 4), ('c', 3)]
+    &gt;&gt;&gt; sorted(c)                       # list all unique elements
+    ['a', 'b', 'c', 'd', 'e']
+    &gt;&gt;&gt; ''.join(sorted(c.elements()))   # list elements with repetitions
+    'aaaaabbbbcccdde'
+    &gt;&gt;&gt; sum(c.values())                 # total of all counts
+
+    &gt;&gt;&gt; c['a']                          # count of letter 'a'
+    &gt;&gt;&gt; for elem in 'shazam':           # update counts from an iterable
+    ...     c[elem] += 1                # by adding 1 to each element's count
+    &gt;&gt;&gt; c['a']                          # now there are seven 'a'
+    &gt;&gt;&gt; del c['b']                      # remove all 'b'
+    &gt;&gt;&gt; c['b']                          # now there are zero 'b'
+
+    &gt;&gt;&gt; d = Counter('simsalabim')       # make another counter
+    &gt;&gt;&gt; c.update(d)                     # add in the second counter
+    &gt;&gt;&gt; c['a']                          # now there are nine 'a'
+
+    &gt;&gt;&gt; c.clear()                       # empty the counter
+    &gt;&gt;&gt; c
+    Counter()
+
+    Note:  If a count is set to zero or reduced to zero, it will remain
+    in the counter until the entry is deleted or the counter is cleared:
+
+    &gt;&gt;&gt; c = Counter('aaabbc')
+    &gt;&gt;&gt; c['b'] -= 2                     # reduce the count of 'b' by two
+    &gt;&gt;&gt; c.most_common()                 # 'b' is still in, but its count is zero
+    [('a', 3), ('c', 1), ('b', 0)]
+
+    '''
+    # References:
+    #   http://en.wikipedia.org/wiki/Multiset
+    #   http://www.gnu.org/software/smalltalk/manual-base/html_node/Bag.html
+    #   http://www.demo2s.com/Tutorial/Cpp/0380__set-multiset/Catalog0380__set-multiset.htm
+    #   http://code.activestate.com/recipes/259174/
+    #   Knuth, TAOCP Vol. II section 4.6.3
+
+    def __init__(self, iterable=None, **kwds):
+        '''Create a new, empty Counter object.  And if given, count elements
+        from an input iterable.  Or, initialize the count from another mapping
+        of elements to their counts.
+
+        &gt;&gt;&gt; c = Counter()                           # a new, empty counter
+        &gt;&gt;&gt; c = Counter('gallahad')                 # a new counter from an iterable
+        &gt;&gt;&gt; c = Counter({'a': 4, 'b': 2})           # a new counter from a mapping
+        &gt;&gt;&gt; c = Counter(a=4, b=2)                   # a new counter from keyword args
+
+        '''
+        super(Counter, self).__init__()
+        self.update(iterable, **kwds)
+
+    def __missing__(self, key):
+        &quot;&quot;&quot; 对于不存在的元素，返回计数器为0 &quot;&quot;&quot;
+        'The count of elements not in the Counter is zero.'
+        # Needed so that self[missing_item] does not raise KeyError
+        return 0
+
+    def most_common(self, n=None):
+        &quot;&quot;&quot; 数量大于等n的所有元素和计数器 &quot;&quot;&quot;
+        '''List the n most common elements and their counts from the most
+        common to the least.  If n is None, then list all element counts.
+
+        &gt;&gt;&gt; Counter('abcdeabcdabcaba').most_common(3)
+        [('a', 5), ('b', 4), ('c', 3)]
+
+        '''
+        # Emulate Bag.sortedByCount from Smalltalk
+        if n is None:
+            return sorted(self.iteritems(), key=_itemgetter(1), reverse=True)
+        return _heapq.nlargest(n, self.iteritems(), key=_itemgetter(1))
+
+    def elements(self):
+        &quot;&quot;&quot; 计数器中的所有元素，注：此处非所有元素集合，而是包含所有元素集合的迭代器 &quot;&quot;&quot;
+        '''Iterator over elements repeating each as many times as its count.
+
+        &gt;&gt;&gt; c = Counter('ABCABC')
+        &gt;&gt;&gt; sorted(c.elements())
+        ['A', 'A', 'B', 'B', 'C', 'C']
+
+        # Knuth's example for prime factors of 1836:  2**2 * 3**3 * 17**1
+        &gt;&gt;&gt; prime_factors = Counter({2: 2, 3: 3, 17: 1})
+        &gt;&gt;&gt; product = 1
+        &gt;&gt;&gt; for factor in prime_factors.elements():     # loop over factors
+        ...     product *= factor                       # and multiply them
+        &gt;&gt;&gt; product
+
+        Note, if an element's count has been set to zero or is a negative
+        number, elements() will ignore it.
+
+        '''
+        # Emulate Bag.do from Smalltalk and Multiset.begin from C++.
+        return _chain.from_iterable(_starmap(_repeat, self.iteritems()))
+
+    # Override dict methods where necessary
+
+    @classmethod
+    def fromkeys(cls, iterable, v=None):
+        # There is no equivalent method for counters because setting v=1
+        # means that no element can have a count greater than one.
+        raise NotImplementedError(
+            'Counter.fromkeys() is undefined.  Use Counter(iterable) instead.')
+
+    def update(self, iterable=None, **kwds):
+        &quot;&quot;&quot; 更新计数器，其实就是增加；如果原来没有，则新建，如果有则加一 &quot;&quot;&quot;
+        '''Like dict.update() but add counts instead of replacing them.
+
+        Source can be an iterable, a dictionary, or another Counter instance.
+
+        &gt;&gt;&gt; c = Counter('which')
+        &gt;&gt;&gt; c.update('witch')           # add elements from another iterable
+        &gt;&gt;&gt; d = Counter('watch')
+        &gt;&gt;&gt; c.update(d)                 # add elements from another counter
+        &gt;&gt;&gt; c['h']                      # four 'h' in which, witch, and watch
+
+        '''
+        # The regular dict.update() operation makes no sense here because the
+        # replace behavior results in the some of original untouched counts
+        # being mixed-in with all of the other counts for a mismash that
+        # doesn't have a straight-forward interpretation in most counting
+        # contexts.  Instead, we implement straight-addition.  Both the inputs
+        # and outputs are allowed to contain zero and negative counts.
+
+        if iterable is not None:
+            if isinstance(iterable, Mapping):
+                if self:
+                    self_get = self.get
+                    for elem, count in iterable.iteritems():
+                        self[elem] = self_get(elem, 0) + count
+                else:
+                    super(Counter, self).update(iterable) # fast path when counter is empty
+            else:
+                self_get = self.get
+                for elem in iterable:
+                    self[elem] = self_get(elem, 0) + 1
+        if kwds:
+            self.update(kwds)
+
+    def subtract(self, iterable=None, **kwds):
+        &quot;&quot;&quot; 相减，原来的计数器中的每一个元素的数量减去后添加的元素的数量 &quot;&quot;&quot;
+        '''Like dict.update() but subtracts counts instead of replacing them.
+        Counts can be reduced below zero.  Both the inputs and outputs are
+        allowed to contain zero and negative counts.
+
+        Source can be an iterable, a dictionary, or another Counter instance.
+
+        &gt;&gt;&gt; c = Counter('which')
+        &gt;&gt;&gt; c.subtract('witch')             # subtract elements from another iterable
+        &gt;&gt;&gt; c.subtract(Counter('watch'))    # subtract elements from another counter
+        &gt;&gt;&gt; c['h']                          # 2 in which, minus 1 in witch, minus 1 in watch
+        &gt;&gt;&gt; c['w']                          # 1 in which, minus 1 in witch, minus 1 in watch
+        -1
+
+        '''
+        if iterable is not None:
+            self_get = self.get
+            if isinstance(iterable, Mapping):
+                for elem, count in iterable.items():
+                    self[elem] = self_get(elem, 0) - count
+            else:
+                for elem in iterable:
+                    self[elem] = self_get(elem, 0) - 1
+        if kwds:
+            self.subtract(kwds)
+
+    def copy(self):
+        &quot;&quot;&quot; 拷贝 &quot;&quot;&quot;
+        'Return a shallow copy.'
+        return self.__class__(self)
+
+    def __reduce__(self):
+        &quot;&quot;&quot; 返回一个元组（类型，元组） &quot;&quot;&quot;
+        return self.__class__, (dict(self),)
+
+    def __delitem__(self, elem):
+        &quot;&quot;&quot; 删除元素 &quot;&quot;&quot;
+        'Like dict.__delitem__() but does not raise KeyError for missing values.'
+        if elem in self:
+            super(Counter, self).__delitem__(elem)
+
+    def __repr__(self):
+        if not self:
+            return '%s()' % self.__class__.__name__
+        items = ', '.join(map('%r: %r'.__mod__, self.most_common()))
+        return '%s({%s})' % (self.__class__.__name__, items)
+
+    # Multiset-style mathematical operations discussed in:
+    #       Knuth TAOCP Volume II section 4.6.3 exercise 19
+    #       and at http://en.wikipedia.org/wiki/Multiset
+    #
+    # Outputs guaranteed to only include positive counts.
+    #
+    # To strip negative and zero counts, add-in an empty counter:
+    #       c += Counter()
+
+    def __add__(self, other):
+        '''Add counts from two counters.
+
+        &gt;&gt;&gt; Counter('abbb') + Counter('bcc')
+        Counter({'b': 4, 'c': 2, 'a': 1})
+
+        '''
+        if not isinstance(other, Counter):
+            return NotImplemented
+        result = Counter()
+        for elem, count in self.items():
+            newcount = count + other[elem]
+            if newcount &gt; 0:
+                result[elem] = newcount
+        for elem, count in other.items():
+            if elem not in self and count &gt; 0:
+                result[elem] = count
+        return result
+
+    def __sub__(self, other):
+        ''' Subtract count, but keep only results with positive counts.
+
+        &gt;&gt;&gt; Counter('abbbc') - Counter('bccd')
+        Counter({'b': 2, 'a': 1})
+
+        '''
+        if not isinstance(other, Counter):
+            return NotImplemented
+        result = Counter()
+        for elem, count in self.items():
+            newcount = count - other[elem]
+            if newcount &gt; 0:
+                result[elem] = newcount
+        for elem, count in other.items():
+            if elem not in self and count &lt; 0:
+                result[elem] = 0 - count
+        return result
+
+    def __or__(self, other):
+        '''Union is the maximum of value in either of the input counters.
+
+        &gt;&gt;&gt; Counter('abbb') | Counter('bcc')
+        Counter({'b': 3, 'c': 2, 'a': 1})
+
+        '''
+        if not isinstance(other, Counter):
+            return NotImplemented
+        result = Counter()
+        for elem, count in self.items():
+            other_count = other[elem]
+            newcount = other_count if count &lt; other_count else count
+            if newcount &gt; 0:
+                result[elem] = newcount
+        for elem, count in other.items():
+            if elem not in self and count &gt; 0:
+                result[elem] = count
+        return result
+
+    def __and__(self, other):
+        ''' Intersection is the minimum of corresponding counts.
+
+        &gt;&gt;&gt; Counter('abbb') &amp; Counter('bcc')
+        Counter({'b': 1})
+
+        '''
+        if not isinstance(other, Counter):
+            return NotImplemented
+        result = Counter()
+        for elem, count in self.items():
+            other_count = other[elem]
+            newcount = count if count &lt; other_count else other_count
+            if newcount &gt; 0:
+                result[elem] = newcount
+        return result
+
+Counter
+
+Counter
+
+Counter
+</code></pre>
+<p>实例1：</p>
+<pre><code class="language-python">a = collections.Counter('ababc')　　　　　　　　　　　　　　#通过Counter创建a跟b两个元组，元组中的元素是以字典的方式显示的。通过字典把每个元素重复的次数做统计分别作为字典的keys跟values.例如：Counter({'b': 2, 'a': 2, 'c': 1})　
+b = collections.Counter('1234abd')
+ 
+print(a.most_common(3))　　　　　　　　　　　　　　　　　　# 显示n个个数。变量.most_common()中填写的位数代表从大到小取前几个数值的意思。例如是3的话，只会去3位数值[('b', 2), ('a', 2), ('c', 1)]
+print(a)　　　　　　　　　　　　　　　　　　　　　　　　　　　#结果为[('b', 2), ('a', 2), ('c', 1)]
+a.update(b)　　　　　　　　　　　　　　　　　　　　　　　　　# 把b中的值传到a中。组合一个新的元组。（叠加）
+print(a)　　　　　　　　　　　　　　　　　　　　　　　　　　　#结果为Counter({'a': 3, 'b': 3, '1': 1, '4': 1, 'c': 1, 'd': 1, '3': 1, '2': 1})，因为字典是无序的所以不是按照顺序排列的。但是可以看出b中的元素已经传到了a中。
+a.subtract(b)　　　　　　　　　　　　　　　　　　　　　　　　#于.update（）相反。.subtract（）是表示相减。但是虽然相减了，仍然会把相减后不存在的key中的value以0的方式显示。
+print(a)　　　　　　　　　　　　　　　　　　　　　　　　　　 #结果为Counter({'a': 2, 'b': 2, 'c': 1, '1': 0, '4': 0, 'd': 0, '3': 0, '2': 0})
+ 
+  
+ 
+# Result：
+[('b', 2), ('a', 2), ('c', 1)]
+Counter({'b': 2, 'a': 2, 'c': 1})
+Counter({'a': 3, 'b': 3, '1': 1, '4': 1, 'c': 1, 'd': 1, '3': 1, '2': 1})
+Counter({'a': 2, 'b': 2, 'c': 1, '1': 0, '4': 0, 'd': 0, '3': 0, '2': 0})
+</code></pre>
+<p>实例2：</p>
+<pre><code class="language-python"># Result：
+ &quot;&quot;&quot;
+下面这个例子就是使用Counter模块统计一段句子里面所有字符出现次数
+&quot;&quot;&quot;
+from collections import Counter
+s = '''A Counter is a dict subclass for counting hashable objects. It is an unordered collection where elements are stored as dictionary keys and their counts are stored as dictionary values. Counts are allowed to be any integer value including zero or negative counts. The Counter class is similar to bags or multisets in other languages.'''.lower()  
+#.lower()这里指把字符串中所有的内容以小写字母呈现。（大写转小写）
+ 
+print(s)
+c = Counter(s)
+print (c.most_common(5))　　　　　　　　　　　　　　# 获取出现频率最高的5个字符
+ 
+ 
+# Result：
+a counter is a dict subclass for counting hashable objects. it is an unordered collection where elements are stored as dictionary keys and their counts are stored as dictionary values. counts are allowed to be any integer value including zero or negative counts. the counter class is similar to bags or multisets in other languages.
+[(' ', 54), ('e', 32), ('s', 25), ('a', 24), ('t', 24)]
+</code></pre>
+<h3 id="4-有序字典ordereddict"><strong>4、有序字典(orderedDict )</strong></h3>
+<p><strong>在Python中，dict这个数据结构由于hash的特性，是无序的，这在有的时候会给我们带来一些麻烦， 幸运的是，collections模块为我们提供了OrderedDict，当你要获得一个有序的字典对象时，用它就对了。</strong></p>
+<pre><code class="language-python">class OrderedDict(dict):
+    'Dictionary that remembers insertion order'
+    # An inherited dict maps keys to values.
+    # The inherited dict provides __getitem__, __len__, __contains__, and get.
+    # The remaining methods are order-aware.
+    # Big-O running times for all methods are the same as regular dictionaries.
+
+    # The internal self.__map dict maps keys to links in a doubly linked list.
+    # The circular doubly linked list starts and ends with a sentinel element.
+    # The sentinel element never gets deleted (this simplifies the algorithm).
+    # Each link is stored as a list of length three:  [PREV, NEXT, KEY].
+
+    def __init__(self, *args, **kwds):
+        '''Initialize an ordered dictionary.  The signature is the same as
+        regular dictionaries, but keyword arguments are not recommended because
+        their insertion order is arbitrary.
+
+        '''
+        if len(args) &gt; 1:
+            raise TypeError('expected at most 1 arguments, got %d' % len(args))
+        try:
+            self.__root
+        except AttributeError:
+            self.__root = root = []                     # sentinel node
+            root[:] = [root, root, None]
+            self.__map = {}
+        self.__update(*args, **kwds)
+
+    def __setitem__(self, key, value, dict_setitem=dict.__setitem__):
+        'od.__setitem__(i, y) &lt;==&gt; od[i]=y'
+        # Setting a new item creates a new link at the end of the linked list,
+        # and the inherited dictionary is updated with the new key/value pair.
+        if key not in self:
+            root = self.__root
+            last = root[0]
+            last[1] = root[0] = self.__map[key] = [last, root, key]
+        return dict_setitem(self, key, value)
+
+    def __delitem__(self, key, dict_delitem=dict.__delitem__):
+        'od.__delitem__(y) &lt;==&gt; del od[y]'
+        # Deleting an existing item uses self.__map to find the link which gets
+        # removed by updating the links in the predecessor and successor nodes.
+        dict_delitem(self, key)
+        link_prev, link_next, _ = self.__map.pop(key)
+        link_prev[1] = link_next                        # update link_prev[NEXT]
+        link_next[0] = link_prev                        # update link_next[PREV]
+
+    def __iter__(self):
+        'od.__iter__() &lt;==&gt; iter(od)'
+        # Traverse the linked list in order.
+        root = self.__root
+        curr = root[1]                                  # start at the first node
+        while curr is not root:
+            yield curr[2]                               # yield the curr[KEY]
+            curr = curr[1]                              # move to next node
+
+    def __reversed__(self):
+        'od.__reversed__() &lt;==&gt; reversed(od)'
+        # Traverse the linked list in reverse order.
+        root = self.__root
+        curr = root[0]                                  # start at the last node
+        while curr is not root:
+            yield curr[2]                               # yield the curr[KEY]
+            curr = curr[0]                              # move to previous node
+
+    def clear(self):
+        'od.clear() -&gt; None.  Remove all items from od.'
+        root = self.__root
+        root[:] = [root, root, None]
+        self.__map.clear()
+        dict.clear(self)
+
+    # -- the following methods do not depend on the internal structure --
+
+    def keys(self):
+        'od.keys() -&gt; list of keys in od'
+        return list(self)
+
+    def values(self):
+        'od.values() -&gt; list of values in od'
+        return [self[key] for key in self]
+
+    def items(self):
+        'od.items() -&gt; list of (key, value) pairs in od'
+        return [(key, self[key]) for key in self]
+
+    def iterkeys(self):
+        'od.iterkeys() -&gt; an iterator over the keys in od'
+        return iter(self)
+
+    def itervalues(self):
+        'od.itervalues -&gt; an iterator over the values in od'
+        for k in self:
+            yield self[k]
+
+    def iteritems(self):
+        'od.iteritems -&gt; an iterator over the (key, value) pairs in od'
+        for k in self:
+            yield (k, self[k])
+
+    update = MutableMapping.update
+
+    __update = update # let subclasses override update without breaking __init__
+
+    __marker = object()
+
+    def pop(self, key, default=__marker):
+        '''od.pop(k[,d]) -&gt; v, remove specified key and return the corresponding
+        value.  If key is not found, d is returned if given, otherwise KeyError
+        is raised.
+
+        '''
+        if key in self:
+            result = self[key]
+            del self[key]
+            return result
+        if default is self.__marker:
+            raise KeyError(key)
+        return default
+
+    def setdefault(self, key, default=None):
+        'od.setdefault(k[,d]) -&gt; od.get(k,d), also set od[k]=d if k not in od'
+        if key in self:
+            return self[key]
+        self[key] = default
+        return default
+
+    def popitem(self, last=True):
+        '''od.popitem() -&gt; (k, v), return and remove a (key, value) pair.
+        Pairs are returned in LIFO order if last is true or FIFO order if false.
+
+        '''
+        if not self:
+            raise KeyError('dictionary is empty')
+        key = next(reversed(self) if last else iter(self))
+        value = self.pop(key)
+        return key, value
+
+    def __repr__(self, _repr_running={}):
+        'od.__repr__() &lt;==&gt; repr(od)'
+        call_key = id(self), _get_ident()
+        if call_key in _repr_running:
+            return '...'
+        _repr_running[call_key] = 1
+        try:
+            if not self:
+                return '%s()' % (self.__class__.__name__,)
+            return '%s(%r)' % (self.__class__.__name__, self.items())
+        finally:
+            del _repr_running[call_key]
+
+    def __reduce__(self):
+        'Return state information for pickling'
+        items = [[k, self[k]] for k in self]
+        inst_dict = vars(self).copy()
+        for k in vars(OrderedDict()):
+            inst_dict.pop(k, None)
+        if inst_dict:
+            return (self.__class__, (items,), inst_dict)
+        return self.__class__, (items,)
+
+    def copy(self):
+        'od.copy() -&gt; a shallow copy of od'
+        return self.__class__(self)
+
+    @classmethod
+    def fromkeys(cls, iterable, value=None):
+        '''OD.fromkeys(S[, v]) -&gt; New ordered dictionary with keys from S.
+        If not specified, the value defaults to None.
+
+        '''
+        self = cls()
+        for key in iterable:
+            self[key] = value
+        return self
+
+    def __eq__(self, other):
+        '''od.__eq__(y) &lt;==&gt; od==y.  Comparison to another OD is order-sensitive
+        while comparison to a regular mapping is order-insensitive.
+
+        '''
+        if isinstance(other, OrderedDict):
+            return dict.__eq__(self, other) and all(_imap(_eq, self, other))
+        return dict.__eq__(self, other)
+
+    def __ne__(self, other):
+        'od.__ne__(y) &lt;==&gt; od!=y'
+        return not self == other
+
+    # -- the following methods support python 3.x style dictionary views --
+
+    def viewkeys(self):
+        &quot;od.viewkeys() -&gt; a set-like object providing a view on od's keys&quot;
+        return KeysView(self)
+
+    def viewvalues(self):
+        &quot;od.viewvalues() -&gt; an object providing a view on od's values&quot;
+        return ValuesView(self)
+
+    def viewitems(self):
+        &quot;od.viewitems() -&gt; a set-like object providing a view on od's items&quot;
+        return ItemsView(self)
+
+OrderedDict
+
+ordereddict
+</code></pre>
+<p>案例:</p>
+<pre><code class="language-python">import collections
+ 
+dic = collections.OrderedDict()  #创建有序字典下列分别是创建有序字典中的keys跟values
+ 
+dic['name'] = 'liupeng'
+ 
+dic['Job'] = 'IT'
+ 
+dic['City'] = 'YanTai'
+ 
+print(dic)
+ 
+  
+ 
+# Result：
+OrderedDict([('name', 'liupeng'), ('Job', 'IT'), ('City', 'YanTai')])　　　　#打印有序字典结果
+ 
+dic['school'] = 'DaLian'　　　　#往有序字典中添加新的Key跟value
+ 
+print(dic)
+ 
+# Result：
+OrderedDict([('name', 'liupeng'), ('Job', 'IT'), ('City', 'YanTai'), ('school', 'DaLian')])　　　　#从打印有序字典结果中可以看出添加的key跟value已经追加到有序字典中去了
+ 
+#这里就不列举无序字典例子了。有序字典最大的好处就是它有序。。。接下来你懂得。（- * -））
+ 
+ 
+dic1 = {'name1':'liupeng1','job1':'IT1','city1':'yantai1'}
+ 
+print(dic1)
+</code></pre>
+<h3 id="5-默认字典defaultdict"><strong>5、默认字典(defaultdict)</strong></h3>
+<p><strong>即为字典中的values设置一个默认类型：<br>
+defaultdict的参数默认是dict，也可以为list,tuple</strong></p>
+<pre><code class="language-python">class defaultdict(dict):
+    &quot;&quot;&quot;
+    defaultdict(default_factory[, ...]) --&gt; dict with default factory
+    
+    The default factory is called without arguments to produce
+    a new value when a key is not present, in __getitem__ only.
+    A defaultdict compares equal to a dict with the same items.
+    All remaining arguments are treated the same as if they were
+    passed to the dict constructor, including keyword arguments.
+    &quot;&quot;&quot;
+    def copy(self): # real signature unknown; restored from __doc__
+        &quot;&quot;&quot; D.copy() -&gt; a shallow copy of D. &quot;&quot;&quot;
+        pass
+
+    def __copy__(self, *args, **kwargs): # real signature unknown
+        &quot;&quot;&quot; D.copy() -&gt; a shallow copy of D. &quot;&quot;&quot;
+        pass
+
+    def __getattribute__(self, name): # real signature unknown; restored from __doc__
+        &quot;&quot;&quot; x.__getattribute__('name') &lt;==&gt; x.name &quot;&quot;&quot;
+        pass
+
+    def __init__(self, default_factory=None, **kwargs): # known case of _collections.defaultdict.__init__
+        &quot;&quot;&quot;
+        defaultdict(default_factory[, ...]) --&gt; dict with default factory
+        
+        The default factory is called without arguments to produce
+        a new value when a key is not present, in __getitem__ only.
+        A defaultdict compares equal to a dict with the same items.
+        All remaining arguments are treated the same as if they were
+        passed to the dict constructor, including keyword arguments.
+        
+        # (copied from class doc)
+        &quot;&quot;&quot;
+        pass
+
+    def __missing__(self, key): # real signature unknown; restored from __doc__
+        &quot;&quot;&quot;
+        __missing__(key) # Called by __getitem__ for missing key; pseudo-code:
+          if self.default_factory is None: raise KeyError((key,))
+          self[key] = value = self.default_factory()
+          return value
+        &quot;&quot;&quot;
+        pass
+
+    def __reduce__(self, *args, **kwargs): # real signature unknown
+        &quot;&quot;&quot; Return state information for pickling. &quot;&quot;&quot;
+        pass
+
+    def __repr__(self): # real signature unknown; restored from __doc__
+        &quot;&quot;&quot; x.__repr__() &lt;==&gt; repr(x) &quot;&quot;&quot;
+        pass
+
+    default_factory = property(lambda self: object(), lambda self, v: None, lambda self: None)  # default
+    &quot;&quot;&quot;Factory for default value called by __missing__().&quot;&quot;&quot;
+
+defaultdict
+
+defaultdict
+</code></pre>
+<p>实例说明1：</p>
+<pre><code class="language-python">在使用的dict时，无法指定values的类型，在赋值时要进行判断，具体如下：
+ 
+values = [11,22,33,44,55,66,77,88,99,90]
+ 
+mydic = {}
+ 
+for v in values:
+    if v &gt; 66:
+        if 'k1' in mydic:　　　　　　　　#python2.7中有个.has_key的方法。在3.0以后版本中被废除，用in来替代。python2.7用法：if my_dict.has_key('k1')
+            mydic['k1'].append(v)
+ 
+        else:
+            mydic['k1']=[v]
+ 
+    else:
+        if 'k2' in mydic:
+            mydic['k2'].append(v)
+ 
+        else:
+            mydic['k2']= [v]
+             
+print(mydic)
+ 
+# Result:
+{'k2': [11, 22, 33, 44, 55, 66], 'k1': [77, 88, 99, 90]}
+ 
+而在使用了defaultdict时，代码进行了简化：
+ 
+from collections import defaultdict
+ 
+values = [11,22,33,44,55,66,77,88,99,90]
+ 
+my_dict = defaultdict(list)
+ 
+for v in values:　　　　　　　　　　#v始终都是my_dict中的values,而defaultdict(list)后我们对于keys的指定对比上例就方便很多。不用再做一层if判断了。
+    if v &gt;66:
+        my_dict['k1'].append(v)
+ 
+    else:
+        my_dict['k2'].append(v)
+ 
+print(my_dict)
+ 
+# Result:
+defaultdict(&lt;class 'list'&gt;, {'k1': [77, 88, 99, 90], 'k2': [11, 22, 33, 44, 55, 66]})
+</code></pre>
+<p>实例说明2：</p>
+<pre><code class="language-python">from collections import defaultdict
+ 
+members = [
+    ['male', 'John'],
+    ['male', 'Jack'],
+    ['female', 'Lily'],
+    ['male', 'Pony'],
+    ['female', 'Lucy'],
+]
+result = defaultdict(list)
+for sex, name in members:　　　　　　　　#这里设置2个变量作为字典(result)中的key跟value.
+    result[sex].append(name)　　　　　　#这里把[sex]作为了字典中的key，name这个变量作为了value并append到字典result对应的key中。
+print (result)
+ 
+# Result:
+defaultdict(&lt;class 'list'&gt;, {'female': ['Lily', 'Lucy'], 'male': ['John', 'Jack', 'Pony']})
+</code></pre>
+<p>以上代码均在python3.4版本中测试过。</p>
+<p>上面只是非常简单的介绍了一下collections模块的主要内容，主要目的就是当你碰到适合使用 它们的场所时，能够记起并使用它们，起到事半功倍的效果。<br>
+如果要对它们有一个更全面和深入了解的话，还是建议阅读官方文档和模块源码。<br>
+https://docs.python.org/3/library/collections.html#module-collections</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="tag">
+                    python
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/python-gil">
+                  <h3 class="post-title">
+                    Python中的GIL详解
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

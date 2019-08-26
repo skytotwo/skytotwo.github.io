@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-08-12T12:45:15.896Z</updated>
+    <updated>2019-08-26T07:55:33.361Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,1671 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[Centos7 环境下部署flask网站步骤]]></title>
+        <id>https://skytotwo.github.io//post/centos7-huan-jing-xia-bu-shu-flask-wang-zhan-bu-zou</id>
+        <link href="https://skytotwo.github.io//post/centos7-huan-jing-xia-bu-shu-flask-wang-zhan-bu-zou">
+        </link>
+        <updated>2019-08-26T07:53:41.000Z</updated>
+        <summary type="html"><![CDATA[<p>自己之前做了一个flask项目，完成后部署在腾讯云，过程由踩一点坑，这里记录下过程。在部署之前，需要先配置centos7环境，具体链接为：<br>
+<a href="https://www.listenlife.cn/post/43" title="centos7 环境配置">centos7 环境配置</a></p>
+]]></summary>
+        <content type="html"><![CDATA[<p>自己之前做了一个flask项目，完成后部署在腾讯云，过程由踩一点坑，这里记录下过程。在部署之前，需要先配置centos7环境，具体链接为：<br>
+<a href="https://www.listenlife.cn/post/43" title="centos7 环境配置">centos7 环境配置</a></p>
+ <!-- more --> 
+<p>1、安装依赖包<br>
+在虚拟环境中安装好所有包，例如：</p>
+<pre><code class="language-python">pip install -r requements.txt
+</code></pre>
+<p>2、关闭调试模式 app.debug = False，并且安装flask-script插件来进行命令行启动项目，如下：</p>
+<pre><code class="language-python">pip install flask-script
+from flask_script import Manager
+
+manage = Manager(app)
+
+if __name__ == &quot;__main__&quot;:
+    manage.run()
+</code></pre>
+<p>3、在init文件中修改mysql数据库连接（ip地址等），然后在navicat中远程连接到服务器的mysql，进行数据传输，这样是最省时的。<br>
+4、配置nginx 反向代理<br>
+nginx配置文件：</p>
+<pre><code class="language-python">worker_processes 4;
+events {
+    worker_connections 262140;
+}
+http {
+    include mime.types;
+    default_type application/octet-stream;
+    sendfile on;
+    keepalive_timeout 65;
+    limit_conn_zone $binary_remote_addr zone=addr:5m;
+    upstream movie {
+		server 127.0.0.1:5000;
+        server 127.0.0.1:5001;
+        server 127.0.0.1:5002;
+        server 127.0.0.1:5003;
+        server 127.0.0.1:5004;
+    }
+    server {
+        listen 80;
+        server_name localhost;
+        location / {
+            root html;
+            index index.html index.htm;
+            proxy_pass http://movie;
+        }
+        location ~ \.flv$ {
+            flv;
+            limit_conn addr 4;
+            limit_rate 1024k;
+            rewrite ^/static/uploads/movies/(.+?).flv$ /flask_movie/app/static/uploads/movies/$1.flv permanent;
+        }
+        location ~ \.mp4$ {
+            mp4;
+            limit_conn addr 4;
+            limit_rate 1024k;
+            rewrite ^/static/uploads/movies/(.+?).mp4$ /flask_movie/app/static/uploads/movies/$1.mp4 permanent;
+        }
+        error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+            root html;
+        }
+    }
+}
+
+</code></pre>
+<p>然后将配置文件拷贝至nginx目录中，覆盖原有配置文件：</p>
+<pre><code class="language-python">cp nginx.conf /usr/local/nginx/conf/
+ubuntu: cp nginx.conf /etc/nginx/conf.d
+</code></pre>
+<p>将项目拷贝到nginx的html目录：</p>
+<pre><code class="language-python">cp -r movie_project /usr/local/nginx/html
+
+</code></pre>
+<p>然后重启nginx：</p>
+<pre><code class="language-python">nginx -s stop
+nginx
+nginx -s reload
+</code></pre>
+<p>启动项目：</p>
+<pre><code class="language-python">cd /usr/local/nginx/html/movie_project
+
+python manage.py runserver
+</code></pre>
+<p>5、开启多个端口后台运行</p>
+<pre><code class="language-python">nohup python manage.py runserver -h 127.0.0.1 -p 5001 &amp;
+
+然后 ctr + c
+
+nohup python manage.py runserver -h 127.0.0.1 -p 5002 &amp;
+
+然后 ctr + c
+
+nohup python manage.py runserver -h 127.0.0.1 -p 5003 &amp;
+
+然后 ctr + c
+
+nohup python manage.py runserver -h 127.0.0.1 -p 5004 &amp;
+</code></pre>
+<p>这样就开启了四个端口，输入如下命令可以查看：</p>
+<pre><code class="language-python">netstat -anptu | grep 500*
+</code></pre>
+<p>6、流媒体访问限制<br>
+限制单个ip能发起的连接: limit_conn addr 1;<br>
+限制视频速率: limit_rate 1024k;<br>
+刷新nginx nginx -s reload</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[centos7 部署python应用相关配置]]></title>
+        <id>https://skytotwo.github.io//post/centos7-python-env</id>
+        <link href="https://skytotwo.github.io//post/centos7-python-env">
+        </link>
+        <updated>2019-08-26T07:47:31.000Z</updated>
+        <summary type="html"><![CDATA[<p>在centos上部署python环境需要的步骤很多，包括nginx，python版本安装，mysql的安装配置，虚拟环境的安装配置等，过程比较繁琐，有许多小细节要注意，以下是相关步骤。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>在centos上部署python环境需要的步骤很多，包括nginx，python版本安装，mysql的安装配置，虚拟环境的安装配置等，过程比较繁琐，有许多小细节要注意，以下是相关步骤。</p>
+<!-- more -->
+<h3 id="1-安装python36"><strong>1. 安装python3.6</strong></h3>
+<p>编译环境准备：</p>
+<pre><code class="language-python"> yum groupinstall 'Development Tools'
+ yum install zlib-devel bzip2-devel openssl-devel ncurese-devel
+ yum -y install openssl-devel bzip2-devel expat-devel gdbm-devel readline-devel
+</code></pre>
+<p>1 . 获取</p>
+<pre><code class="language-python">wget https://www.python.org/ftp/python/3.6.3/Python-3.6.3.tgz
+tar -xzvf Python-3.6.3.tgz -C  /tmp
+cd  /tmp/Python-3.6.3/
+</code></pre>
+<p>2 . 把Python3.6安装到 /usr/local 目录</p>
+<pre><code class="language-python">./configure --prefix=/usr/local
+make
+make altinstall
+</code></pre>
+<p>3 . 更改/usr/bin/python链接</p>
+<pre><code class="language-python">ln -s /usr/local/bin/python3.6 /usr/bin/python3
+</code></pre>
+<p>替换旧Python，将默认安装的python2软链接指向python：</p>
+<pre><code class="language-python">mv /usr/bin/python /usr/bin/old_python
+</code></pre>
+<p>再将/usr/bin/python指向python3：</p>
+<pre><code class="language-python">ln -s /usr/local/bin/python3.6 /usr/bin/python
+</code></pre>
+<p>这样输入/usr/bin/python出来的就是python3了。这也是后面安装virtualenvwrapper，配置路径不会出错的前提。<br>
+删除软连接：rm -rf  /home/zhenwx/htccode（示例）</p>
+<p>4 .使得输入python系统默认为python3</p>
+<pre><code class="language-python">cd /usr/bin/
+ls yum*
+vim yum
+</code></pre>
+<p>修改第一行尾python2</p>
+<pre><code class="language-python">vim yum-config-manager
+</code></pre>
+<p>修改第一行尾python2</p>
+<pre><code class="language-python">vim yum-debug-restore
+vim yum-groups-manager
+vim yum-build-dep
+vim yum-debug-dump
+vim yumdownloader
+vim /usr/libexec/urlgrabber-ext-down
+</code></pre>
+<p>修改第一行尾python2</p>
+<p>此时输入python就是3.6的python了。</p>
+<h3 id="2-maridb"><strong>2. maridb</strong></h3>
+<ol>
+<li>
+<p>安装</p>
+<pre><code class="language-python"></code></pre>
+</li>
+</ol>
+<p>sudo yum install mariadb-server</p>
+<pre><code>2. 启动， 重启
+
+    ```python
+sudo systemctl start mariadb
+sudo systemctl restart mariadb
+</code></pre>
+<ol start="3">
+<li>设置bind-ip</li>
+</ol>
+<pre><code class="language-python">vim /etc/my.cnf
+</code></pre>
+<p>在 [mysqld]:下面加一行</p>
+<pre><code class="language-python">bind-address = 0.0.0.0
+</code></pre>
+<p>4 . 设置外部ip可以访问</p>
+<p>先进入mysql才能运行下面命令:mysql 直接进入就行</p>
+<pre><code class="language-python">GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
+</code></pre>
+<pre><code class="language-python">FLUSH PRIVILEGES;
+</code></pre>
+<p>5 . 设置阿里云、腾讯云的对外端口<br>
+在对应服务器控制面板中，添加安全组规则，开放端口3306</p>
+<p>6 . 安装mysqlclient出问题</p>
+<pre><code>centos 7：
+    yum install python-devel mariadb-devel -y
+
+ubuntu：
+    sudo apt-get install libmysqlclient-dev
+
+然后：
+    pip install mysqlclient
+</code></pre>
+<h3 id="3-安装nginx"><strong>3. 安装nginx</strong></h3>
+<p>1、拷贝我们的nginx安装包到服务器<br>
+2、安装依赖包</p>
+<pre><code class="language-python">yum -y install gcc gcc-c++ openssl-devel pcre-devel httpd-tools
+</code></pre>
+<p>3、编译安装</p>
+<pre><code class="language-python">tar -zxf nginx.tar.gz
+cd nginx/
+
+useradd nginx
+./configure --prefix=/usr/local/nginx --user=nginx --group=nginx --with-http_ssl_module --with-http_mp4_module --with-http_flv_module
+
+make &amp;&amp; make install
+
+ln -s /usr/local/nginx/sbin/nginx /usr/sbin/
+</code></pre>
+<h3 id="4-安装virtualenvwrapper"><strong>4. 安装virtualenvwrapper</strong></h3>
+<pre><code class="language-python">yum install python-setuptools python-devel
+pip install virtualenvwrapper
+</code></pre>
+<p>编辑.bashrc文件</p>
+<pre><code class="language-python">vim ~/.bashrc
+</code></pre>
+<pre><code class="language-python">export WORKON_HOME=$HOME/.virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh
+</code></pre>
+<p>重新加载.bashrc文件</p>
+<pre><code class="language-python">source  ~/.bashrc
+</code></pre>
+<p>新建虚拟环境</p>
+<pre><code class="language-python">mkvirtualenv mxonline
+</code></pre>
+<p>进入虚拟环境</p>
+<pre><code class="language-python">workon mxonline
+</code></pre>
+<p>安装pip包<br>
+我们可以通过 pip freeze &gt; requirements.txt 将本地的虚拟环境安装包相信信息导出来</p>
+<p>然后将requirements.txt文件上传到服务器之后运行：</p>
+<pre><code class="language-python">pip install -r requirements.txt
+</code></pre>
+<p>安装依赖包</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Python装饰器详解]]></title>
+        <id>https://skytotwo.github.io//post/python-decorator</id>
+        <link href="https://skytotwo.github.io//post/python-decorator">
+        </link>
+        <updated>2019-08-26T07:31:47.000Z</updated>
+        <summary type="html"><![CDATA[<p>讲 Python 装饰器前，我想先举个例子，以便能更贴切的解释装饰器。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>讲 Python 装饰器前，我想先举个例子，以便能更贴切的解释装饰器。</p>
+ <!-- more --> 
+<p>每个人都有的内裤主要功能是用来遮羞，但是到了冬天它没法为我们防风御寒，咋办？我们想到的一个办法就是把内裤改造一下，让它变得更厚更长，这样一来，它不仅有遮羞功能，还能提供保暖，不过有个问题，这个内裤被我们改造成了长裤后，虽然还有遮羞功能，但本质上它不再是一条真正的内裤了。于是聪明的人们发明长裤，在不影响内裤的前提下，直接把长裤套在了内裤外面，这样内裤还是内裤，有了长裤后宝宝再也不冷了。装饰器就像我们这里说的长裤，在不影响内裤作用的前提下，给我们的身子提供了保暖的功效。</p>
+<p>谈装饰器前，还要先要明白一件事，Python 中的函数和 Java、C++不太一样，Python 中的函数可以像普通变量一样当做参数传递给另外一个函数，例如：</p>
+<pre><code class="language-python">def foo():
+    print(&quot;foo&quot;)
+
+def bar(func):
+func()
+
+bar(foo)
+</code></pre>
+<p>正式回到我们的主题。装饰器本质上是一个 Python 函数或类，它可以让其他函数或类在不需要做任何代码修改的前提下增加额外功能，装饰器的返回值也是一个函数/类对象。它经常用于有切面需求的场景，比如：插入日志、性能测试、事务处理、缓存、权限校验等场景，装饰器是解决这类问题的绝佳设计。有了装饰器，我们就可以抽离出大量与函数功能本身无关的雷同代码到装饰器中并继续重用。概括的讲，装饰器的作用就是为已经存在的对象添加额外的功能。</p>
+<p>先来看一个简单例子，虽然实际代码可能比这复杂很多：</p>
+<pre><code class="language-python">def foo():
+    print('i am foo')
+</code></pre>
+<p>现在有一个新的需求，希望可以记录下函数的执行日志，于是在代码中添加日志代码：</p>
+<pre><code class="language-python">def foo():
+    print('i am foo')
+    logging.info(&quot;foo is running&quot;)
+</code></pre>
+<p>如果函数 bar()、bar2() 也有类似的需求，怎么做？再写一个 logging 在 bar 函数里？这样就造成大量雷同的代码，为了减少重复写代码，我们可以这样做，重新定义一个新的函数：专门处理日志 ，日志处理完之后再执行真正的业务代码</p>
+<pre><code class="language-python">def use_logging(func):
+    logging.warn(&quot;%s is running&quot; % func.__name__)
+    func()
+
+def foo():
+    print('i am foo')
+
+use_logging(foo)
+</code></pre>
+<p>这样做逻辑上是没问题的，功能是实现了，但是我们调用的时候不再是调用真正的业务逻辑 foo 函数，而是换成了 use_logging 函数，这就破坏了原有的代码结构， 现在我们不得不每次都要把原来的那个 foo 函数作为参数传递给 use_logging 函数，那么有没有更好的方式的呢？当然有，答案就是装饰器。</p>
+<pre><code class="language-python">简单装饰器
+def use_logging(func):
+
+    def wrapper():
+        logging.warn(&quot;%s is running&quot; % func.__name__)
+        return func()   # 把 foo 当做参数传递进来时，执行func()就相当于执行foo()
+    return wrapper
+
+def foo():
+    print('i am foo')
+
+foo = use_logging(foo)  # 因为装饰器 use_logging(foo) 返回的时函数对象 wrapper，这条语句相当于  foo = wrapper
+foo()                   # 执行foo()就相当于执行 wrapper()
+</code></pre>
+<p>use_logging 就是一个装饰器，它一个普通的函数，它把执行真正业务逻辑的函数 func 包裹在其中，看起来像 foo 被 use_logging 装饰了一样，use_logging 返回的也是一个函数，这个函数的名字叫 wrapper。在这个例子中，函数进入和退出时 ，被称为一个横切面，这种编程方式被称为面向切面的编程。</p>
+<h3 id="语法糖"><strong>@ 语法糖</strong></h3>
+<p>如果你接触 Python 有一段时间了的话，想必你对 @ 符号一定不陌生了，没错 @ 符号就是装饰器的语法糖，它放在函数开始定义的地方，这样就可以省略最后一步再次赋值的操作。</p>
+<pre><code class="language-python">def use_logging(func):
+
+    def wrapper():
+        logging.warn(&quot;%s is running&quot; % func.__name__)
+        return func()
+    return wrapper
+
+@use_logging
+def foo():
+    print(&quot;i am foo&quot;)
+
+foo()
+</code></pre>
+<p>如上所示，有了 @ ，我们就可以省去foo = use_logging(foo)这一句了，直接调用 foo() 即可得到想要的结果。你们看到了没有，foo() 函数不需要做任何修改，只需在定义的地方加上装饰器，调用的时候还是和以前一样，如果我们有其他的类似函数，我们可以继续调用装饰器来修饰函数，而不用重复修改函数或者增加新的封装。这样，我们就提高了程序的可重复利用性，并增加了程序的可读性。</p>
+<p>装饰器在 Python 使用如此方便都要归因于 Python 的函数能像普通的对象一样能作为参数传递给其他函数，可以被赋值给其他变量，可以作为返回值，可以被定义在另外一个函数内。</p>
+<h3 id="args-kwargs">*args、**kwargs</h3>
+<p>可能有人问，如果我的业务逻辑函数 foo 需要参数怎么办？比如：</p>
+<pre><code class="language-python">def foo(name):
+    print(&quot;i am %s&quot; % name)
+我们可以在定义 wrapper 函数的时候指定参数：
+
+def wrapper(name):
+        logging.warn(&quot;%s is running&quot; % func.__name__)
+        return func(name)
+    return wrapper
+</code></pre>
+<p>这样 foo 函数定义的参数就可以定义在 wrapper 函数中。这时，又有人要问了，如果 foo 函数接收两个参数呢？三个参数呢？更有甚者，我可能传很多个。当装饰器不知道 foo 到底有多少个参数时，我们可以用 *args 来代替：</p>
+<pre><code class="language-python">def wrapper(*args):
+        logging.warn(&quot;%s is running&quot; % func.__name__)
+        return func(*args)
+    return wrapper
+</code></pre>
+<p>如此一来，甭管 foo 定义了多少个参数，我都可以完整地传递到 func 中去。这样就不影响 foo 的业务逻辑了。这时还有读者会问，如果 foo 函数还定义了一些关键字参数呢？比如：</p>
+<pre><code class="language-python">def foo(name, age=None, height=None):
+    print(&quot;I am %s, age %s, height %s&quot; % (name, age, height))
+</code></pre>
+<p>这时，你就可以把 wrapper 函数指定关键字函数：</p>
+<pre><code class="language-python">def wrapper(*args, **kwargs):
+        # args是一个数组，kwargs一个字典
+        logging.warn(&quot;%s is running&quot; % func.__name__)
+        return func(*args, **kwargs)
+    return wrapper
+</code></pre>
+<h3 id="带参数的装饰器"><strong>带参数的装饰器</strong></h3>
+<p>装饰器还有更大的灵活性，例如带参数的装饰器，在上面的装饰器调用中，该装饰器接收唯一的参数就是执行业务的函数 foo 。装饰器的语法允许我们在调用时，提供其它参数，比如@decorator(a)。这样，就为装饰器的编写和使用提供了更大的灵活性。比如，我们可以在装饰器中指定日志的等级，因为不同业务函数可能需要的日志级别是不一样的。</p>
+<pre><code class="language-python">def use_logging(level):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            if level == &quot;warn&quot;:
+                logging.warn(&quot;%s is running&quot; % func.__name__)
+            elif level == &quot;info&quot;:
+                logging.info(&quot;%s is running&quot; % func.__name__)
+            return func(*args)
+        return wrapper
+
+    return decorator
+
+@use_logging(level=&quot;warn&quot;)
+def foo(name='foo'):
+    print(&quot;i am %s&quot; % name)
+
+foo()
+</code></pre>
+<p>上面的 use_logging 是允许带参数的装饰器。它实际上是对原有装饰器的一个函数封装，并返回一个装饰器。我们可以将它理解为一个含有参数的闭包。当我 们使用@use_logging(level=&quot;warn&quot;)调用的时候，Python 能够发现这一层的封装，并把参数传递到装饰器的环境中。</p>
+<p><strong>@use_logging(level=&quot;warn&quot;)等价于@decorator</strong></p>
+<h3 id="类装饰器"><strong>类装饰器</strong></h3>
+<p>没错，装饰器不仅可以是函数，还可以是类，相比函数装饰器，类装饰器具有灵活度大、高内聚、封装性等优点。使用类装饰器主要依靠类的__call__方法，当使用 @ 形式将装饰器附加到函数上时，就会调用此方法。</p>
+<pre><code class="language-python">class Foo(object):
+    def __init__(self, func):
+        self._func = func
+
+    def __call__(self):
+        print ('class decorator runing')
+        self._func()
+        print ('class decorator ending')
+
+@Foo
+def bar():
+    print ('bar')
+
+bar()
+</code></pre>
+<h3 id="functoolswraps"><strong>functools.wraps</strong></h3>
+<p>使用装饰器极大地复用了代码，但是他有一个缺点就是原函数的元信息不见了，比如函数的docstring、<strong>name</strong>、参数列表，先看例子：</p>
+<pre><code class="language-python"># 装饰器
+def logged(func):
+    def with_logging(*args, **kwargs):
+        print func.__name__      # 输出 'with_logging'
+        print func.__doc__       # 输出 None
+        return func(*args, **kwargs)
+    return with_logging
+
+# 函数
+@logged
+def f(x):
+   &quot;&quot;&quot;does some math&quot;&quot;&quot;
+   return x + x * x
+
+logged(f)
+</code></pre>
+<p>不难发现，函数 f 被with_logging取代了，当然它的docstring，__name__就是变成了with_logging函数的信息了。好在我们有functools.wraps，wraps本身也是一个装饰器，它能把原函数的元信息拷贝到装饰器里面的 func 函数中，这使得装饰器里面的 func 函数也有和原函数 foo 一样的元信息了。</p>
+<pre><code class="language-python">from functools import wraps
+def logged(func):
+    @wraps(func)
+    def with_logging(*args, **kwargs):
+        print func.__name__      # 输出 'f'
+        print func.__doc__       # 输出 'does some math'
+        return func(*args, **kwargs)
+    return with_logging
+
+@logged
+def f(x):
+   &quot;&quot;&quot;does some math&quot;&quot;&quot;
+   return x + x * x
+</code></pre>
+<h3 id="装饰器顺序"><strong>装饰器顺序</strong></h3>
+<p>一个函数还可以同时定义多个装饰器，比如：</p>
+<pre><code class="language-python">@a
+@b
+@c
+def f ():
+    pass
+</code></pre>
+<p>它的执行顺序是从里到外，最先调用最里层的装饰器，最后调用最外层的装饰器，它等效于</p>
+<pre><code class="language-python">f = a(b(c(f)))
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[SqlAlchemy relationship函数 之 backref参数反向引用的理解]]></title>
+        <id>https://skytotwo.github.io//post/sqlalchemy-relationship</id>
+        <link href="https://skytotwo.github.io//post/sqlalchemy-relationship">
+        </link>
+        <updated>2019-08-26T07:29:45.000Z</updated>
+        <summary type="html"><![CDATA[<p>简单来说, relationship函数是sqlalchemy对关系之间提供的一种便利的调用方式, backref参数则对关系提供反向引用的声明。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>简单来说, relationship函数是sqlalchemy对关系之间提供的一种便利的调用方式, backref参数则对关系提供反向引用的声明。</p>
+<!-- more --> 
+<p>如下例子：</p>
+<pre><code class="language-python"># 电影
+class Movie(db.Model):
+    __tablename__ = &quot;movie&quot;
+    id = db.Column(db.Integer, primary_key=True)  # 编号
+    title = db.Column(db.String(255), unique=True)  # 标题
+    url = db.Column(db.String(255), unique=True)  # 地址
+    info = db.Column(db.Text)  # 电影简介
+    logo = db.Column(db.String(255), unique=True)  # 封面
+    star = db.Column(db.SmallInteger)  # 星级
+    playnum = db.Column(db.BigInteger)  # 播放量
+    commentnum = db.Column(db.BigInteger)  # 评论量
+    #  （设置外键第一步）
+    tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'))  # 所属标签
+    area = db.Column(db.String(255))  # 上映地区
+    release_time = db.Column(db.Date)  # 上映时间
+    length = db.Column(db.String(100))  # 播放时间
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now)  # 添加时间
+    comments = db.relationship(&quot;Comment&quot;, backref='movie')  # 评论外键关系关联
+    moviecols = db.relationship(&quot;Moviecol&quot;, backref='movie')  # 收藏外键关系关联
+
+    def __repr__(self):
+        return &quot;&lt;Movie %r&gt;&quot; % self.title
+
+</code></pre>
+<pre><code class="language-python"># 评论
+class Comment(db.Model):
+    __tablename__ = &quot;comment&quot;
+    id = db.Column(db.Integer, primary_key=True)  # 编号
+    content = db.Column(db.Text)  # 评论内容
+    # 关联外键第一步，还要去user表和movie表进行第二步
+    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'))  # 所属电影
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # 所属用户
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now)  # 添加时间
+
+    def __repr__(self):
+        return &quot;&lt;Comment %r&gt;&quot; % self.id
+</code></pre>
+<p>如果在Movie中使用relationship定义comment属性的话，就可以实例化Movie对象的时候调用comment属性，如下所示：</p>
+<pre><code class="language-python">movie = Movie.query.get_or_404(int(id))
+comment = movie.comment
+</code></pre>
+<p>注意，这里的到的comment，可以取出comment表中的所有属性字段，如果有外键，甚至外键的所属的表数据也能找到。</p>
+<p>而定义的backref参数则对关系提供反向引用的声明。意思就是电影中relationship函数定义了backref，然后实例化Comment后，该对象可以反向找到backref指向的表，具体如下：</p>
+<pre><code class="language-python">comment = Comment.query.get_or_404(int(id))
+movie = comment.movie
+</code></pre>
+<p>除了可以拿到movie表所有字段，还能拿到完成度的relationship指向的comments中comment表数据。</p>
+<p>例子示例2：<br>
+一对多：一个父亲可能有多个孩子</p>
+<pre><code class="language-python">1     class Father(……): 
+2         id = …… 
+3         children = db.relationship('Children', backref='father') 
+4
+5     class Children(……): 
+6         # ……
+7         father_id = …… ForeignKey('father.id'))
+</code></pre>
+<pre><code class="language-python">1 我是爸爸
+2 我是身份证号
+3 我有一些孩子登记在Children表上。上面的每一个children都可以通过 . father找到我。backref是我给孩子们的名片（上面是身份证号）。
+5 我们是孩子们 
+7 我拿着爸爸的身份证号
+
+</code></pre>
+<p>当我们需要在父表中添加子表关系时使用 relationship，外键通常是父表的主键</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[centos7 修改mysql 最大连接数]]></title>
+        <id>https://skytotwo.github.io//post/mysql-connect-num</id>
+        <link href="https://skytotwo.github.io//post/mysql-connect-num">
+        </link>
+        <updated>2019-08-26T07:25:17.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="步骤">步骤：</h3>
+<p><strong>1.编辑  /etc/my.cnf  添加如下一行，注意是在[mysqld] 区域下面添加 而不是最后，最后添加是不生效的</strong></p>
+<p>max_connections = 1000</p>
+<p><strong>2.编辑 /usrb/systemd/system/mysqld.service 文件，在文件最后添加</strong></p>
+<p>LimitNOFILE=65535<br>
+LimitNPROC=65535</p>
+<p><strong>3.重启服务</strong><br>
+$ systemctl daemon-reload<br>
+$ systemctl restart  mysqld.service</p>
+<p><strong>4.连接数据库，查看最大连接数</strong><br>
+mysql&gt; show variables like 'max_connections';<br>
++-----------------+-------+<br>
+| Variable_name   | Value |<br>
++-----------------+-------+<br>
+| max_connections | 1000  |<br>
++-----------------+-------+<br>
+1 row in set (0.00 sec)</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Collections模块基本介绍]]></title>
+        <id>https://skytotwo.github.io//post/python-collections</id>
+        <link href="https://skytotwo.github.io//post/python-collections">
+        </link>
+        <updated>2019-08-26T07:17:18.000Z</updated>
+        <summary type="html"><![CDATA[<p>我们都知道，Python拥有一些内置的数据类型，比如str, int, list, tuple, dict等， collections模块在这些内置数据类型的基础上，提供了几个额外的数据类型，更便捷的实现了一些功能。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>我们都知道，Python拥有一些内置的数据类型，比如str, int, list, tuple, dict等， collections模块在这些内置数据类型的基础上，提供了几个额外的数据类型，更便捷的实现了一些功能。</p>
+ <!-- more -->
+<p>共由以下组成：</p>
+<ul>
+<li><strong>namedtuple()</strong>: 生成可以使用名字来访问元素内容的tuple子类</li>
+<li><strong>deque</strong>: 双端队列，可以快速的从另外一侧追加和推出对象</li>
+<li><strong>Counter</strong>: 计数器，主要用来计数</li>
+<li><strong>OrderedDict</strong>: 有序字典</li>
+<li><strong>defaultdict</strong>: 带有默认值的字典</li>
+</ul>
+<h3 id="1-可命名元组namedtuple">1、可命名元组(namedtuple)</h3>
+<p><strong>作用：namedtuple主要用来产生可以使用名称来访问元素的数据对象，通常用来增强代码的可读性， 在访问一些tuple类型的数据时尤其好用。</strong></p>
+<pre><code class="language-python">class Mytuple(__builtin__.tuple)
+ |  Mytuple(x, y)
+ |  
+ |  Method resolution order:
+ |      Mytuple
+ |      __builtin__.tuple
+ |      __builtin__.object
+ |  
+ |  Methods defined here:
+ |  
+ |  __getnewargs__(self)
+ |      Return self as a plain tuple.  Used by copy and pickle.
+ |  
+ |  __getstate__(self)
+ |      Exclude the OrderedDict from pickling
+ |  
+ |  __repr__(self)
+ |      Return a nicely formatted representation string
+ |  
+ |  _asdict(self)
+ |      Return a new OrderedDict which maps field names to their values
+ |  
+ |  _replace(_self, **kwds)
+ |      Return a new Mytuple object replacing specified fields with new values
+ |  
+ |  ----------------------------------------------------------------------
+ |  Class methods defined here:
+ |  
+ |  _make(cls, iterable, new=&lt;built-in method __new__ of type object&gt;, len=&lt;built-in function len&gt;) from __builtin__.type
+ |      Make a new Mytuple object from a sequence or iterable
+ |  
+ |  ----------------------------------------------------------------------
+ |  Static methods defined here:
+ |  
+ |  __new__(_cls, x, y)
+ |      Create new instance of Mytuple(x, y)
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |  
+ |  __dict__
+ |      Return a new OrderedDict which maps field names to their values
+ |  
+ |  x
+ |      Alias for field number 0
+ |  
+ |  y
+ |      Alias for field number 1
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data and other attributes defined here:
+ |  
+ |  _fields = ('x', 'y')
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from __builtin__.tuple:
+ |  
+ |  __add__(...)
+ |      x.__add__(y) &lt;==&gt; x+y
+ |  
+ |  __contains__(...)
+ |      x.__contains__(y) &lt;==&gt; y in x
+ |  
+ |  __eq__(...)
+ |      x.__eq__(y) &lt;==&gt; x==y
+ |  
+ |  __ge__(...)
+ |      x.__ge__(y) &lt;==&gt; x&gt;=y
+ |  
+ |  __getattribute__(...)
+ |      x.__getattribute__('name') &lt;==&gt; x.name
+ |  
+ |  __getitem__(...)
+ |      x.__getitem__(y) &lt;==&gt; x[y]
+ |  
+ |  __getslice__(...)
+ |      x.__getslice__(i, j) &lt;==&gt; x[i:j]
+ |      
+ |      Use of negative indices is not supported.
+ |  
+ |  __gt__(...)
+ |      x.__gt__(y) &lt;==&gt; x&gt;y
+ |  
+ |  __hash__(...)
+ |      x.__hash__() &lt;==&gt; hash(x)
+ |  
+ |  __iter__(...)
+ |      x.__iter__() &lt;==&gt; iter(x)
+ |  
+ |  __le__(...)
+ |      x.__le__(y) &lt;==&gt; x&lt;=y
+ |  
+ |  __len__(...)
+ |      x.__len__() &lt;==&gt; len(x)
+ |  
+ |  __lt__(...)
+ |      x.__lt__(y) &lt;==&gt; x&lt;y
+ |  
+ |  __mul__(...)
+ |      x.__mul__(n) &lt;==&gt; x*n
+ |  
+ |  __ne__(...)
+ |      x.__ne__(y) &lt;==&gt; x!=y
+ |  
+ |  __rmul__(...)
+ |      x.__rmul__(n) &lt;==&gt; n*x
+ |  
+ |  __sizeof__(...)
+ |      T.__sizeof__() -- size of T in memory, in bytes
+ |  
+ |  count(...)
+ |      T.count(value) -&gt; integer -- return number of occurrences of value
+ |  
+ |  index(...)
+ |      T.index(value, [start, [stop]]) -&gt; integer -- return first index of value.
+ |      Raises ValueError if the value is not present.
+
+Mytuple
+
+Mytuple
+
+namedtuple
+</code></pre>
+<p>创建一个自己的可扩展tuple的类（包含tuple所有功能以及其他功能的类型），在根据类创建对象，然后调用对象最长用于坐标，普通的元组类似于列表以index编号来访问，而自定义可扩展的可以类似于字典的keys进行访问</p>
+<p>下例列举用collections.namedtuple以及普通元组进行元素调用的实例子。</p>
+<pre><code class="language-python">实例1：
+
+【collections方法】
+import collections　　　　　　　　#导入collections模块
+ 
+mytuple = collections.namedtuple('mytuple',['x','y','z'])　　　#调用namedtuple方法来定义mytuple的变量，并创建一个名称为['x','y','z']的列表。
+ 
+a = mytuple(3,5,7)　　　　　　　　#给mytuple赋值，这里赋值的（3,5,7）是分别赋值给['x','y','z']这个列表中每个元素的。
+print(a)
+&gt;&gt;&gt;mytuple(x=3, y=5, z=7)  　　 #打印结果可以看出赋值的每个值已经传给了列表中对应的每个元素中了。
+ 
+print(a.x)　　　　　　　　　　　　 #上述我们把mytuple赋给了变量a,所以a=mytuple。那么我们在调用mytuple中的元素时，要使用a.x,a.y,a.z的方式去调用。
+ 
+&gt;&gt;&gt;3
+ 
+print(a.x*a.z)　　　　　　　　　　#a.x=3，a.z=7那么再相乘结果为21
+ 
+&gt;&gt;&gt;21
+</code></pre>
+<p><strong>【普通tuple调用方法】</strong></p>
+<pre><code class="language-python">mytuple = (3,5,7)　　　　　　　　#生成一个普通的数字元组
+print(mytuple)
+ 
+&gt;&gt;&gt;(3,5,7)
+ 
+print(mytuple[0]*mytuple[2])   #在做元素调用以及算法计算时，因为元组调用元素跟列表一样是通过index编号来访问的所以要取出每个元素必须使用坐标，然后再做计算。
+ 
+&gt;&gt;&gt;21
+</code></pre>
+<p><strong>总结：通过上述方法可以看出使用collections模块中的namedtuple方法可以给每个元素起别名，通过名称调用的方式来获取值使用。而普通元组的方法必须通过下标的方式来取值。</strong></p>
+<p>实例2：</p>
+<pre><code class="language-python">from collections import namedtuple　　　　　　　　　　　　　　　　#通过from import的方式直接调用collections模块中namedtuple这个方法。而import collections是导入这个模块中所有的方法。这种调用在使用时必须collections.namedtuple的方式来使用。
+ 
+websites = [
+    ('Sohu', 'http://www.google.com/', u'liupeng'),
+    ('Sina', 'http://www.sina.com.cn/', u'tony'),
+    ('163', 'http://www.163.com/', u'jack')
+]　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　#假设我们有一个列表，列表中有三个元组，每个元组中的元素都是不同格式的字符串
+ 
+Website = namedtuple('Website_list', ['name', 'url', 'founder'])  #通过调用namedtuple，来设置一个列表'Website_list'是这个列表的别名.而['name','url','founder']的命名是分别为了分配给大列表websites中哥哥元组中的各个元素的。
+for i in websites:　　　　　　　　　　　　　　　　　　　　　　　　　# for循环websites这个大列表，这里的i循环得出的结果是这个大列表中每个元组
+    x = Website._make(i)　　　　　　　　　　　　　　　　　　　　　 #从已经存在迭代对象或者序列生成一个新的命名元组。 Website是namedtuple('Website_list', ['name', 'url', 'founder'])的内容，._make(i)是websites各个元组的内容，把这两个元组重组成新的元组。
+    print (x)　　　　　　　　　　　　　　　　　　　　　　　　　　　　#x打印结果如下，生成了新的命名元组。是使用了namedtuple中._make的方法生成的。
+ 
+# Result:
+Website_list(name='Sohu', url='http://www.google.com/', founder='liupeng')
+Website_list(name='Sina', url='http://www.sina.com.cn/', founder='tony')
+Website_list(name='163', url='http://www.163.com/', founder='jack')
+</code></pre>
+<h3 id="2-队列deque"><strong>2、队列(deque)</strong></h3>
+<p><strong>作用：deque其实是 double-ended queue 的缩写，翻译过来就是双端队列，它最大的好处就是实现了从队列 头部快速增加和取出对象: .popleft(), .appendleft() 。</strong></p>
+<pre><code class="language-python"> 
+class Queue:
+    &quot;&quot;&quot;Create a queue object with a given maximum size.
+
+    If maxsize is &lt;= 0, the queue size is infinite.
+    &quot;&quot;&quot;
+    def __init__(self, maxsize=0):
+        self.maxsize = maxsize
+        self._init(maxsize)
+        # mutex must be held whenever the queue is mutating.  All methods
+        # that acquire mutex must release it before returning.  mutex
+        # is shared between the three conditions, so acquiring and
+        # releasing the conditions also acquires and releases mutex.
+        self.mutex = _threading.Lock()
+        # Notify not_empty whenever an item is added to the queue; a
+        # thread waiting to get is notified then.
+        self.not_empty = _threading.Condition(self.mutex)
+        # Notify not_full whenever an item is removed from the queue;
+        # a thread waiting to put is notified then.
+        self.not_full = _threading.Condition(self.mutex)
+        # Notify all_tasks_done whenever the number of unfinished tasks
+        # drops to zero; thread waiting to join() is notified to resume
+        self.all_tasks_done = _threading.Condition(self.mutex)
+        self.unfinished_tasks = 0
+
+    def task_done(self):
+        &quot;&quot;&quot;Indicate that a formerly enqueued task is complete.
+
+        Used by Queue consumer threads.  For each get() used to fetch a task,
+        a subsequent call to task_done() tells the queue that the processing
+        on the task is complete.
+
+        If a join() is currently blocking, it will resume when all items
+        have been processed (meaning that a task_done() call was received
+        for every item that had been put() into the queue).
+
+        Raises a ValueError if called more times than there were items
+        placed in the queue.
+        &quot;&quot;&quot;
+        self.all_tasks_done.acquire()
+        try:
+            unfinished = self.unfinished_tasks - 1
+            if unfinished &lt;= 0:
+                if unfinished &lt; 0:
+                    raise ValueError('task_done() called too many times')
+                self.all_tasks_done.notify_all()
+            self.unfinished_tasks = unfinished
+        finally:
+            self.all_tasks_done.release()
+
+    def join(self):
+        &quot;&quot;&quot;Blocks until all items in the Queue have been gotten and processed.
+
+        The count of unfinished tasks goes up whenever an item is added to the
+        queue. The count goes down whenever a consumer thread calls task_done()
+        to indicate the item was retrieved and all work on it is complete.
+
+        When the count of unfinished tasks drops to zero, join() unblocks.
+        &quot;&quot;&quot;
+        self.all_tasks_done.acquire()
+        try:
+            while self.unfinished_tasks:
+                self.all_tasks_done.wait()
+        finally:
+            self.all_tasks_done.release()
+
+    def qsize(self):
+        &quot;&quot;&quot;Return the approximate size of the queue (not reliable!).&quot;&quot;&quot;
+        self.mutex.acquire()
+        n = self._qsize()
+        self.mutex.release()
+        return n
+
+    def empty(self):
+        &quot;&quot;&quot;Return True if the queue is empty, False otherwise (not reliable!).&quot;&quot;&quot;
+        self.mutex.acquire()
+        n = not self._qsize()
+        self.mutex.release()
+        return n
+
+    def full(self):
+        &quot;&quot;&quot;Return True if the queue is full, False otherwise (not reliable!).&quot;&quot;&quot;
+        self.mutex.acquire()
+        n = 0 &lt; self.maxsize == self._qsize()
+        self.mutex.release()
+        return n
+
+    def put(self, item, block=True, timeout=None):
+        &quot;&quot;&quot;Put an item into the queue.
+
+        If optional args 'block' is true and 'timeout' is None (the default),
+        block if necessary until a free slot is available. If 'timeout' is
+        a non-negative number, it blocks at most 'timeout' seconds and raises
+        the Full exception if no free slot was available within that time.
+        Otherwise ('block' is false), put an item on the queue if a free slot
+        is immediately available, else raise the Full exception ('timeout'
+        is ignored in that case).
+        &quot;&quot;&quot;
+        self.not_full.acquire()
+        try:
+            if self.maxsize &gt; 0:
+                if not block:
+                    if self._qsize() == self.maxsize:
+                        raise Full
+                elif timeout is None:
+                    while self._qsize() == self.maxsize:
+                        self.not_full.wait()
+                elif timeout &lt; 0:
+                    raise ValueError(&quot;'timeout' must be a non-negative number&quot;)
+                else:
+                    endtime = _time() + timeout
+                    while self._qsize() == self.maxsize:
+                        remaining = endtime - _time()
+                        if remaining &lt;= 0.0:
+                            raise Full
+                        self.not_full.wait(remaining)
+            self._put(item)
+            self.unfinished_tasks += 1
+            self.not_empty.notify()
+        finally:
+            self.not_full.release()
+
+    def put_nowait(self, item):
+        &quot;&quot;&quot;Put an item into the queue without blocking.
+
+        Only enqueue the item if a free slot is immediately available.
+        Otherwise raise the Full exception.
+        &quot;&quot;&quot;
+        return self.put(item, False)
+
+    def get(self, block=True, timeout=None):
+        &quot;&quot;&quot;Remove and return an item from the queue.
+
+        If optional args 'block' is true and 'timeout' is None (the default),
+        block if necessary until an item is available. If 'timeout' is
+        a non-negative number, it blocks at most 'timeout' seconds and raises
+        the Empty exception if no item was available within that time.
+        Otherwise ('block' is false), return an item if one is immediately
+        available, else raise the Empty exception ('timeout' is ignored
+        in that case).
+        &quot;&quot;&quot;
+        self.not_empty.acquire()
+        try:
+            if not block:
+                if not self._qsize():
+                    raise Empty
+            elif timeout is None:
+                while not self._qsize():
+                    self.not_empty.wait()
+            elif timeout &lt; 0:
+                raise ValueError(&quot;'timeout' must be a non-negative number&quot;)
+            else:
+                endtime = _time() + timeout
+                while not self._qsize():
+                    remaining = endtime - _time()
+                    if remaining &lt;= 0.0:
+                        raise Empty
+                    self.not_empty.wait(remaining)
+            item = self._get()
+            self.not_full.notify()
+            return item
+        finally:
+            self.not_empty.release()
+
+    def get_nowait(self):
+        &quot;&quot;&quot;Remove and return an item from the queue without blocking.
+
+        Only get an item if one is immediately available. Otherwise
+        raise the Empty exception.
+        &quot;&quot;&quot;
+        return self.get(False)
+
+    # Override these methods to implement other queue organizations
+    # (e.g. stack or priority queue).
+    # These will only be called with appropriate locks held
+
+    # Initialize the queue representation
+    def _init(self, maxsize):
+        self.queue = deque()
+
+    def _qsize(self, len=len):
+        return len(self.queue)
+
+    # Put a new item in the queue
+    def _put(self, item):
+        self.queue.append(item)
+
+    # Get an item from the queue
+    def _get(self):
+        return self.queue.popleft()
+
+Queue.Queue
+
+queue
+</code></pre>
+<pre><code class="language-python">a = collections.deque(range(9))　　　　 　　#通过调用collections中deque方法来创建一个数字列表。[0,1,2,3,4,5,6,7,8]
+a.appendleft(4)　　　　　　　　　　　　　　　　#.appendleft（传参）  是把传的参数添加到列表的最左边。appendleft一次只支持传一个参数。
+a.extend([1,2,3,4,5])　　　　　　　　　　　　#.extend（）以及append（）方法是把传的参数添加到列表的最后边。而.extend（【列表，或者元组】）可以把列表中的各个元素传到列表中生成一个新的列表。
+print(a.count(3))　　　　　　　　　　　　　　 #a.count()括号中的参数可以指定。count是查看出现的次数的。按照上例除了生成原列表中生成的数字3以外，我们在extend列表的时候又有一个3，所以count出来的结果应该是2.说明3出现了2次。
+
+print(a)
+</code></pre>
+<pre><code class="language-python">import collections
+from collections import deque
+
+data = collections.deque()
+
+data.extendleft([('Sohu', 'http://www.google.com/', u'liupeng'),
+    ('Sina', 'http://www.sina.com.cn/', u'tony'),
+    ('163', 'http://www.163.com/', u'jack')])
+
+
+li = []
+
+for i in data:
+    li.append(i)
+print(li)
+
+nam = collections.namedtuple('website',['name','url','founder'])
+
+for i in li:
+    x = nam._make(i)
+    print(x)
+</code></pre>
+<h3 id="3-counter计数器"><strong>3、counter计数器</strong></h3>
+<p><strong>计数器是一个非常常用的功能需求，collections也贴心的为你提供了这个功能。如果counter(dict)是对字典的一个补充，如果counter(list)则是对列表的补充，初步测试对字典的值进行排序。</strong></p>
+<pre><code class="language-python">
+########################################################################
+###  Counter
+########################################################################
+
+class Counter(dict):
+    '''Dict subclass for counting hashable items.  Sometimes called a bag
+    or multiset.  Elements are stored as dictionary keys and their counts
+    are stored as dictionary values.
+
+    &gt;&gt;&gt; c = Counter('abcdeabcdabcaba')  # count elements from a string
+
+    &gt;&gt;&gt; c.most_common(3)                # three most common elements
+    [('a', 5), ('b', 4), ('c', 3)]
+    &gt;&gt;&gt; sorted(c)                       # list all unique elements
+    ['a', 'b', 'c', 'd', 'e']
+    &gt;&gt;&gt; ''.join(sorted(c.elements()))   # list elements with repetitions
+    'aaaaabbbbcccdde'
+    &gt;&gt;&gt; sum(c.values())                 # total of all counts
+
+    &gt;&gt;&gt; c['a']                          # count of letter 'a'
+    &gt;&gt;&gt; for elem in 'shazam':           # update counts from an iterable
+    ...     c[elem] += 1                # by adding 1 to each element's count
+    &gt;&gt;&gt; c['a']                          # now there are seven 'a'
+    &gt;&gt;&gt; del c['b']                      # remove all 'b'
+    &gt;&gt;&gt; c['b']                          # now there are zero 'b'
+
+    &gt;&gt;&gt; d = Counter('simsalabim')       # make another counter
+    &gt;&gt;&gt; c.update(d)                     # add in the second counter
+    &gt;&gt;&gt; c['a']                          # now there are nine 'a'
+
+    &gt;&gt;&gt; c.clear()                       # empty the counter
+    &gt;&gt;&gt; c
+    Counter()
+
+    Note:  If a count is set to zero or reduced to zero, it will remain
+    in the counter until the entry is deleted or the counter is cleared:
+
+    &gt;&gt;&gt; c = Counter('aaabbc')
+    &gt;&gt;&gt; c['b'] -= 2                     # reduce the count of 'b' by two
+    &gt;&gt;&gt; c.most_common()                 # 'b' is still in, but its count is zero
+    [('a', 3), ('c', 1), ('b', 0)]
+
+    '''
+    # References:
+    #   http://en.wikipedia.org/wiki/Multiset
+    #   http://www.gnu.org/software/smalltalk/manual-base/html_node/Bag.html
+    #   http://www.demo2s.com/Tutorial/Cpp/0380__set-multiset/Catalog0380__set-multiset.htm
+    #   http://code.activestate.com/recipes/259174/
+    #   Knuth, TAOCP Vol. II section 4.6.3
+
+    def __init__(self, iterable=None, **kwds):
+        '''Create a new, empty Counter object.  And if given, count elements
+        from an input iterable.  Or, initialize the count from another mapping
+        of elements to their counts.
+
+        &gt;&gt;&gt; c = Counter()                           # a new, empty counter
+        &gt;&gt;&gt; c = Counter('gallahad')                 # a new counter from an iterable
+        &gt;&gt;&gt; c = Counter({'a': 4, 'b': 2})           # a new counter from a mapping
+        &gt;&gt;&gt; c = Counter(a=4, b=2)                   # a new counter from keyword args
+
+        '''
+        super(Counter, self).__init__()
+        self.update(iterable, **kwds)
+
+    def __missing__(self, key):
+        &quot;&quot;&quot; 对于不存在的元素，返回计数器为0 &quot;&quot;&quot;
+        'The count of elements not in the Counter is zero.'
+        # Needed so that self[missing_item] does not raise KeyError
+        return 0
+
+    def most_common(self, n=None):
+        &quot;&quot;&quot; 数量大于等n的所有元素和计数器 &quot;&quot;&quot;
+        '''List the n most common elements and their counts from the most
+        common to the least.  If n is None, then list all element counts.
+
+        &gt;&gt;&gt; Counter('abcdeabcdabcaba').most_common(3)
+        [('a', 5), ('b', 4), ('c', 3)]
+
+        '''
+        # Emulate Bag.sortedByCount from Smalltalk
+        if n is None:
+            return sorted(self.iteritems(), key=_itemgetter(1), reverse=True)
+        return _heapq.nlargest(n, self.iteritems(), key=_itemgetter(1))
+
+    def elements(self):
+        &quot;&quot;&quot; 计数器中的所有元素，注：此处非所有元素集合，而是包含所有元素集合的迭代器 &quot;&quot;&quot;
+        '''Iterator over elements repeating each as many times as its count.
+
+        &gt;&gt;&gt; c = Counter('ABCABC')
+        &gt;&gt;&gt; sorted(c.elements())
+        ['A', 'A', 'B', 'B', 'C', 'C']
+
+        # Knuth's example for prime factors of 1836:  2**2 * 3**3 * 17**1
+        &gt;&gt;&gt; prime_factors = Counter({2: 2, 3: 3, 17: 1})
+        &gt;&gt;&gt; product = 1
+        &gt;&gt;&gt; for factor in prime_factors.elements():     # loop over factors
+        ...     product *= factor                       # and multiply them
+        &gt;&gt;&gt; product
+
+        Note, if an element's count has been set to zero or is a negative
+        number, elements() will ignore it.
+
+        '''
+        # Emulate Bag.do from Smalltalk and Multiset.begin from C++.
+        return _chain.from_iterable(_starmap(_repeat, self.iteritems()))
+
+    # Override dict methods where necessary
+
+    @classmethod
+    def fromkeys(cls, iterable, v=None):
+        # There is no equivalent method for counters because setting v=1
+        # means that no element can have a count greater than one.
+        raise NotImplementedError(
+            'Counter.fromkeys() is undefined.  Use Counter(iterable) instead.')
+
+    def update(self, iterable=None, **kwds):
+        &quot;&quot;&quot; 更新计数器，其实就是增加；如果原来没有，则新建，如果有则加一 &quot;&quot;&quot;
+        '''Like dict.update() but add counts instead of replacing them.
+
+        Source can be an iterable, a dictionary, or another Counter instance.
+
+        &gt;&gt;&gt; c = Counter('which')
+        &gt;&gt;&gt; c.update('witch')           # add elements from another iterable
+        &gt;&gt;&gt; d = Counter('watch')
+        &gt;&gt;&gt; c.update(d)                 # add elements from another counter
+        &gt;&gt;&gt; c['h']                      # four 'h' in which, witch, and watch
+
+        '''
+        # The regular dict.update() operation makes no sense here because the
+        # replace behavior results in the some of original untouched counts
+        # being mixed-in with all of the other counts for a mismash that
+        # doesn't have a straight-forward interpretation in most counting
+        # contexts.  Instead, we implement straight-addition.  Both the inputs
+        # and outputs are allowed to contain zero and negative counts.
+
+        if iterable is not None:
+            if isinstance(iterable, Mapping):
+                if self:
+                    self_get = self.get
+                    for elem, count in iterable.iteritems():
+                        self[elem] = self_get(elem, 0) + count
+                else:
+                    super(Counter, self).update(iterable) # fast path when counter is empty
+            else:
+                self_get = self.get
+                for elem in iterable:
+                    self[elem] = self_get(elem, 0) + 1
+        if kwds:
+            self.update(kwds)
+
+    def subtract(self, iterable=None, **kwds):
+        &quot;&quot;&quot; 相减，原来的计数器中的每一个元素的数量减去后添加的元素的数量 &quot;&quot;&quot;
+        '''Like dict.update() but subtracts counts instead of replacing them.
+        Counts can be reduced below zero.  Both the inputs and outputs are
+        allowed to contain zero and negative counts.
+
+        Source can be an iterable, a dictionary, or another Counter instance.
+
+        &gt;&gt;&gt; c = Counter('which')
+        &gt;&gt;&gt; c.subtract('witch')             # subtract elements from another iterable
+        &gt;&gt;&gt; c.subtract(Counter('watch'))    # subtract elements from another counter
+        &gt;&gt;&gt; c['h']                          # 2 in which, minus 1 in witch, minus 1 in watch
+        &gt;&gt;&gt; c['w']                          # 1 in which, minus 1 in witch, minus 1 in watch
+        -1
+
+        '''
+        if iterable is not None:
+            self_get = self.get
+            if isinstance(iterable, Mapping):
+                for elem, count in iterable.items():
+                    self[elem] = self_get(elem, 0) - count
+            else:
+                for elem in iterable:
+                    self[elem] = self_get(elem, 0) - 1
+        if kwds:
+            self.subtract(kwds)
+
+    def copy(self):
+        &quot;&quot;&quot; 拷贝 &quot;&quot;&quot;
+        'Return a shallow copy.'
+        return self.__class__(self)
+
+    def __reduce__(self):
+        &quot;&quot;&quot; 返回一个元组（类型，元组） &quot;&quot;&quot;
+        return self.__class__, (dict(self),)
+
+    def __delitem__(self, elem):
+        &quot;&quot;&quot; 删除元素 &quot;&quot;&quot;
+        'Like dict.__delitem__() but does not raise KeyError for missing values.'
+        if elem in self:
+            super(Counter, self).__delitem__(elem)
+
+    def __repr__(self):
+        if not self:
+            return '%s()' % self.__class__.__name__
+        items = ', '.join(map('%r: %r'.__mod__, self.most_common()))
+        return '%s({%s})' % (self.__class__.__name__, items)
+
+    # Multiset-style mathematical operations discussed in:
+    #       Knuth TAOCP Volume II section 4.6.3 exercise 19
+    #       and at http://en.wikipedia.org/wiki/Multiset
+    #
+    # Outputs guaranteed to only include positive counts.
+    #
+    # To strip negative and zero counts, add-in an empty counter:
+    #       c += Counter()
+
+    def __add__(self, other):
+        '''Add counts from two counters.
+
+        &gt;&gt;&gt; Counter('abbb') + Counter('bcc')
+        Counter({'b': 4, 'c': 2, 'a': 1})
+
+        '''
+        if not isinstance(other, Counter):
+            return NotImplemented
+        result = Counter()
+        for elem, count in self.items():
+            newcount = count + other[elem]
+            if newcount &gt; 0:
+                result[elem] = newcount
+        for elem, count in other.items():
+            if elem not in self and count &gt; 0:
+                result[elem] = count
+        return result
+
+    def __sub__(self, other):
+        ''' Subtract count, but keep only results with positive counts.
+
+        &gt;&gt;&gt; Counter('abbbc') - Counter('bccd')
+        Counter({'b': 2, 'a': 1})
+
+        '''
+        if not isinstance(other, Counter):
+            return NotImplemented
+        result = Counter()
+        for elem, count in self.items():
+            newcount = count - other[elem]
+            if newcount &gt; 0:
+                result[elem] = newcount
+        for elem, count in other.items():
+            if elem not in self and count &lt; 0:
+                result[elem] = 0 - count
+        return result
+
+    def __or__(self, other):
+        '''Union is the maximum of value in either of the input counters.
+
+        &gt;&gt;&gt; Counter('abbb') | Counter('bcc')
+        Counter({'b': 3, 'c': 2, 'a': 1})
+
+        '''
+        if not isinstance(other, Counter):
+            return NotImplemented
+        result = Counter()
+        for elem, count in self.items():
+            other_count = other[elem]
+            newcount = other_count if count &lt; other_count else count
+            if newcount &gt; 0:
+                result[elem] = newcount
+        for elem, count in other.items():
+            if elem not in self and count &gt; 0:
+                result[elem] = count
+        return result
+
+    def __and__(self, other):
+        ''' Intersection is the minimum of corresponding counts.
+
+        &gt;&gt;&gt; Counter('abbb') &amp; Counter('bcc')
+        Counter({'b': 1})
+
+        '''
+        if not isinstance(other, Counter):
+            return NotImplemented
+        result = Counter()
+        for elem, count in self.items():
+            other_count = other[elem]
+            newcount = count if count &lt; other_count else other_count
+            if newcount &gt; 0:
+                result[elem] = newcount
+        return result
+
+Counter
+
+Counter
+
+Counter
+</code></pre>
+<p>实例1：</p>
+<pre><code class="language-python">a = collections.Counter('ababc')　　　　　　　　　　　　　　#通过Counter创建a跟b两个元组，元组中的元素是以字典的方式显示的。通过字典把每个元素重复的次数做统计分别作为字典的keys跟values.例如：Counter({'b': 2, 'a': 2, 'c': 1})　
+b = collections.Counter('1234abd')
+ 
+print(a.most_common(3))　　　　　　　　　　　　　　　　　　# 显示n个个数。变量.most_common()中填写的位数代表从大到小取前几个数值的意思。例如是3的话，只会去3位数值[('b', 2), ('a', 2), ('c', 1)]
+print(a)　　　　　　　　　　　　　　　　　　　　　　　　　　　#结果为[('b', 2), ('a', 2), ('c', 1)]
+a.update(b)　　　　　　　　　　　　　　　　　　　　　　　　　# 把b中的值传到a中。组合一个新的元组。（叠加）
+print(a)　　　　　　　　　　　　　　　　　　　　　　　　　　　#结果为Counter({'a': 3, 'b': 3, '1': 1, '4': 1, 'c': 1, 'd': 1, '3': 1, '2': 1})，因为字典是无序的所以不是按照顺序排列的。但是可以看出b中的元素已经传到了a中。
+a.subtract(b)　　　　　　　　　　　　　　　　　　　　　　　　#于.update（）相反。.subtract（）是表示相减。但是虽然相减了，仍然会把相减后不存在的key中的value以0的方式显示。
+print(a)　　　　　　　　　　　　　　　　　　　　　　　　　　 #结果为Counter({'a': 2, 'b': 2, 'c': 1, '1': 0, '4': 0, 'd': 0, '3': 0, '2': 0})
+ 
+  
+ 
+# Result：
+[('b', 2), ('a', 2), ('c', 1)]
+Counter({'b': 2, 'a': 2, 'c': 1})
+Counter({'a': 3, 'b': 3, '1': 1, '4': 1, 'c': 1, 'd': 1, '3': 1, '2': 1})
+Counter({'a': 2, 'b': 2, 'c': 1, '1': 0, '4': 0, 'd': 0, '3': 0, '2': 0})
+</code></pre>
+<p>实例2：</p>
+<pre><code class="language-python"># Result：
+ &quot;&quot;&quot;
+下面这个例子就是使用Counter模块统计一段句子里面所有字符出现次数
+&quot;&quot;&quot;
+from collections import Counter
+s = '''A Counter is a dict subclass for counting hashable objects. It is an unordered collection where elements are stored as dictionary keys and their counts are stored as dictionary values. Counts are allowed to be any integer value including zero or negative counts. The Counter class is similar to bags or multisets in other languages.'''.lower()  
+#.lower()这里指把字符串中所有的内容以小写字母呈现。（大写转小写）
+ 
+print(s)
+c = Counter(s)
+print (c.most_common(5))　　　　　　　　　　　　　　# 获取出现频率最高的5个字符
+ 
+ 
+# Result：
+a counter is a dict subclass for counting hashable objects. it is an unordered collection where elements are stored as dictionary keys and their counts are stored as dictionary values. counts are allowed to be any integer value including zero or negative counts. the counter class is similar to bags or multisets in other languages.
+[(' ', 54), ('e', 32), ('s', 25), ('a', 24), ('t', 24)]
+</code></pre>
+<h3 id="4-有序字典ordereddict"><strong>4、有序字典(orderedDict )</strong></h3>
+<p><strong>在Python中，dict这个数据结构由于hash的特性，是无序的，这在有的时候会给我们带来一些麻烦， 幸运的是，collections模块为我们提供了OrderedDict，当你要获得一个有序的字典对象时，用它就对了。</strong></p>
+<pre><code class="language-python">class OrderedDict(dict):
+    'Dictionary that remembers insertion order'
+    # An inherited dict maps keys to values.
+    # The inherited dict provides __getitem__, __len__, __contains__, and get.
+    # The remaining methods are order-aware.
+    # Big-O running times for all methods are the same as regular dictionaries.
+
+    # The internal self.__map dict maps keys to links in a doubly linked list.
+    # The circular doubly linked list starts and ends with a sentinel element.
+    # The sentinel element never gets deleted (this simplifies the algorithm).
+    # Each link is stored as a list of length three:  [PREV, NEXT, KEY].
+
+    def __init__(self, *args, **kwds):
+        '''Initialize an ordered dictionary.  The signature is the same as
+        regular dictionaries, but keyword arguments are not recommended because
+        their insertion order is arbitrary.
+
+        '''
+        if len(args) &gt; 1:
+            raise TypeError('expected at most 1 arguments, got %d' % len(args))
+        try:
+            self.__root
+        except AttributeError:
+            self.__root = root = []                     # sentinel node
+            root[:] = [root, root, None]
+            self.__map = {}
+        self.__update(*args, **kwds)
+
+    def __setitem__(self, key, value, dict_setitem=dict.__setitem__):
+        'od.__setitem__(i, y) &lt;==&gt; od[i]=y'
+        # Setting a new item creates a new link at the end of the linked list,
+        # and the inherited dictionary is updated with the new key/value pair.
+        if key not in self:
+            root = self.__root
+            last = root[0]
+            last[1] = root[0] = self.__map[key] = [last, root, key]
+        return dict_setitem(self, key, value)
+
+    def __delitem__(self, key, dict_delitem=dict.__delitem__):
+        'od.__delitem__(y) &lt;==&gt; del od[y]'
+        # Deleting an existing item uses self.__map to find the link which gets
+        # removed by updating the links in the predecessor and successor nodes.
+        dict_delitem(self, key)
+        link_prev, link_next, _ = self.__map.pop(key)
+        link_prev[1] = link_next                        # update link_prev[NEXT]
+        link_next[0] = link_prev                        # update link_next[PREV]
+
+    def __iter__(self):
+        'od.__iter__() &lt;==&gt; iter(od)'
+        # Traverse the linked list in order.
+        root = self.__root
+        curr = root[1]                                  # start at the first node
+        while curr is not root:
+            yield curr[2]                               # yield the curr[KEY]
+            curr = curr[1]                              # move to next node
+
+    def __reversed__(self):
+        'od.__reversed__() &lt;==&gt; reversed(od)'
+        # Traverse the linked list in reverse order.
+        root = self.__root
+        curr = root[0]                                  # start at the last node
+        while curr is not root:
+            yield curr[2]                               # yield the curr[KEY]
+            curr = curr[0]                              # move to previous node
+
+    def clear(self):
+        'od.clear() -&gt; None.  Remove all items from od.'
+        root = self.__root
+        root[:] = [root, root, None]
+        self.__map.clear()
+        dict.clear(self)
+
+    # -- the following methods do not depend on the internal structure --
+
+    def keys(self):
+        'od.keys() -&gt; list of keys in od'
+        return list(self)
+
+    def values(self):
+        'od.values() -&gt; list of values in od'
+        return [self[key] for key in self]
+
+    def items(self):
+        'od.items() -&gt; list of (key, value) pairs in od'
+        return [(key, self[key]) for key in self]
+
+    def iterkeys(self):
+        'od.iterkeys() -&gt; an iterator over the keys in od'
+        return iter(self)
+
+    def itervalues(self):
+        'od.itervalues -&gt; an iterator over the values in od'
+        for k in self:
+            yield self[k]
+
+    def iteritems(self):
+        'od.iteritems -&gt; an iterator over the (key, value) pairs in od'
+        for k in self:
+            yield (k, self[k])
+
+    update = MutableMapping.update
+
+    __update = update # let subclasses override update without breaking __init__
+
+    __marker = object()
+
+    def pop(self, key, default=__marker):
+        '''od.pop(k[,d]) -&gt; v, remove specified key and return the corresponding
+        value.  If key is not found, d is returned if given, otherwise KeyError
+        is raised.
+
+        '''
+        if key in self:
+            result = self[key]
+            del self[key]
+            return result
+        if default is self.__marker:
+            raise KeyError(key)
+        return default
+
+    def setdefault(self, key, default=None):
+        'od.setdefault(k[,d]) -&gt; od.get(k,d), also set od[k]=d if k not in od'
+        if key in self:
+            return self[key]
+        self[key] = default
+        return default
+
+    def popitem(self, last=True):
+        '''od.popitem() -&gt; (k, v), return and remove a (key, value) pair.
+        Pairs are returned in LIFO order if last is true or FIFO order if false.
+
+        '''
+        if not self:
+            raise KeyError('dictionary is empty')
+        key = next(reversed(self) if last else iter(self))
+        value = self.pop(key)
+        return key, value
+
+    def __repr__(self, _repr_running={}):
+        'od.__repr__() &lt;==&gt; repr(od)'
+        call_key = id(self), _get_ident()
+        if call_key in _repr_running:
+            return '...'
+        _repr_running[call_key] = 1
+        try:
+            if not self:
+                return '%s()' % (self.__class__.__name__,)
+            return '%s(%r)' % (self.__class__.__name__, self.items())
+        finally:
+            del _repr_running[call_key]
+
+    def __reduce__(self):
+        'Return state information for pickling'
+        items = [[k, self[k]] for k in self]
+        inst_dict = vars(self).copy()
+        for k in vars(OrderedDict()):
+            inst_dict.pop(k, None)
+        if inst_dict:
+            return (self.__class__, (items,), inst_dict)
+        return self.__class__, (items,)
+
+    def copy(self):
+        'od.copy() -&gt; a shallow copy of od'
+        return self.__class__(self)
+
+    @classmethod
+    def fromkeys(cls, iterable, value=None):
+        '''OD.fromkeys(S[, v]) -&gt; New ordered dictionary with keys from S.
+        If not specified, the value defaults to None.
+
+        '''
+        self = cls()
+        for key in iterable:
+            self[key] = value
+        return self
+
+    def __eq__(self, other):
+        '''od.__eq__(y) &lt;==&gt; od==y.  Comparison to another OD is order-sensitive
+        while comparison to a regular mapping is order-insensitive.
+
+        '''
+        if isinstance(other, OrderedDict):
+            return dict.__eq__(self, other) and all(_imap(_eq, self, other))
+        return dict.__eq__(self, other)
+
+    def __ne__(self, other):
+        'od.__ne__(y) &lt;==&gt; od!=y'
+        return not self == other
+
+    # -- the following methods support python 3.x style dictionary views --
+
+    def viewkeys(self):
+        &quot;od.viewkeys() -&gt; a set-like object providing a view on od's keys&quot;
+        return KeysView(self)
+
+    def viewvalues(self):
+        &quot;od.viewvalues() -&gt; an object providing a view on od's values&quot;
+        return ValuesView(self)
+
+    def viewitems(self):
+        &quot;od.viewitems() -&gt; a set-like object providing a view on od's items&quot;
+        return ItemsView(self)
+
+OrderedDict
+
+ordereddict
+</code></pre>
+<p>案例:</p>
+<pre><code class="language-python">import collections
+ 
+dic = collections.OrderedDict()  #创建有序字典下列分别是创建有序字典中的keys跟values
+ 
+dic['name'] = 'liupeng'
+ 
+dic['Job'] = 'IT'
+ 
+dic['City'] = 'YanTai'
+ 
+print(dic)
+ 
+  
+ 
+# Result：
+OrderedDict([('name', 'liupeng'), ('Job', 'IT'), ('City', 'YanTai')])　　　　#打印有序字典结果
+ 
+dic['school'] = 'DaLian'　　　　#往有序字典中添加新的Key跟value
+ 
+print(dic)
+ 
+# Result：
+OrderedDict([('name', 'liupeng'), ('Job', 'IT'), ('City', 'YanTai'), ('school', 'DaLian')])　　　　#从打印有序字典结果中可以看出添加的key跟value已经追加到有序字典中去了
+ 
+#这里就不列举无序字典例子了。有序字典最大的好处就是它有序。。。接下来你懂得。（- * -））
+ 
+ 
+dic1 = {'name1':'liupeng1','job1':'IT1','city1':'yantai1'}
+ 
+print(dic1)
+</code></pre>
+<h3 id="5-默认字典defaultdict"><strong>5、默认字典(defaultdict)</strong></h3>
+<p><strong>即为字典中的values设置一个默认类型：<br>
+defaultdict的参数默认是dict，也可以为list,tuple</strong></p>
+<pre><code class="language-python">class defaultdict(dict):
+    &quot;&quot;&quot;
+    defaultdict(default_factory[, ...]) --&gt; dict with default factory
+    
+    The default factory is called without arguments to produce
+    a new value when a key is not present, in __getitem__ only.
+    A defaultdict compares equal to a dict with the same items.
+    All remaining arguments are treated the same as if they were
+    passed to the dict constructor, including keyword arguments.
+    &quot;&quot;&quot;
+    def copy(self): # real signature unknown; restored from __doc__
+        &quot;&quot;&quot; D.copy() -&gt; a shallow copy of D. &quot;&quot;&quot;
+        pass
+
+    def __copy__(self, *args, **kwargs): # real signature unknown
+        &quot;&quot;&quot; D.copy() -&gt; a shallow copy of D. &quot;&quot;&quot;
+        pass
+
+    def __getattribute__(self, name): # real signature unknown; restored from __doc__
+        &quot;&quot;&quot; x.__getattribute__('name') &lt;==&gt; x.name &quot;&quot;&quot;
+        pass
+
+    def __init__(self, default_factory=None, **kwargs): # known case of _collections.defaultdict.__init__
+        &quot;&quot;&quot;
+        defaultdict(default_factory[, ...]) --&gt; dict with default factory
+        
+        The default factory is called without arguments to produce
+        a new value when a key is not present, in __getitem__ only.
+        A defaultdict compares equal to a dict with the same items.
+        All remaining arguments are treated the same as if they were
+        passed to the dict constructor, including keyword arguments.
+        
+        # (copied from class doc)
+        &quot;&quot;&quot;
+        pass
+
+    def __missing__(self, key): # real signature unknown; restored from __doc__
+        &quot;&quot;&quot;
+        __missing__(key) # Called by __getitem__ for missing key; pseudo-code:
+          if self.default_factory is None: raise KeyError((key,))
+          self[key] = value = self.default_factory()
+          return value
+        &quot;&quot;&quot;
+        pass
+
+    def __reduce__(self, *args, **kwargs): # real signature unknown
+        &quot;&quot;&quot; Return state information for pickling. &quot;&quot;&quot;
+        pass
+
+    def __repr__(self): # real signature unknown; restored from __doc__
+        &quot;&quot;&quot; x.__repr__() &lt;==&gt; repr(x) &quot;&quot;&quot;
+        pass
+
+    default_factory = property(lambda self: object(), lambda self, v: None, lambda self: None)  # default
+    &quot;&quot;&quot;Factory for default value called by __missing__().&quot;&quot;&quot;
+
+defaultdict
+
+defaultdict
+</code></pre>
+<p>实例说明1：</p>
+<pre><code class="language-python">在使用的dict时，无法指定values的类型，在赋值时要进行判断，具体如下：
+ 
+values = [11,22,33,44,55,66,77,88,99,90]
+ 
+mydic = {}
+ 
+for v in values:
+    if v &gt; 66:
+        if 'k1' in mydic:　　　　　　　　#python2.7中有个.has_key的方法。在3.0以后版本中被废除，用in来替代。python2.7用法：if my_dict.has_key('k1')
+            mydic['k1'].append(v)
+ 
+        else:
+            mydic['k1']=[v]
+ 
+    else:
+        if 'k2' in mydic:
+            mydic['k2'].append(v)
+ 
+        else:
+            mydic['k2']= [v]
+             
+print(mydic)
+ 
+# Result:
+{'k2': [11, 22, 33, 44, 55, 66], 'k1': [77, 88, 99, 90]}
+ 
+而在使用了defaultdict时，代码进行了简化：
+ 
+from collections import defaultdict
+ 
+values = [11,22,33,44,55,66,77,88,99,90]
+ 
+my_dict = defaultdict(list)
+ 
+for v in values:　　　　　　　　　　#v始终都是my_dict中的values,而defaultdict(list)后我们对于keys的指定对比上例就方便很多。不用再做一层if判断了。
+    if v &gt;66:
+        my_dict['k1'].append(v)
+ 
+    else:
+        my_dict['k2'].append(v)
+ 
+print(my_dict)
+ 
+# Result:
+defaultdict(&lt;class 'list'&gt;, {'k1': [77, 88, 99, 90], 'k2': [11, 22, 33, 44, 55, 66]})
+</code></pre>
+<p>实例说明2：</p>
+<pre><code class="language-python">from collections import defaultdict
+ 
+members = [
+    ['male', 'John'],
+    ['male', 'Jack'],
+    ['female', 'Lily'],
+    ['male', 'Pony'],
+    ['female', 'Lucy'],
+]
+result = defaultdict(list)
+for sex, name in members:　　　　　　　　#这里设置2个变量作为字典(result)中的key跟value.
+    result[sex].append(name)　　　　　　#这里把[sex]作为了字典中的key，name这个变量作为了value并append到字典result对应的key中。
+print (result)
+ 
+# Result:
+defaultdict(&lt;class 'list'&gt;, {'female': ['Lily', 'Lucy'], 'male': ['John', 'Jack', 'Pony']})
+</code></pre>
+<p>以上代码均在python3.4版本中测试过。</p>
+<p>上面只是非常简单的介绍了一下collections模块的主要内容，主要目的就是当你碰到适合使用 它们的场所时，能够记起并使用它们，起到事半功倍的效果。<br>
+如果要对它们有一个更全面和深入了解的话，还是建议阅读官方文档和模块源码。<br>
+https://docs.python.org/3/library/collections.html#module-collections</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Python中的GIL详解]]></title>
         <id>https://skytotwo.github.io//post/python-gil</id>
@@ -1053,1121 +2718,6 @@ doWxPay(param){
         out.close();  
     } 
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[css图片居中(水平居中和垂直居中)]]></title>
-        <id>https://skytotwo.github.io//post/css-centered</id>
-        <link href="https://skytotwo.github.io//post/css-centered">
-        </link>
-        <updated>2019-08-12T09:03:37.000Z</updated>
-        <summary type="html"><![CDATA[<p>css图片居中分css图片水平居中和垂直居中两种情况，有时候还需要图片同时水平垂直居中，下面分几种居中情况分别介绍:</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>css图片居中分css图片水平居中和垂直居中两种情况，有时候还需要图片同时水平垂直居中，下面分几种居中情况分别介绍:</p>
- <!-- more -->
-<h4 id="css图片水平居中">css图片水平居中</h4>
-<p><strong>1.利用margin: 0 auto实现图片水平居中</strong></p>
-<p>利用margin: 0 auto实现图片居中就是在图片上加上css样式margin: 0 auto 如下：</p>
-<pre><code class="language-javascript">&lt;div style=&quot;text-align: center; width: 500px; border: green solid 1px;&quot;&gt;
-&lt;img alt=&quot;&quot; src=&quot;https://www.baidu.com/img/baidu_jgylogo3.gif&quot; style=&quot;margin: 0 auto;&quot; /&gt;
-&lt;/div&gt;
-</code></pre>
-<p><strong>2.利用文本的水平居中属性text-align: center</strong></p>
-<p>代码如下:</p>
-<pre><code class="language-javascript">&lt;div style=&quot;text-align: center; width: 500px; border: green solid 1px;&quot;&gt;
-&lt;img alt=&quot;&quot; src=&quot;https://www.baidu.com/img/baidu_jgylogo3.gif&quot; style=&quot;display: inline-block;&quot; /&gt;
-&lt;/div&gt;
-</code></pre>
-<h4 id="css图片垂直居中">css图片垂直居中</h4>
-<p><strong>1.利用高==行高实现图片垂直居中</strong></p>
-<p>这种方法是要注明高度才可以使用，代码如下：</p>
-<pre><code class="language-javascript">&lt;div style=&quot;text-align: center; width: 500px;height:200px; line-height:200px; border: green solid 1px;&quot;&gt;
-   &lt;img alt=&quot;&quot; src=&quot;https://www.baidu.com/img/baidu_jgylogo3.gif&quot; style=&quot;display: inline-block; vertical-align: middle;&quot; /&gt;
-&lt;/div&gt;
-</code></pre>
-<p><strong>2.利用table实现图片垂直居中</strong></p>
-<p>利用table的方法是利用了table的垂直居中属性，代码如下：</p>
-<p>这里使用display: table;和display: table-cell;来模拟table，这种方法并不兼容IE6/IE7，IE67不支持display: table，如果你不需要支持IE67那就可以用</p>
-<p>缺点：当你设置了display: table;可能会改变你的原有布局</p>
-<pre><code class="language-javascript">&lt;div style=&quot;text-align: center; width: 500px;height:200px; display: table;border: green solid 1px;&quot;&gt;
-   &lt;span style=&quot;display: table-cell; vertical-align: middle; &quot;&gt;
-       &lt;img alt=&quot;&quot; src=&quot;https://www.baidu.com/img/baidu_jgylogo3.gif&quot; style=&quot;display: inline-block;&quot; /&gt;
-   &lt;/span&gt;
-&lt;/div&gt;
-</code></pre>
-<p><strong>3.利用绝对定位实现图片垂直居中</strong></p>
-<p>如果已知图片的宽度和高度可以这样，代码如下：</p>
-<pre><code class="language-javascript">&lt;div style=&quot;width: 500px;height:200px; position: relative; border: green solid 1px;&quot;&gt;
-    &lt;img alt=&quot;&quot; src=&quot;https://www.baidu.com/img/baidu_jgylogo3.gif&quot; style=&quot;width: 120px; height: 40px;position: absolute; left:50%; top: 50%; margin-left: -60px;margin-top: -20px;&quot; /&gt;
-&lt;/div&gt;
-</code></pre>
-<p><strong>4.移动端可以利用flex布局实现css图片垂直居中</strong></p>
-<p>移动端一般浏览器版本都比较高，所以可以大胆的使用flex布局，（flex布局参考css3的flex布局用法）演示代码如下：</p>
-<p>css代码：</p>
-<pre><code class="language-javascript">&lt;style type=&quot;text/css&quot;&gt;
-
-        .ui-flex {
-            display: -webkit-box !important;
-            display: -webkit-flex !important;
-            display: -ms-flexbox !important;
-            display: flex !important;
-            -webkit-flex-wrap: wrap;
-            -ms-flex-wrap: wrap;
-            flex-wrap: wrap
-        }
-
-        .ui-flex, .ui-flex *, .ui-flex :after, .ui-flex :before {
-            box-sizing: border-box
-        }
-
-        .ui-flex.justify-center {
-            -webkit-box-pack: center;
-            -webkit-justify-content: center;
-            -ms-flex-pack: center;
-            justify-content: center
-        }
-        .ui-flex.center {
-            -webkit-box-pack: center;
-            -webkit-justify-content: center;
-            -ms-flex-pack: center;
-            justify-content: center;
-            -webkit-box-align: center;
-            -webkit-align-items: center;
-            -ms-flex-align: center;
-            align-items: center
-        }
-    &lt;/style&gt;
-</code></pre>
-<p>html代码：</p>
-<pre><code class="language-javascript">&lt;div class=&quot;ui-flex justify-center center&quot; style=&quot;border: green solid 1px; width: 500px; height: 200px;&quot;&gt;
-    &lt;div class=&quot;cell&quot;&gt;
-    &lt;img alt=&quot;&quot; src=&quot;https://www.baidu.com/img/baidu_jgylogo3.gif&quot; style=&quot;&quot; /&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[微信小程序学习记要（下）]]></title>
-        <id>https://skytotwo.github.io//post/wechat-learning-2</id>
-        <link href="https://skytotwo.github.io//post/wechat-learning-2">
-        </link>
-        <updated>2019-08-12T08:56:33.000Z</updated>
-        <summary type="html"><![CDATA[<p>之前记录了微信小程序学习的上集，这次记录下下部分，内容不多，但是我觉得这些点还是需要关注下。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>之前记录了微信小程序学习的上集，这次记录下下部分，内容不多，但是我觉得这些点还是需要关注下。</p>
-<!-- more -->
-<p>1、需要自定义参数传值的时候，固定格式为data-自定义名称，如：</p>
-<pre><code class="language-xml">&lt;view catchtap=&quot;onPostTap&quot; data-postId='{{item.postId}}'&gt;
-	&lt;!-- template--&gt;
-	&lt;template is=&quot;postItem&quot; data=&quot;{{...item}}&quot;/&gt;
-&lt;/view&gt;
-</code></pre>
-<p>一般传递参数会与事件绑定，在脚本文件js中绑定的function方法里，获取参数是靠event来获取的。</p>
-<pre><code class="language-xml">onPostTap: function(event){
-    var postId = event.currentTarget.dataset.postid;
-    wx.navigateTo({
-      url: 'post-detail/post-detail',
-    })
-}
-</code></pre>
-<p>其中获取值是在  event.currentTarget.dataset里面，里面的参数名为xml中定义的data-后面的值。后面的值不管是否带有短横线拼接，最后都会省略调横线，拼成一个变量名，注意大写字母会变成小写。如：<br>
-data-postName-Id,传递过去在event.currentTarget.dataset里面会成为“postnameid”。</p>
-<p>2、脚本文件js中传值直接在url后拼接参数，如下：</p>
-<pre><code class="language-javascript">onPostTap: function(event){
-    var postId = event.currentTarget.dataset.postid;
-    wx.navigateTo({
-      url: 'post-detail/post-detail?id=' + postId,
-    })
-}
-</code></pre>
-<p>跨页面js接收的话，如果是onload方法中，直接就用options获取即可，如获取id：</p>
-<pre><code class="language-javascript">onLoad: function (options) {
-    var postId = options.id
-    var postData = postsData.postList[postId]
-},
-</code></pre>
-<p>3、小程序中可以设置缓存，分为同步和异步缓存，api方法共有8个：</p>
-<pre><code class="language-javascript">存入缓存
-wx.setStorageSync('key', &quot;迈克尔杰克逊&quot;)
-wx.setStorage({
-	key: '',
-	data: '',
-})
-获取缓存：
-wx.getStorage(key)
-wx.getStorageSync(key)
-
-移除单个缓存：
-wx.removeStorage({
-	key: '',
-	success: function(res) {},
-})
-wx.removeStorageSync(key)
-
-移除所有缓存：
-wx.clearStorage()
-wx.clearStorageSync()
-</code></pre>
-<p>小程序的缓存即使是关闭程序也存在的，可以再调试选项中的storage中看到，上限是10M。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[linux下终端常用命令和vi命令修改文件及保存的使用方法]]></title>
-        <id>https://skytotwo.github.io//post/linux-vi</id>
-        <link href="https://skytotwo.github.io//post/linux-vi">
-        </link>
-        <updated>2019-08-12T08:51:48.000Z</updated>
-        <summary type="html"><![CDATA[<p>这次分享的还是linux下的常用命令，以及在linux下使用vi操作，修改文件等具体方法，很多人第一次接触vi命令，会有点懵，但熟练后会发现其实很简单。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>这次分享的还是linux下的常用命令，以及在linux下使用vi操作，修改文件等具体方法，很多人第一次接触vi命令，会有点懵，但熟练后会发现其实很简单。</p>
-<!-- more -->
-<p>首先介绍一下Ubuntu下各个目录的一般作用：</p>
-<pre><code class="language-shell">/ 
-这就是根目录，一台电脑有且只有一个根目录，所有的文件都是从这里开始的。举个例子：当你在终端里输入“/home”，你其实是在告诉电脑，先从/（根目录）开始，再进入到home目录。
-/root 
-系统管理员（root user）的目录。至于系统管理员的权限有多大我这里就不在废话了。因此，请小心使用root帐号。
-/boot 
-系统启动文件，所有与系统启动有关的文件都保存在这里 。
-/bin
-这里是存放系统的程序。
-/etc 
-主要存放了系统配置方面的文件。
-/dev 
-这里主要存放与设备（包括外设）有关的文件（unix和linux系统均把设备当成文件）。想连线打印机吗？系统就是从这个目录开始工作的。另外还有一些包括磁盘驱动、USB驱动等都放在这个目录。
-/home 
-这里主要存放你的个人数据。具体每个用户的设置文件，用户的桌面文件夹，还有用户的数据都放在这里。每个用户都有自己的用户目录，位置为：/home/用户名。当然，root用户除外。
-/tmp 
-这是临时目录。对于某些程序来说，有些文件被用了一次两次之后，就不会再被用到，像这样的文件就放在这里。因此，千万不要把重要的数据放在这里哦。
-/usr 
-在这个目录下，你可以找到那些不适合放在/bin或/etc目录下的额外的工具。比如像游戏阿，一些打印工具等等。/usr目录包含了许多子目录： /usr/bin目录用于存放程序；/usr/share用于存放一些共享的数据，比如音乐文件或者图标等等；/usr/lib目录用于存放那些不能直接 运行的，但却是许多程序运行所必需的一些函数库文件。你的软件包管理器会自动帮你管理好/usr目录的。
-/opt 
-这里主要存放一些可选的程序。如你想尝试最新的firefox测试版吗？那就装到/opt目录下吧，这样，当你尝试完，想删掉firefox的时候，你就 可以直接删除它，而不影响系统其他任何设置。安装到/opt目录下的程序，它所有的数据、库文件等等都是放在同个目录下面。
-usr/local 
-这里主要存放那些手动安装的软件，即不是通过“新立得”或apt-get安装的软件。它和/usr目录具有相类似的目录结构。让软件包管理器来管理/usr目录，而把自定义的脚本（scripts）放到/usr/local目录下面。 
-/media 
-这个目录是用来挂载那些usb接口的移动硬盘（包括U盘）、CD/DVD驱动器等等。
-</code></pre>
-<h4 id="一-linux下终端常用命令">一、linux下终端常用命令</h4>
-<p>ubuntu终端常用命令<br>
-# ctrl + l - 清屏<br>
-# ctrl + c - 终止命令<br>
-# ctrl + d - 退出 shell,好像也可以表示EOF<br>
-# ctrl + z - 将当前进程置于后台，fg还原。<br>
-# ctrl + r - 从命令历史中找<br>
-# ctrl + a - 光标移到行首<br>
-# ctrl + e - 光标移到行尾<br>
-# ctrl + u - 清除光标到行首的字符<br>
-# ctrl + w - 清除光标之前一个单词<br>
-# ctrl + k - 清除光标到行尾的字符<br>
-# ctrl + t - 交换光标前两个字符<br>
-# ctrl + y - 粘贴前一ctrl+u类命令删除的字符<br>
-# ctrl + p - 上一条命令<br>
-# ctrl + n - 下一条命令<br>
-# ctrl + v - 输入控制字符 如ctrl+v ,会输入^M<br>
-# ctrl + f - 光标后移一个字符<br>
-# ctrl + b - 光标前移一个字符<br>
-# ctrl + h - 删除光标前一个字符<br>
-# N++f - 光标后移N个单词，N为1时可省略<br>
-# N++b - 光标前移N个单词，N为1时可省略<br>
-# ctrl + s - 挂起当前shell<br>
-# ctrl + q - 重新启用<br>
-+d 从光标开始处删除到行尾。挂起的shell<br>
-# !! - 上一条命令<br>
-# !-n - 倒数第N条历史命令<br>
-# !-n:p - 打印上一条命令（不执行）<br>
-# !?string?- 最新一条含有&quot;string&quot;的命令 # !-n:gs/str1/str2/ - 将倒数第N条命令的str1替换为str2,并执行（若不加g,则仅替换第一个）</p>
-<h4 id="二-vi命令修改文件及保存的使用方法">二、vi命令修改文件及保存的使用方法</h4>
-<p>vi编辑器是所有Unix及Linux系统下标准的编辑器，介绍一下它的用法和一小部分指令。由于对Unix及Linux系统的任何版本，vi编辑器是完全相同的，因此您可以在其他任何介绍vi的地方进一步了解它。Vi也是Linux中最基本的文本编辑器，学会它后，您将在Linux的世界里畅行无阻。<br>
-在所有命令执行前，先按ESC<br>
-<strong>1 vi的基本概念</strong><br>
-　　<strong>基本上vi可以分为三种状态，分别是命令模式（command mode）、插入模式（Insert mode）和底行模式（last line mode），各模式的功能区分如下：</strong></p>
-<ol>
-<li>命令行模式（command mode）<br>
-　　控制屏幕光标的移动，字符、字或行的删除，移动复制某区段及进入Insert mode下，或者到 last line mode。</li>
-<li>插入模式（Insert mode）<br>
-　　只有在Insert mode下，才可以做文字输入，按「ESC」键可回到命令行模式。</li>
-<li>底行模式（last line mode）<br>
-　　将文件保存或退出vi，也可以设置编辑环境，如寻找字符串、列出行号……等。<br>
-不过一般我们在使用时把vi简化成两个模式，就是将底行模式（last line mode）也算入命令行模式（command mode）。<br>
-<strong>2 vi的基本操作</strong></li>
-</ol>
-<pre><code class="language-shell">a) 进入vi
-   　在系统提示符号输入vi及文件名称后，就进入vi全屏幕编辑画面：
-　$ vi myfile
-　　不过有一点要特别注意，就是您进入vi之后，是处于「命令行模式（command mode）」，您要切换到「插入模式（Insert mode）」才能够输入文字。初次使用vi的人都会想先用上下左右键移动光标，结果电脑一直哔哔叫，把自己气个半死，所以进入vi后，先不要乱动，转换到「插入模式（Insert mode）」再说吧！
-b) 切换至插入模式（Insert mode）编辑文件
-　　在「命令行模式（command mode）」下按一下字母「i」就可以进入「插入模式（Insert mode）」，这时候你就可以开始输入文字了。
-c) Insert 的切换
-　　您目前处于「插入模式（Insert mode）」，您就只能一直输入文字，如果您发现输错了字！想用光标键往回移动，将该字删除，就要先按一下「ESC」键转到「命令行模式（command mode）」再删除文字。
-d) 退出vi及保存文件
-　　在「命令行模式（command mode）」下，按一下「：」冒号键进入「Last line mode」，例如：
-: w filename （输入 「w filename」将文章以指定的文件名filename保存）
-: wq (输入「wq」，存盘并退出vi)
-: q! (输入q!， 不存盘强制退出vi)
-</code></pre>
-<p><strong>3 命令行模式（command mode）功能键</strong><br>
-1）. 插入模式<br>
-按「i」切换进入插入模式「insert mode」，按&quot;i&quot;进入插入模式后是从光标当前位置开始输入文件；<br>
-　　按「a」进入插入模式后，是从目前光标所在位置的下一个位置开始输入文字；<br>
-　　按「o」进入插入模式后，是插入新的一行，从行首开始输入文字。<br>
-2）. 从插入模式切换为命令行模式<br>
-按「ESC」键。<br>
-3）. 移动光标<br>
-　　vi可以直接用键盘上的光标来上下左右移动，但正规的vi是用小写英文字母「h」、「j」、「k」、「l」，分别控制光标左、下、上、右移一格。<br>
-　　按「ctrl」+「b」：屏幕往&quot;后&quot;移动一页。<br>
-　　按「ctrl」+「f」：屏幕往&quot;前&quot;移动一页。<br>
-　　按「ctrl」+「u」：屏幕往&quot;后&quot;移动半页。<br>
-　　按「ctrl」+「d」：屏幕往&quot;前&quot;移动半页。<br>
-　　按数字「0」：移到文章的开头。<br>
-　　按「G」：移动到文章的最后。<br>
-　　按「$」：移动到光标所在行的&quot;行尾&quot;。<br>
-　　按「^」：移动到光标所在行的&quot;行首&quot;<br>
-　　按「w」：光标跳到下个字的开头<br>
-　　按「e」：光标跳到下个字的字尾<br>
-　　按「b」：光标回到上个字的开头<br>
-　　按「#l」：光标移到该行的第#个位置，如：5l,56l。<br>
-4）. 删除文字<br>
-　　「x」：每按一次，删除光标所在位置的&quot;后面&quot;一个字符。<br>
-　　「#x」：例如，「6x」表示删除光标所在位置的&quot;后面&quot;6个字符。<br>
-　　「X」：大写的X，每按一次，删除光标所在位置的&quot;前面&quot;一个字符。<br>
-　　「#X」：例如，「20X」表示删除光标所在位置的&quot;前面&quot;20个字符。<br>
-　　「dd」：删除光标所在行。<br>
-　　「#dd」：从光标所在行开始删除#行</p>
-<p>5）. 复制<br>
-　　「yw」：将光标所在之处到字尾的字符复制到缓冲区中。<br>
-　　「#yw」：复制#个字到缓冲区<br>
-　　「yy」：复制光标所在行到缓冲区。<br>
-　　「#yy」：例如，「6yy」表示拷贝从光标所在的该行&quot;往下数&quot;6行文字。<br>
-　　「p」：将缓冲区内的字符贴到光标所在位置。注意：所有与&quot;y&quot;有关的复制命令都必须与&quot;p&quot;配合才能完成复制与粘贴功能。<br>
-6）. 替换<br>
-　　「r」：替换光标所在处的字符。<br>
-　　「R」：替换光标所到之处的字符，直到按下「ESC」键为止。<br>
-7）. 回复上一次操作<br>
-　　「u」：如果您误执行一个命令，可以马上按下「u」，回到上一个操作。按多次&quot;u&quot;可以执行多次回复。<br>
-8）. 更改<br>
-　　「cw」：更改光标所在处的字到字尾处<br>
-　　「c#w」：例如，「c3w」表示更改3个字<br>
-9）. 跳至指定的行<br>
-　　「ctrl」+「g」列出光标所在行的行号。<br>
-　　「#G」：例如，「15G」，表示移动光标至文章的第15行行首。</p>
-<p><strong>4 Last line mode下命令简介</strong><br>
-　　在使用「last line mode」之前，请记住先按「ESC」键确定您已经处于「command mode」下后，再按「：」冒号即可进入「last line mode」。<br>
-A) 列出行号<br>
-　「set nu」：输入「set nu」后，会在文件中的每一行前面列出行号。<br>
-B) 跳到文件中的某一行<br>
-　「#」：「#」号表示一个数字，在冒号后输入一个数字，再按回车键就会跳到该行了，如输入数字15，再回车，就会跳到文章的第15行。<br>
-C) 查找字符<br>
-　「/关键字」：先按「/」键，再输入您想寻找的字符，如果第一次找的关键字不是您想要的，可以一直按「n」会往后寻找到您要的关键字为止。<br>
-　「?关键字」：先按「?」键，再输入您想寻找的字符，如果第一次找的关键字不是您想要的，可以一直按「n」会往前寻找到您要的关键字为止。<br>
-D) 保存文件<br>
-　「w」：在冒号输入字母「w」就可以将文件保存起来。<br>
-E) 离开vi<br>
-　「q」：按「q」就是退出，如果无法离开vi，可以在「q」后跟一个「!」强制离开vi。<br>
-　「wq」：一般建议离开时，搭配「w」一起使用，这样在退出的时候还可以保存文件。</p>
-<p><strong>5 vi命令列表</strong></p>
-<pre><code class="language-shell">1、下表列出命令模式下的一些键的功能：
-h
-左移光标一个字符
-l
-右移光标一个字符
-k
-光标上移一行
-j
-光标下移一行
-^
-光标移动至行首
-0
-数字&quot;0&quot;，光标移至文章的开头
-G
-光标移至文章的最后
-$
-光标移动至行尾
-Ctrl+f
-向前翻屏
-Ctrl+b
-向后翻屏
-Ctrl+d
-向前翻半屏
-Ctrl+u
-向后翻半屏
-i
-在光标位置前插入字符
-a
-在光标所在位置的后一个字符开始增加
-o
-插入新的一行，从行首开始输入
-ESC
-从输入状态退至命令状态
-x
-删除光标后面的字符
-#x
-删除光标后的＃个字符
-X
-(大写X)，删除光标前面的字符
-#X
-删除光标前面的#个字符
-dd
-删除光标所在的行
-#dd
-删除从光标所在行数的#行
-yw
-复制光标所在位置的一个字
-#yw
-复制光标所在位置的#个字
-yy
-复制光标所在位置的一行
-#yy
-复制从光标所在行数的#行
-p
-粘贴
-u
-取消操作
-cw
-更改光标所在位置的一个字
-#cw
-更改光标所在位置的#个字
-</code></pre>
-<p>2、下表列出行命令模式下的一些指令</p>
-<pre><code class="language-shell">w filename
-储存正在编辑的文件为filename
-wq filename
-储存正在编辑的文件为filename，并退出vi
-q!
-放弃所有修改，退出vi
-set nu
-显示行号
-/或?
-查找，在/后输入要查找的内容
-n
-与/或?一起使用，如果查找的内容不是想要找的关键字，按n或向后（与/联用）或向前（与?联用）继续查找，直到找到为止。
-</code></pre>
-<hr>
-<p>对于第一次用vi，有几点注意要提醒一下：<br>
-1、用vi打开文件后，是处于「命令行模式（command mode）」，您要切换到「插入模式（Insert mode）」才能够输入文字。切换方法：在「命令行模式（command mode）」下按一下字母「i」就可以进入「插入模式（Insert mode）」，这时候你就可以开始输入文字了。<br>
-2、编辑好后，需从插入模式切换为命令行模式才能对文件进行保存，切换方法：按「ESC」键。<br>
-3、保存并退出文件：在命令模式下输入:wq即可！（别忘了wq前面的:）</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Mac下android_sdk配置环境变量]]></title>
-        <id>https://skytotwo.github.io//post/mac-android-env</id>
-        <link href="https://skytotwo.github.io//post/mac-android-env">
-        </link>
-        <updated>2019-08-12T08:44:49.000Z</updated>
-        <summary type="html"><![CDATA[<p>之前用mac做过安卓开发，然后安卓sdk的配置环境变量上遇到过坑，这里记录一下。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>之前用mac做过安卓开发，然后安卓sdk的配置环境变量上遇到过坑，这里记录一下。</p>
-<!-- more -->
-<p>1、启动Terminal终端工具<br>
-2、输入cd ~/ 进入当前用户的home目录<br>
-3、创建：touch .bash_profile<br>
-4、打开并编辑：open .bash_profile<br>
-5、在文件中写入以下内容：export PATH=${PATH}:这里是platform-tools 的绝对路径，以我的为例：/Volumes/workplace/sdk/platform-tools/<br>
-6、执行如下命令：source .bash_profile<br>
-7、验证：输入adb回车。如果未显示command not found，说明此命令有效，环境变量设置完成。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Linux常用命令简记]]></title>
-        <id>https://skytotwo.github.io//post/linux-command</id>
-        <link href="https://skytotwo.github.io//post/linux-command">
-        </link>
-        <updated>2019-08-12T08:38:43.000Z</updated>
-        <summary type="html"><![CDATA[<p>linux下的命令繁多，熟悉相关命令对工作可以提高便利性，下面列举了一些常用的命令。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>linux下的命令繁多，熟悉相关命令对工作可以提高便利性，下面列举了一些常用的命令。</p>
-<!-- more -->
-<p>ls: 查看文件夹下文件和文件夹列表</p>
-<p>ls -lah</p>
-<p>-l: 列表形式显示</p>
-<p>-a: 查看所有目录，包括隐藏目录</p>
-<p>-h: 以易读的方式显示文件大小</p>
-<p>-s: 显示文件占用的data block空间大小</p>
-<p>-S: 按文件大小降序排列</p>
-<p>-t: 按文件m/a/ctime降序排列</p>
-<p>-r: 逆序排列</p>
-<p>-R: 递归遍历</p>
-<p>cp: 复制文件或目录</p>
-<p>cp -ai ~/test ~/Downloads/</p>
-<p>-a: 相当与 -pdr，重要参数</p>
-<p>-p: 连同文件属性一起复制过去(备份时常用)</p>
-<p>-d: 如果源文件为链接文件的属性，则复制后的文件为链接文件，而不是真实文件本身</p>
-<p>-r: 递归的复制所有文件</p>
-<p>-i: 当遇到已存在文件时，询问用户</p>
-<p>top: 查看系统进程资源占用情况</p>
-<p>top -d 2 -p 1234 : 将资源使用情况更新时间设为2秒，查看的进程为pid 1234</p>
-<p>top中的PRI和NI是进程的优先级，其中Priority(new)=Priority(Old)+Nice, PRI越小表示进程优先级越高，用户仅可以调整NI值，所以将NI调整为负值可以提高进程优先级，</p>
-<p>NI的调整范围是 -20～19</p>
-<p>在top程序界面内快捷键</p>
-<p>shift + p : 按cpu使用率排序</p>
-<p>shift + M : 按内存使用率排序</p>
-<p>r : 调整process的NICE值</p>
-<p>q : 退出top</p>
-<p>使用 nice 和 renice 命令调整进程优先级</p>
-<p>nice -n 10 vim &amp; : 运行一个vim,并将他的nice值设置为10</p>
-<p>renice -10 1234 : 将pid为1234的进程的nice值调整为-10</p>
-<p>ps: 显示详细进程信息</p>
-<p>常用格式: ps aux</p>
-<p>a 显示所有用户进程,包括其他用户</p>
-<p>u 以用户为主的格式显示进程状况</p>
-<p>x 显示不受终端控制的进程</p>
-<p>ps -l : 以特定格式现实当前用户shell进程</p>
-<p>ps axjf : 以工作格式现实所有用户进程的树状图</p>
-<p>ps -ef : 使用全格式显示所有进程</p>
-<p>-e: 显示所有进程</p>
-<p>-f: 使用全格式</p>
-<p>mv: 移动或重命名文件或文件夹</p>
-<p>常用格式: mv -f test1/ test2/</p>
-<p>-f 强制模式,在移动前不询问</p>
-<p>test1/ 待移动文件夹</p>
-<p>test2/ 移动到的目标文件夹</p>
-<p>常用格式: mv file1 file2 dir1/</p>
-<p>将file1 file2 移动到 dir1</p>
-<p>find: 查找文件或文件夹</p>
-<p>常用格式: find / -type f -iname '*test'</p>
-<p>/ 查找的目录,此处为更根目录</p>
-<p>-type f,d,l 类型：普通文件，目录，链接文件</p>
-<p>-iname 查找文件名,并忽略大小写</p>
-<p>'*test' 要查找的文件名,此处是以test结尾的文件名</p>
-<p>-mtime n/+n/-n : 指定最后修改时间在 n天前24小时内 / (n+1)天前无限小时 / n天至今 的文件 find ~/ -mtime +4 查找5天前的文件</p>
-<p>-newer file: 查找mtime比 file 新的文件 find ~/ -newer test</p>
-<p>df: 查看磁盘使用情况</p>
-<p>常用格式: df -aTh</p>
-<p>-a 显示所有文件系统的磁盘使用情况，包括0块（block）的文件系统，如/proc文件系统</p>
-<p>-T 显示磁盘类型,如ext4</p>
-<p>-h 根据目前磁盘空间和使用情况 以更易读的方式显示</p>
-<p>cat: 显示文件内容,或合并两个文件</p>
-<p>常用格式: cat myfile</p>
-<p>常用格式: cat -n myfile1 &gt; myfile2</p>
-<p>-n 对myfile1数据加上行号</p>
-<p>myfile1 需要复制数据的文件</p>
-<p>myfile2 复制数据的目标文件,会将myfile2的原数据清空</p>
-<p>常用格式: cat -n myfile1 myfile2 &gt; myfile3</p>
-<p>myfile1 myfile2 需要合并的文件</p>
-<p>myfile3 合并后保存的文件</p>
-<p>chmod: 改变文件或文件夹的权限</p>
-<p>常用格式: chmod 664 myfile</p>
-<p>664 文件权限码,此处为默认新建文件权限,rw-rw-r--</p>
-<p>chmod u=rwx g=rwx o=rwx myfile</p>
-<p>将myfile的权限改为用户为rwx,用户组为rwx,其他用户为rwx</p>
-<p>chgrp: 改变文件或文件夹所属用户组</p>
-<p>常用格式: chgrp root myfile</p>
-<p>root 修改到的目标用户组</p>
-<p>myfile 需要修改的文件名</p>
-<p>chown: 改变文件或文件夹所有者</p>
-<p>常用格式: chown -R lewis.mygroup filename</p>
-<p>-R: 当前目录下的所有文件和文件夹</p>
-<p>lewis.mygroup: 将所有者改为mygroup用户组的lewis用户</p>
-<p>filename: 需要修改所有者的文件或文件夹名称</p>
-<p>grep: 字符串查找,常用于其他命令的结果中的查找</p>
-<p>常用格式: ls -l | grep myfile</p>
-<p>myfile 需要查找的字符串</p>
-<p>ls -l | grep -vi 'test'</p>
-<p>查找除了test或TEST之外的内容</p>
-<p>wc: 统计文件中的单词书,字节数,行数</p>
-<p>常用格式: wc -wml myfile</p>
-<p>-w 文件中的单词数</p>
-<p>-m 文件中的字符数</p>
-<p>-c 文件的字节数</p>
-<p>-l 文件的行数</p>
-<p>tar: 解压或压缩文件</p>
-<p>常用格式: tar -zcv -f ~/Downloads/downloads.tar.gz ~/Downloads</p>
-<p>将Downloads的文件压缩到一个叫downloads.tar.gz的文件</p>
-<p>-z 使用gzip解压或压缩</p>
-<p>-c 建立压缩文件</p>
-<p>-v 显示执行过程</p>
-<p>-f 需要操作的文件</p>
-<p>tar -zvcp -f backup.tar.gz --exclude=/etc/*.sh /etc</p>
-<p>备份etc文件夹下除了.sh结尾的所有文件到 backup.tar.gz</p>
-<p>-p 压缩时保留文件原有的属性，备份常用</p>
-<p>--exclude 不打包的文件</p>
-<p>常用格式: tar -xjv -f ./test.tar.bz2 -C ./test/　　#解压文件到指定目录</p>
-<p>-x 解压文件</p>
-<p>-j 以bzip2解压或压缩</p>
-<p>-C 解压到指定目录</p>
-<p>常用格式: tar -zv -f ./test.tar.gz　　#查看压缩包文件</p>
-<p>-t: 查看压缩包文件</p>
-<p>ctrl+z: 挂起当前任务</p>
-<p>jobs: 查看后台任务</p>
-<p>fg: 将一个后台任务启动后调至前台执行</p>
-<p>常用格式: fg %1</p>
-<p>%1: 任务号,可以从jobs命令查看得到</p>
-<p>bg: 将一个后台任务启动后调至后台执行</p>
-<p>常用格式: bg %1</p>
-<p>%1: 任务号,可以从jobs命令查看得到</p>
-<p>mount: 挂载一个设备</p>
-<p>mount -a</p>
-<p>读取/etc/fstab文件，将未挂在的设备全都挂载上去</p>
-<p>mount -n -o remount,rw /</p>
-<p>-n ： 不将挂在记录写入/etc/mtab</p>
-<p>在单用户模式时，将根目录重新挂载变成读写模式</p>
-<p>mount -o iocharset=gb2312,ro -t ntfs /dev/sda5 /mnt/windrived</p>
-<p>-o： 额外参数， iocharset: 设置编码， ro 只读</p>
-<p>-t ntfs: 设置要挂载设备的文件系统，有super block信息的磁盘分区可以不需要次参数</p>
-<p>/dev/sda5: 要挂载的设备路径</p>
-<p>/mnt/windrived: 要挂在的目标挂载点</p>
-<p>mount -o loop /home/alexis/game.iso /mnt/iso</p>
-<p>挂载特殊设备，如镜像文件，文件系统文件</p>
-<p>umount: 卸载一个设备</p>
-<p>常用格式: umount -l /mnt/windrived</p>
-<p>-l: lazy umount,等到设备空闲的时候自动卸载之</p>
-<p>此外umount命令也可以使用设备名来卸载设备，例如 umount -f /dev/sda3</p>
-<p>kill: 杀掉一个进程</p>
-<p>常用格式: kill -9 1234</p>
-<p>-9: 强制杀掉他,也可以用-SIGKILL</p>
-<p>1234: 进程pid,可以有ps aux查看获得</p>
-<p>进程信号：</p>
-<p>1 ： 重启进程</p>
-<p>9 ： 强制结束进程</p>
-<p>15 ： 正常结束进程</p>
-<p>17 ： 挂起进程，相当与ctrl+z</p>
-<p>kill -l : 列出所有可用的进程信号量</p>
-<p>killall: 杀掉同名进程</p>
-<p>常用格式: killall -KILL chromium</p>
-<p>-KILL: 强制终止,这里加进程信号量,和kill命令的一样</p>
-<p>chromium: 要杀掉的同名进程名</p>
-<p>tail: 显示文件尾部内容</p>
-<p>常用格式: tail -1 /etc/passwd, tail -f /etc/passwd</p>
-<p>-1: 显示最后一行内容</p>
-<p>-f: 显示最后十行内容,并不断更新</p>
-<p>useradd: 添加用户账号</p>
-<p>常用格式: useradd testuser -u 1234 -g root -d /home/testuser -s /bin/bash</p>
-<p>-u: 设置用户uid</p>
-<p>-g: 设置用户组</p>
-<p>-d: 设置用户根目录</p>
-<p>-s: 设置用户启动shell</p>
-<p>简记: 此命令会在/etc/passwd /etc/shadow中添加两条记录</p>
-<p>userdel: 删除用户账号</p>
-<p>常用格式: userdel -r testuser</p>
-<p>-r: 删除用户相关,如用户根目录,但如果用户根目录是由其他用户创建的则不会删除</p>
-<p>usermod: 修改用户属性</p>
-<p>常用格式: usermod -L testuser , usermod -U testuser</p>
-<p>-L: lock,禁用用户</p>
-<p>-U: unlock,启用用户</p>
-<p>常用格式: usermod -g mygroup testuser</p>
-<p>-g: 修改用户组, 将 testuser 用户组改为mygroup</p>
-<p>groupadd: 添加用户</p>
-<p>常用格式: groupadd mygroup -g 1234</p>
-<p>-g: 设置用户组uid</p>
-<p>groupdel: 删除用户组</p>
-<p>常用格式: groupdel mygroup</p>
-<p>ln: 建立文件链接</p>
-<p>常用格式: ln file fileln, ln -s file filesln</p>
-<p>-s: 建立软链接,不加上 -s 则建立硬链接</p>
-<p>注意建立链接请用绝对路径，不然链接文件会出现错误</p>
-<p>seq: 生成一个序列</p>
-<p>常用格式: seq -w 1 100</p>
-<p>-w: 等宽序列,生成 001 002 003 ... 099 100</p>
-<p>常用格式: seq -f &quot;str%03g&quot; 1 100</p>
-<p>-f &quot;str%03g&quot;: 指定生成格式,此处用str拼接 1~100的序列, 1~100为3位等宽数字,不够的用0补齐,不写0则用空格补齐,如图</p>
-<p>seq -f '%0.f' 10000000000 10000000000</p>
-<p>seq在生成大数字会默认使用科学计数法, 这个格式可以避免使用科学计数法</p>
-<p>ifconfig: 网络设备设置</p>
-<p>常用格式: ifconfig -a</p>
-<p>-a: 显示所有网络设备,包括未启用的网络设备</p>
-<p>常用格式: ifconfig eth0 up</p>
-<p>eth0 up: 激活第一块网卡</p>
-<p>iwconfig: 无线网络设备设置</p>
-<p>chkconfig: 管理linux daemon（包括 stand alone 和 super daemon管理的服务）</p>
-<p>常用格式: chkconfig --level 0123456 network on</p>
-<p>--level 0123456 network on: 在系统级别为0123456时启动network服务</p>
-<p>chkconfig --add testdaemon : 加入自定义的服务，testdaemon位于/etc/init.d</p>
-<p>chkconfig --del testdaemon : 删除自定义的服务</p>
-<p>lspci: 查看所有pci设备</p>
-<p>lsusb: 查看所有usb设备</p>
-<p>scp: 远程复制命令</p>
-<p>常用格式: scp -P 1234 /root/test root@192.168.3.3:/var/www/io/</p>
-<p>-P 1234: 目标主机端口号</p>
-<p>root@192.168.3.3:/var/www/io/: 将test文件复制到192.168.3.3的/var/www/io文件夹,使用root账号登录</p>
-<p>passwd: 修改密码</p>
-<p>netstat: 查看端口状态</p>
-<p>常用格式: netstat -anptu</p>
-<p>a: 显示所有连接的socket</p>
-<p>n: 用IP代替域名</p>
-<p>p: 显示连接的程序以及PID</p>
-<p>t: 显示tcp连接</p>
-<p>u：显示udp连接</p>
-<p>du: 查看文件夹和文件大小</p>
-<p>常用格式: du -sh ./*</p>
-<p>./*： 统计当前文件夹下所有文件夹容量情况</p>
-<p>h: 以用户友好的方式显示文件大小</p>
-<p>s: 只显示顶层文件夹的容量，不显示子文件夹的容量</p>
-<p>统计结果递归包括子目录下所有文件大小总和</p>
-<p>du -Ssh ./</p>
-<p>统计当前目录所有文件大小，统计出来的总和不包括子目录内的文件</p>
-<p>make : 编译源码</p>
-<p>make mrproper : 清除编译过程产生的中间文件以及配置文件</p>
-<p>make clean : 仅仅清除编译过程产生的中间文件</p>
-<p>fdisk: 磁盘管理工具</p>
-<p>fdisk -l ： 列出磁盘分区信息</p>
-<p>fdisk /dev/sda # 注意没有 sda1 或者 sda2 这个数字</p>
-<p>对 /dev/sda 这块磁盘进行管理，可以增加分区，删除分区等</p>
-<p>使用fdisk添加或删除分区后，执行 partprobe 让内核更新系统分区表</p>
-<p>mkfs: 分区格式化，在使用fdisk分区以后可以是用此命令格式化分区</p>
-<p>mkfs -t ext4 /dev/sda8</p>
-<p>-t: 指定分区格式，此处将sda8分区格式化成ext4分区</p>
-<p>unzip: 解压zip压缩包</p>
-<p>unzip test.zip -d ./test　　#将test.zip的文件解压到test文件夹</p>
-<p>unzip -v test.zip　　#查看压缩包文件</p>
-<p>uname: 查看系统信息</p>
-<p>uname -a : 查看所有系统信息</p>
-<p>tracerout: 路由跟踪</p>
-<p>traceroute -T --sport=3324 -p 80 www.google.com</p>
-<p>-T : 使用 tcp 的方式来 trace. 除了 -T 还可以用 -I 表示 ICMP, -U 表示 UDP, Linux 下默认是 UDP</p>
-<p>--sport : 指定源端口</p>
-<p>-p : 指定目标端口</p>
-<p>nslookup: 域名信息查看</p>
-<p>nslookup www.google.com</p>
-<p>init: 切换系统 level</p>
-<p>init 0/3/5/6</p>
-<p>0: 关机</p>
-<p>3: 命令行模式</p>
-<p>5: 图形界面模式</p>
-<p>6: 重启</p>
-<p>sync: 将内存中未保存数据同步到硬盘</p>
-<p>shutdown: 关机/开机等</p>
-<p>shutdown -h now &quot;alexis shutdown the server&quot;: 立即关机,并发送通知消息&quot;alexis shutdown the server&quot;给其他用户</p>
-<p>shutdown -r 20:30 : 在20：30分重启</p>
-<p>shutdown -k 10 &quot;i will shutdown the server in 10 minutes&quot; : 不是真正的关机，只是发送消息给其他用户</p>
-<p>ctrl+d: 相当与在shell中输入exit</p>
-<p>忘记root密码后的处理方法</p>
-<p>1.进入grub菜单后按e键，进入编辑模式</p>
-<p>2.在kernel那行的最后空格，并键入 single</p>
-<p>3.F10启动</p>
-<p>4.输入新密码重启</p>
-<p>last: 列出登入系统的用户相关信息</p>
-<p>last -xnR 10 -f /var/www/wtmp -i 127.0.0.1 -id alexis</p>
-<p>-x: 显示登入登出信息</p>
-<p>-n: 显示的行数</p>
-<p>-R: 去掉hostname栏位</p>
-<p>-f: 指定log文件， /var/log/wtmp为linux记录所有用户登入相关信息的日志文件，默认用的就是这个，可以不加 -f，而/var/www/btmp则更为详细，记录了远程登录信息，如SSH</p>
-<p>-i: 指定查询的id</p>
-<p>-id: 指定查询的用户名</p>
-<p>nl: 显示文件内容并显示行数</p>
-<p>od： 以二进制形式显示文件内容</p>
-<p>od -t c test</p>
-<p>-t: 指定显示类型， a 默认字符， c askii， d 十进制， f 浮点数， o 八进制， x 十六进制</p>
-<p>关于文件时间，文件的时间有三个</p>
-<p>modification time (mtime): 文件最后修改时间</p>
-<p>access time (atime): 文件最后读取时间</p>
-<p>status time (ctime): 文件属性最后修改时间， chmod 什么的</p>
-<p>默认的ls和ll显示的时间是 modification time，如果要显示atime，ctime，可以添加--time参数</p>
-<p>ls -l --time=atime test</p>
-<p>显示的就是test文件的最后访问时间</p>
-<p>可以用touch来更新文件时间，此命令更新的是mtime和atime，而ctime则无法更改</p>
-<p>touch test</p>
-<p>可把test文件的m/atime更新为当前时间</p>
-<p>touch -d &quot;2 days ago&quot; test</p>
-<p>可把test文件的m/atime改为两天前</p>
-<p>xargs: 将某命令输出作为另一个命令的参数输入</p>
-<p>sudo find /usr/local/test/bin -type f -iname ‘*.sh’ | xargs -i sudo ln -l /usr/local/test/bin/{} /usr/bin/{}</p>
-<p>这条命令批量建立软链接，其中 xargs -i 参数表示用 {} 代表管道前的命令的标准输出结果</p>
-<p>xargs -I 则是指令管道前的命令的标准输出结果替换符号，例如 xargs -I {} sudo lin -l /test/bin/{} /usr/bin/{}</p>
-<p>tar -tz -f test.tar.gz | xargs -i rm -rf {}</p>
-<p>这个命令可以用来删除你一不小心散落一地的节操</p>
-<p>ls | xargs -i -e'test' file {}</p>
-<p>将ls的结果作为file的参数输出，并且在遇到 test 的时候停止</p>
-<p>egrep: 正则匹配</p>
-<p>find /var/www -type f | egrep -name '*.(c|php)$'</p>
-<p>获取所有后缀为.c .php的文件</p>
-<p>file: 查看文件类型</p>
-<p>locate: 通过数据库文件 /var/lib/mlocate 来查找文件，其速度会比find快很多</p>
-<p>由于该数据库文件是定时跟新的，所以查找前可以先更新数据库</p>
-<p>updatedb</p>
-<p>locate -i -r .*.php$</p>
-<p>查找所有以php结尾的文件，忽略大小</p>
-<p>whiereis : 命令用来查找path里的位置，例如 whereis ls</p>
-<p>which : 用来在path里查找可执行文件的位置，查找出来的东西比whereis少</p>
-<p>ldd (library dependency discovery) ： 查找共享库的依赖包</p>
-<p>ldd $(which mysqld)</p>
-<p>chattr +x/-x: 给文件添加特殊属性</p>
-<p>chattr +a test: 让test只能添加内容，不能修改和删除内容</p>
-<p>chattr +i test: 让test不能删除，改名，设置软链接，也不能写入，添加数据</p>
-<p>chattr -ai test: 去除 ai 属性</p>
-<p>lsattr: 列出文件的特殊属性</p>
-<p>dumpe2fs: 查看ext文件系统信息</p>
-<p>dumpe2fs -h /dev/sda1</p>
-<p>-h: 只显示super block的信息，不加则会现实所有 block group的信息</p>
-<p>fsck: 文件系统检测修复工具</p>
-<p>fsck -CaDf /dev/sda8</p>
-<p>-C: 现实进度条</p>
-<p>-a: 自动修复问题sector</p>
-<p>-D: ext文件系统专有选项，可以对文件系统的目录进行优化</p>
-<p>-f: ext文件系统专有选项， 对没有unclean标志的磁盘分区也强制检查</p>
-<p>e2label: 修改磁盘分区卷标</p>
-<p>e2label /dev/sda7 &quot;Smilodon&quot;</p>
-<p>hdparm: 磁盘性能测试</p>
-<p>hdparm -tT /dev/sda</p>
-<p>-t: 测试实际读取性能</p>
-<p>-T: 测试磁盘cache读取性能</p>
-<p>生成磁盘分区文件并挂载</p>
-<p>dd： 转换和复制文件</p>
-<p>dd if=/dev/zero of=/home/alexis/loopdev bs=1M count=512</p>
-<p>使用/dev/zero生成一个blocksize为1M，一共512M大小的/home/alexis/loopdev文件</p>
-<p>mkfs -t ext4 /home/alexis/loopdev</p>
-<p>将loopdev格式化成ext4文件系统</p>
-<p>mount -o loop /home/alexis/loopdev /mnt/linux/test</p>
-<p>将刚刚生成的那个文件挂载到系统中</p>
-<p>生成新的swap空间</p>
-<p>dd if=/dev/zero of=/home/alexis/swapdev bs=1M count=128 #生成大文件</p>
-<p>mkswap /home/alexis/swapdev #格式化成swap</p>
-<p>swapon /home/alexis/swapdev #启动swap</p>
-<p>free #查看内存和Swap的使用情况</p>
-<p>parted： 分区工具，可以支持2TB以上的空间分区</p>
-<p>parted /dev/sda print</p>
-<p>打印所有分区状况，打印出来的比fdisk -l要好看哦～</p>
-<p>parted /dev/sda mkpart logical ext4 210.2G 270.2G</p>
-<p>创建一个逻辑分区，格式是ext4,柱面从210.2G~270.2G,比起fdisk n和mkfs -t来说简单一点。一步到位</p>
-<p>parted /dev/sda rm 9</p>
-<p>删除 /dev/sda9 分区</p>
-<p>操作系统备份组合 dump/restore</p>
-<p>dump: 备份文件系统或目录</p>
-<p>dump -W #输出/etc/fstab文件里所有挂载设备的备份记录</p>
-<p>dump -S /dev/sda2 #预测某个设备不压缩备份需要的空间</p>
-<p>dump -u0 -j9 -f loop0.dump.0.bz2 /dev/loop0</p>
-<p>这条命令备份/dev/loop0到loop0.dump.0.bz2里</p>
-<p>-u 将备份记录写入到文件 /var/lib/dumpdatas, 具体的日志文件因系统而异</p>
-<p>-0 备份级别，0～9，0为全量备份，1～9为增量备份，1的增量备份相对与0而呀，2相对与1而言，依次类推</p>
-<p>-j 使用bzip2进行压缩，后面的数字 -j9 为压缩等级，从1~9,压缩率依次增加，速度依次减慢</p>
-<p>-f 指定要备份文件的文件名</p>
-<p>/dev/loop0 要备份的文件系统</p>
-<p>restore: 查看或恢复dump出来的备份文件</p>
-<p>restore -t -f loop0.dump</p>
-<p>查看loop0.dump里的文件信息</p>
-<p>-t 查看备份文件具体信息</p>
-<p>-f 指定要操作的文件</p>
-<p>restore -C -f loop0.dump</p>
-<p>-C 将备份文件与当前挂载的文件系统比较</p>
-<p>restore -r -f loop0.dump</p>
-<p>将loop0.dump还原到当前目录的文件系统，如果是增量备份的还原，则需要继续执行 restore -r -f loop0.dump.1 . 2. 3 等等</p>
-<p>使用dd备份MBR或整个磁盘备份</p>
-<p>dd if=/dev/sda of=mbr.dd bs=512 count=1</p>
-<p>备份sda的前512Bytes，实际上就是备份了MBR和Partition Table</p>
-<p>dd if=/dev/sda1 of=sda1.dd.wholedisk</p>
-<p>备份整个sda1</p>
-<p>mkisofs: 做镜像</p>
-<p>cdrecord: 通过镜像文件刻录光盘</p>
-<p>cpio: 高级备份工具，参数巨多，暂时搁置</p>
-<p>type: 查看命令的类型信息</p>
-<p>type cd --&gt; cd is a shell builtin</p>
-<p>表示 cd 是bash命令的内置命令</p>
-<p>type ll --&gt; ll is aliased to `ls -alF'</p>
-<p>表示ll是ls的别名</p>
-<p>type mysql --&gt; mysql is /usr/bin/mysql</p>
-<p>表示mysql是外部命令，并显示其来源</p>
-<p>umask: 显示创建文件或文件夹的时候的默认权限</p>
-<p>umask --&gt; 0002</p>
-<p>表示创建该文件时，文件默认权限是 -rw-rw-rw- 减去 --------w- = -rw-rw-r--</p>
-<p>创建目录时，目录的默认权限是 -rwxrwxrwx 减去 --------w- = -rwxrwxr-x</p>
-<p>Linux文件特殊权限</p>
-<p>SUID：</p>
-<p>让用户在执行文件时暂时获取文件所有者的权限，例如sudo。该属性只能用于二进制可执行程序，其显示如下</p>
-<p>-rwsr-xr-x 1 root root 69708 Jun 1 11:53 /usr/bin/sudo</p>
-<p>SGID：</p>
-<p>对二进制可执行文件而言，让用户在执行程序时暂时获取程序用户组的权限，显示如下<br>
--rwx--s--x 1 root root 24 Oct 14 00:05 /usr/bin/locate</p>
-<p>对于目录而言, 用户在次目录下的有效用户组将会变为该目录的用户组<br>
-SBIT：</p>
-<p>该属性仅对目录有效，用户在该目录下创建的文件和目录，仅有root和该用户才能删除</p>
-<p>drwxrwxrwt 12 root root 4096 Nov 20 11:11 /tmp</p>
-<p>设置这三个属性很简单 chmod 7755</p>
-<p>其中第一个7是特殊属性 ， 4: SUID, 2: SGID, 1： SBIT</p>
-<p>route : 路由管理命令</p>
-<p>route add -net 192.168.0 netmask 255.255.255.0 gw 10.8.1.1</p>
-<p>添加路由</p>
-<p>-net : 表示这是一个网域</p>
-<p>-host : 表示这是一个具体主机</p>
-<p>netmask， gw： 子网掩码， 网关</p>
-<p>route -n</p>
-<p>查看路由状态， -n 不显示主机名称，直接显示ip</p>
-<p>route del -net 192.168.2.0</p>
-<p>删除路由</p>
-<p>alias: 设置命令别名</p>
-<p>alias lm='ls -l | more'</p>
-<p>以后执行lm命令的时候就相当与执行了 ls -l | more</p>
-<p>unalias: 取消别名</p>
-<p>unalias lm</p>
-<p>history: 查看历史命令</p>
-<p>linux bash执行的历史命令都会存放在 ~/.bash_history，每次注销bash的时候会将内存中的history内容写入文件，history命令查看的是内存中的历史命令</p>
-<p>history 10: 查看最后的10条历史命令</p>
-<p>history -w: 强制将内存中的历史写入~/.bash_history 文件</p>
-<p>!number: 执行第 number 条历史命令</p>
-<p>!command： 执行 history中以 command 开头的最近的那条历史命令</p>
-<p>!!: 执行上一条历史命令</p>
-<p>cut： 切分输出内容</p>
-<p>cut infile -d ':' -f 2</p>
-<p>-d: 切分的分割符</p>
-<p>-f: 要选取的切分后的列号</p>
-<p>cut -c 5-12</p>
-<p>获取每行的第5至12个字符</p>
-<p>tr： 删除或替换信息内容</p>
-<p>cat test | tr -d ':'</p>
-<p>删除 ： 符号</p>
-<p>cat test | tr '[a-z]' '[A-Z]'</p>
-<p>将小写字母替换成大写字母</p>
-<p>col： 转换tab和其他特殊字符</p>
-<p>cat test | col -x</p>
-<p>将tab转换为对等的空格</p>
-<p>cat test | col -b</p>
-<p>所有反斜杠 \ 只保留反斜杠最后连接的那个字符</p>
-<p>join： 合并两个文件中含有相同数据的行</p>
-<p>join -t ':' -1 4 ~/test -2 3 ~/test2</p>
-<p>用分隔符 : 切分每一行的数据，若第一个文件的第四列和第二个文件的第三列相同，则合并两行，默认是比较每行的第一列，如果相同则合并</p>
-<p>paste： 合并两个文件的内容，以tab隔开</p>
-<p>paste file1 file2</p>
-<p>expand: 将tab替换成空格</p>
-<p>expand file -t 10</p>
-<p>将file的tab编程10个空格</p>
-<p>split： 文件大小切割</p>
-<p>split -b 300k test TMP</p>
-<p>将test文件按照300k每个的大小切分，切分出来的文件前缀是 TMP， 他们是 TMPaa TMPab TMPac ...</p>
-<p>split -l 10 test TMP</p>
-<p>将test文件按照每10行切分一次切分</p>
-<p>time： 计算命令执行时间</p>
-<p>time ls</p>
-<p>sort: 对输出进行排序</p>
-<p>cat ~/test | sort</p>
-<p>cat ~/test | sort -t ':' -k 3</p>
-<p>用：号切割，并按照第3列排序</p>
-<p>last | cut -d ' ' -f 1 | sort</p>
-<p>uniq: 将连续重复的数据只显示一行</p>
-<p>last | cut -d ' ' -f 1 | sort | uniq -c</p>
-<p>统计所有重复的行的条数</p>
-<p>tee: 双向重定向</p>
-<p>last | tee last.list</p>
-<p>将last的输出同时输出到stdout也重定向到last.list</p>
-<p>last | tee -a last.list</p>
-<p>-a: append，即追加到文件尾</p>
-<p>bash判断命令test 与 []</p>
-<p>test用于判断变量属性，它的结果不会输出，但是通过返回信号表示，例如运行完以后可以通过<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;&amp;&#039; at position 10: ?来查看结果,或者&amp;̲&amp; || 来控制后续命令的执行…'>?来查看结果,或者&amp;&amp; || 来控制后续命令的执行
-复制代码 alexis@Smilodon:~/scripts</span> ls sh01.sh sh02.sh sh03.sh alexis@Smilodon:~/scripts$ test -e alexis@Smilodon:~/scripts$ echo <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>?</mo><mn>0</mn><mi>a</mi><mi>l</mi><mi>e</mi><mi>x</mi><mi>i</mi><mi>s</mi><mi mathvariant="normal">@</mi><mi>S</mi><mi>m</mi><mi>i</mi><mi>l</mi><mi>o</mi><mi>d</mi><mi>o</mi><mi>n</mi><mo>:</mo><mtext> </mtext><mi mathvariant="normal">/</mi><mi>s</mi><mi>c</mi><mi>r</mi><mi>i</mi><mi>p</mi><mi>t</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">? 0 alexis@Smilodon:~/scripts</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mclose">?</span><span class="mord">0</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">e</span><span class="mord mathdefault">x</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mord">@</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault">m</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mord mathdefault">o</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mspace nobreak"> </span><span class="mord">/</span><span class="mord mathdefault">s</span><span class="mord mathdefault">c</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">i</span><span class="mord mathdefault">p</span><span class="mord mathdefault">t</span><span class="mord mathdefault">s</span></span></span></span> test -e sh01.sh &amp;&amp; echo &quot;exist&quot; || echo &quot;not exist&quot; exist alexis@Smilodon:~/scripts$ test -e nofile &amp;&amp; echo &quot;exist&quot; || echo &quot;not exist&quot; not exist alexis@Smilodon:~/scripts$ 复制代码</p>
-<p>其他判断参数如下</p>
-<p>测试的标志	代表意义</p>
-<p>关於某个档名的『文件类型』判断，如 test -e filename 表示存在否 -e	该『档名』是否存在？(常用) -f	该『档名』是否存在且为文件(file)？(常用) -d	该『档名』是否存在且为目录(directory)？(常用) -b	该『档名』是否存在且为一个 block device 装置？ -c	该『档名』是否存在且为一个 character device 装置？ -S	该『档名』是否存在且为一个 Socket 文件？ -p	该『档名』是否存在且为一个 FIFO (pipe) 文件？ -L	该『档名』是否存在且为一个连结档？<br>
-关於文件的权限侦测，如 test -r filename 表示可读否 (但 root 权限常有例外) -r	侦测该档名是否存在且具有『可读』的权限？ -w	侦测该档名是否存在且具有『可写』的权限？ -x	侦测该档名是否存在且具有『可运行』的权限？ -u	侦测该档名是否存在且具有『SUID』的属性？ -g	侦测该档名是否存在且具有『SGID』的属性？ -k	侦测该档名是否存在且具有『Sticky bit』的属性？ -s	侦测该档名是否存在且为『非空白文件』？<br>
-两个文件之间的比较，如： test file1 -nt file2 -nt	(newer than)判断 file1 是否比 file2 新 -ot	(older than)判断 file1 是否比 file2 旧 -ef	判断 file1 与 file2 是否为同一文件，可用在判断 hard link 的判定上。 主要意义在判定，两个文件是否均指向同一个 inode 哩！<br>
-关於两个整数之间的判定，例如 test n1 -eq n2 -eq	两数值相等 (equal) -ne	两数值不等 (not equal) -gt	n1 大於 n2 (greater than) -lt	n1 小於 n2 (less than) -ge	n1 大於等於 n2 (greater than or equal) -le	n1 小於等於 n2 (less than or equal)<br>
-判定字串的数据 test -z string	判定字串是否为 0 ？若 string 为空字串，则为 true test -n string	判定字串是否非为 0 ？若 string 为空字串，则为 false。 注： -n 亦可省略 test str1 = str2	判定 str1 是否等於 str2 ，若相等，则回传 true test str1 != str2	判定 str1 是否不等於 str2 ，若相等，则回传 false<br>
-多重条件判定，例如： test -r filename -a -x filename -a	(and)两状况同时成立！例如 test -r file -a -x file，则 file 同时具有 r 与 x 权限时，才回传 true。 -o	(or)两状况任何一个成立！例如 test -r file -o -x file，则 file 具有 r 或 x 权限时，就可回传 true。 !	反相状态，如 test ! -x file ，当 file 不具有 x 时，回传 true<br>
-使用中括号 [ ] 来判断，使用[ ]需要注意的有<br>
-括号两端和判断字符两旁必须有空格，如用 _ 表示空格，则是 [&quot;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>v</mi><mi>a</mi><mi>r</mi><mn>1</mn><mi mathvariant="normal">&quot;</mi><mo>=</mo><mo>=</mo><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">var1&quot;==&quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord">1</span><span class="mord">&quot;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord">&quot;</span></span></span></span>var2&quot;]</p>
-<p>变量变量用双引号扩起来，否则会出现 &quot;Too many arguments&quot; 的错误</p>
-<p>3） 字符串用双引号或单引号扩起来</p>
-<p>以下是shell示例脚本</p>
-<p>复制代码 #!/bin/bash</p>
-<p>use 'test' command to dump file properties</p>
-<p>echo &quot;Please enter a file name, and I will dump the file properties&quot; read -p &quot;Enter your file name here: &quot; filename</p>
-<p>判断该变量是否是个非空字符串</p>
-<p>test -z $filename &amp;&amp; echo &quot;You MUST input a filename&quot; &amp;&amp; exit 0</p>
-<p>判断文件是否存在</p>
-<p>test ! -e <span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;&amp;&#039; at position 10: filename &amp;̲&amp; echo &quot;file &#039;'>filename &amp;&amp; echo &quot;file &#039;</span>filename' DOES NOT exist&quot; &amp;&amp; exit 0</p>
-<p>检查文件类型与属性</p>
-<p>test -f $filename &amp;&amp; filetype=&quot;regular file&quot; test -d $filename &amp;&amp; filetype=&quot;directory&quot; test -r $filename &amp;&amp; perm=&quot;readable&quot; test -w <span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;&amp;&#039; at position 10: filename &amp;̲&amp; perm=&quot;'>filename &amp;&amp; perm=&quot;</span>perm writable&quot; test -x <span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;&amp;&#039; at position 10: filename &amp;̲&amp; perm=&quot;'>filename &amp;&amp; perm=&quot;</span>perm executable&quot;</p>
-<p>输出文件属性</p>
-<p>echo &quot;File '$filename' is a $filetype&quot; echo &quot;And the permissions are : $perm&quot; 复制代码</p>
-<p>复制代码 #!/bin/bash</p>
-<p>test []</p>
-<p>read -p &quot;Please input (Y/N)&quot; yn</p>
-<p>使用 -o 表示 or</p>
-<p>[ &quot;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>y</mi><mi>n</mi><mi mathvariant="normal">&quot;</mi><mo>=</mo><mo>=</mo><mi mathvariant="normal">&quot;</mi><mi>Y</mi><mi mathvariant="normal">&quot;</mi><mo>−</mo><mi>o</mi><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">yn&quot; == &quot;Y&quot; -o &quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord mathdefault">n</span><span class="mord">&quot;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord">&quot;</span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span><span class="mord">&quot;</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">o</span><span class="mord">&quot;</span></span></span></span>yn&quot; == &quot;y&quot; ] &amp;&amp; echo &quot;OK, continue&quot; &amp;&amp; exit 0 [ &quot;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>y</mi><mi>n</mi><mi mathvariant="normal">&quot;</mi><mo>=</mo><mo>=</mo><mi mathvariant="normal">&quot;</mi><mi>N</mi><mi mathvariant="normal">&quot;</mi><mo>−</mo><mi>o</mi><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">yn&quot; == &quot;N&quot; -o &quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord mathdefault">n</span><span class="mord">&quot;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord">&quot;</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mord">&quot;</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">o</span><span class="mord">&quot;</span></span></span></span>yn&quot; == &quot;n&quot; ] &amp;&amp; echo &quot;OK, interrupt&quot; &amp;&amp; exit 0 echo &quot;I don't know what you choice is&quot; &amp;&amp; exit 0 复制代码</p>
-<p>id : 显示用户的用户id和用户组id信息</p>
-<p>alexis@Smilodon:~/scripts$ id alexis uid=1000(alexis) gid=1000(alexis) groups=1000(alexis),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),109(lpadmin),124(sambashare)</p>
-<p>finger ： 显示用户信息</p>
-<p>复制代码 alexis@Smilodon:~/scripts$ finger alexis Login: alexis Name: Alexis Directory: /home/alexis Shell: /bin/bash On since Wed Jan 16 17:32 (CST) on tty7 1 hour 35 minutes idle On since Wed Jan 16 17:56 (CST) on pts/0 from :0.0 No mail. No Plan. 复制代码</p>
-<p>newgrp : 更改当前用户的有效群组(创建文件时显示的群组)</p>
-<p>newgrp sudo : 把当前用户有效群组改为sudo</p>
-<p>su : 切换用户身份</p>
-<p>su - : 以login-shell的方式切换到root，会重新读出login-shell配置</p>
-<p>su -l alexis : 以login-shell的方式切换到alexis</p>
-<p>sudo与sudoers文件</p>
-<p>要使用sudo命令必须通过sudoers文件授权，切换到root用户编辑sudoers文件，加入一下行</p>
-<p>alexis ALL=（ALL） ALL</p>
-<p>%sudo ALL=(ALL) ALL</p>
-<p>第一列表示授权的用户或用户组(带%的为用户组)</p>
-<p>第二列的ALL表示可以从任何ip的主机使用sudo</p>
-<p>第三列的(ALL)表示alexis可以通过sudo切换为任何用户下达命令</p>
-<p>第四列的ALL表示用户可以通过sudo下达所有命令</p>
-<p>w, who : 查看当前在线用户状况</p>
-<p>lastlog: 查看所有用户最后登录情况</p>
-<p>write ： 发送信息给其他在线用户</p>
-<p>write alexis pst/1 ： 发送消息给 pst/1 的 alexis</p>
-<p>mesg [y/n] : 接受或拒绝write的消息(root的消息除外)</p>
-<p>wall ： 广播信息给所有用户</p>
-<p>wall &quot;I will shutdown the system in 3 minutes&quot;</p>
-<p>一次性计划任务 at 的使用</p>
-<p>at ： 可以执行一次计划任务，并且有nohup效果，即不会因为会话结束而被中断</p>
-<p>at的用户管理文件是/etc/at.allow /etc/at.deny</p>
-<p>存在at.allow，则在at.allow文件中的所有用户可以执行at任务，不存在的用户不可执行at任务<br>
-2.存在at.deny，则在at.deny文件中的用户不可执行at人物，不存在的用户可以执行at任务</p>
-<p>3.如果两个文件都不存在，则只有root可执行at任务</p>
-<p>命令格式</p>
-<p>at -l 或 atq ： 查看所有at任务</p>
-<p>atrm [jobid] : 删除第jobid号任务</p>
-<p>at TIME : 在TIME时间内执行任务，TIME可以是HH:MM， HH：MM yyyy-mm-dd, now +5 minutes, 04pm +3 days</p>
-<p>之后会进入一个shell，将你要执行的命令输入在shell中，最后ctrl+d(EOF)退出</p>
-<p>周期性计划任务crontab</p>
-<p>crontab ： 可以执行周期性计划任务，此命令的计划任务是针对用户而言的</p>
-<p>crontab的管理文件是/etc/cron.allow, /etc/cron.deny.其管理规则与at的相同</p>
-<p>crontab -u username -l : 列出某用户的所有计划任务，不加-u为列出当前用户的任务</p>
-<p>crontab -r : 删除所有计划任务</p>
-<p>crontab -e : 编辑计划任务，此计划任务的文件一般是自动创建于/var/spool/cron文件夹内</p>
-<p>编辑计划任务的格式</p>
-<p>0 12 * * * mail dmtsai -s &quot;at 12:00&quot; &lt; /home/dmtsai/.bashrc 计划任务一共6个栏位，分别表示</p>
-<p>代表意义	分钟	小时	日期	月份	周	命令 数字范围	0-59	0-23	1-31	1-12	0-7	需要执行的命令</p>
-<p>需要注意的是：周栏位的0和7都代表周日，且周不能与日月同时使用，否则会有问题，下面还有一些特殊的表示方法</p>
-<p>特殊字符	代表意义 *(星号)	代表任何时刻都接受的意思！举例来说，范例一内那个日、月、周都是 * ， 就代表著『不论何月、何日的礼拜几的 12:00 都运行后续命令』的意思！ ,(逗号)	代表分隔时段的意思。举例来说，如果要下达的工作是 3:00 与 6:00 时，就会是： 0 3,6 * * * command 时间参数还是有五栏，不过第二栏是 3,6 ，代表 3 与 6 都适用！ -(减号)	代表一段时间范围内，举例来说， 8 点到 12 点之间的每小时的 20 分都进行一项工作： 20 8-12 * * * command 仔细看到第二栏变成 8-12 喔！代表 8,9,10,11,12 都适用的意思！ /n(斜线)	那个 n 代表数字，亦即是『每隔 n 单位间隔』的意思，例如每五分钟进行一次，则： */5 * * * * command 很简单吧！用 * 与 /5 来搭配，也可以写成 0-59/5 ，相同意思！</p>
-<p>如果是要编辑系统的计划任务，而不是针对用户的计划任务，可以使用/etc/crontab文件，编辑他</p>
-<p>复制代码</p>
-<p>/etc/crontab: system-wide crontab</p>
-<p>Unlike any other crontab you don't have to run the `crontab'</p>
-<p>command to install the new version when you edit this file</p>
-<p>and files in /etc/cron.d. These files also have username fields,</p>
-<p>that none of the other crontabs do.</p>
-<p>SHELL=/bin/sh PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin</p>
-<p>m h dom mon dow user command</p>
-<p>17 * * * * root cd / &amp;&amp; run-parts --report /etc/cron.hourly 25 6 * * * root test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.daily ) 47 6 * * 7 root test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.weekly ) 52 6 1 * * root test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.monthly )</p>
-<p>复制代码 注意这个文件和crontab命令的区别，他多了一个user栏位，这里用来标注命令的运行者，其他地方和使用crontab命令一样</p>
-<p>nohup : 无终止运行命令</p>
-<p>使用nohup运行命令可以使命令在session断开后继续运行，比如用ssh登录的时候</p>
-<p>nohup ./test.sh &amp;</p>
-<p>这样test.sh在退出ssh登录后依然运行</p>
-<p>pstree : 以树状形式现实进程关系</p>
-<p>pstree -Aup</p>
-<p>A : 程序间用ascii字节连接</p>
-<p>u : 显示进程所属用户id</p>
-<p>p : 现实进程pid</p>
-<p>dmesg : 显示开机时内核检测的硬件信息</p>
-<p>fuser : 通过文件显示使用该文件的用户</p>
-<p>fuser -uv sh01.sh</p>
-<p>u : 除了显示pid，也显示pid对应的用户名</p>
-<p>v : 现实详细的文件相关信息， ACCESS 和 COMMAND</p>
-<p>ACCESS有以下几种</p>
-<p>c ：此程序在当前的目录下(非次目录)； e ：可被触发为运行状态； f ：是一个被开启的文件； r ：代表顶层目录 (root directory)； F ：该文件被开启了，不过在等待回应中； m ：可能为分享的动态函式库； COMMAND 是使用该文件的命令</p>
-<p>modprobe : 模块管理命令</p>
-<p>modprobe vfat : 加载vfat模块</p>
-<p>modprobe -r vfat : 删除vfat模块</p>
-<p>modprobe -l : 列出所有可用模块</p>
-<p>lsmod : 列出已加载模块</p>
-<p>modinfo : 查看模块详情</p>
-<p>modinfo vfat</p>
-<p>man hier : Description of the file system hierarchy</p>
-<p>cat /etc/issue : 查看linux的发行版本</p>
-<p>rsync : 将远程主机数据同步到本地</p>
-<p>rsync -avzP bkuser@192.168.10.1:/bk/remotebackup /localbackup</p>
-<p>将远端的 remotebackup 备份到本地</p>
-<p>-a 参数，相当于-rlptgoD，-r 是递归 -l 是链接文件，意思是拷贝链接文件；-p 表示保持文件原有权限；-t 保持文件原有时间；-g 保持文件原有用户组；-o 保持文件原有属主；-D 相当于块设备文件； -z 传输时压缩； -P 传输进度； -v 传输时的进度等信息，和-P有点关系，自己试试。可以看文档；</p>
-<p>rsync -chavzP --rsync-path=&quot;sudo rsync&quot; source 192.168.1.1:/dst</p>
-<p>使用 sudo 用户将数据 rsync 到 dst</p>
-<p>apt-get update : 跟新软件列表 apt-get upgrade : 更新现有软件 apt-get dist-upgrade : 更新disribution</p>
-<p>sar -n DEV 1 100</p>
-<p>查看网络流量, 每1秒输出一次, 输出100次, 输出内容</p>
-<p>sar 还可以监控cpu -u, 内存 -r 具体看man</p>
-<p>mac</p>
-<p>lsof -i -P: 可以用来查看端口</p>
-<p>-i: 只显示网络地址</p>
-<p>-P: 让端口号不会转化成端口名</p>
-<p>sudo tcpdump -X -i lo0 src host 127.0.0.1 and port 8081</p>
-<p>-X: 将数据转换成ASCII</p>
-<p>-i: 指定网卡</p>
-<p>src: 指定源地址</p>
-<p>dest: 指定目标地址</p>
-<p>port: 端口</p>
-<p>stty: tty 设置</p>
-<p>stty -ixon 开启 XON 流控制, 开启这个以后 reverse search(ctrl+r) 可以使用 ctrl+r ctrl+s 来向前向后查找</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[java获取当前路径的几种方法]]></title>
-        <id>https://skytotwo.github.io//post/java-get-url</id>
-        <link href="https://skytotwo.github.io//post/java-get-url">
-        </link>
-        <updated>2019-08-12T08:31:12.000Z</updated>
-        <summary type="html"><![CDATA[<p>java开发过程中经常需要获取当前路径，而java也有相应的内置函数来对此提供支持，下面来介绍一下。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>java开发过程中经常需要获取当前路径，而java也有相应的内置函数来对此提供支持，下面来介绍一下。</p>
-<!-- more -->
-<p>1、利用System.getProperty()函数获取当前路径：<br>
-System.out.println(System.getProperty(&quot;user.dir&quot;));//user.dir指定了当前的路径</p>
-<p>2、使用File提供的函数获取当前路径：<br>
-File directory = new File(&quot;&quot;);//设定为当前文件夹<br>
-try{<br>
-System.out.println(directory.getCanonicalPath());//获取标准的路径<br>
-System.out.println(directory.getAbsolutePath());//获取绝对路径<br>
-}catch(Exceptin e){}</p>
-<p>File.getCanonicalPath()和File.getAbsolutePath()大约只是对于new File(&quot;.&quot;)和new File(&quot;..&quot;)两种路径有所区别。</p>
-<p>对于getCanonicalPath()函数，“.&quot;就表示当前的文件夹，而”..“则表示当前文件夹的上一级文件夹<br>
-对于getAbsolutePath()函数，则不管”.”、“..”，返回当前的路径加上你在new File()时设定的路径<br>
-至于getPath()函数，得到的只是你在new File()时设定的路径</p>
-<p>比如当前的路径为 C:/test ：<br>
-File directory = new File(&quot;abc&quot;);<br>
-directory.getCanonicalPath(); //得到的是C:/test/abc<br>
-directory.getAbsolutePath();    //得到的是C:/test/abc<br>
-direcotry.getPath();                    //得到的是abc</p>
-<p>File directory = new File(&quot;.&quot;);<br>
-directory.getCanonicalPath(); //得到的是C:/test<br>
-directory.getAbsolutePath();    //得到的是C:/test/.<br>
-direcotry.getPath();                    //得到的是.</p>
-<p>File directory = new File(&quot;..&quot;);<br>
-directory.getCanonicalPath(); //得到的是C:/<br>
-directory.getAbsolutePath();    //得到的是C:/test/..<br>
-direcotry.getPath();                    //得到的是..</p>
-<p>另外：System.getProperty()中的字符串参数如下：</p>
-<pre><code class="language-java">System.getProperty()参数大全 
-java.version                                Java Runtime Environment version  
-java.vendor                                Java Runtime Environment vendor  
-java.vendor.url                           Java vendor URL  
-java.home                                Java installation directory  
-java.vm.specification.version   Java Virtual Machine specification version  
-java.vm.specification.vendor    Java Virtual Machine specification vendor  
-java.vm.specification.name      Java Virtual Machine specification name  
-java.vm.version                        Java Virtual Machine implementation version  
-java.vm.vendor                        Java Virtual Machine implementation vendor  
-java.vm.name                        Java Virtual Machine implementation name  
-java.specification.version        Java Runtime Environment specification version  
-java.specification.vendor         Java Runtime Environment specification vendor  
-java.specification.name           Java Runtime Environment specification name  
-java.class.version                    Java class format version number  
-java.class.path                      Java class path  
-java.library.path                 List of paths to search when loading libraries  
-java.io.tmpdir                       Default temp file path  
-java.compiler                       Name of JIT compiler to use  
-java.ext.dirs                       Path of extension directory or directories  
-os.name                              Operating system name  
-os.arch                                  Operating system architecture  
-os.version                       Operating system version  
-file.separator                         File separator (&quot;/&quot; on UNIX)  
-path.separator                  Path separator (&quot;:&quot; on UNIX)  
-line.separator                       Line separator (&quot;/n&quot; on UNIX)  
-user.name                        User’s account name  
-user.home                              User’s home directory  
-user.dir                               User’s current working directory
-</code></pre>
-<h4 id="java中获取路径">JAVA中获取路径:</h4>
-<p><strong>1.jsp中取得路径：</strong></p>
-<p>以工程名为TEST为例：</p>
-<p>(1)得到包含工程名的当前页面全路径：request.getRequestURI()<br>
-结果：/TEST/test.jsp<br>
-(2)得到工程名：request.getContextPath()<br>
-结果：/TEST<br>
-(3)得到当前页面所在目录下全名称：request.getServletPath()<br>
-结果：如果页面在jsp目录下 /TEST/jsp/test.jsp<br>
-(4)得到页面所在服务器的全路径：application.getRealPath(&quot;页面.jsp&quot;)<br>
-结果：D:/resin/webapps/TEST/test.jsp<br>
-(5)得到页面所在服务器的绝对路径：absPath=new java.io.File(application.getRealPath(request.getRequestURI())).getParent();<br>
-结果：D:/resin/webapps/TEST</p>
-<p><strong>2.在类中取得路径：</strong></p>
-<p>(1)类的绝对路径：Class.class.getClass().getResource(&quot;/&quot;).getPath()<br>
-结果：/D:/TEST/WebRoot/WEB-INF/classes/pack/<br>
-(2)得到工程的路径：System.getProperty(&quot;user.dir&quot;)<br>
-结果：D:/TEST</p>
-<p><strong>3.在Servlet中取得路径：</strong></p>
-<p>(1)得到工程目录：request.getSession().getServletContext().getRealPath(&quot;&quot;) 参数可具体到包名。<br>
-结果：E:/Tomcat/webapps/TEST<br>
-(2)得到IE地址栏地址：request.getRequestURL()<br>
-结果：http://localhost:8080/TEST/test<br>
-(3)得到相对地址：request.getRequestURI()<br>
-结果：/TEST/test</p>
 ]]></content>
     </entry>
 </feed>

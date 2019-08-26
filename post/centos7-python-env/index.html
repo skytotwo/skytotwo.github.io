@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>centos7 部署python应用相关配置 | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1566806129271">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1566806129271" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="http://picture.totoro.site/" class="site-nav">
+            图床
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">centos7 部署python应用相关配置</h2>
+            <div class="post-date">2019-08-26</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/Python-696x397.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <p>在centos上部署python环境需要的步骤很多，包括nginx，python版本安装，mysql的安装配置，虚拟环境的安装配置等，过程比较繁琐，有许多小细节要注意，以下是相关步骤。</p>
+<!-- more -->
+<h3 id="1-安装python36"><strong>1. 安装python3.6</strong></h3>
+<p>编译环境准备：</p>
+<pre><code class="language-python"> yum groupinstall 'Development Tools'
+ yum install zlib-devel bzip2-devel openssl-devel ncurese-devel
+ yum -y install openssl-devel bzip2-devel expat-devel gdbm-devel readline-devel
+</code></pre>
+<p>1 . 获取</p>
+<pre><code class="language-python">wget https://www.python.org/ftp/python/3.6.3/Python-3.6.3.tgz
+tar -xzvf Python-3.6.3.tgz -C  /tmp
+cd  /tmp/Python-3.6.3/
+</code></pre>
+<p>2 . 把Python3.6安装到 /usr/local 目录</p>
+<pre><code class="language-python">./configure --prefix=/usr/local
+make
+make altinstall
+</code></pre>
+<p>3 . 更改/usr/bin/python链接</p>
+<pre><code class="language-python">ln -s /usr/local/bin/python3.6 /usr/bin/python3
+</code></pre>
+<p>替换旧Python，将默认安装的python2软链接指向python：</p>
+<pre><code class="language-python">mv /usr/bin/python /usr/bin/old_python
+</code></pre>
+<p>再将/usr/bin/python指向python3：</p>
+<pre><code class="language-python">ln -s /usr/local/bin/python3.6 /usr/bin/python
+</code></pre>
+<p>这样输入/usr/bin/python出来的就是python3了。这也是后面安装virtualenvwrapper，配置路径不会出错的前提。<br>
+删除软连接：rm -rf  /home/zhenwx/htccode（示例）</p>
+<p>4 .使得输入python系统默认为python3</p>
+<pre><code class="language-python">cd /usr/bin/
+ls yum*
+vim yum
+</code></pre>
+<p>修改第一行尾python2</p>
+<pre><code class="language-python">vim yum-config-manager
+</code></pre>
+<p>修改第一行尾python2</p>
+<pre><code class="language-python">vim yum-debug-restore
+vim yum-groups-manager
+vim yum-build-dep
+vim yum-debug-dump
+vim yumdownloader
+vim /usr/libexec/urlgrabber-ext-down
+</code></pre>
+<p>修改第一行尾python2</p>
+<p>此时输入python就是3.6的python了。</p>
+<h3 id="2-maridb"><strong>2. maridb</strong></h3>
+<ol>
+<li>
+<p>安装</p>
+<pre><code class="language-python"></code></pre>
+</li>
+</ol>
+<p>sudo yum install mariadb-server</p>
+<pre><code>2. 启动， 重启
+
+    ```python
+sudo systemctl start mariadb
+sudo systemctl restart mariadb
+</code></pre>
+<ol start="3">
+<li>设置bind-ip</li>
+</ol>
+<pre><code class="language-python">vim /etc/my.cnf
+</code></pre>
+<p>在 [mysqld]:下面加一行</p>
+<pre><code class="language-python">bind-address = 0.0.0.0
+</code></pre>
+<p>4 . 设置外部ip可以访问</p>
+<p>先进入mysql才能运行下面命令:mysql 直接进入就行</p>
+<pre><code class="language-python">GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
+</code></pre>
+<pre><code class="language-python">FLUSH PRIVILEGES;
+</code></pre>
+<p>5 . 设置阿里云、腾讯云的对外端口<br>
+在对应服务器控制面板中，添加安全组规则，开放端口3306</p>
+<p>6 . 安装mysqlclient出问题</p>
+<pre><code>centos 7：
+    yum install python-devel mariadb-devel -y
+
+ubuntu：
+    sudo apt-get install libmysqlclient-dev
+
+然后：
+    pip install mysqlclient
+</code></pre>
+<h3 id="3-安装nginx"><strong>3. 安装nginx</strong></h3>
+<p>1、拷贝我们的nginx安装包到服务器<br>
+2、安装依赖包</p>
+<pre><code class="language-python">yum -y install gcc gcc-c++ openssl-devel pcre-devel httpd-tools
+</code></pre>
+<p>3、编译安装</p>
+<pre><code class="language-python">tar -zxf nginx.tar.gz
+cd nginx/
+
+useradd nginx
+./configure --prefix=/usr/local/nginx --user=nginx --group=nginx --with-http_ssl_module --with-http_mp4_module --with-http_flv_module
+
+make &amp;&amp; make install
+
+ln -s /usr/local/nginx/sbin/nginx /usr/sbin/
+</code></pre>
+<h3 id="4-安装virtualenvwrapper"><strong>4. 安装virtualenvwrapper</strong></h3>
+<pre><code class="language-python">yum install python-setuptools python-devel
+pip install virtualenvwrapper
+</code></pre>
+<p>编辑.bashrc文件</p>
+<pre><code class="language-python">vim ~/.bashrc
+</code></pre>
+<pre><code class="language-python">export WORKON_HOME=$HOME/.virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh
+</code></pre>
+<p>重新加载.bashrc文件</p>
+<pre><code class="language-python">source  ~/.bashrc
+</code></pre>
+<p>新建虚拟环境</p>
+<pre><code class="language-python">mkvirtualenv mxonline
+</code></pre>
+<p>进入虚拟环境</p>
+<pre><code class="language-python">workon mxonline
+</code></pre>
+<p>安装pip包<br>
+我们可以通过 pip freeze &gt; requirements.txt 将本地的虚拟环境安装包相信信息导出来</p>
+<p>然后将requirements.txt文件上传到服务器之后运行：</p>
+<pre><code class="language-python">pip install -r requirements.txt
+</code></pre>
+<p>安装依赖包</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/OM99oRtav" class="tag">
+                    linux
+                  </a>
+                
+                  <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="tag">
+                    python
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/python-decorator">
+                  <h3 class="post-title">
+                    Python装饰器详解
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

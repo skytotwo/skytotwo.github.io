@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Django settings.py 的media路径设置 | Totoro の Home</title>
+<title>SqlAlchemy relationship函数 之 backref参数反向引用的理解 | Totoro の Home</title>
 <meta name="description" content="空杯心态，每天进步">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -104,56 +104,88 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Django settings.py 的media路径设置</h2>
-            <div class="post-date">2019-06-16</div>
+            <h2 class="post-title">SqlAlchemy relationship函数 之 backref参数反向引用的理解</h2>
+            <div class="post-date">2019-08-26</div>
             
-              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/06/16/1562632_a245_2.jpg')">
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/Screenshot_2.png')">
               </div>
             
             <div class="post-content">
-              <p>Django对media等静态文件的路径配置有自己的一套，在settings和url里面都有对应配置，这里简单做一下介绍。</p>
-<!--more-->
-<p>在一个 models 中使用 FileField 或 ImageField 需要以下步骤:</p>
-<ol>
-<li>
-<p>在你的 settings 文件中, 定义一个完整路径给MEDIA_ROOT 以便让 Django在此处保存上传文件. (出于性能考虑,这些文件并不保存到数据库.) 定义MEDIA_URL 作为该目录的公共 URL. 要确保该目录对 WEB 服务器用户帐号是可写的.</p>
-</li>
-<li>
-<p>在你的 models.py 中添加 FileField 或 ImageField, 并确保定义了upload_to 选项,以告诉 Django 使用MEDIA_ROOT 的哪个子目录保存上传文件.</p>
-</li>
-<li>
-<p>你的数据库中要保存的只是文件的路径(相对于 MEDIA_ROOT)，要想得到这个文件的路径可以用&quot;.url&quot;方法。例如，如果models里有一个取名为&quot;photo&quot;的ImageField，可以在Html模板里通过双花括号加object.photo.url得到该图片的路径。</p>
-</li>
-</ol>
-<p>settings.py 设置</p>
-<p>媒体文件的绝对路径：</p>
-<pre><code class="language-python"># Absolute path to the directory that holds media.
-# Example: &quot;/home/media/media.lawrence.com/&quot;   
-MEDIA_ROOT = 'D:/Python26/Lib/site-packages/django/bin/newproj/media'
+              <p>简单来说, relationship函数是sqlalchemy对关系之间提供的一种便利的调用方式, backref参数则对关系提供反向引用的声明。</p>
+<!-- more --> 
+<p>如下例子：</p>
+<pre><code class="language-python"># 电影
+class Movie(db.Model):
+    __tablename__ = &quot;movie&quot;
+    id = db.Column(db.Integer, primary_key=True)  # 编号
+    title = db.Column(db.String(255), unique=True)  # 标题
+    url = db.Column(db.String(255), unique=True)  # 地址
+    info = db.Column(db.Text)  # 电影简介
+    logo = db.Column(db.String(255), unique=True)  # 封面
+    star = db.Column(db.SmallInteger)  # 星级
+    playnum = db.Column(db.BigInteger)  # 播放量
+    commentnum = db.Column(db.BigInteger)  # 评论量
+    #  （设置外键第一步）
+    tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'))  # 所属标签
+    area = db.Column(db.String(255))  # 上映地区
+    release_time = db.Column(db.Date)  # 上映时间
+    length = db.Column(db.String(100))  # 播放时间
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now)  # 添加时间
+    comments = db.relationship(&quot;Comment&quot;, backref='movie')  # 评论外键关系关联
+    moviecols = db.relationship(&quot;Moviecol&quot;, backref='movie')  # 收藏外键关系关联
+
+    def __repr__(self):
+        return &quot;&lt;Movie %r&gt;&quot; % self.title
+
 </code></pre>
-<p>媒体文件的相对路径：</p>
-<pre><code class="language-python"># URL that handles the media served from MEDIA_ROOT.
-# Example: &quot;http://media.lawrence.com&quot;
-MEDIA_URL = '/site_media/' 
+<pre><code class="language-python"># 评论
+class Comment(db.Model):
+    __tablename__ = &quot;comment&quot;
+    id = db.Column(db.Integer, primary_key=True)  # 编号
+    content = db.Column(db.Text)  # 评论内容
+    # 关联外键第一步，还要去user表和movie表进行第二步
+    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'))  # 所属电影
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # 所属用户
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now)  # 添加时间
+
+    def __repr__(self):
+        return &quot;&lt;Comment %r&gt;&quot; % self.id
 </code></pre>
-<p>设置静态文件路径</p>
-<pre><code class="language-python">STATIC_PATH = 'D:/Python26/Lib/site-packages/django/bin/newproj/media'
+<p>如果在Movie中使用relationship定义comment属性的话，就可以实例化Movie对象的时候调用comment属性，如下所示：</p>
+<pre><code class="language-python">movie = Movie.query.get_or_404(int(id))
+comment = movie.comment
 </code></pre>
-<p>urls.py 影射路径</p>
-<pre><code class="language-python">(r'^site_media/(?P&lt;path&gt;.*)$', 'django.views.static.serve',{'document_root': settings.STATIC_PATH}),
+<p>注意，这里的到的comment，可以取出comment表中的所有属性字段，如果有外键，甚至外键的所属的表数据也能找到。</p>
+<p>而定义的backref参数则对关系提供反向引用的声明。意思就是电影中relationship函数定义了backref，然后实例化Comment后，该对象可以反向找到backref指向的表，具体如下：</p>
+<pre><code class="language-python">comment = Comment.query.get_or_404(int(id))
+movie = comment.movie
 </code></pre>
-<p>将 MEDIA_URL 的site_media 影射到 settings.STATIC_PATH</p>
-<p>models.py 上传图片字段设置</p>
-<pre><code class="language-python">photo = models.ImageField('上传图片',upload_to='photos')
+<p>除了可以拿到movie表所有字段，还能拿到完成度的relationship指向的comments中comment表数据。</p>
+<p>例子示例2：<br>
+一对多：一个父亲可能有多个孩子</p>
+<pre><code class="language-python">1     class Father(……): 
+2         id = …… 
+3         children = db.relationship('Children', backref='father') 
+4
+5     class Children(……): 
+6         # ……
+7         father_id = …… ForeignKey('father.id'))
 </code></pre>
-<p>相当于传到 D:/Python26/Lib/site-packages/django/bin/newproj/media/photos 目录下，浏览时通过/site_media/photos/ 访问。</p>
+<pre><code class="language-python">1 我是爸爸
+2 我是身份证号
+3 我有一些孩子登记在Children表上。上面的每一个children都可以通过 . father找到我。backref是我给孩子们的名片（上面是身份证号）。
+5 我们是孩子们 
+7 我拿着爸爸的身份证号
+
+</code></pre>
+<p>当我们需要在父表中添加子表关系时使用 relationship，外键通常是父表的主键</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://skytotwo.github.io//tag/Iv9ahsKWG" class="tag">
-                    Django
+                  <a href="https://skytotwo.github.io//tag/WllsaKoVz" class="tag">
+                    flask
                   </a>
                 
               </div>
@@ -161,9 +193,9 @@ MEDIA_URL = '/site_media/'
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://skytotwo.github.io//post/django-drf-disanfang">
+                <a href="https://skytotwo.github.io//post/mysql-connect-num">
                   <h3 class="post-title">
-                    django drf实现第三方登录
+                    centos7 修改mysql 最大连接数
                   </h3>
                 </a>
               </div>

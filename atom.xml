@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-08-26T08:28:42.234Z</updated>
+    <updated>2019-08-26T13:37:58.704Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,263 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[Mac下重置mysql5.7 密码]]></title>
+        <id>https://skytotwo.github.io//post/mac-mysql57-resetpd</id>
+        <link href="https://skytotwo.github.io//post/mac-mysql57-resetpd">
+        </link>
+        <updated>2019-08-26T13:35:35.000Z</updated>
+        <summary type="html"><![CDATA[<p>先附上mysql 5.7版本的下载地址，因为5.7版本太经典了，所以我也偏爱这个版本。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>先附上mysql 5.7版本的下载地址，因为5.7版本太经典了，所以我也偏爱这个版本。</p>
+ <!-- more --> 
+<p><a href="https://dev.mysql.com/downloads/mysql/5.7.html#downloads" title="mysql5.7下载地址">mysql5.7下载地址</a><br>
+首先是mysql的基本命令：启动、停止和重启</p>
+<pre><code class="language-shell">启动MySQL服务
+sudo /usr/local/MySQL/support-files/mysql.server start
+ 
+停止MySQL服务
+sudo /usr/local/mysql/support-files/mysql.server stop
+ 
+重启MySQL服务
+sudo /usr/local/mysql/support-files/mysql.server restart
+
+</code></pre>
+<p>令人苦恼的是安装完成后，作为开发环境还是设置一个自己好记的密码比较好，而不是初始给你那个乱七八糟的密码。<br>
+折腾了一会儿总算成功了。下面是步骤：</p>
+<pre><code class="language-python">1. 停止 mysql server. 通常是在 '系统偏好设置' &gt; MySQL &gt; 'Stop MySQL Server'。或者执行上文中的停止mysql命令。
+2.打开一个终端，输入：
+sudo /usr/local/mysql/bin/mysqld_safe --skip-grant-tables，用安全模式启动，这样就可以不用输密码链接mysql了。
+3.然后打开另一个终端，输入:
+sudo /usr/local/mysql/bin/mysql -u root，这样就进入了mysql了。
+4.在mysql输入语句模式下输入：FLUSH PRIVILEGES;
+5.接着输入：ALTER USER 'root'@'localhost' IDENTIFIED BY 'NewPassword';
+6.再输入：FLUSH PRIVILEGES;输入\q退出。
+7.重启mysql。
+</code></pre>
+<p>至此就ok啦，妥妥的连接上~</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[java O(n^2)实现]]></title>
+        <id>https://skytotwo.github.io//post/java-on2</id>
+        <link href="https://skytotwo.github.io//post/java-on2">
+        </link>
+        <updated>2019-08-26T13:32:32.000Z</updated>
+        <content type="html"><![CDATA[<pre><code class="language-java">/**
+ * 算法实现，拼接设备
+ * 示例：
+ * 实现前：甲-重要设备,乙-重要设备,丙-关注设备,丁-关注设备,你-重要设备
+ * 实现后：甲、乙、你为重要设备,丙、丁为关注设备,
+ * @author xyq
+ */
+String dataheader = &quot;&quot;;
+String finaldata = &quot;&quot;;
+String[] datas = totals.split(&quot;,&quot;);
+for (int i = 0; i &lt; datas.length; i++) { //遍历每一个，得到每个的格式“xxxx-xxxx”
+	String shebei = datas[i].split(&quot;-&quot;)[0]; //取出当前设备
+	String sbzyd = datas[i].split(&quot;-&quot;)[1];  //取出当前重要度
+	if(finaldata.contains(shebei)){ //最后拼接包含该循环设备则跳出
+		continue;
+	}
+	for (int j = i; j &lt; datas.length; j++) { //再次遍历，起点为当前循环位置
+		if(datas[j].contains(sbzyd)){  
+			if(datas[j].contains(shebei)){
+				dataheader = shebei;
+				continue;
+			}
+			if(!&quot;&quot;.equals(dataheader)){ //判断当无重复匹配的时候
+				dataheader = dataheader+&quot;、&quot;+datas[j].split(&quot;-&quot;)[0];
+			}else{
+				dataheader = datas[i].split(&quot;-&quot;)[0]+&quot;、&quot;+datas[j].split(&quot;-&quot;)[0];
+			}
+		}
+	}
+	finaldata+=dataheader+&quot;为&quot;+sbzyd+&quot;,&quot;;
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Flask中自定义JSONEncoder]]></title>
+        <id>https://skytotwo.github.io//post/flask-jsonencoder</id>
+        <link href="https://skytotwo.github.io//post/flask-jsonencoder">
+        </link>
+        <updated>2019-08-26T13:29:21.000Z</updated>
+        <summary type="html"><![CDATA[<p>正在用Flask写个小项目，要实现将自定义类型转化成json格式。Flask一般用jsonify来使接口返回json数据，实现一个Flask内使用的JSONEncoder。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>正在用Flask写个小项目，要实现将自定义类型转化成json格式。Flask一般用jsonify来使接口返回json数据，实现一个Flask内使用的JSONEncoder。</p>
+ <!-- more --> 
+<pre><code class="language-python">from flask.json import JSONEncoder
+
+#编写自己的json编码器，并继承原有的
+class MyJSONEncoder(JSONEncoder):
+	#在jsonify中不能直接序列化该类型的时候，才会调用default方法，并进入分类执行
+    def default(self, obj):
+        if isinstance(obj, EqltByGene):
+			#自定义返回字典
+            return {
+                'gene_id': obj.gene_id, 
+                'gene_symbol': obj.gene_symbol,
+                'p_value': obj.p_value,
+            }
+        return super(MyJSONEncoder, self).default(obj)
+
+app = Flask(__name__)
+app.json_encoder = MyJSONEncoder #将自定义的json编码器赋给flask原有的
+</code></pre>
+<p>这样在使用jsonify的时候，就可以将MyObject类型的实例转化到json格式。</p>
+<p>问题思考：</p>
+<ol>
+<li>如果项目中有很多自定义Class，都有这个需求，JSONEncoder的实现似乎会很丑陋，有什么好的方式？</li>
+<li>同一个Class在不同的场景，json后要保留的字段差别如果很大，该如果实现？</li>
+</ol>
+<p>对该问题的实现，可以采用以下方式：</p>
+<pre><code class="language-python">#在模型对象中重写dict方法
+class User(Base):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(50), unique=True, nullable=False)
+    nickname = db.Column(db.String(24), unique=True)
+    auth = db.Column(db.SmallInteger, default=1) # 1是普通用户，2是管理员
+    _password = db.Column('password', db.String(100))
+
+    #自定义将模型对象转成dict ，即dict(user)
+    #dict(user)，会先调用keys方法，这里重写，自定义获取返回的字段
+    def keys(self):
+        return ['id', 'email', 'nickname', 'auth']
+
+    # dict(user)获取完字段后，会取出对应字段的值，这里使用__getitem__，这里getattr(self, item)拿到值信息，item为key名
+    def __getitem__(self, item):
+        return getattr(self, item)
+</code></pre>
+<p>以上的keys和getitem方法，会在自定义的jsonencoder方法中dict（对象）时候调用，如下：</p>
+<pre><code class="language-python">#自定义json方法，在方法中实现对象转字典返回，这需要在模型对象中实现对应dict方法
+class JSONEncoder(_JSONEncoder):
+    def default(self, o):
+        return dict(o)
+</code></pre>
+<p>调用方法如：</p>
+<pre><code class="language-python">def get_user(uid):
+    user = User.query.get_or_404(uid)
+    return jsonify(user)
+</code></pre>
+<p>所以这样就实现了jsonencoder将对象转化成字典，然后直接jsonnfy调用序列化。并且复用性强，在模型中定义dict调用的方法，使得转化的字典key可以控制。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Python可迭代对象，迭代器，生成器的区别]]></title>
+        <id>https://skytotwo.github.io//post/python-iter&amp;decorator</id>
+        <link href="https://skytotwo.github.io//post/python-iter&amp;decorator">
+        </link>
+        <updated>2019-08-26T13:23:20.000Z</updated>
+        <summary type="html"><![CDATA[<p>三者简要关系图<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180602164019_717.png" alt="20180602164019_717.png"></p>
+]]></summary>
+        <content type="html"><![CDATA[<p>三者简要关系图<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180602164019_717.png" alt="20180602164019_717.png"></p>
+<!-- more --> 
+<p>###<strong>可迭代对象与迭代器</strong></p>
+<p>刚开始我认为这两者是等同的，但后来发现并不是这样；下面直接抛出结论：</p>
+<ul>
+<li>1）可迭代对象包含迭代器。</li>
+<li>2）如果一个对象拥有__iter__方法，其是可迭代对象；如果一个对象拥有next方法，其是迭代器。</li>
+<li>3）定义可迭代对象，必须实现__iter__方法；定义迭代器，必须实现__iter__和next方法。</li>
+</ul>
+<p>你也许会问，结论3与结论2是不是有一点矛盾？既然一个对象拥有了next方法就是迭代器，那为什么迭代器必须同时实现两方法呢？</p>
+<p>因为结论1，迭代器也是可迭代对象，因此迭代器必须也实现__iter__方法。</p>
+<p><strong>介绍一下上面涉及到的两个方法：</strong></p>
+<p>1）<strong>iter</strong>()</p>
+<p>该方法返回的是当前对象的迭代器类的实例。因为可迭代对象与迭代器都要实现这个方法，因此有以下两种写法。</p>
+<p>写法一：用于可迭代对象类的写法，返回该可迭代对象的迭代器类的实例。</p>
+<p>写法二：用于迭代器类的写法，直接返回self（即自己本身），表示自身即是自己的迭代器。</p>
+<p>也许有点晕，没关系，下面会给出两写法的例子，我们结合具体例子看。</p>
+<p>2）next()<br>
+返回迭代的每一步，实现该方法时注意要最后超出边界要抛出StopIteration异常。</p>
+<p>下面举个可迭代对象与迭代器的例子：</p>
+<pre><code class="language-python">[python] view plain copy
+#!/usr/bin/env python  
+# coding=utf-8  
+  
+  
+class MyList(object):            # 定义可迭代对象类  
+  
+    def __init__(self, num):  
+        self.data = num          # 上边界  
+  
+    def __iter__(self):  
+        return MyListIterator(self.data)  # 返回该可迭代对象的迭代器类的实例  
+  
+  
+class MyListIterator(object):    # 定义迭代器类，其是MyList可迭代对象的迭代器类  
+  
+    def __init__(self, data):  
+        self.data = data         # 上边界  
+        self.now = 0             # 当前迭代值，初始为0  
+  
+    def __iter__(self):  
+        return self              # 返回该对象的迭代器类的实例；因为自己就是迭代器，所以返回self  
+  
+    def next(self):              # 迭代器类必须实现的方法  
+        while self.now &lt; self.data:  
+            self.now += 1  
+            return self.now - 1  # 返回当前迭代值  
+        raise StopIteration      # 超出上边界，抛出异常  
+  
+  
+my_list = MyList(5)              # 得到一个可迭代对象  
+print type(my_list)              # 返回该对象的类型  
+  
+my_list_iter = iter(my_list)     # 得到该对象的迭代器实例，iter函数在下面会详细解释  
+print type(my_list_iter)  
+  
+  
+for i in my_list:                # 迭代  
+    print i  
+</code></pre>
+<p>运行结果：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180602164211_226.png" alt="20180602164211_226.png"></p>
+<p>问题：上面的例子中出现了iter函数，这是什么东西？和__iter__方法有关系吗？<br>
+其实该函数与迭代是息息相关的，通过在Python命令行中打印“help(iter)”得知其有以下两种用法。</p>
+<p>用法一：iter(callable, sentinel)<br>
+不停的调用callable，直至其的返回值等于sentinel。其中的callable可以是函数，方法或实现了__call__方法的实例。</p>
+<p>用法二：iter(collection)<br>
+1）用于返回collection对象的迭代器实例，这里的collection我认为表示的是可迭代对象，即该对象必须实现__iter__方法；事实上iter函数与__iter__方法联系非常紧密，iter()是直接调用该对象的__iter__()，并把__iter__()的返回结果作为自己的返回值，故该用法常被称为“创建迭代器”。<br>
+2）iter函数可以显示调用，或当执行“for i in obj:”，Python解释器会在第一次迭代时自动调用iter(obj)，之后的迭代会调用迭代器的next方法，for语句会自动处理最后抛出的StopIteration异常。</p>
+<p>通过上面的例子，相信对可迭代对象与迭代器有了更具体的认识，那么生成器与它们有什么关系呢？下面简单谈一谈</p>
+<p>###<strong>生成器</strong></p>
+<p>生成器是一种特殊的迭代器，生成器自动实现了“迭代器协议”（即__iter__和next方法），不需要再手动实现两方法。</p>
+<p>生成器在迭代的过程中可以改变当前迭代值，而修改普通迭代器的当前迭代值往往会发生异常，影响程序的执行。</p>
+<pre><code class="language-python">for c1 in c:
+    print(c1+=2)
+</code></pre>
+<p><img src="http://picture.totoro.site/images/2019/08/26/20180602164347_746.png" alt="20180602164347_746.png"></p>
+<p>看一个生成器的例子：</p>
+<pre><code class="language-python">[python] view plain copy
+#!/usr/bin/env python  
+# coding=utf-8  
+  
+  
+def myList(num):      # 定义生成器  
+    now = 0           # 当前迭代值，初始为0  
+    while now &lt; num:  
+        val = (yield now)                      # 返回当前迭代值，并接受可能的send发送值；yield在下面会解释  
+        now = now + 1 if val is None else val  # val为None，迭代值自增1，否则重新设定当前迭代值为val  
+  
+my_list = myList(5)   # 得到一个生成器对象  
+  
+print my_list.next()  # 返回当前迭代值  
+print my_list.next()  
+  
+my_list.send(3)       # 重新设定当前的迭代值  
+print my_list.next()  
+  
+print dir(my_list)    # 返回该对象所拥有的方法名，可以看到__iter__与next在其中 
+</code></pre>
+<p>运行结果：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180602164437_60.png" alt="20180602164437_60.png"></p>
+<p>具有yield关键字的函数都是生成器，yield可以理解为return，返回后面的值给调用者。不同的是return返回后，函数会释放，而生成器则不会。在直接调用next方法或用for语句进行下一次迭代时，生成器会从yield下一句开始执行，直至遇到下一个yield。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[flask全局404装饰器（全局以及蓝图）]]></title>
         <id>https://skytotwo.github.io//post/flask-404-decorator</id>
@@ -253,346 +510,6 @@ with MyResource() as resource:
 3、调用的顺序是__enter__，然后with里的逻辑，最后是__exit__方法。<br>
 4、<strong>exit</strong> 方法包含4个参数，分别是(self, exc_type, exc_value, tb)，第一个是实例对象，后面三个分别为异常类型、异常值和异常堆栈信息。这里主要是为了捕获异常，只要是逻辑处理中危险异常，都会在这里捕获，并退出。<br>
 5、<strong>exit</strong> 方法是有返回的，如果return值是Ture的话，就代表捕获了异常，不会抛出；如果返回值为空或者返回False，就代表异常会继续抛出。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[详解flask上下文与出入栈]]></title>
-        <id>https://skytotwo.github.io//post/flask-content</id>
-        <link href="https://skytotwo.github.io//post/flask-content">
-        </link>
-        <updated>2019-08-26T08:04:10.000Z</updated>
-        <summary type="html"><![CDATA[<p>在flask中，上下文算是核心中的核心了，其作用于请求的访问处理，多线程隔离的实现等。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>在flask中，上下文算是核心中的核心了，其作用于请求的访问处理，多线程隔离的实现等。</p>
- <!-- more --> 
-<h4 id="flask的上下文">flask的上下文：</h4>
-<p>1、应用上下文 （AppContent）<br>
-2、请求上下文 （Request Context）</p>
-<p>如图所示：<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180506181132_533.jpg" alt="20180506181132_533.jpg"></p>
-<p>应用上下文是对当前应用实例app的封装<br>
-请求上下文是对当前请求Request的封装</p>
-<p>1、当每一个请求进入系统的时候，都会将当前的应用上下文和请求上下文进行入栈操作，所代表的栈对象分别是_app_ctx_stack和_request_ctx_stack。<br>
-2、栈对象进入栈顶的顺序是，先应用上下文的栈对象先进入栈顶，然后才是请求上下文的栈对象进入栈顶</p>
-<h4 id="注意">注意：</h4>
-<p>1、当一个请求进来时，也就是在请求的逻辑中要获取应用上下文，flask会先判断应用上下文的栈顶是否有该应用实例栈对象，没有的话会自动帮着将当前的应用上下文栈对象推入栈中。也就是说，在请求的逻辑视图处理中，是可以获取到当前的应用上下文的。<br>
-2、通过current_app和request获取当前应用上下文和请求上下文，其实都是经过了flask的封装，该方法是localproxy，都是分别去各自的栈顶获取栈对象，然后再取出app和request这个属性。</p>
-<p>3、在不是请求视图中要获取当前的应用上下文，是需要自己将当前的应用栈对象push到栈中的，然后才能通过current_app来获取到当前应用实例。通常在离线应用和单元测试场景上会使用到。<br>
-具体代码如下：</p>
-<pre><code class="language-python">app = Flask(__name__)
-
-ctx = app.app_content()
-ctx.push()
-
-然后使用完了需要将其在栈中去除
-ctx.pop()
-</code></pre>
-<h4 id="所有名词解释">所有名词解释</h4>
-<p>1、以线程ID号作为key的字典-&gt;Local-&gt;LocalStack<br>
-（local是通过点来实现线程隔离的，localstack则是封装了local通过push()、pop()和top成为线程隔离对象(栈)）<br>
-2、AppContext RequestContext -&gt; LocalStack<br>
-（AppContext是应用上下文，RequestContext是请求上下文，分别依次推入各自的线程隔离对象中）<br>
-3、Flask -&gt; AppContext   Request -&gt; RequestContext<br>
-（AppContext封装的是Flask的应用核心对象，RequestContext封装的是本次请求的Request对象）<br>
-4、current_app -&gt;(LocalStack.top = AppContext top.app=Flask)<br>
-（current_app指的是线程隔离对象栈顶的元素（应用上下文）的app属性（核心对象））<br>
-5、request -&gt;(LocalStack.top = RequestContext top.request= Request)<br>
-（request指的是线程隔离对象栈顶元素（请求上下文）的request属性（当前request对象））</p>
-<p>注意：app，也就是当前应用核心对象只有一个，因为它是在主线程中生成的，而request则是每次请求都会生成一个，所以需要线程隔离。app的话，因为作为字典存在的线程隔离，都是同一个value是没有意义的，所以app并没有被线程隔离</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Centos系统下nginx 相关命令]]></title>
-        <id>https://skytotwo.github.io//post/centos-nginx</id>
-        <link href="https://skytotwo.github.io//post/centos-nginx">
-        </link>
-        <updated>2019-08-26T08:01:26.000Z</updated>
-        <content type="html"><![CDATA[<pre><code class="language-python">linux（centos）系统下nginx 服务器重启，关闭的命令。
-
-nginx -s reload  ：修改配置后重新加载生效
-
-nginx -s reopen  ：重新打开日志文件
-
-nginx -t 测试nginx配置文件是否正确
-
-nginx -t -c /path/to/nginx.conf 测试nginx配置文件是否正确
-
-关闭nginx：
-
-nginx -s stop  : 快速停止nginx
-         quit  : 完整有序的停止nginx
-
-其他的停止 nginx 方式：
-
-ps -ef | grep nginx
-
-kill -QUIT 主进程号     ：从容停止Nginx
-
-kill -TERM 主进程号     ：快速停止Nginx
-
-pkill -9 nginx         :强制停止Nginx
-
-启动nginx:
-
-nginx -c /path/to/nginx.conf
-
-平滑重启nginx：
-
-kill -HUP 主进程号
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Centos7 环境下部署flask网站步骤]]></title>
-        <id>https://skytotwo.github.io//post/centos7-flask-env</id>
-        <link href="https://skytotwo.github.io//post/centos7-flask-env">
-        </link>
-        <updated>2019-08-26T07:53:41.000Z</updated>
-        <summary type="html"><![CDATA[<p>自己之前做了一个flask项目，完成后部署在腾讯云，过程由踩一点坑，这里记录下过程。在部署之前，需要先配置centos7环境，具体链接为：<br>
-<a href="https://totoro.site/post/centos7-python-env/" title="centos7 环境配置">centos7 环境配置</a></p>
-]]></summary>
-        <content type="html"><![CDATA[<p>自己之前做了一个flask项目，完成后部署在腾讯云，过程由踩一点坑，这里记录下过程。在部署之前，需要先配置centos7环境，具体链接为：<br>
-<a href="https://totoro.site/post/centos7-python-env/" title="centos7 环境配置">centos7 环境配置</a></p>
- <!-- more --> 
-<p>1、安装依赖包<br>
-在虚拟环境中安装好所有包，例如：</p>
-<pre><code class="language-python">pip install -r requements.txt
-</code></pre>
-<p>2、关闭调试模式 app.debug = False，并且安装flask-script插件来进行命令行启动项目，如下：</p>
-<pre><code class="language-python">pip install flask-script
-from flask_script import Manager
-
-manage = Manager(app)
-
-if __name__ == &quot;__main__&quot;:
-    manage.run()
-</code></pre>
-<p>3、在init文件中修改mysql数据库连接（ip地址等），然后在navicat中远程连接到服务器的mysql，进行数据传输，这样是最省时的。<br>
-4、配置nginx 反向代理<br>
-nginx配置文件：</p>
-<pre><code class="language-python">worker_processes 4;
-events {
-    worker_connections 262140;
-}
-http {
-    include mime.types;
-    default_type application/octet-stream;
-    sendfile on;
-    keepalive_timeout 65;
-    limit_conn_zone $binary_remote_addr zone=addr:5m;
-    upstream movie {
-		server 127.0.0.1:5000;
-        server 127.0.0.1:5001;
-        server 127.0.0.1:5002;
-        server 127.0.0.1:5003;
-        server 127.0.0.1:5004;
-    }
-    server {
-        listen 80;
-        server_name localhost;
-        location / {
-            root html;
-            index index.html index.htm;
-            proxy_pass http://movie;
-        }
-        location ~ \.flv$ {
-            flv;
-            limit_conn addr 4;
-            limit_rate 1024k;
-            rewrite ^/static/uploads/movies/(.+?).flv$ /flask_movie/app/static/uploads/movies/$1.flv permanent;
-        }
-        location ~ \.mp4$ {
-            mp4;
-            limit_conn addr 4;
-            limit_rate 1024k;
-            rewrite ^/static/uploads/movies/(.+?).mp4$ /flask_movie/app/static/uploads/movies/$1.mp4 permanent;
-        }
-        error_page 500 502 503 504 /50x.html;
-        location = /50x.html {
-            root html;
-        }
-    }
-}
-
-</code></pre>
-<p>然后将配置文件拷贝至nginx目录中，覆盖原有配置文件：</p>
-<pre><code class="language-python">cp nginx.conf /usr/local/nginx/conf/
-ubuntu: cp nginx.conf /etc/nginx/conf.d
-</code></pre>
-<p>将项目拷贝到nginx的html目录：</p>
-<pre><code class="language-python">cp -r movie_project /usr/local/nginx/html
-
-</code></pre>
-<p>然后重启nginx：</p>
-<pre><code class="language-python">nginx -s stop
-nginx
-nginx -s reload
-</code></pre>
-<p>启动项目：</p>
-<pre><code class="language-python">cd /usr/local/nginx/html/movie_project
-
-python manage.py runserver
-</code></pre>
-<p>5、开启多个端口后台运行</p>
-<pre><code class="language-python">nohup python manage.py runserver -h 127.0.0.1 -p 5001 &amp;
-
-然后 ctr + c
-
-nohup python manage.py runserver -h 127.0.0.1 -p 5002 &amp;
-
-然后 ctr + c
-
-nohup python manage.py runserver -h 127.0.0.1 -p 5003 &amp;
-
-然后 ctr + c
-
-nohup python manage.py runserver -h 127.0.0.1 -p 5004 &amp;
-</code></pre>
-<p>这样就开启了四个端口，输入如下命令可以查看：</p>
-<pre><code class="language-python">netstat -anptu | grep 500*
-</code></pre>
-<p>6、流媒体访问限制<br>
-限制单个ip能发起的连接: limit_conn addr 1;<br>
-限制视频速率: limit_rate 1024k;<br>
-刷新nginx nginx -s reload</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Centos7 部署python应用相关配置]]></title>
-        <id>https://skytotwo.github.io//post/centos7-python-env</id>
-        <link href="https://skytotwo.github.io//post/centos7-python-env">
-        </link>
-        <updated>2019-08-26T07:47:31.000Z</updated>
-        <summary type="html"><![CDATA[<p>在centos上部署python环境需要的步骤很多，包括nginx，python版本安装，mysql的安装配置，虚拟环境的安装配置等，过程比较繁琐，有许多小细节要注意，以下是相关步骤。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>在centos上部署python环境需要的步骤很多，包括nginx，python版本安装，mysql的安装配置，虚拟环境的安装配置等，过程比较繁琐，有许多小细节要注意，以下是相关步骤。</p>
-<!-- more -->
-<h3 id="1-安装python36"><strong>1. 安装python3.6</strong></h3>
-<p>编译环境准备：</p>
-<pre><code class="language-python"> yum groupinstall 'Development Tools'
- yum install zlib-devel bzip2-devel openssl-devel ncurese-devel
- yum -y install openssl-devel bzip2-devel expat-devel gdbm-devel readline-devel
-</code></pre>
-<p>1 . 获取</p>
-<pre><code class="language-python">wget https://www.python.org/ftp/python/3.6.3/Python-3.6.3.tgz
-tar -xzvf Python-3.6.3.tgz -C  /tmp
-cd  /tmp/Python-3.6.3/
-</code></pre>
-<p>2 . 把Python3.6安装到 /usr/local 目录</p>
-<pre><code class="language-python">./configure --prefix=/usr/local
-make
-make altinstall
-</code></pre>
-<p>3 . 更改/usr/bin/python链接</p>
-<pre><code class="language-python">ln -s /usr/local/bin/python3.6 /usr/bin/python3
-</code></pre>
-<p>替换旧Python，将默认安装的python2软链接指向python：</p>
-<pre><code class="language-python">mv /usr/bin/python /usr/bin/old_python
-</code></pre>
-<p>再将/usr/bin/python指向python3：</p>
-<pre><code class="language-python">ln -s /usr/local/bin/python3.6 /usr/bin/python
-</code></pre>
-<p>这样输入/usr/bin/python出来的就是python3了。这也是后面安装virtualenvwrapper，配置路径不会出错的前提。<br>
-删除软连接：rm -rf  /home/zhenwx/htccode（示例）</p>
-<p>4 .使得输入python系统默认为python3</p>
-<pre><code class="language-python">cd /usr/bin/
-ls yum*
-vim yum
-</code></pre>
-<p>修改第一行尾python2</p>
-<pre><code class="language-python">vim yum-config-manager
-</code></pre>
-<p>修改第一行尾python2</p>
-<pre><code class="language-python">vim yum-debug-restore
-vim yum-groups-manager
-vim yum-build-dep
-vim yum-debug-dump
-vim yumdownloader
-vim /usr/libexec/urlgrabber-ext-down
-</code></pre>
-<p>修改第一行尾python2</p>
-<p>此时输入python就是3.6的python了。</p>
-<h3 id="2-maridb"><strong>2. maridb</strong></h3>
-<ol>
-<li>
-<p>安装</p>
-<pre><code class="language-python"></code></pre>
-</li>
-</ol>
-<p>sudo yum install mariadb-server</p>
-<pre><code>2. 启动， 重启
-
-    ```python
-sudo systemctl start mariadb
-sudo systemctl restart mariadb
-</code></pre>
-<ol start="3">
-<li>设置bind-ip</li>
-</ol>
-<pre><code class="language-python">vim /etc/my.cnf
-</code></pre>
-<p>在 [mysqld]:下面加一行</p>
-<pre><code class="language-python">bind-address = 0.0.0.0
-</code></pre>
-<p>4 . 设置外部ip可以访问</p>
-<p>先进入mysql才能运行下面命令:mysql 直接进入就行</p>
-<pre><code class="language-python">GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
-</code></pre>
-<pre><code class="language-python">FLUSH PRIVILEGES;
-</code></pre>
-<p>5 . 设置阿里云、腾讯云的对外端口<br>
-在对应服务器控制面板中，添加安全组规则，开放端口3306</p>
-<p>6 . 安装mysqlclient出问题</p>
-<pre><code>centos 7：
-    yum install python-devel mariadb-devel -y
-
-ubuntu：
-    sudo apt-get install libmysqlclient-dev
-
-然后：
-    pip install mysqlclient
-</code></pre>
-<h3 id="3-安装nginx"><strong>3. 安装nginx</strong></h3>
-<p>1、拷贝我们的nginx安装包到服务器<br>
-2、安装依赖包</p>
-<pre><code class="language-python">yum -y install gcc gcc-c++ openssl-devel pcre-devel httpd-tools
-</code></pre>
-<p>3、编译安装</p>
-<pre><code class="language-python">tar -zxf nginx.tar.gz
-cd nginx/
-
-useradd nginx
-./configure --prefix=/usr/local/nginx --user=nginx --group=nginx --with-http_ssl_module --with-http_mp4_module --with-http_flv_module
-
-make &amp;&amp; make install
-
-ln -s /usr/local/nginx/sbin/nginx /usr/sbin/
-</code></pre>
-<h3 id="4-安装virtualenvwrapper"><strong>4. 安装virtualenvwrapper</strong></h3>
-<pre><code class="language-python">yum install python-setuptools python-devel
-pip install virtualenvwrapper
-</code></pre>
-<p>编辑.bashrc文件</p>
-<pre><code class="language-python">vim ~/.bashrc
-</code></pre>
-<pre><code class="language-python">export WORKON_HOME=$HOME/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
-</code></pre>
-<p>重新加载.bashrc文件</p>
-<pre><code class="language-python">source  ~/.bashrc
-</code></pre>
-<p>新建虚拟环境</p>
-<pre><code class="language-python">mkvirtualenv mxonline
-</code></pre>
-<p>进入虚拟环境</p>
-<pre><code class="language-python">workon mxonline
-</code></pre>
-<p>安装pip包<br>
-我们可以通过 pip freeze &gt; requirements.txt 将本地的虚拟环境安装包相信信息导出来</p>
-<p>然后将requirements.txt文件上传到服务器之后运行：</p>
-<pre><code class="language-python">pip install -r requirements.txt
-</code></pre>
-<p>安装依赖包</p>
 ]]></content>
     </entry>
 </feed>

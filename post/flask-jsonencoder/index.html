@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Django settings.py 的media路径设置 | Totoro の Home</title>
+<title>Flask中自定义JSONEncoder | Totoro の Home</title>
 <meta name="description" content="空杯心态，每天进步">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -104,56 +104,76 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Django settings.py 的media路径设置</h2>
-            <div class="post-date">2019-06-16</div>
+            <h2 class="post-title">Flask中自定义JSONEncoder</h2>
+            <div class="post-date">2019-08-26</div>
             
-              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/06/16/1562632_a245_2.jpg')">
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/encode-magic.png')">
               </div>
             
             <div class="post-content">
-              <p>Django对media等静态文件的路径配置有自己的一套，在settings和url里面都有对应配置，这里简单做一下介绍。</p>
-<!--more-->
-<p>在一个 models 中使用 FileField 或 ImageField 需要以下步骤:</p>
+              <p>正在用Flask写个小项目，要实现将自定义类型转化成json格式。Flask一般用jsonify来使接口返回json数据，实现一个Flask内使用的JSONEncoder。</p>
+ <!-- more --> 
+<pre><code class="language-python">from flask.json import JSONEncoder
+
+#编写自己的json编码器，并继承原有的
+class MyJSONEncoder(JSONEncoder):
+	#在jsonify中不能直接序列化该类型的时候，才会调用default方法，并进入分类执行
+    def default(self, obj):
+        if isinstance(obj, EqltByGene):
+			#自定义返回字典
+            return {
+                'gene_id': obj.gene_id, 
+                'gene_symbol': obj.gene_symbol,
+                'p_value': obj.p_value,
+            }
+        return super(MyJSONEncoder, self).default(obj)
+
+app = Flask(__name__)
+app.json_encoder = MyJSONEncoder #将自定义的json编码器赋给flask原有的
+</code></pre>
+<p>这样在使用jsonify的时候，就可以将MyObject类型的实例转化到json格式。</p>
+<p>问题思考：</p>
 <ol>
-<li>
-<p>在你的 settings 文件中, 定义一个完整路径给MEDIA_ROOT 以便让 Django在此处保存上传文件. (出于性能考虑,这些文件并不保存到数据库.) 定义MEDIA_URL 作为该目录的公共 URL. 要确保该目录对 WEB 服务器用户帐号是可写的.</p>
-</li>
-<li>
-<p>在你的 models.py 中添加 FileField 或 ImageField, 并确保定义了upload_to 选项,以告诉 Django 使用MEDIA_ROOT 的哪个子目录保存上传文件.</p>
-</li>
-<li>
-<p>你的数据库中要保存的只是文件的路径(相对于 MEDIA_ROOT)，要想得到这个文件的路径可以用&quot;.url&quot;方法。例如，如果models里有一个取名为&quot;photo&quot;的ImageField，可以在Html模板里通过双花括号加object.photo.url得到该图片的路径。</p>
-</li>
+<li>如果项目中有很多自定义Class，都有这个需求，JSONEncoder的实现似乎会很丑陋，有什么好的方式？</li>
+<li>同一个Class在不同的场景，json后要保留的字段差别如果很大，该如果实现？</li>
 </ol>
-<p>settings.py 设置</p>
-<p>媒体文件的绝对路径：</p>
-<pre><code class="language-python"># Absolute path to the directory that holds media.
-# Example: &quot;/home/media/media.lawrence.com/&quot;   
-MEDIA_ROOT = 'D:/Python26/Lib/site-packages/django/bin/newproj/media'
+<p>对该问题的实现，可以采用以下方式：</p>
+<pre><code class="language-python">#在模型对象中重写dict方法
+class User(Base):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(50), unique=True, nullable=False)
+    nickname = db.Column(db.String(24), unique=True)
+    auth = db.Column(db.SmallInteger, default=1) # 1是普通用户，2是管理员
+    _password = db.Column('password', db.String(100))
+
+    #自定义将模型对象转成dict ，即dict(user)
+    #dict(user)，会先调用keys方法，这里重写，自定义获取返回的字段
+    def keys(self):
+        return ['id', 'email', 'nickname', 'auth']
+
+    # dict(user)获取完字段后，会取出对应字段的值，这里使用__getitem__，这里getattr(self, item)拿到值信息，item为key名
+    def __getitem__(self, item):
+        return getattr(self, item)
 </code></pre>
-<p>媒体文件的相对路径：</p>
-<pre><code class="language-python"># URL that handles the media served from MEDIA_ROOT.
-# Example: &quot;http://media.lawrence.com&quot;
-MEDIA_URL = '/site_media/' 
+<p>以上的keys和getitem方法，会在自定义的jsonencoder方法中dict（对象）时候调用，如下：</p>
+<pre><code class="language-python">#自定义json方法，在方法中实现对象转字典返回，这需要在模型对象中实现对应dict方法
+class JSONEncoder(_JSONEncoder):
+    def default(self, o):
+        return dict(o)
 </code></pre>
-<p>设置静态文件路径</p>
-<pre><code class="language-python">STATIC_PATH = 'D:/Python26/Lib/site-packages/django/bin/newproj/media'
+<p>调用方法如：</p>
+<pre><code class="language-python">def get_user(uid):
+    user = User.query.get_or_404(uid)
+    return jsonify(user)
 </code></pre>
-<p>urls.py 影射路径</p>
-<pre><code class="language-python">(r'^site_media/(?P&lt;path&gt;.*)$', 'django.views.static.serve',{'document_root': settings.STATIC_PATH}),
-</code></pre>
-<p>将 MEDIA_URL 的site_media 影射到 settings.STATIC_PATH</p>
-<p>models.py 上传图片字段设置</p>
-<pre><code class="language-python">photo = models.ImageField('上传图片',upload_to='photos')
-</code></pre>
-<p>相当于传到 D:/Python26/Lib/site-packages/django/bin/newproj/media/photos 目录下，浏览时通过/site_media/photos/ 访问。</p>
+<p>所以这样就实现了jsonencoder将对象转化成字典，然后直接jsonnfy调用序列化。并且复用性强，在模型中定义dict调用的方法，使得转化的字典key可以控制。</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://skytotwo.github.io//tag/Iv9ahsKWG" class="tag">
-                    Django
+                  <a href="https://skytotwo.github.io//tag/WllsaKoVz" class="tag">
+                    flask
                   </a>
                 
               </div>
@@ -161,9 +181,9 @@ MEDIA_URL = '/site_media/'
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://skytotwo.github.io//post/django-drf-disanfang">
+                <a href="https://skytotwo.github.io//post/python-iter&amp;decorator">
                   <h3 class="post-title">
-                    django drf实现第三方登录
+                    Python可迭代对象，迭代器，生成器的区别
                   </h3>
                 </a>
               </div>

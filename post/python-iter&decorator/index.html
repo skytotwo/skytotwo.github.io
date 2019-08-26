@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Python可迭代对象，迭代器，生成器的区别 | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1566826644721">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1566826644721" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="http://picture.totoro.site/" class="site-nav">
+            图床
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Python可迭代对象，迭代器，生成器的区别</h2>
+            <div class="post-date">2019-08-26</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/9f1bbdf6-688d-11e9-ae9d-00163e060d4e.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>三者简要关系图<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180602164019_717.png" alt="20180602164019_717.png"></p>
+<!-- more --> 
+<p>###<strong>可迭代对象与迭代器</strong></p>
+<p>刚开始我认为这两者是等同的，但后来发现并不是这样；下面直接抛出结论：</p>
+<ul>
+<li>1）可迭代对象包含迭代器。</li>
+<li>2）如果一个对象拥有__iter__方法，其是可迭代对象；如果一个对象拥有next方法，其是迭代器。</li>
+<li>3）定义可迭代对象，必须实现__iter__方法；定义迭代器，必须实现__iter__和next方法。</li>
+</ul>
+<p>你也许会问，结论3与结论2是不是有一点矛盾？既然一个对象拥有了next方法就是迭代器，那为什么迭代器必须同时实现两方法呢？</p>
+<p>因为结论1，迭代器也是可迭代对象，因此迭代器必须也实现__iter__方法。</p>
+<p><strong>介绍一下上面涉及到的两个方法：</strong></p>
+<p>1）<strong>iter</strong>()</p>
+<p>该方法返回的是当前对象的迭代器类的实例。因为可迭代对象与迭代器都要实现这个方法，因此有以下两种写法。</p>
+<p>写法一：用于可迭代对象类的写法，返回该可迭代对象的迭代器类的实例。</p>
+<p>写法二：用于迭代器类的写法，直接返回self（即自己本身），表示自身即是自己的迭代器。</p>
+<p>也许有点晕，没关系，下面会给出两写法的例子，我们结合具体例子看。</p>
+<p>2）next()<br>
+返回迭代的每一步，实现该方法时注意要最后超出边界要抛出StopIteration异常。</p>
+<p>下面举个可迭代对象与迭代器的例子：</p>
+<pre><code class="language-python">[python] view plain copy
+#!/usr/bin/env python  
+# coding=utf-8  
+  
+  
+class MyList(object):            # 定义可迭代对象类  
+  
+    def __init__(self, num):  
+        self.data = num          # 上边界  
+  
+    def __iter__(self):  
+        return MyListIterator(self.data)  # 返回该可迭代对象的迭代器类的实例  
+  
+  
+class MyListIterator(object):    # 定义迭代器类，其是MyList可迭代对象的迭代器类  
+  
+    def __init__(self, data):  
+        self.data = data         # 上边界  
+        self.now = 0             # 当前迭代值，初始为0  
+  
+    def __iter__(self):  
+        return self              # 返回该对象的迭代器类的实例；因为自己就是迭代器，所以返回self  
+  
+    def next(self):              # 迭代器类必须实现的方法  
+        while self.now &lt; self.data:  
+            self.now += 1  
+            return self.now - 1  # 返回当前迭代值  
+        raise StopIteration      # 超出上边界，抛出异常  
+  
+  
+my_list = MyList(5)              # 得到一个可迭代对象  
+print type(my_list)              # 返回该对象的类型  
+  
+my_list_iter = iter(my_list)     # 得到该对象的迭代器实例，iter函数在下面会详细解释  
+print type(my_list_iter)  
+  
+  
+for i in my_list:                # 迭代  
+    print i  
+</code></pre>
+<p>运行结果：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180602164211_226.png" alt="20180602164211_226.png"></p>
+<p>问题：上面的例子中出现了iter函数，这是什么东西？和__iter__方法有关系吗？<br>
+其实该函数与迭代是息息相关的，通过在Python命令行中打印“help(iter)”得知其有以下两种用法。</p>
+<p>用法一：iter(callable, sentinel)<br>
+不停的调用callable，直至其的返回值等于sentinel。其中的callable可以是函数，方法或实现了__call__方法的实例。</p>
+<p>用法二：iter(collection)<br>
+1）用于返回collection对象的迭代器实例，这里的collection我认为表示的是可迭代对象，即该对象必须实现__iter__方法；事实上iter函数与__iter__方法联系非常紧密，iter()是直接调用该对象的__iter__()，并把__iter__()的返回结果作为自己的返回值，故该用法常被称为“创建迭代器”。<br>
+2）iter函数可以显示调用，或当执行“for i in obj:”，Python解释器会在第一次迭代时自动调用iter(obj)，之后的迭代会调用迭代器的next方法，for语句会自动处理最后抛出的StopIteration异常。</p>
+<p>通过上面的例子，相信对可迭代对象与迭代器有了更具体的认识，那么生成器与它们有什么关系呢？下面简单谈一谈</p>
+<p>###<strong>生成器</strong></p>
+<p>生成器是一种特殊的迭代器，生成器自动实现了“迭代器协议”（即__iter__和next方法），不需要再手动实现两方法。</p>
+<p>生成器在迭代的过程中可以改变当前迭代值，而修改普通迭代器的当前迭代值往往会发生异常，影响程序的执行。</p>
+<pre><code class="language-python">for c1 in c:
+    print(c1+=2)
+</code></pre>
+<p><img src="http://picture.totoro.site/images/2019/08/26/20180602164347_746.png" alt="20180602164347_746.png"></p>
+<p>看一个生成器的例子：</p>
+<pre><code class="language-python">[python] view plain copy
+#!/usr/bin/env python  
+# coding=utf-8  
+  
+  
+def myList(num):      # 定义生成器  
+    now = 0           # 当前迭代值，初始为0  
+    while now &lt; num:  
+        val = (yield now)                      # 返回当前迭代值，并接受可能的send发送值；yield在下面会解释  
+        now = now + 1 if val is None else val  # val为None，迭代值自增1，否则重新设定当前迭代值为val  
+  
+my_list = myList(5)   # 得到一个生成器对象  
+  
+print my_list.next()  # 返回当前迭代值  
+print my_list.next()  
+  
+my_list.send(3)       # 重新设定当前的迭代值  
+print my_list.next()  
+  
+print dir(my_list)    # 返回该对象所拥有的方法名，可以看到__iter__与next在其中 
+</code></pre>
+<p>运行结果：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180602164437_60.png" alt="20180602164437_60.png"></p>
+<p>具有yield关键字的函数都是生成器，yield可以理解为return，返回后面的值给调用者。不同的是return返回后，函数会释放，而生成器则不会。在直接调用next方法或用for语句进行下一次迭代时，生成器会从yield下一句开始执行，直至遇到下一个yield。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="tag">
+                    python
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/flask-404-decorator">
+                  <h3 class="post-title">
+                    flask全局404装饰器（全局以及蓝图）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>js | Totoro の Home</title>
+<title>java O(n^2)实现 | Totoro の Home</title>
 <meta name="description" content="空杯心态，每天进步">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -13,6 +13,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
 
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
 
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -97,55 +103,77 @@
 
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: js</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/js-cookie-set">
-                  <h2 class="post-title">网页登陆页面设置Cookie</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-05
-                </div>
-                <div class="post-abstract">
-                  <p>cookie是保存http协议状态的一个重要手段，基本上所有网站都会使用到cookie机制，cookie是session的一个实现方式，当然现在还有token来代替cookie，但cookie依旧是很重要的一个模式，这里在js中实现设置cookie进而实现登陆访问。</p>
-
-                </div>
+          <div class="post-detail">
+            <h2 class="post-title">java O(n^2)实现</h2>
+            <div class="post-date">2019-08-26</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/20180926230921.png')">
               </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/js-cookie-set">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/05/maxresdefault1.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/js-check-browser">
-                  <h2 class="post-title">js代码判断浏览器种类</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-05
-                </div>
-                <div class="post-abstract">
-                  <p>很多时候，前端需要对当前浏览器类型进行判断，进而触发不同的操作，这里使用js代码对浏览器的种类进行判断。</p>
+            
+            <div class="post-content">
+              <pre><code class="language-java">/**
+ * 算法实现，拼接设备
+ * 示例：
+ * 实现前：甲-重要设备,乙-重要设备,丙-关注设备,丁-关注设备,你-重要设备
+ * 实现后：甲、乙、你为重要设备,丙、丁为关注设备,
+ * @author xyq
+ */
+String dataheader = &quot;&quot;;
+String finaldata = &quot;&quot;;
+String[] datas = totals.split(&quot;,&quot;);
+for (int i = 0; i &lt; datas.length; i++) { //遍历每一个，得到每个的格式“xxxx-xxxx”
+	String shebei = datas[i].split(&quot;-&quot;)[0]; //取出当前设备
+	String sbzyd = datas[i].split(&quot;-&quot;)[1];  //取出当前重要度
+	if(finaldata.contains(shebei)){ //最后拼接包含该循环设备则跳出
+		continue;
+	}
+	for (int j = i; j &lt; datas.length; j++) { //再次遍历，起点为当前循环位置
+		if(datas[j].contains(sbzyd)){  
+			if(datas[j].contains(shebei)){
+				dataheader = shebei;
+				continue;
+			}
+			if(!&quot;&quot;.equals(dataheader)){ //判断当无重复匹配的时候
+				dataheader = dataheader+&quot;、&quot;+datas[j].split(&quot;-&quot;)[0];
+			}else{
+				dataheader = datas[i].split(&quot;-&quot;)[0]+&quot;、&quot;+datas[j].split(&quot;-&quot;)[0];
+			}
+		}
+	}
+	finaldata+=dataheader+&quot;为&quot;+sbzyd+&quot;,&quot;;
+}
+</code></pre>
 
-                </div>
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/wpLYFim1c" class="tag">
+                    java
+                  </a>
+                
               </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/js-check-browser">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/05/16pic_5257905_b.jpg')">
-                  </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/flask-jsonencoder">
+                  <h3 class="post-title">
+                    Flask中自定义JSONEncoder
+                  </h3>
                 </a>
-              
-            </article>
-          
+              </div>
+            
 
-          <div class="pagination-container">
-  
-  
-</div>
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
 
         </div>
       </div>
@@ -167,6 +195,29 @@ var app = new Vue({
 })
 
 </script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
 
 
 

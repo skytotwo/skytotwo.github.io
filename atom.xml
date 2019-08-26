@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-08-26T07:55:33.361Z</updated>
+    <updated>2019-08-26T07:56:10.768Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -126,7 +126,7 @@ nohup python manage.py runserver -h 127.0.0.1 -p 5004 &amp;
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[centos7 部署python应用相关配置]]></title>
+        <title type="html"><![CDATA[Centos7 部署python应用相关配置]]></title>
         <id>https://skytotwo.github.io//post/centos7-python-env</id>
         <link href="https://skytotwo.github.io//post/centos7-python-env">
         </link>
@@ -528,7 +528,7 @@ movie = comment.movie
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[centos7 修改mysql 最大连接数]]></title>
+        <title type="html"><![CDATA[Centos7 修改mysql 最大连接数]]></title>
         <id>https://skytotwo.github.io//post/mysql-connect-num</id>
         <link href="https://skytotwo.github.io//post/mysql-connect-num">
         </link>

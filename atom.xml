@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-08-26T13:45:01.951Z</updated>
+    <updated>2019-08-26T13:52:38.602Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,172 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[centos7 nginx + uwsgi 部署flask应用]]></title>
+        <id>https://skytotwo.github.io//post/centos7-nginx-uwsgi-flask</id>
+        <link href="https://skytotwo.github.io//post/centos7-nginx-uwsgi-flask">
+        </link>
+        <updated>2019-08-26T13:46:03.000Z</updated>
+        <summary type="html"><![CDATA[<p>这里带来的nginx+uwsgi部署方式是考虑到兼顾flask的并发，能给项目带来更好的体验。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>这里带来的nginx+uwsgi部署方式是考虑到兼顾flask的并发，能给项目带来更好的体验。</p>
+<!-- more --> 
+<p>具体部署图示如下：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/WX20190826-2148152x.png" alt="WX20190826-2148152x.png"></p>
+<p>首先需要的是之前文章里面提的环境搭建，这是前提，具体可以点击链接跳转查看：<br>
+<a href="https://totoro.site/post/centos7-python-env/" title="centos7 部署应用相关配置">centos7 部署应用相关配置</a></p>
+<h4 id="安装uwsgi"><strong>安装uWSGI</strong></h4>
+<p>安装前需要安装一些依赖包，输入如下命令：</p>
+<pre><code class="language-python">yum -y install gcc  gcc-c++ zlib zlib-devel openssl openssl-devel pcre pcre-devel GeoIP gd libXpm libxslt sqlite-devel
+
+</code></pre>
+<p>然后：</p>
+<pre><code class="language-python">进入虚拟环境里：
+pip  install uwsgi 
+</code></pre>
+<p>然后新建一个uwsgi.ini配置文件，放置在应用根部目下，<br>
+打开并写入以下内容：</p>
+<pre><code class="language-python">[uwsgi]
+
+
+#http=127.0.0.1:5000
+# uwsgi 启动时所使用的地址与端口
+
+socket = 127.0.0.1:5000
+
+#虚拟环境目录
+home = /root/.virtualenvs/flask-movie
+
+#指向网站根目录
+chdir = /usr/local/nginx/html/flask_movie
+
+#python启动程序文件
+wsgi-file = manage.py
+
+#python程序内用于启动的application变量名
+callable = app
+
+#处理器数
+processes = 4
+
+#线程数
+threads = 2
+
+#状态监测地址
+stats = 127.0.0.1:9191
+
+#设置uwsgi包解析的内部缓存区大小。默认4k
+
+buffer-size = 32768
+</code></pre>
+<h4 id="uwsgi命令"><strong>uWSGI命令</strong></h4>
+<pre><code class="language-python">uwsgi 启动 ：虚拟环境下uwsgi config.ini
+uwsgi 关闭：虚拟环境下killall -9 uwsgi
+</code></pre>
+<p>在根目录下，输入启动命令，如果不报错，出现如下命令，则启动成功。</p>
+<pre><code class="language-python">[uWSGI] getting INI configuration from uwsgi.ini
+    *** Starting uWSGI 2.0.17 (64bit) on [Tue Jul  3 22:42:15 2018] ***
+    compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-16) on 02 July 2018 14:12:13
+    os: Linux-3.10.0-693.21.1.el7.x86_64 #1 SMP Wed Mar 7 19:03:37 UTC 2018
+    nodename: shenghun
+    machine: x86_64
+    clock source: unix
+    pcre jit disabled
+    detected number of CPU cores: 1
+    current working directory: /home/Servers_Nginx/Fisher
+    detected binary path: /usr/bin/uwsgi
+    uWSGI running as root, you can use --uid/--gid/--chroot options
+</code></pre>
+<h4 id="nginx的配置"><strong>nginx的配置</strong></h4>
+<p>虽然只有Uwsgi也可以直接部署项目,但是为了安全,需要Nginx来进行请求代理，反向代理代理的是内部服务器,正是有Nginx存在,Uwsgi的真正接口才不会暴露在网络上,服务器的安全才有了一定的保障(当然,恶意攻击另说),此外,Nginx还自带防DDoS攻击机制.可以说日常使用是非常省心了.</p>
+<p>前文已经对nginx的安装有了介绍，这里就不重复说明了，具体可以参考以下链接：<br>
+<a href="http://listenlife.cn/post/43" title="nginx安装">nginx安装</a></p>
+<p>对于服务器来说，可能不会单单只部署一个应用，可能存在多个网站站点的情况，所以配置nginx一般也要考虑到这种情况，这里采用的是主文件加配置文件的方式，单个应用的nginx配置文件单独放置，用include的方式引入主文件中。</p>
+<p><strong>主文件配置</strong>：<br>
+新建主配置文件nginx.conf</p>
+<pre><code class="language-python">worker_processes 4;
+events {
+    worker_connections 262140;
+}
+http {
+    include mime.types;
+    default_type application/octet-stream;
+    sendfile on;
+    keepalive_timeout 65;
+    limit_conn_zone $binary_remote_addr zone=addr:5m;
+    
+	include /etc/nginx/vhosts/*.conf;
+}
+</code></pre>
+<p>将其复制到nginx配置文件目录下：</p>
+<pre><code class="language-python">cp nginx.conf /usr/local/nginx/conf/
+</code></pre>
+<p><strong>项目nginx配置子文件：</strong><br>
+新建应用配置文件flask_movie.conf</p>
+<pre><code class="language-shell">server {
+        listen 80;
+        server_name localhost;
+        location / {
+            root html;
+            index index.html index.htm;
+			include /usr/local/nginx/html/flask_movie/uwsgi_params;
+			uwsgi_pass  127.0.0.1:5000; # 指向uwsgi 所应用的内部地址,所有请求将转发给uwsgi 处理 
+			uwsgi_param UWSGI_PYHOME /root/.virtualenvs/flask-movie; # 指向虚拟环境目录 
+			uwsgi_param UWSGI_CHDIR /usr/local/nginx/html/flask_movie; # 指向网站根目录 
+			uwsgi_param UWSGI_SCRIPT manage:app; # 指定启动程序
+			uwsgi_read_timeout 100;
+
+        }
+        location ~ \.flv$ {
+            flv;
+            limit_conn addr 4;
+            limit_rate 1024k;
+            rewrite ^/static/uploads/movies/(.+?).flv$ /flask_movie/app/static/uploads/movies/$1.flv permanent;
+        }
+        location ~ \.mp4$ {
+            mp4;
+            limit_conn addr 4;
+            limit_rate 1024k;
+            rewrite ^/static/uploads/movies/(.+?).mp4$ /flask_movie/app/static/uploads/movies/$1.mp4 permanent;
+        }
+        error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+            root html;
+        }
+    }
+</code></pre>
+<p>在/etc/下新建层级目录/nginx/vhosts/，然后将应用nginx配置文件放入目录中。</p>
+<p>我在配置的时候出了一个错，记录一下，在重启nginx和开启uwsgi后，报：</p>
+<pre><code class="language-shell">in bind_to_environ environ['REQUEST_METHOD'], path_info, KeyError: 'REQUEST_METHOD'
+</code></pre>
+<p>这是因为没有配置uwsgi_params，新建文件命名为uwsgi_params，放置在项目根目录下，内容如下：</p>
+<pre><code class="language-shell">uwsgi_param QUERY_STRING        $query_string;
+uwsgi_param REQUEST_METHOD      $request_method;
+uwsgi_param CONTENT_TYPE        $content_type;
+uwsgi_param CONTENT_LENGTH      $content_length;
+ 
+uwsgi_param REQUEST_URI     	$request_uri;
+uwsgi_param PATH_INFO       	$document_uri;
+uwsgi_param DOCUMENT_ROOT       $document_root;
+uwsgi_param SERVER_PROTOCOL     $server_protocol;
+uwsgi_param UWSGI_SCHEME        $scheme;
+ 
+uwsgi_param REMOTE_ADDR     	$remote_addr;
+uwsgi_param REMOTE_PORT     	$remote_port;
+uwsgi_param SERVER_PORT     	$server_port;
+uwsgi_param SERVER_NAME     	$server_name;
+</code></pre>
+<p>然后启动项目：（项目根目录下操作）</p>
+<pre><code class="language-shell">uwsgi uwsgi.ini
+</code></pre>
+<p>重启nginx：</p>
+<pre><code class="language-shell">nginx -s stop
+nginx
+nginx -s reload
+</code></pre>
+<p>浏览器访问服务地址，点亮服务，一切ok，这样配置，也方便以后拓展。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[对python鸭子类型的理解]]></title>
         <id>https://skytotwo.github.io//post/python-docktype</id>
@@ -491,30 +657,6 @@ python中的深拷贝和浅拷贝和java里面的概念是一样的，所谓浅�
 <ul>
 <li>深拷贝是在另一块地址中创建一个新的变量或容器，同时容器内的元素的地址也是新开辟的，仅仅是值相同而已，是完全的副本。也就是说（ 新瓶装新酒 ）。</li>
 </ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Flask中url_for的参数解释]]></title>
-        <id>https://skytotwo.github.io//post/flask-url_for</id>
-        <link href="https://skytotwo.github.io//post/flask-url_for">
-        </link>
-        <updated>2019-08-26T08:17:44.000Z</updated>
-        <summary type="html"><![CDATA[<p>url_for函数的作用是：通过给定的endpoint端点和额外参数，结合请求上下文和应用上下文，生成一个url地址并返回。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>url_for函数的作用是：通过给定的endpoint端点和额外参数，结合请求上下文和应用上下文，生成一个url地址并返回。</p>
-<!-- more --> 
-<p>其中的额外参数有：<br>
-_external: 是否使用绝对路径<br>
-_scheme：使用http还是https，设置这个参数时，必须使_external=True<br>
-_anchor：锚点，可以定位到html中的某一个位置<br>
-_method：http方法,post、get等</p>
-<p>endpoint其实又叫做端点，默认情况下是视图函数名，也可以自定义端点名，主要是用作url_for反向寻找视图的一个标记，如：</p>
-<pre><code class="language-python">{{ url_for('login') }}
-</code></pre>
-<p>login就是endpoint端点名。</p>
-<p>url_for() 函数还支持一种简写的端点形式，在蓝本中可以省略蓝本名，例如url_for('.<br>
-index')。在这种写法中，命名空间是当前请求所在的蓝本。这意味着同一蓝本中的重定向<br>
-可以使用简写形式，但跨蓝本的重定向必须使用带有命名空间的端点名。</p>
 ]]></content>
     </entry>
 </feed>

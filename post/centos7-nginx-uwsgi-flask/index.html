@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>centos7 nginx + uwsgi 部署flask应用 | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1566827554678">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1566827554678" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="http://picture.totoro.site/" class="site-nav">
+            图床
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">centos7 nginx + uwsgi 部署flask应用</h2>
+            <div class="post-date">2019-08-26</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/1_XK2w4moWTE0SczUyLEqbOA.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>这里带来的nginx+uwsgi部署方式是考虑到兼顾flask的并发，能给项目带来更好的体验。</p>
+<!-- more --> 
+<p>具体部署图示如下：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/WX20190826-2148152x.png" alt="WX20190826-2148152x.png"></p>
+<p>首先需要的是之前文章里面提的环境搭建，这是前提，具体可以点击链接跳转查看：<br>
+<a href="https://totoro.site/post/centos7-python-env/" title="centos7 部署应用相关配置">centos7 部署应用相关配置</a></p>
+<h4 id="安装uwsgi"><strong>安装uWSGI</strong></h4>
+<p>安装前需要安装一些依赖包，输入如下命令：</p>
+<pre><code class="language-python">yum -y install gcc  gcc-c++ zlib zlib-devel openssl openssl-devel pcre pcre-devel GeoIP gd libXpm libxslt sqlite-devel
+
+</code></pre>
+<p>然后：</p>
+<pre><code class="language-python">进入虚拟环境里：
+pip  install uwsgi 
+</code></pre>
+<p>然后新建一个uwsgi.ini配置文件，放置在应用根部目下，<br>
+打开并写入以下内容：</p>
+<pre><code class="language-python">[uwsgi]
+
+
+#http=127.0.0.1:5000
+# uwsgi 启动时所使用的地址与端口
+
+socket = 127.0.0.1:5000
+
+#虚拟环境目录
+home = /root/.virtualenvs/flask-movie
+
+#指向网站根目录
+chdir = /usr/local/nginx/html/flask_movie
+
+#python启动程序文件
+wsgi-file = manage.py
+
+#python程序内用于启动的application变量名
+callable = app
+
+#处理器数
+processes = 4
+
+#线程数
+threads = 2
+
+#状态监测地址
+stats = 127.0.0.1:9191
+
+#设置uwsgi包解析的内部缓存区大小。默认4k
+
+buffer-size = 32768
+</code></pre>
+<h4 id="uwsgi命令"><strong>uWSGI命令</strong></h4>
+<pre><code class="language-python">uwsgi 启动 ：虚拟环境下uwsgi config.ini
+uwsgi 关闭：虚拟环境下killall -9 uwsgi
+</code></pre>
+<p>在根目录下，输入启动命令，如果不报错，出现如下命令，则启动成功。</p>
+<pre><code class="language-python">[uWSGI] getting INI configuration from uwsgi.ini
+    *** Starting uWSGI 2.0.17 (64bit) on [Tue Jul  3 22:42:15 2018] ***
+    compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-16) on 02 July 2018 14:12:13
+    os: Linux-3.10.0-693.21.1.el7.x86_64 #1 SMP Wed Mar 7 19:03:37 UTC 2018
+    nodename: shenghun
+    machine: x86_64
+    clock source: unix
+    pcre jit disabled
+    detected number of CPU cores: 1
+    current working directory: /home/Servers_Nginx/Fisher
+    detected binary path: /usr/bin/uwsgi
+    uWSGI running as root, you can use --uid/--gid/--chroot options
+</code></pre>
+<h4 id="nginx的配置"><strong>nginx的配置</strong></h4>
+<p>虽然只有Uwsgi也可以直接部署项目,但是为了安全,需要Nginx来进行请求代理，反向代理代理的是内部服务器,正是有Nginx存在,Uwsgi的真正接口才不会暴露在网络上,服务器的安全才有了一定的保障(当然,恶意攻击另说),此外,Nginx还自带防DDoS攻击机制.可以说日常使用是非常省心了.</p>
+<p>前文已经对nginx的安装有了介绍，这里就不重复说明了，具体可以参考以下链接：<br>
+<a href="http://listenlife.cn/post/43" title="nginx安装">nginx安装</a></p>
+<p>对于服务器来说，可能不会单单只部署一个应用，可能存在多个网站站点的情况，所以配置nginx一般也要考虑到这种情况，这里采用的是主文件加配置文件的方式，单个应用的nginx配置文件单独放置，用include的方式引入主文件中。</p>
+<p><strong>主文件配置</strong>：<br>
+新建主配置文件nginx.conf</p>
+<pre><code class="language-python">worker_processes 4;
+events {
+    worker_connections 262140;
+}
+http {
+    include mime.types;
+    default_type application/octet-stream;
+    sendfile on;
+    keepalive_timeout 65;
+    limit_conn_zone $binary_remote_addr zone=addr:5m;
+    
+	include /etc/nginx/vhosts/*.conf;
+}
+</code></pre>
+<p>将其复制到nginx配置文件目录下：</p>
+<pre><code class="language-python">cp nginx.conf /usr/local/nginx/conf/
+</code></pre>
+<p><strong>项目nginx配置子文件：</strong><br>
+新建应用配置文件flask_movie.conf</p>
+<pre><code class="language-shell">server {
+        listen 80;
+        server_name localhost;
+        location / {
+            root html;
+            index index.html index.htm;
+			include /usr/local/nginx/html/flask_movie/uwsgi_params;
+			uwsgi_pass  127.0.0.1:5000; # 指向uwsgi 所应用的内部地址,所有请求将转发给uwsgi 处理 
+			uwsgi_param UWSGI_PYHOME /root/.virtualenvs/flask-movie; # 指向虚拟环境目录 
+			uwsgi_param UWSGI_CHDIR /usr/local/nginx/html/flask_movie; # 指向网站根目录 
+			uwsgi_param UWSGI_SCRIPT manage:app; # 指定启动程序
+			uwsgi_read_timeout 100;
+
+        }
+        location ~ \.flv$ {
+            flv;
+            limit_conn addr 4;
+            limit_rate 1024k;
+            rewrite ^/static/uploads/movies/(.+?).flv$ /flask_movie/app/static/uploads/movies/$1.flv permanent;
+        }
+        location ~ \.mp4$ {
+            mp4;
+            limit_conn addr 4;
+            limit_rate 1024k;
+            rewrite ^/static/uploads/movies/(.+?).mp4$ /flask_movie/app/static/uploads/movies/$1.mp4 permanent;
+        }
+        error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+            root html;
+        }
+    }
+</code></pre>
+<p>在/etc/下新建层级目录/nginx/vhosts/，然后将应用nginx配置文件放入目录中。</p>
+<p>我在配置的时候出了一个错，记录一下，在重启nginx和开启uwsgi后，报：</p>
+<pre><code class="language-shell">in bind_to_environ environ['REQUEST_METHOD'], path_info, KeyError: 'REQUEST_METHOD'
+</code></pre>
+<p>这是因为没有配置uwsgi_params，新建文件命名为uwsgi_params，放置在项目根目录下，内容如下：</p>
+<pre><code class="language-shell">uwsgi_param QUERY_STRING        $query_string;
+uwsgi_param REQUEST_METHOD      $request_method;
+uwsgi_param CONTENT_TYPE        $content_type;
+uwsgi_param CONTENT_LENGTH      $content_length;
+ 
+uwsgi_param REQUEST_URI     	$request_uri;
+uwsgi_param PATH_INFO       	$document_uri;
+uwsgi_param DOCUMENT_ROOT       $document_root;
+uwsgi_param SERVER_PROTOCOL     $server_protocol;
+uwsgi_param UWSGI_SCHEME        $scheme;
+ 
+uwsgi_param REMOTE_ADDR     	$remote_addr;
+uwsgi_param REMOTE_PORT     	$remote_port;
+uwsgi_param SERVER_PORT     	$server_port;
+uwsgi_param SERVER_NAME     	$server_name;
+</code></pre>
+<p>然后启动项目：（项目根目录下操作）</p>
+<pre><code class="language-shell">uwsgi uwsgi.ini
+</code></pre>
+<p>重启nginx：</p>
+<pre><code class="language-shell">nginx -s stop
+nginx
+nginx -s reload
+</code></pre>
+<p>浏览器访问服务地址，点亮服务，一切ok，这样配置，也方便以后拓展。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/WllsaKoVz" class="tag">
+                    flask
+                  </a>
+                
+                  <a href="https://skytotwo.github.io//tag/OM99oRtav" class="tag">
+                    linux
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/python-docktype">
+                  <h3 class="post-title">
+                    对python鸭子类型的理解
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

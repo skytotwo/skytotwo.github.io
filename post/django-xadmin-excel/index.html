@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Django自定义xadmin插件之导入excel | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1566830938697">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1566830938697" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="http://picture.totoro.site/" class="site-nav">
+            图床
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Django自定义xadmin插件之导入excel</h2>
+            <div class="post-date">2019-08-26</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/1039892-20180831152213454-2051355941.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>xadmin的厉害之处在于它允许使用者自定义插件，使用者编写自己需要的插件并注册到xadmin中，以便xadmin实现自己所需要的功能。</p>
+<!-- more -->
+<p>xadmin是如何能够实现插件的自定义呢？其实在xadmin使用文档上可以找到答案，如下所示：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180902134855_643.png" alt="20180902134855_643.png"></p>
+<hr>
+<p>这里拿制作excel导入插件为例。最终实现的效果是在xadmin中某类别下能够出现导入excel按钮，并且能够实现excel的导入，如下图所示：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180902135157_751.png" alt="20180902135157_751.png"><br>
+点击导入excel选项：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180902135226_545.png" alt="20180902135226_545.png"></p>
+<p>并且最终实现悬着好excel文件后，点击确认，能够将导入逻辑相应到后台进行处理。</p>
+<h4 id="一编写excel插件"><strong>一.编写excel插件</strong></h4>
+<p>要编写excel插件，首先需要认识xadmin的目录结构，这里建议将xadmin下载至本地并放置在项目中，这样才能编写插件代码，下载地址是：<br>
+<a href="https://github.com/sshwsfc/xadmin" title="点我下载">点我下载</a><br>
+下载后得到的xadmin文件结构如下：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180902135714_712.png" alt="20180902135714_712.png"><br>
+我们需要做的是在plugins模块中编写插件，plugins模块中已经有很多的插件了，如下：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180902135841_910.png" alt="20180902135841_910.png"><br>
+这里已经有许多可以直接用的插件。<br>
+直接在里面新建文件，命名为excel.py代码如下：</p>
+<pre><code class="language-python"># coding:utf-8
+
+import xadmin
+from xadmin.views import BaseAdminPlugin, ListAdminView
+from django.template import loader
+
+
+#excel 导入
+class ListImportExcelPlugin(BaseAdminPlugin):
+    import_excel = False
+
+    def init_request(self, *args, **kwargs):
+        return bool(self.import_excel)#返回bool值，excel显示权限
+
+    def block_top_toolbar(self, context, nodes):
+        nodes.append(loader.render_to_string('xadmin/excel/model_list.top_toolbar.import.html'))
+
+
+xadmin.site.register_plugin(ListImportExcelPlugin, ListAdminView)
+</code></pre>
+<p><strong>解读：</strong></p>
+<ul>
+<li>自定义的ListImportExcelPlugin类需要继承BaseAdminPlugin类，这是固定写法。然后定义的init_request方法，是为了确定xadmin中excel导入按钮的显示权限，这里返回一个bool值，为Ture则为显示，False则不显示，这里顶一个了一个import_excel = False变量，默认值为False，其实可以在model对应adminx类中指定import_excel的值，因为xadmin展示的时候回默认加载这个变量，这样就能达到按钮显示权限了。</li>
+<li>而block_top_toolbar方法则是必须要重写的方法，这方法作用是将选项按钮固定在toolbar上，并直接nodes.append即可，参数是一个html页面，这个就是点击导入excel后出现的弹窗悬着excel页面。</li>
+</ul>
+<p>然后需要将自己编写的excel插件文件注册到xadmin中，直接在plugins模块的init文件中PLUGINS配置文件中添加“excel”即可，注意，excelwei插件的文件名，如下：</p>
+<pre><code class="language-python">PLUGINS = (
+    ...
+	'excel'
+)
+</code></pre>
+<h4 id="二后台逻辑"><strong>二.后台逻辑</strong></h4>
+<p>当选择了excel文件并且点击了确定后，需要将excel文件传至后台接收处理，这里该怎么做呢？<br>
+其实只需要在对应的model关联的adminx类中定义post方法即可，如下：</p>
+<pre><code class="language-python">#用于在课程页面导入excel页面后，对导入的excel做后台逻辑
+    def post(self, request, *args, **kwargs):
+        if 'excel' in request.FILES:
+            pass
+        return super().post(request, args, kwargs) #最后一定要调用父类CourseAdmin的post方法返回
+</code></pre>
+<p>这样就能后将excel传至后台，并且编写我们的解析excel逻辑了，这里需要注意的是，post方法一定要返回父类的post方法，这是固定写法，不然的话会报错，连最起码的xadmin保存都会出错。</p>
+<p>至此，自己编写的导入excel插件就安装成功啦，类似的其他功能实现方式也差不多，都是这个套路~</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/Iv9ahsKWG" class="tag">
+                    Django
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/django-xadmin">
+                  <h3 class="post-title">
+                    Django中xadmin的学习与记录总结
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

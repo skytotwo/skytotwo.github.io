@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-08-26T13:56:53.262Z</updated>
+    <updated>2019-08-26T14:49:30.739Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,1140 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[搭建SS/SSR服务]]></title>
+        <id>https://skytotwo.github.io//post/ss-and-ssr</id>
+        <link href="https://skytotwo.github.io//post/ss-and-ssr">
+        </link>
+        <updated>2019-08-26T14:46:33.000Z</updated>
+        <content type="html"><![CDATA[<p>系统为centos7 ，xshell用root用户远程登录，进入root目录下，然后做如下操作。</p>
+<h4 id="一-搭建ss"><strong>一、搭建SS</strong></h4>
+<p>输入三行代码：</p>
+<pre><code class="language-shell">wget --no-check-certificate -O shadowsocks.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh
+chmod +x shadowsocks.sh
+./shadowsocks.sh 2&gt;&amp;1 | tee shadowsocks.log
+</code></pre>
+<p>按提示输入密码、端口、加密方式，（加密方式建议选 7；端口默认 443，建议改成 1000~10000）。</p>
+<p>等待安装完成，即可获得 SS 账号信息（IP，密码，端口，加密方式）。</p>
+<h4 id="二-搭建ssr免流"><strong>二、搭建SSR（免流）</strong></h4>
+<p>如果安装了SS，就不需要再安装SSR了，如果要改装SSR，请按照上一部分内容的教程先卸载SS！！！</p>
+<p><strong>1.下载一键搭建SSR脚本（只需要执行一次，卸载SSR后也不需要重新执行）</strong><br>
+如果服务器没有安装git，执行如下命令安装git：</p>
+<pre><code class="language-shell">centos：
+sudo yum install git
+</code></pre>
+<pre><code class="language-shell">git clone https://github.com/flyzy2005/ss-fly，此步骤与一键搭建ss一致，就是clone一键脚本代码。
+</code></pre>
+<p><strong>2.运行搭建SSR脚本代码</strong></p>
+<pre><code class="language-shell">ss-fly/ss-fly.sh -ssr
+</code></pre>
+<p>全部结束后，看到如下就说明安装成功了：</p>
+<pre><code class="language-shell">Congratulations, ShadowsocksR server install completed!
+Your Server IP        :你的服务器ip
+Your Server Port      :你的端口
+Your Password         :你的密码
+Your Protocol         :你的协议
+Your obfs             :你的混淆
+Your Encryption Method:your_encryption_method
+ 
+Welcome to visit:https://shadowsocks.be/9.html
+Enjoy it!
+</code></pre>
+<p><strong>3.注意：</strong><br>
+加密方式（method）选择aes-256-cfb；混淆方式（obfs）选择http_simple；协议（protocol）选择auth_sha1_v4。</p>
+<p><strong>4.相关操作SSR命令</strong></p>
+<pre><code class="language-shell">启动：/etc/init.d/shadowsocks start
+停止：/etc/init.d/shadowsocks stop
+重启：/etc/init.d/shadowsocks restart
+状态：/etc/init.d/shadowsocks status
+
+配置文件路径：/etc/shadowsocks.json
+日志文件路径：/var/log/shadowsocks.log
+代码安装目录：/usr/local/shadowsocks
+</code></pre>
+<p><strong>5.卸载SSR服务</strong></p>
+<pre><code class="language-shell">./shadowsocksR.sh uninstall
+</code></pre>
+<h4 id="三-安装bbr加速"><strong>三、安装bbr加速</strong></h4>
+<p>锐速已经停更，对于新的系统内核支持有限，建议改用谷歌的开源方案：Google BBR 对 SS 进行优化加速。效果都差不多的。</p>
+<p>逐行执行下面命令安装 BBR。</p>
+<pre><code class="language-shell">wget — no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh
+chmod +x bbr.sh
+./bbr.sh
+</code></pre>
+<p>显示 “Press any key to start…” 按回车确认。</p>
+<p>安装完后，按提示重启 VPS，输入 Y 回车重启。稍候 1min 等待重启完成，再重新连接 Xshell。</p>
+<p>重启后输入 lsmod | grep bbr ，出现 tcp_bbr 即说明 BBR 已经启动。</p>
+<h4 id="四-配置shadowsocks配置文件"><strong>四、配置shadowsocks配置文件</strong></h4>
+<p>进入到etc目录下执行：</p>
+<pre><code class="language-shell">vi shadowsocks.json
+</code></pre>
+<p>编辑配置文件如下：</p>
+<pre><code class="language-shell">{
+    &quot;server&quot;:&quot;0.0.0.0&quot;,
+    &quot;server_ipv6&quot;:&quot;[::]&quot;,
+    &quot;local_address&quot;:&quot;127.0.0.1&quot;,
+    &quot;local_port&quot;:1080,
+    &quot;port_password&quot;:{
+        &quot;1088&quot;:&quot;**********&quot;,
+        &quot;8080&quot;:&quot;**********&quot;,
+        &quot;80&quot;:&quot;***********&quot;
+    },
+    &quot;timeout&quot;:120,
+    &quot;method&quot;:&quot;aes-256-cfb&quot;,
+    &quot;protocol&quot;:&quot;auth_sha1_v4&quot;,
+    &quot;protocol_param&quot;:&quot;&quot;,
+    &quot;obfs&quot;:&quot;http_simple&quot;,
+    &quot;obfs_param&quot;:&quot;&quot;,
+    &quot;redirect&quot;:&quot;&quot;,
+    &quot;dns_ipv6&quot;:false,
+    &quot;fast_open&quot;:false,
+    &quot;workers&quot;:1
+}
+
+</code></pre>
+<p>这个是多端口的配置，因为涉及到后面要免流，联通的话需要开8080和80端口。</p>
+<h4 id="五-开启防火墙端口使用iptables"><strong>五、开启防火墙端口（使用iptables）</strong></h4>
+<p>在旧版本的CentOS中，是使用 iptables 命令来设置防火墙的。但是，从CentOS7开始，默认就没有安装iptables，而是改用firewall来配置防火墙。</p>
+<p><strong>1.CentOS7更改为iptables防火墙</strong><br>
+CentOS7切换到iptables防火墙，首先应该关闭默认的firewall防火墙并禁止自启动，然后再来安装和启动iptables防火墙。</p>
+<p>操作步骤如下：</p>
+<pre><code class="language-shell">systemctl stop firewalld
+# 停止firewall
+
+systemctl disable firewalld
+# 禁止firewall的开机自启动
+
+yum install iptables-services
+# 安装iptables
+
+systemctl start iptables
+# 开启iptables
+
+systemctl enable iptables
+# 启用iptables的自启动
+</code></pre>
+<p>之后，就可以在CentOS7中使用iptables配置防火墙。</p>
+<p><strong>2.开启shadowsocks.json配置的端口，这样外面才能访问</strong><br>
+进入/etc/sysconfig/</p>
+<pre><code class="language-shell">cd /etc/sysconfig
+</code></pre>
+<p>执行</p>
+<pre><code class="language-shell">vi iptables
+</code></pre>
+<p>按i进行插入开放端口命令</p>
+<pre><code class="language-shell">-A INPUT -p udp -m state --state NEW -m udp --dport 1088 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 1088 -j ACCEPT
+-A INPUT -p udp -m state --state NEW -m udp --dport 8080 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 8080 -j ACCEPT
+-A INPUT -p udp -m state --state NEW -m udp --dport 80 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 80 -j ACCEPT
+</code></pre>
+<p>最后如下：</p>
+<pre><code class="language-shell"># Generated by iptables-save v1.4.21 on Tue Dec 18 03:38:00 2018
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [113:31400]
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -p icmp -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT
+-A INPUT -p udp -m state --state NEW -m udp --dport 1088 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 1088 -j ACCEPT
+-A INPUT -p udp -m state --state NEW -m udp --dport 8080 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 8080 -j ACCEPT
+-A INPUT -p udp -m state --state NEW -m udp --dport 80 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 80 -j ACCEPT
+-A INPUT -j REJECT --reject-with icmp-host-prohibited
+-A FORWARD -j REJECT --reject-with icmp-host-prohibited
+COMMIT
+# Completed on Tue Dec 18 03:38:00 2018
+</code></pre>
+<p>然后重启防火墙：</p>
+<pre><code class="language-shell">service iptables restart
+</code></pre>
+<p>最后查看端口是否开放：</p>
+<pre><code class="language-shell">/sbin/iptables -L -n
+</code></pre>
+<p>重启shadowsocks：</p>
+<pre><code class="language-shell">/etc/init.d/shadowsocks restart
+</code></pre>
+<h4 id="六-配置客户端访问"><strong>六、配置客户端访问</strong></h4>
+<p><strong>1.电脑端：</strong><br>
+SS：<br>
+Shadowsocks 的MAC客户端，主要有两个版本：ShadowsocksX 和 ShadowsocksX-NG，其中ShadowsocksX-NG为ShadowsocksX的最新版本 。目前这两个版本仅支持SS原版，不支持SSR的混淆功能。</p>
+<p>SSR：<br>
+推荐使用Shadowsocks-NG-R，下载地址是：<br>
+<a href="https://github.com/qinyuhang/ShadowsocksX-NG-R/releases/download/1.4.4-r8/ShadowsocksX-NG-R8.dmg" title="点我下载">点我下载</a></p>
+<p>配置：<br>
+如果按照上面安装步骤来的话，SS就填写服务器ip，端口，加密方式，密码就能访问了；SSR的话要加上上面的协议和混淆，可以不用填写混淆参数，因为不需要免流。</p>
+<p><strong>2.客户端（ios）:</strong><br>
+ios端的话就推荐使用小火箭，去美区商店下载。<br>
+SS：<br>
+选择SS配置，然后填写服务器ip，端口，加密方式，密码。访问ok。</p>
+<p>SSR：<br>
+选择SSR配置，然后填写服务器ip，端口，加密方式，密码，协议，混淆，额外需要填写混淆参数，这是为了免流，联通大王卡的混淆参数是：mmbiz.qpic.cn  测试可以免流。注意免流的话需要开启全局代理。</p>
+<h4 id="七-免流科普"><strong>七、免流科普：</strong></h4>
+<p>大概介绍一下，一些移动运营商存在一些特定的免流优惠，比如手机流量登录运营商客户端免流量。前期是简单的通过网址来判断是否符合免流条件。SSR安装在手机上后，上网时手机流量经SSR转发到上网地址，通过在SSR内加入免流网址的混淆参数后，让运营商判断失误，达到免流的目的。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[使用openOffice实现word、excel等转pdf功能]]></title>
+        <id>https://skytotwo.github.io//post/openoffice</id>
+        <link href="https://skytotwo.github.io//post/openoffice">
+        </link>
+        <updated>2019-08-26T14:31:25.000Z</updated>
+        <summary type="html"><![CDATA[<p>最近在公司项目中需要实现Excel转pdf的功能，一开始我自己写了工具类来实现转换，实现方式是将目标文件读流，再读出每个sheet，再将sheet数组一个个遍历取当页的数据，读数据的时候又需要每行每行的遍历，再将每个sheet拼接起来成为一个pdf。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>最近在公司项目中需要实现Excel转pdf的功能，一开始我自己写了工具类来实现转换，实现方式是将目标文件读流，再读出每个sheet，再将sheet数组一个个遍历取当页的数据，读数据的时候又需要每行每行的遍历，再将每个sheet拼接起来成为一个pdf。</p>
+<!-- more -->
+<p>本来自己想着简单，确实也实现了功能，但是还是存在很多小问题自己无法控制，比如说对excel的页面布局格式之类的需要严格控制调整，这样弄得很烦，所以想着另找出路。这时候想到了Appache的openOffice。<br>
+openOffice其实是一个服务，可以安装在windows、mac和linux下，用命令启动后，程序调用该端口，就能调用本机安装的office软件或者wps软件进行转格式，原理就是这样的。<br>
+接下来我们来看下怎么使用。</p>
+<hr>
+<h4 id="一下载安装"><strong>一.下载安装</strong></h4>
+<p>这是一个开源程序，下载地址是：<br>
+<a href="https://www.openoffice.org/download/" title="https://www.openoffice.org/download/">https://www.openoffice.org/download/</a><br>
+进入下载页面，多个系统程序包可以选择，如图下：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180916103231_367.png" alt="20180916103231_367.png"><br>
+这里介绍windows系统和linux系统的安装，因为开发环境西药先测试，然后是要部署至生产环境的，因为公司生产环境用的是redhat红帽系统，所以会针对性的介绍下。</p>
+<p><strong>windows</strong><br>
+windows安装其实很简单，就是一步步点下一步就好了，安装完成后，我们需要记住相应的启动命令来启动程序。如下图：<br>
+打开cmd进入openoffice安装目录：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180916103716_95.png" alt="20180916103716_95.png"><br>
+在program文件夹下输入启动命令，soffice.exe -headless -accept=&quot;socket,host=127.0.0.1,port=8100;urp;,然后回车就启动了<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180916103856_647.png" alt="20180916103856_647.png"></p>
+<p><strong>linux</strong><br>
+linux下安装会复杂一点，这里以redhat为例，我们先下载对应的安装包，红帽系统需要选择rpm格式的，我们下载64位的，如下图：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180916104119_512.png" alt="20180916104119_512.png"><br>
+然后安装过程如下：</p>
+<pre><code class="language-shell">一、安装openOffice
+1.使用tar -xzvf xxxx.tar.gz解压缩后，会得到对应的解压文件 /zh-CN
+
+目录。
+2.进入/zh-CN//RPMS/目录
+3.执行　rpm –ivh *rpm（安装所有rpm文件）
+4.进入到desktop-integration目录　cd desktop-integration
+5.执行　rpm -ivh openoffice.org3.2-redhat-menus-3.2-9472.noarch.rpm
+
+这时openOffice己经安装完成，默认会安装在/opt下
+
+二、启动openOffice服务　
+1.进入opt目录：cd /opt
+2.进入openoffice.org3目录：　cd openoffice.org3
+3.进入cd program目录
+4.执行　soffice -headless -accept=&quot;socket,host=127.0.0.1,port=8100;urp;&quot; -nofirststartwizard &amp; 
+
+三、停止openOffice服务
+
+ps -aux | grep oppenoffice 查看是否openoffice服务是否已启动；
+</code></pre>
+<p>至此，openOffice的安装我们已经搞定了，接下来就是程序的编写了</p>
+<h4 id="二转换程序编写"><strong>二.转换程序编写</strong></h4>
+<p>首先我们需要在项目里导入相应的jar包，所需jar包如下：</p>
+<pre><code class="language-java">jodconverter-2.2.2.jar
+ridl-3.2.1.jar
+org.apache.commons.io.jar
+juh.jar
+jurt.jar
+unoil.jar
+slf4j-api-1.7.13.jar
+slf4j-jdk14-1.7.13.jar
+xstream-1.4.1.jar
+
+</code></pre>
+<p>转换的java方法我这边直接拿项目里用到的方法来讲，其实也很简单</p>
+<pre><code class="language-java">import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.ConnectException;
+
+import com.artofsolving.jodconverter.DocumentConverter;
+import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
+import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
+import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
+
+public class Converter {
+	 /** 
+     * 将Office文档转换为PDF. 运行该函数需要用到OpenOffice, OpenOffice下载地址为 
+     * http://www.openoffice.org/ 
+     *  
+     * &lt;pre&gt; 
+     * 方法示例: 
+     * String sourcePath = &quot;F:\\office\\source.doc&quot;; 
+     * String destFile = &quot;F:\\pdf\\dest.pdf&quot;; 
+     * Converter.office2PDF(sourcePath, destFile); 
+     * &lt;/pre&gt; 
+     *  
+     * @param sourceFile 
+     *            源文件, 绝对路径. 可以是Office2003-2007全部格式的文档, Office2010的没测试. 包括.doc, 
+     *            .docx, .xls, .xlsx, .ppt, .pptx等. 示例: F:\\office\\source.doc 
+     * @param destFile 
+     *            目标文件. 绝对路径. 示例: F:\\pdf\\dest.pdf 
+     * @return 操作成功与否的提示信息. 如果返回 -1, 表示找不到源文件, 或url.properties配置错误; 如果返回 0, 
+     *         则表示操作成功; 返回1, 则表示转换失败 
+     */  
+    public static int office2PDF(String sourceFile, String destFile) {  
+        try {  
+            File inputFile = new File(sourceFile);  
+            if (!inputFile.exists()) {  
+                return -1;// 找不到源文件, 则返回-1  
+            }  
+  
+            // 如果目标路径不存在, 则新建该路径  
+            File outputFile = new File(destFile);  
+         
+            //String OpenOffice_HOME = &quot;D:\\Program Files\\OpenOffice.org 4&quot;;//这里是OpenOffice的安装目录, 在我的项目中,为了便于拓展接口,没有直接写成这个样子,但是这样是绝对没问题的  
+            String OpenOffice_HOME = &quot;C:\\Program Files (x86)\\OpenOffice 4&quot;;
+            // 如果从文件中读取的URL地址最后一个字符不是 '\'，则添加'\'  
+            if (OpenOffice_HOME.charAt(OpenOffice_HOME.length() - 1) != '\\') {  
+                OpenOffice_HOME += &quot;\\&quot;;  
+            }  
+            // 启动OpenOffice的服务  
+            String command = OpenOffice_HOME  
+                    + &quot;program\\soffice.exe -headless -accept=\&quot;socket,host=127.0.0.1,port=8100;urp;\&quot;&quot;;
+            //注意：linux系统的服务是已经启动好的，不需要另启动服务，下面这句本地需要，服务器不需要
+            Process pro = Runtime.getRuntime().exec(command);  
+            // connect to an OpenOffice.org instance running on port 8100  
+            OpenOfficeConnection connection = new SocketOpenOfficeConnection(  
+                    &quot;127.0.0.1&quot;, 8100);  
+            connection.connect();  
+  
+            // convert  
+            DocumentConverter converter = new OpenOfficeDocumentConverter(  
+                    connection);  
+            converter.convert(inputFile, outputFile);  
+  
+            // close the connection  
+            connection.disconnect();  
+            //注意：关闭OpenOffice服务的进程 ，下面这句本地需要，服务器不需要
+            pro.destroy();  
+  
+            return 0;  
+        } catch (ConnectException e) {  
+            e.printStackTrace();  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
+  
+        return 1;  
+    }
+}
+</code></pre>
+<p>这里很好理解，就是拿到文件，连接openOffice服务，调用转换方法。</p>
+<p>其实开发和部署还是很顺利的，需要注意的是jar包不能少，不然会报错在服务器上。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Django自定义xadmin插件之导入excel]]></title>
+        <id>https://skytotwo.github.io//post/django-xadmin-excel</id>
+        <link href="https://skytotwo.github.io//post/django-xadmin-excel">
+        </link>
+        <updated>2019-08-26T14:17:13.000Z</updated>
+        <summary type="html"><![CDATA[<p>xadmin的厉害之处在于它允许使用者自定义插件，使用者编写自己需要的插件并注册到xadmin中，以便xadmin实现自己所需要的功能。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>xadmin的厉害之处在于它允许使用者自定义插件，使用者编写自己需要的插件并注册到xadmin中，以便xadmin实现自己所需要的功能。</p>
+<!-- more -->
+<p>xadmin是如何能够实现插件的自定义呢？其实在xadmin使用文档上可以找到答案，如下所示：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180902134855_643.png" alt="20180902134855_643.png"></p>
+<hr>
+<p>这里拿制作excel导入插件为例。最终实现的效果是在xadmin中某类别下能够出现导入excel按钮，并且能够实现excel的导入，如下图所示：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180902135157_751.png" alt="20180902135157_751.png"><br>
+点击导入excel选项：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180902135226_545.png" alt="20180902135226_545.png"></p>
+<p>并且最终实现悬着好excel文件后，点击确认，能够将导入逻辑相应到后台进行处理。</p>
+<h4 id="一编写excel插件"><strong>一.编写excel插件</strong></h4>
+<p>要编写excel插件，首先需要认识xadmin的目录结构，这里建议将xadmin下载至本地并放置在项目中，这样才能编写插件代码，下载地址是：<br>
+<a href="https://github.com/sshwsfc/xadmin" title="点我下载">点我下载</a><br>
+下载后得到的xadmin文件结构如下：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180902135714_712.png" alt="20180902135714_712.png"><br>
+我们需要做的是在plugins模块中编写插件，plugins模块中已经有很多的插件了，如下：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180902135841_910.png" alt="20180902135841_910.png"><br>
+这里已经有许多可以直接用的插件。<br>
+直接在里面新建文件，命名为excel.py代码如下：</p>
+<pre><code class="language-python"># coding:utf-8
+
+import xadmin
+from xadmin.views import BaseAdminPlugin, ListAdminView
+from django.template import loader
+
+
+#excel 导入
+class ListImportExcelPlugin(BaseAdminPlugin):
+    import_excel = False
+
+    def init_request(self, *args, **kwargs):
+        return bool(self.import_excel)#返回bool值，excel显示权限
+
+    def block_top_toolbar(self, context, nodes):
+        nodes.append(loader.render_to_string('xadmin/excel/model_list.top_toolbar.import.html'))
+
+
+xadmin.site.register_plugin(ListImportExcelPlugin, ListAdminView)
+</code></pre>
+<p><strong>解读：</strong></p>
+<ul>
+<li>自定义的ListImportExcelPlugin类需要继承BaseAdminPlugin类，这是固定写法。然后定义的init_request方法，是为了确定xadmin中excel导入按钮的显示权限，这里返回一个bool值，为Ture则为显示，False则不显示，这里顶一个了一个import_excel = False变量，默认值为False，其实可以在model对应adminx类中指定import_excel的值，因为xadmin展示的时候回默认加载这个变量，这样就能达到按钮显示权限了。</li>
+<li>而block_top_toolbar方法则是必须要重写的方法，这方法作用是将选项按钮固定在toolbar上，并直接nodes.append即可，参数是一个html页面，这个就是点击导入excel后出现的弹窗悬着excel页面。</li>
+</ul>
+<p>然后需要将自己编写的excel插件文件注册到xadmin中，直接在plugins模块的init文件中PLUGINS配置文件中添加“excel”即可，注意，excelwei插件的文件名，如下：</p>
+<pre><code class="language-python">PLUGINS = (
+    ...
+	'excel'
+)
+</code></pre>
+<h4 id="二后台逻辑"><strong>二.后台逻辑</strong></h4>
+<p>当选择了excel文件并且点击了确定后，需要将excel文件传至后台接收处理，这里该怎么做呢？<br>
+其实只需要在对应的model关联的adminx类中定义post方法即可，如下：</p>
+<pre><code class="language-python">#用于在课程页面导入excel页面后，对导入的excel做后台逻辑
+    def post(self, request, *args, **kwargs):
+        if 'excel' in request.FILES:
+            pass
+        return super().post(request, args, kwargs) #最后一定要调用父类CourseAdmin的post方法返回
+</code></pre>
+<p>这样就能后将excel传至后台，并且编写我们的解析excel逻辑了，这里需要注意的是，post方法一定要返回父类的post方法，这是固定写法，不然的话会报错，连最起码的xadmin保存都会出错。</p>
+<p>至此，自己编写的导入excel插件就安装成功啦，类似的其他功能实现方式也差不多，都是这个套路~</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Django中xadmin的学习与记录总结]]></title>
+        <id>https://skytotwo.github.io//post/django-xadmin</id>
+        <link href="https://skytotwo.github.io//post/django-xadmin">
+        </link>
+        <updated>2019-08-26T14:15:10.000Z</updated>
+        <summary type="html"><![CDATA[<p>xadmin是Django中admin后台的进阶插件，它包含了admin的基本功能，并在此基础上进行进一步的升级，使得成为一个功能完善的后台管理系统，像瑞士军刀一样拥有各种功能。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>xadmin是Django中admin后台的进阶插件，它包含了admin的基本功能，并在此基础上进行进一步的升级，使得成为一个功能完善的后台管理系统，像瑞士军刀一样拥有各种功能。</p>
+<h2 id="-more-"><!-- more --></h2>
+<h3 id="一xadmin的安装与简单使用"><strong>一.xadmin的安装与简单使用</strong></h3>
+<h4 id="1安装"><strong>1.安装</strong></h4>
+<p>xadmin有两种方式，一种是通过pip的方式安装，如下：</p>
+<pre><code class="language-python">pip install xadmin
+</code></pre>
+<p>但也可以直接进入github下载，xadmin的下载地址是：<br>
+<a href="https://github.com/sshwsfc/xadmin" title="点我进入下载链接">点我进入下载链接</a><br>
+并将其直接放置在项目目录下。<br>
+采用直接下载方式的原因是直接下载的源码包含更多没有发布至pypi上面的新功能，然后有了源码，后面可以直接更改源码，增加自己的功能，这样其实更方便扩展。</p>
+<h4 id="2注册xadmin"><strong>2.注册xadmin</strong></h4>
+<p>在settings.py的INSTALLED_APPS中增加如下：</p>
+<pre><code class="language-python">'xadmin',
+'crispy_forms'
+</code></pre>
+<p>然后把urls中默认admin指向xadmin:</p>
+<pre><code class="language-python">#导入xadmin，替换admin
+import xadmin
+urlpatterns = [
+    url(r'^xadmin/', xadmin.site.urls),
+]
+</code></pre>
+<h4 id="3生成xadmin数据表"><strong>3.生成xadmin数据表</strong></h4>
+<p>点击Tools 菜单下 Run manage.py Task：</p>
+<pre><code class="language-python">makemigrations
+migrate
+</code></pre>
+<h4 id="4注册model"><strong>4.注册model</strong></h4>
+<p>简单的注册一个model看一下效果，如下：</p>
+<pre><code class="language-python">
+from .models import UserInfo
+import xadmin
+ 
+ 
+class UserInfoAdmin(object):
+	list_display = ['user_name', 'user_email', 'user_mobile']  # 默认显示
+    search_fields = ['user_name', 'user_email', 'user_mobile']  # 查询
+    list_filter = ['user_name', 'user_email', 'user_mobile']  # 过滤筛选
+ 
+xadmin.site.register(UserInfo, UserInfoAdmin)
+</code></pre>
+<p>如代码中所示，这里是将model和自定义的admin显示规则绑定注册至xadmin中，list_display、search_fields和list_filter分别表示默认显示的字段、可以查询的字段和可以过滤筛选的字段。</p>
+<p>实际显示效果如下：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180901214106_476.png" alt="20180901214106_476.png"></p>
+<hr>
+<h3 id="二xadmin的进阶功能"><strong>二.xadmin的进阶功能</strong></h3>
+<p><strong>1.一般外键关联数据在xadmin只能通过在列表选择对应外键数据跳转再去编辑，但是想在详情编辑中，可以直接编辑（只能一层嵌套）：</strong></p>
+<pre><code class="language-python">class LessonInline(object):
+    model = Lesson
+    extra = 0
+
+class CourseAdmin(object):
+    list_display = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num','add_time']
+    search_fields = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num']
+    list_filter = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num','add_time']
+    inlines = [LessonInline]
+
+</code></pre>
+<p><strong>2.自定义图标、自定义字段排序、自定义字段不可编辑、编辑页面自定义影藏某字段、下拉选涉及到外检选择的改为搜索选择</strong></p>
+<pre><code class="language-python">class CourseAdmin(object):
+    list_display = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num','add_time']
+    search_fields = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num']
+    list_filter = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num','add_time']
+    model_icon = 'fa fa-book' #自定义图标
+    ordering = ['-click_num'] #显示排序
+    readonly_fields = ['click_num','fav_nums']#后台不可编辑
+    exclude= ['add_time']  #详情不显示add_time 此字段与readonly_fields互斥
+    relfield_style='fk-ajax' #下拉筛选改为搜索
+</code></pre>
+<p><strong>3.一张表在后台注册成两个管理器，以课程为例，课程一张表，后台分为轮播课程、非轮播课程。</strong><br>
+<strong>model代码如下：</strong></p>
+<pre><code class="language-python">class Course(models.Model):
+    name = models.CharField(verbose_name=u'课程名',max_length=50)
+    is_banner = models.BooleanField(verbose_name=u'是否轮播',default=False) #是否为轮播课程
+    add_time = models.DateTimeField(verbose_name=u'添加时间',default=datetime.now)
+
+    class Meta:
+        verbose_name = u'课程'
+        verbose_name_plural = verbose_name
+
+    def __unicode__(self):
+        return self.name
+
+class BannerCourse(Course):
+    '''banner课程'''
+    class Meta:
+        verbose_name = u'轮播课程'
+        verbose_name_plural = verbose_name
+        proxy = True #不会生成表
+
+</code></pre>
+<p>这样定义其实原理是，其中自定义一个model，继承自另一个model，然后关键的是自定义的马哥model，需要在Meta中声明proxy = True，这样就不会生成另一个表，实现两个model公共一个表，而两个model可以在xadmin中注册两个管理器。</p>
+<p><strong>下面是adminx的代码:</strong></p>
+<pre><code class="language-python">class CourseAdmin(object):
+    list_display = ['name','is_banner','add_time']
+    search_fields = ['name','is_banner']
+    list_filter = ['name','is_banner', 'add_time']
+
+    def queryset(self):
+        qs = super().queryset()
+        qs = qs.filter(is_banner=False)
+        return qs
+
+class BannerCourseAdmin(object):
+    list_display = ['name', 'is_banner', 'add_time']
+    search_fields = ['name', 'is_banner']
+    list_filter = ['name', 'is_banner', 'add_time']
+
+    def queryset(self):
+        qs = super().queryset()
+        qs = qs.filter(is_banner=True)
+        return qs
+
+xadmin.site.register(BannerCourse, BannerCourseAdmin)
+xadmin.site.register(Course, CourseAdmin)
+</code></pre>
+<p>其中重要的是queryset方法，该方法的重写，意义在于重写父类的queryset方法，然后过滤出自定义管理器，如直接定义is_banner=True，这样，两个管理器就实现了分别管理不同的数据了。</p>
+<p><strong>4.将model中的方法获取的值，在后台列表字段显示：</strong></p>
+<pre><code class="language-python">#model中代码如下：
+class Course(models.Model):
+    name = models.CharField(verbose_name=u'课程名',max_length=50)
+
+    class Meta:
+        verbose_name = u'课程'
+        verbose_name_plural = verbose_name
+
+    def get_zj_nums(self):
+        '''获取该课程章节'''
+        return  self.lesson_set.all().count()
+    get_zj_nums.short_description = u'章节数'   #指定后台显示列表字段名
+
+    def __unicode__(self):
+        return self.name
+</code></pre>
+<pre><code class="language-python">#admix中代码如下：
+class CourseAdmin(object):
+    list_display = ['name','get_zj_nums']
+    search_fields = ['name']
+    list_filter = ['name']
+</code></pre>
+<p>直接将在model中定义的方法，写在list_display中展示，xadmin会自动判断这是一个方法，并将方法得到的值进行展示。<br>
+注意：如果需要改变该方法的字段名显示，直接方法名.short_description即可，如get_zj_nums.short_description = u'章节数'</p>
+<p><strong>5.在model中定义方法，返回html，在后台以html代码形式显示：</strong></p>
+<pre><code class="language-python">#model中代码：
+class Course(models.Model):
+    name = models.CharField(verbose_name=u'课程名',max_length=50)
+
+    class Meta:
+        verbose_name = u'课程'
+        verbose_name_plural = verbose_name
+
+    def go_to(self):
+        from django.utils.safestring import mark_safe
+        return mark_safe('&lt;a href=&quot;http://www.baidu.com&quot;&gt;百度&lt;/a&gt;')百度&lt;/a&gt;' #如果不使用mark_safe，在后台显示的就是一段文本了
+     go_to.short_description = u'跳转'  # 指定后台显示列表字段名
+
+    def __unicode__(self):
+        return self.name
+
+# admix中代码如下：
+class CourseAdmin(object):
+    list_display = ['name', 'go_to']
+    search_fields = ['name']
+    list_filter = ['name']
+</code></pre>
+<p>这里关键处在于，对返回的链接的处理，这里需要使用django.utils.safestring中的mark_safe方法，因为Django有自己的保护机制，如果不使用mark_safe，在后台显示的就是一段文本了，这里需要使用mark_safe将其正确解读成一个链接。</p>
+<p><strong>6.xadmin集成百度uditor编辑器</strong><br>
+基本步骤：</p>
+<pre><code class="language-shell">github上搜素django ueditor，找到zhangfisher/DjangoUeditor,下载并解压，
+切换命令行到解压后的目录执行python setup.py install（如果是虚拟环境开发，进入虚拟环境在进入对应目录）
+将 DjangoUeditor 放入到settings.py中的INSTALLED_APPS
+</code></pre>
+<p>配置urls.py如下：</p>
+<pre><code class="language-python">urlpatterns = [
+    ...
+    url(r'^ueditor/', include('DjangoUeditor.urls')),
+]
+</code></pre>
+<p>比如给课程加富文本编辑器，去Course的model中引入代码：</p>
+<pre><code class="language-python">from DjangoUeditor.models import UEditorField
+</code></pre>
+<p>对需要添加ueditor字段的修改：</p>
+<pre><code class="language-python">detail = UEditorField(u'课程详情', width=600, height=300, imagePath=&quot;course/ueditor/&quot;, filePath=&quot;course/ueditor/&quot;, upload_settings={&quot;imageMaxSize&quot;: 1204000},default='')
+#imagePath：图片上传路径，跟平时写的model中的路径是一样的
+#filePath:富文本中文件的路径，跟平时写的model中的路径是一样的
+</code></pre>
+<p>给xadmin写插件集成ueditor，在xadmin/plugin下新建ueditor.py(名字随意.py),代码如下：</p>
+<pre><code class="language-python">```python
+import xadmin
+from xadmin.views import BaseAdminPlugin,CreateAdminView,UpdateAdminView
+from DjangoUeditor.models import UEditorField
+from DjangoUeditor.widgets import UEditorWidget
+from django.conf import settings
+
+class XadminUEditorWidget(UEditorWidget):
+    def __init__(self,**kwargs):
+        self.ueditor_options = kwargs
+        self.Media.js = None
+        super(XadminUEditorWidget,self).__init__(kwargs)
+
+class UeditorPlugin(BaseAdminPlugin):
+    def get_field_style(self,attrs,db_field,style,**kwargs):
+        if style == 'ueditor': #这个字段与adminx中的style_fields = {'detail':'ueditor'} 字段对应
+            if isinstance(db_field,UEditorField):
+                widget = db_field.formfield().widget
+                param = {}
+                param.update(widget.ueditor_settings)
+                param.update(widget.attrs)
+                return {'widget':XadminUEditorWidget(**param)}
+            return attrs
+
+	def block_extrahead(self,context,nodes):
+        js = '&lt;script type=&quot;text/javascript&quot; src=&quot;%s&quot;&gt;&lt;/script&gt;' % (settings.STATIC_URL + &quot;ueditor/ueditor.config.js&quot;)
+        js += '&lt;script type=&quot;text/javascript&quot; src=&quot;%s&quot;&gt;&lt;/script&gt;' % (settings.STATIC_URL + &quot;ueditor/ueditor.all.min.js&quot;)
+            nodes.append(js)
+
+xadmin.site.register_plugin(UeditorPlugin,UpdateAdminView)
+xadmin.site.register_plugin(UeditorPlugin,CreateAdminView)
+</code></pre>
+<pre><code>在课程的adminx中CourseAdmin加入代码如下：
+```python
+class CourseAdmin(object):
+    ....
+    style_fields = {'detail':'ueditor'}
+</code></pre>
+<p>修改urls中的上传路由：</p>
+<pre><code class="language-python">#富文本相关url(用于上传文件等)
+    url(r'^ueditor/', include('DjangoUeditor.urls')),
+</code></pre>
+<p>前端展示，全是转义后的html，关闭django模板转义：</p>
+<pre><code class="language-python">{% autoescape off%}
+   {{ course.detail }}
+{% endautoescape %}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[使用jquery实现页面右下角弹窗提醒]]></title>
+        <id>https://skytotwo.github.io//post/jquery-pop-window</id>
+        <link href="https://skytotwo.github.io//post/jquery-pop-window">
+        </link>
+        <updated>2019-08-26T14:09:12.000Z</updated>
+        <summary type="html"><![CDATA[<p>项目有需要实现类似QQ右下角弹窗提醒的需求，项目要求的其实复杂点，不单单是弹窗，还涉及到定时弹窗、指定页面弹窗、对指定的用户弹窗，以及点击事件等等，需要写的控制也比较多。这里只是简单记录下html页面通过jquery实现弹窗功能。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>项目有需要实现类似QQ右下角弹窗提醒的需求，项目要求的其实复杂点，不单单是弹窗，还涉及到定时弹窗、指定页面弹窗、对指定的用户弹窗，以及点击事件等等，需要写的控制也比较多。这里只是简单记录下html页面通过jquery实现弹窗功能。</p>
+<h2 id="-more-"><!-- more --></h2>
+<p>html页面：</p>
+<pre><code class="language-html">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;title&gt;消息提醒&lt;/title&gt;
+&lt;script src=&quot;jquery-1.8.3.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;notice_pop.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+	 #content{
+
+		display: flex; /**/
+		justify-content: center; /*水平居中*/
+		align-items: Center; /*垂直居中*/
+		margin-top:30px;
+	 }
+	 #bottom{
+
+		display: flex; /**/
+		justify-content: center; /*水平居中*/
+		align-items: Center; /*垂直居中*/
+		margin-top:80px;
+     }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+ 
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>这里主要是引入了jquery和自己编写的js代码，其中还有css样式，用弹性盒子来调整弹框内容样式等。比较简单。</p>
+<p>notice_pop.js：</p>
+<pre><code class="language-javascript">function pop_init(title,content) {
+	//取当前浏览器窗口大小
+	var windowWidth=$(document).width();
+	var windowHeight=$(document).height();
+	//弹窗的大小
+	var weight=280;
+	var height=200;
+	$(&quot;body&quot;).append(
+	&quot;&lt;div id='pop_div'style='display:none;position:absolute;border:1px solid #e0e0e0;z-index:99;width:&quot;+weight+&quot;px;height:&quot;+height+&quot;px;top:&quot;+(windowHeight-height-10)+&quot;px;left:&quot;+(windowWidth-weight-10)+&quot;px'&gt;&quot;+
+		&quot;&lt;div style='line-height:32px;background:#f6f0f3;border-bottom:1px solid #e0e0e0;font-size:14px;padding:0 0 0 10px;'&gt;&quot; +
+			&quot;&lt;div style='float:left;'&gt;&lt;b&gt;&quot;+title+&quot;&lt;/b&gt;&lt;/div&gt;&lt;div style='float:right;cursor:pointer;'&gt;&lt;b onclick='pop_close()'&gt;关闭&lt;/b&gt;&lt;/div&gt;&quot; +
+			&quot;&lt;div style='clear:both'&gt;&lt;/div&gt;&quot;+
+		&quot;&lt;/div&gt;&quot; +
+		&quot;&lt;div&gt;&quot; +
+			&quot;&lt;div id='content'&gt;&quot;+
+				 content+
+			&quot;&lt;/div&gt;&quot;+
+			&quot;&lt;div id='bottom'&gt;&quot;+
+				 &quot;&lt;button id='btn1' type='button' onClick='onButtonClick()'&gt;确定&lt;/button&gt;&quot; +
+			&quot;&lt;/div&gt;&quot;+
+		&quot;&lt;/div&gt;&quot;+
+	&quot;&lt;/div&gt;&quot;
+	);
+}
+
+//右上角关闭
+function pop_close(){
+	$('#pop_div').fadeOut(800);
+	/*关闭后的跳转页面逻辑*/
+}
+
+//点击确定
+function onButtonClick(){
+	$('#pop_div').fadeOut(800);
+	/*关闭后的跳转页面逻辑*/
+}
+$(document).ready(function(){
+	pop_init(&quot;公告信息&quot;,&quot;提醒来啦~~~&quot;);
+	$('#pop_div').fadeIn(800);
+});
+</code></pre>
+<p>其实效果很简单，就是定义弹窗方法，和一些事件。看下面演示图：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180828115408_650.gif" alt="20180828115408_650.gif"></p>
+<p>具体这个demo可以抽象成一个小工具来用，也可以通过setInterval来定时，通过ajax与后台交互，这个都行。其实还有纯后台的工具类方法，那是使用JDialog包来实现的，这里不作过多描述。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Nginx采用https协议反向代理tomcat容器项目]]></title>
+        <id>https://skytotwo.github.io//post/nginx-ssl</id>
+        <link href="https://skytotwo.github.io//post/nginx-ssl">
+        </link>
+        <updated>2019-08-26T14:03:24.000Z</updated>
+        <summary type="html"><![CDATA[<p>之前一直只是使用http协议给项目通信，但是由于谷歌大力推行https，https相比http来说也有着很多优点，比如说通信加密，抓包是抓不到具体通信信息的，而且在传统的http协议下，浏览器访问并发数有限，比如谷歌浏览器默认是开启6个信道并发访问，而https则不一样，它采用了信道复用，传输效率大大提升。这也是现今业内推荐的通信协议。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>之前一直只是使用http协议给项目通信，但是由于谷歌大力推行https，https相比http来说也有着很多优点，比如说通信加密，抓包是抓不到具体通信信息的，而且在传统的http协议下，浏览器访问并发数有限，比如谷歌浏览器默认是开启6个信道并发访问，而https则不一样，它采用了信道复用，传输效率大大提升。这也是现今业内推荐的通信协议。</p>
+<!-- more --> 
+<p>这里带来nginx采用https协议反向代理tomcat容器教程，因为自己的博客应用是java编写，部署在tomcat中，通过nginx反向代理，这次就顺便换成https吧。</p>
+<p>首先https是需要ssl证书的，ssl证书通俗来讲就是一种公认的凭证，ssl证书通过在客户端浏览器和Web服务器之间建立一条ssl安全通道，证书讲道理是客户端和服务端双向的，但是现今主流的浏览器都集成了证书，也就是说，我们只需要在服务端部署ssl证书就行了。<br>
+ssl证书其实可以自己制作，也可以在知名的证书机构注册购买，两者的区分是自己制作的浏览器可能不认可，毕竟自己制作的公信力不够。</p>
+<hr>
+<h4 id="1证书制作或购买"><strong>1.证书制作或购买</strong></h4>
+<p>证书制作一般是使用openssl，可以在服务端中直接生成证书，具体不做概述。<br>
+这里推荐在知名机构中注册购买，如腾讯云的TrustAsia TLS RSA CA就能免费注册一年期的证书，还是很美丽的。<br>
+腾讯云的产品列表有ssl证书申请入口，注册选择TrustAsia TLS RSA CA免费的，过程很简单，注册完成后，还需要解析验证才能通过，其实过程也很简单，只需要在绑定的域名解析中，增加一条给定的解析信息，待600秒后机构扫描到解析成功，这个证书也就通过啦。<br>
+通过后如图显示：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180825230140_385.png" alt="20180825230140_385.png"></p>
+<p>现在我们就有了自己的证书啦。</p>
+<hr>
+<h4 id="2部署证书nginx端"><strong>2.部署证书（nginx端）</strong></h4>
+<p>直接点击下载，下载证书到本机，下载后的文件如下：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180825230533_600.png" alt="20180825230533_600.png"><br>
+因为我们需要部署nginx，所以需要nginx文件夹里的证书。<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180825230421_338.png" alt="20180825230421_338.png"></p>
+<p>这里面分别是<br>
+SSL证书文件：1_www.domain.com_bundle.crt 和<br>
+私钥文件 ：2_www.domain.com.key<br>
+这便是核心的东西，<strong>将两个文件拷贝至nginx的配置文件文件夹中</strong>，接下来就是部署至nginx中了。</p>
+<p>接下来就是nginx的配置了，证书主要是配置在nginx配置文件nginx.conf中。配置文件是在conf文件夹内，配置如下：</p>
+<pre><code class="language-shell">   server { #此配置段将HTTP请求全部重定向为HTTPS请求
+        listen 80;
+        server_name www.listenlife.cn listenlife.cn;
+        rewrite ^(.*) https://$server_name$1 permanent;
+    }
+    server {
+        listen       443 ssl; #由80改成443
+        #listen       [::]:80 default_server;
+         #listen       [::]:443 ssl http2 www.listenlife.cn;
+        server_name  www.listenlife.cn;
+        
+		#ssl证书配置开始
+        ssl on;
+        ssl_certificate 1_www.listenlife.cn_bundle.crt;
+        ssl_certificate_key 2_www.listenlife.cn.key;
+        ssl_session_timeout 5m;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2; #按照这个协议配置
+        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;#按照这个套件配置
+        ssl_prefer_server_ciphers on;
+		#ssl证书配置结束
+		
+        #rewrite ^(.*) https://$host$1 permanent; #http自动跳转https
+        # Load configuration files for the default server block.
+        include /etc/nginx/default.d/*.conf;
+
+        location /{
+		    proxy_pass http://127.0.0.1:8080;
+		    proxy_set_header Host $host;
+            proxy_set_header X-Real-Ip $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection &quot;upgrade&quot;;
+        
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+   
+        error_page 404 /404.html;
+            location = /40x.html {
+        }
+
+        error_page 500 502 503 504 /50x.html;
+            location = /50x.html {
+        }
+    }
+</code></pre>
+<p><strong>要注意三点：</strong><br>
+一是端口需要由80改成443，这是ssl的固定端口，<strong>而且还需要注意的是安全组需要开放443入站规则</strong>；二是配置在server中配置以下：</p>
+<pre><code class="language-shell">ssl on;
+ssl_certificate 1_www.listenlife.cn_bundle.crt;
+ssl_certificate_key 2_www.listenlife.cn.key;
+ssl_session_timeout 5m;
+ssl_protocols TLSv1 TLSv1.1 TLSv1.2; #按照这个协议配置
+ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;#按照这个套件配置
+ssl_prefer_server_ciphers on;
+</code></pre>
+<p>然后再项目location中还需要配置以下：</p>
+<pre><code class="language-shell">proxy_set_header X-Real-Ip $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header Upgrade $http_upgrade;
+proxy_set_header Connection &quot;upgrade&quot;;
+proxy_set_header X-Forwarded-Proto $scheme;
+</code></pre>
+<p>最后是配置中的第一个server，目的在于将HTTP请求全部重定向为HTTPS请求。这样输入http也能跳转至https。</p>
+<hr>
+<h4 id="3tomcat端配置"><strong>3.tomcat端配置</strong></h4>
+<p>还需要在tomcat的server.xml文件中做两处配置：<br>
+增加：</p>
+<pre><code class="language-xml">&lt;Connector port=&quot;8443&quot; protocol=&quot;HTTP/1.1&quot; SSLEnabled=&quot;true&quot;
+        maxThreads=&quot;150&quot; scheme=&quot;https&quot; secure=&quot;true&quot;
+        keystoreFile=&quot;conf/www.listenlife.cn.jks&quot;
+        keystorePass=&quot;xxxxxxx&quot;
+        clientAuth=&quot;false&quot; sslProtocol=&quot;TLS&quot; /&gt;
+</code></pre>
+<p>此处的keystoreFile和keystorePass来自于之前证书文件中的tomcat文件夹，如下：<br>
+<img src="/attached/image/20180825/20180825233655_925.png" alt=""><br>
+将keystoreFile拷贝至tomcat的conf目录下，然后引入，此处的keystorePass里只需要填写keystorePass.txt中的字符即可。</p>
+<p><strong>注意此处的8443端口是来自于8080端口的跳转：</strong></p>
+<pre><code class="language-xml">&lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;
+               connectionTimeout=&quot;20000&quot;
+               redirectPort=&quot;8443&quot; /&gt;
+</code></pre>
+<p>需要对应。</p>
+<p>然后需要配置一处，在末尾HOST节点中加入：</p>
+<pre><code class="language-xml">&lt;Valve className=&quot;org.apache.catalina.valves.RemoteIpValve&quot;  
+            remoteIpHeader=&quot;X-Forwarded-For&quot;  
+            protocolHeader=&quot;X-Forwarded-Proto&quot;  
+            protocolHeaderHttpsValue=&quot;https&quot;/&gt;
+</code></pre>
+<hr>
+<p><strong>4.结语</strong><br>
+重启项目，重启nginx，访问项目-&gt;<br>
+<img src="/attached/image/20180825/20180825234424_578.png" alt=""><br>
+然后就是喜闻乐见的https和浏览器标识的“安全”啦。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Centos7 nginx + uswgi 部署Django应用]]></title>
+        <id>https://skytotwo.github.io//post/centos7-nginx-uswgi-django</id>
+        <link href="https://skytotwo.github.io//post/centos7-nginx-uswgi-django">
+        </link>
+        <updated>2019-08-26T14:00:23.000Z</updated>
+        <summary type="html"><![CDATA[<p>前些天写了flask应用的部署，今天来讲讲Django的部署吧，毕竟Django部署坑确实多，写篇教程记录下具体步骤要点和踩过得坑。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>前些天写了flask应用的部署，今天来讲讲Django的部署吧，毕竟Django部署坑确实多，写篇教程记录下具体步骤要点和踩过得坑。</p>
+<!-- more -->
+<p>首先是linux环境的配置，比如说安装python3.6；安装虚拟环境；安装mysql数据库；安装nginx，这些其实都在之前的一篇教程中写过了，可以点击链接查看：<br>
+<a href="https://totoro.site/post/centos7-python-env/" title="点我查看linux具体环境配置">点我查看linux具体环境配置</a></p>
+<p>接下来就是具体Django的部署了。</p>
+<hr>
+<h4 id="1代码和数据的修改"><strong>1.代码和数据的修改</strong></h4>
+<p>上线的代码是需要修改的，主要修改的地方有两点，如下：</p>
+<pre><code class="language-python">在settings中增加：
+STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
+</code></pre>
+<p>这是用作后面统一存放静态文件，以便nginx来管理。</p>
+<pre><code class="language-python">在settings中：
+DEBUG = True 改成False
+</code></pre>
+<p>这是为了网站安全考虑，报错影藏，生产环境必须这样。</p>
+<h4 id="2代码项目的迁移"><strong>2.代码项目的迁移</strong></h4>
+<p>我的nginx安装目录是在usl/local/nginx，将项目放在usl/local/nginx/html/下面</p>
+<h4 id="3安装uwsgi"><strong>3.安装uwsgi</strong></h4>
+<p>安装前需要安装一些依赖包，输入如下命令</p>
+<pre><code class="language-shell">yum -y install gcc  gcc-c++ zlib zlib-devel openssl openssl-devel pcre pcre-devel GeoIP gd libXpm libxslt sqlite-devel
+</code></pre>
+<p>然后：</p>
+<pre><code class="language-shell">进入虚拟环境里：
+pip  install uwsgi
+</code></pre>
+<p>然后新建一个uwsgi.ini配置文件，放置在应用根部目下，<br>
+打开并写入以下内容：</p>
+<pre><code class="language-shell"># mysite_uwsgi.ini file
+[uwsgi]
+
+# Django-related settings
+# the base directory (full path)
+wsgi-file=/usr/local/nginx/html/MxOnline/uwsgi.ini  #项目目录下的uwsgi.ini
+
+chdir = /usr/local/nginx/html/MxOnline
+# Django's wsgi file
+module = MxOnline.wsgi:application
+# the virtualenv (full path)
+
+# process-related settings
+# master
+master = true
+# maximum number of worker processes
+processes = 10
+# the socket (use the full path to be safe
+socket = 127.0.0.1:8000
+# ... with appropriate permissions - may be needed
+#chmod-socket    = 660
+# clear environment on exit
+home = /root/.virtualenvs/mxonline
+env = DJANGO_SETTINGS_MODULE=MxOnline.settings
+vacuum = true     #退出时清理环境
+buffer-size = 65536  #最大缓冲区，如果设置得太小，请求的数据超过buffer-size的话，网站会起不来
+</code></pre>
+<p>注意不要写错了。<br>
+然后uwsgi的命令是：</p>
+<pre><code class="language-shell">uwsgi 启动 ：虚拟环境下uwsgi config.ini
+uwsgi 关闭：虚拟环境下killall -9 uwsgi
+</code></pre>
+<p>启动后去过出现一下报文说明成功启动：</p>
+<pre><code class="language-shell">(mxonline) [root@VM_0_5_centos MxOnline]# uwsgi uwsgi.ini 
+[uWSGI] getting INI configuration from uwsgi.ini
+*** Starting uWSGI 2.0.17.1 (64bit) on [Fri Aug 24 21:24:29 2018] ***
+compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-28) on 16 August 2018 10:08:12
+os: Linux-3.10.0-514.26.2.el7.x86_64 #1 SMP Tue Jul 4 15:04:05 UTC 2017
+nodename: VM_0_5_centos
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /usr/local/nginx/html/MxOnline
+detected binary path: /root/.virtualenvs/mxonline/bin/uwsgi
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /usr/local/nginx/html/MxOnline
+your processes number limit is 7282
+your memory page size is 4096 bytes
+detected max file descriptor number: 100001
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:8000 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.6.3 (default, Aug 15 2018, 16:38:27)  [GCC 4.8.5 20150623 (Red Hat 4.8.5-28)]
+Set PythonHome to /root/.virtualenvs/mxonline
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x13d3230
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 1477949 bytes (1443 KB) for 10 cores
+*** Operational MODE: preforking ***
+WSGI app 0 (mountpoint='') ready in 3 seconds on interpreter 0x13d3230 pid: 16267 (default app)
+mountpoint  already configured. skip.
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 16267)
+spawned uWSGI worker 1 (pid: 16271, cores: 1)
+spawned uWSGI worker 2 (pid: 16272, cores: 1)
+spawned uWSGI worker 3 (pid: 16273, cores: 1)
+spawned uWSGI worker 4 (pid: 16274, cores: 1)
+spawned uWSGI worker 5 (pid: 16275, cores: 1)
+spawned uWSGI worker 6 (pid: 16276, cores: 1)
+spawned uWSGI worker 7 (pid: 16277, cores: 1)
+spawned uWSGI worker 8 (pid: 16278, cores: 1)
+spawned uWSGI worker 9 (pid: 16279, cores: 1)
+spawned uWSGI worker 10 (pid: 16280, cores: 1)
+</code></pre>
+<p>当然你也可以用用ps -ef|grep uwsgi命令来查看是否启动。</p>
+<h4 id="4nginx的配置"><strong>4.nginx的配置</strong></h4>
+<p>nginx的安装前文已经详解过了，如今需要做的就是对他做相关的配置。<br>
+这里注意几个路径：</p>
+<pre><code class="language-shell">nginx安装路径：usr/local/nginx/
+nginx主配置文件路径：usr/local/nginx/conf
+nginx日志路径路径：usr/local/nginx/logs
+nginx子配置文件路径：etc/nginx/vhosts/
+这些路径和你的可以不一样，这里只是为了让后面的配置更清晰~~~
+</code></pre>
+<p>这里主要还是用主配置文件加include子配置文件的方式来配置，因为你的服务器可能会有多个项目需要nginx来反向代理，这样配置的好处就是清晰，简单，后续扩展容易。</p>
+<p><strong>下面是主配置文件：</strong><br>
+nginx.conf，存放在usr/local/nginx/conf中</p>
+<pre><code class="language-shell">worker_processes 4;
+events {
+    worker_connections 262140;
+}
+http {
+    include mime.types;
+    default_type application/octet-stream;
+    sendfile on;
+
+    fastcgi_connect_timeout 300;
+    fastcgi_send_timeout 300;
+    fastcgi_read_timeout 300;
+    fastcgi_buffer_size 256k;         #以下四个参数已加大，如果设置太小也会出现timeout 504
+    fastcgi_buffers 16 256k;
+    fastcgi_busy_buffers_size 512k;
+    fastcgi_temp_file_write_size 512k;
+    keepalive_timeout 60;
+    limit_conn_zone $binary_remote_addr zone=addr:5m;
+    client_max_body_size 200m;
+
+        include /etc/nginx/vhosts/*.conf; #注意这里是引入子配置文件，重要
+}
+
+</code></pre>
+<p>下面引入子配置文件，就是说在子配置文件中所有以conf结尾的文件都会被引入，厉害吧。</p>
+<p><strong>子配置文件：</strong><br>
+mxonline.conf 存放在etc/nginx/vhosts/下</p>
+<pre><code class="language-shell">server {
+    # the port your site will be served on
+    listen      8080; #监听端口是8080，也就是访问的端口
+    # the domain name it will serve for
+    server_name localhost; # substitute your machine's IP address or FQDN
+    charset     utf-8;
+    proxy_http_version 1.1;
+    proxy_set_header Connection &quot;&quot;;
+
+    # max upload size
+    #client_max_body_size 75M;   # adjust to taste
+
+    # Django media
+    location /media  {
+        alias /usr/local/nginx/html/MxOnline/media;  # 指向django的media目录
+    }
+
+    location /static {
+        alias /usr/local/nginx/html/MxOnline/collected_static; # 指向django的static目录
+    }
+
+    # Finally, send all non-media requests to the Django server.
+    location / {
+        include     /usr/local/nginx/conf/uwsgi_params; # the uwsgi_params file you installed
+
+        #root html;
+        #index index.html index.htm;
+        uwsgi_pass  127.0.0.1:8000; # 指向uwsgi 所应用的内部地址,所有请求将转发给uwsgi 处理 
+        uwsgi_param UWSGI_PYHOME /root/.virtualenvs/mxonline; # 指向虚拟环境目录 
+        uwsgi_param UWSGI_CHDIR /usr/local/nginx/html/MxOnline; # 指向网站根目录 
+        uwsgi_connect_timeout 600;
+        uwsgi_ignore_client_abort off;
+        uwsgi_read_timeout 600;
+        uwsgi_send_timeout 600;
+
+    }
+}
+</code></pre>
+<p><strong>这里需要注意的有几点， uwsgi_pass需要写uwsgi.ini配置文件中socket的地址；静态文件路径要指向我们之前在settings中加的STATIC_ROOT地址。</strong></p>
+<p>这里附上nginx的启动、停止和重启命令：</p>
+<pre><code class="language-shell">启动：到usr/sbin/下， ./nginx启动
+停止：nginx -s stop
+重启：nginx -s reload
+</code></pre>
+<h4 id="5收集静态资源"><strong>5.收集静态资源</strong></h4>
+<p>其实到了这一步已经完成了百分之90啦，什么叫做收集静态资源呢，这是因为，将项目迁移至生产环境后，因为DEBUG = False，项目不会自己去管控寻找静态资源了，这里就将静态资源的管理交给了nginx，这也就是为什么之前nginx的static配置路径中需要指定STATIC_ROOT路径的原因。<br>
+我们需要将静态资源放置在根目录下的collected_static文件夹下，进入虚拟环境，进入到项目根目录，执行以下语句：</p>
+<pre><code class="language-shell">python manage.py  collectstatic
+</code></pre>
+<p>这样，所有静态资源都会被收集到这个目录下。<br>
+<strong>注意这里有个坑。就是静态资源的文件名，比如图片文件名不要有中文名，不然会报编码错误，这个暂时不知道什么原因，先暂时避免吧。</strong></p>
+<h4 id="6数据表的迁移或生成"><strong>6.数据表的迁移或生成</strong></h4>
+<p>数据表是很关键的，首先要确保settings文件中的数据库配置项没错，服务器上mysql已经有建好了数据库。</p>
+<pre><code class="language-python">DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mxonline',
+        'USER': 'root',
+        'PASSWORD': '123456',
+        'HOST':'127.0.0.1'
+
+    }
+}
+</code></pre>
+<p><strong>这里数据表有两种处理方式：</strong><br>
+一个是迁移，将本地的开发环境数据库传输至服务器的对应数据库中，这个适用于你想保留所有数据的情况下，可以用navicat操作，也很简单，这里不做赘述。</p>
+<p>另一个是在线生成数据表，以下是具体操作：</p>
+<pre><code class="language-shell">1.进入虚拟环境中
+2.进入到项目根目录
+3.执行 python manage.py makemigrations，生成数据库描述文件
+4.执行 python manage.py migrate，生成表文件
+</code></pre>
+<p>这样就生成了数据表。<br>
+然后执行python manage.py createsuperuser生成超级用户。</p>
+<h4 id="7完成啦"><strong>7.完成啦</strong></h4>
+<p>这样就已经完成了部署，只需要先启动项目，然后reload一下nginx，通过localhost:8080， 就能访问啦。</p>
+<h4 id="补充"><strong>补充：</strong></h4>
+<p><strong>1.mysql的启动操作</strong></p>
+<pre><code class="language-shell"># systemctl start mariadb.service //启动服务  
+# systemctl enable mariadb.service //开机启动服务  
+# mysql -u root -p //登录mysql 
+</code></pre>
+<p>因为安装的其实是mariadb，启动和重启方式有所不同。</p>
+<p><strong>2.腾讯云默认封禁25端口（气愤）</strong><br>
+因为项目中用到了通过第三方smtp发送注册激活邮件的功能，然而部署后邮件一直发不出，很奇怪，页面也是一直panding着。查看nginx的错误日志，显示是connecting out time ！！ what？在我怀疑项目问题并折腾许久后，才发现腾讯云其实默认封禁了25端口，也就是说你无法通过25端口发送邮件。<br>
+但是这是可以解封的，申请一下1秒钟的事。第三方smtp发送邮件腾讯是支持的，所以解封了也没事。</p>
+<p><strong>3.查看错误日志</strong><br>
+因为使用nginx代理了项目，我们项目报错就可以去nginx的日志中查看啦，具体路径在usr/local/nginx/logs/下，可以通过 tail -500f ./error.log打印查看~</p>
+<p>bye~~</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[go语言与python并发（协程）的异同]]></title>
+        <id>https://skytotwo.github.io//post/go-python-decorator</id>
+        <link href="https://skytotwo.github.io//post/go-python-decorator">
+        </link>
+        <updated>2019-08-26T13:57:10.000Z</updated>
+        <summary type="html"><![CDATA[<p><strong>go语言和python都是时下火热的语言，两者在各自领域有自己的优势。它们都支持并发，这里对此做相应比较和区分。</strong></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><strong>go语言和python都是时下火热的语言，两者在各自领域有自己的优势。它们都支持并发，这里对此做相应比较和区分。</strong></p>
+<h2 id="-more-"><!-- more --></h2>
+<h4 id="go语言"><strong>go语言：</strong></h4>
+<p>go语言是原生支持并发，这个是天生骄傲的，go语言的并发和python一样都是依靠协程，协程相当于函数层面的相继顺序调用，是一种区别于线程的非抢占式的任务调度。<br>
+go语言的协程其实已经封装的很好了，直接用“go”关键字就能开启，定义完协程后，启动程序，go语言内部的调度器就会在执行带goroutine处很智能的执行协程部分代码，随后遇到耗时操作（io等操作）需要让渡处操控权时就让别的协程执行（定义了goroutine后，一定意义上来说，主线程也是一个协程）。<br>
+go语言的协程分配的很智能，会自动根据cpu核数，以及协程总量来讲协程分配至一定数量的线程上，这样来说，并发上千上万个协程是完全没问题的。也正是这样，go语言现在成为高并发领域（直播等）的首选语言。</p>
+<hr>
+<h4 id="python"><strong>python：</strong></h4>
+<p>我个人很喜欢python的语法，很易懂、人性化，相比go语言来说，不会那么严格，当然严格有严格的好处，统一规范，在开发大型项目协同合作上面是很有优势的。<br>
+python是一个不断进步的语言，python起初对并发其实支持并不好，因为有gil这把锁的存在，多核情况下多线程其实是鸡肋（具体想了解gil相关知识，可以看我另一篇文章：<a href="https://totoro.site/post/python-gil/" title="Python中的GIL详解">Python中的GIL详解</a>）。<br>
+随后python出现了协程，python的协程并没有像go语言一样智能调度，它是需要手动yield，将操作权yield给另一个函数，yield也可以接收值，可以产出值，有通信的作用。随后python3.3出现了yield from，yield from实现了协程调用方调用子生成器并与之通信。<br>
+python为了将语义变得更加明确，就引入了async和await关键词用于定义原生的协程，通过async 函数名这样的方式来声明这个函数是一个协程，通过await 函数名方式将操作权让渡出去，这个协程的调度完全是人为的操纵的。<br>
+现在的python其实更具野心的并发库是asyncio，asyncio的定义并发其实效果和go差不多，采用的是时间轮循加协程，asyncio通过get_event_loop方法初始化一个事件轮循，这相当于一个调度器一样，调用方将所有协程注册到循环里，开启循环执行主方法，协程就能依次执行，碰到io操作时候就将协程挂起，知道执行完io就等待事件轮循下一次调度。<br>
+其实python的知名框架tornado就是使用事件轮循加协程方式实现高并发，也是非常牛X的框架。</p>
+<hr>
+<h4 id="对比总结"><strong>对比总结：</strong></h4>
+<p>其实就并发而言我是比较喜欢go语言的，毕竟对使用者比较友好嘛，但是对语言来说，我喜欢Python没道理，哈哈。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[go语言channel概要记录]]></title>
         <id>https://skytotwo.github.io//post/go-channel</id>
@@ -189,425 +1323,6 @@ nginx
 nginx -s reload
 </code></pre>
 <p>浏览器访问服务地址，点亮服务，一切ok，这样配置，也方便以后拓展。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[对python鸭子类型的理解]]></title>
-        <id>https://skytotwo.github.io//post/python-docktype</id>
-        <link href="https://skytotwo.github.io//post/python-docktype">
-        </link>
-        <updated>2019-08-26T13:41:10.000Z</updated>
-        <summary type="html"><![CDATA[<p><strong>首先Python不支持多态，也不用支持多态，python是一种多态语言，崇尚鸭子类型。</strong> 以下是维基百科中对鸭子类型得论述：</p>
-]]></summary>
-        <content type="html"><![CDATA[<p><strong>首先Python不支持多态，也不用支持多态，python是一种多态语言，崇尚鸭子类型。</strong> 以下是维基百科中对鸭子类型得论述：</p>
-<!-- more --> 
-<p>在程序设计中，鸭子类型（英语：duck typing）是动态类型的一种风格。在这种风格中，一个对象有效的语义，不是由继承自特定的类或实现特定的接口，而是由当前方法和属性的集合决定。这个概念的名字来源于由James Whitcomb Riley提出的鸭子测试，“鸭子测试”可以这样表述：<br>
-<strong>“当看到一只鸟走起来像鸭子、游泳起来像鸭子、叫起来也像鸭子，那么这只鸟就可以被称为鸭子。”</strong></p>
-<p>在鸭子类型中，关注的不是对象的类型本身，而是它是如何使用的。例如，在不使用鸭子类型的语言中，我们可以编写一个函数，它接受一个类型为鸭的对象，并调用它的走和叫方法。<strong>在使用鸭子类型的语言中，这样的一个函数可以接受一个任意类型的对象，并调用它的走和叫方法</strong>。如果这些需要被调用的方法不存在，那么将引发一个运行时错误。<strong>任何拥有这样的正确的走和叫方法的对象都可被函数接受的这种行为</strong>引出了以上表述，这种决定类型的方式因此得名。</p>
-<p>鸭子类型通常得益于不测试方法和函数中参数的类型，而是依赖文档、清晰的代码和测试来确保正确使用。从静态类型语言转向动态类型语言的用户通常试图添加一些静态的（在运行之前的）类型检查，从而影响了鸭子类型的益处和可伸缩性，并约束了语言的动态特性。</p>
-<h4 id="python中的具体实现">python中的具体实现</h4>
-<p>下面的代码就是一个简单的鸭子类型</p>
-<pre><code class="language-python">class duck():
-  def walk(self):
-    print('I walk like a duck')
-  def swim(self):
-    print('i swim like a duck')
-
-class person():
-  def walk(self):
-    print('this one walk like a duck') 
-  def swim(self):
-    print('this man swim like a duck')
-</code></pre>
-<pre><code class="language-python">def watch_duck(animal):
-  animal.walk()
-  animal.swim()
-
-small_duck = duck()
-watch_duck(small_duck)
-
-duck_like_man = person()
-watch_duck(duck_like_man)
-
-</code></pre>
-<p>输出结果：</p>
-<pre><code class="language-python">output &gt;&gt; 
-I walk like a duck
-i swim like a duck
-
-this one walk like a duck
-this man swim like a duck
-</code></pre>
-<p>对于watch_duck方法来说，传入的参数类型并不重要，只要它实现了walk和swim方法，一切就ok。这就是鸭子类型的基本实现。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Golang关于import包的问题记录]]></title>
-        <id>https://skytotwo.github.io//post/golang-import</id>
-        <link href="https://skytotwo.github.io//post/golang-import">
-        </link>
-        <updated>2019-08-26T13:39:14.000Z</updated>
-        <content type="html"><![CDATA[<ul>
-<li>多个源文件可同属于一个包，只要声明时package指定的包名一样；</li>
-<li>一个包对应生成一个*.a文件，生成的文件名并不是包名+.a组成，应该是目录名+.a组成</li>
-<li>go install ××× 这里对应的并不是包名，而是路径名！！</li>
-<li>import ××× 这里使用的也不是包名，也是路径名</li>
-<li>×××××.SayHello() 这里使用的才是包名！</li>
-<li>指定×××路径名就代表了此目录下唯一的包，编译器连接器默认就会去生成或者使用它，而不需要我们手动指明！</li>
-<li>一个目录下就只能有一个包存在</li>
-<li>对于调用有源码的第三方包，连接器在连接时，其实使用的并不是我们工作目录下的.a文件，而是以该最新源码编译出的临时文件夹中的.a文件</li>
-<li>对于调用没有源码的第三方包，上面的临时编译不可能成功，那么临时目录下就不可能有.a文件，所以最后链接时就只能链接到工作目录下的.a文件</li>
-<li>对于标准库，即便是修改了源代码，只要不重新编译Go源码，那么链接时使用的就还是已经编译好的*.a文件</li>
-<li>包导入有三种模式：正常模式、别名模式、简便模式</li>
-</ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Mac下重置mysql5.7 密码]]></title>
-        <id>https://skytotwo.github.io//post/mac-mysql57-resetpd</id>
-        <link href="https://skytotwo.github.io//post/mac-mysql57-resetpd">
-        </link>
-        <updated>2019-08-26T13:35:35.000Z</updated>
-        <summary type="html"><![CDATA[<p>先附上mysql 5.7版本的下载地址，因为5.7版本太经典了，所以我也偏爱这个版本。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>先附上mysql 5.7版本的下载地址，因为5.7版本太经典了，所以我也偏爱这个版本。</p>
- <!-- more --> 
-<p><a href="https://dev.mysql.com/downloads/mysql/5.7.html#downloads" title="mysql5.7下载地址">mysql5.7下载地址</a><br>
-首先是mysql的基本命令：启动、停止和重启</p>
-<pre><code class="language-shell">启动MySQL服务
-sudo /usr/local/MySQL/support-files/mysql.server start
- 
-停止MySQL服务
-sudo /usr/local/mysql/support-files/mysql.server stop
- 
-重启MySQL服务
-sudo /usr/local/mysql/support-files/mysql.server restart
-
-</code></pre>
-<p>令人苦恼的是安装完成后，作为开发环境还是设置一个自己好记的密码比较好，而不是初始给你那个乱七八糟的密码。<br>
-折腾了一会儿总算成功了。下面是步骤：</p>
-<pre><code class="language-python">1. 停止 mysql server. 通常是在 '系统偏好设置' &gt; MySQL &gt; 'Stop MySQL Server'。或者执行上文中的停止mysql命令。
-2.打开一个终端，输入：
-sudo /usr/local/mysql/bin/mysqld_safe --skip-grant-tables，用安全模式启动，这样就可以不用输密码链接mysql了。
-3.然后打开另一个终端，输入:
-sudo /usr/local/mysql/bin/mysql -u root，这样就进入了mysql了。
-4.在mysql输入语句模式下输入：FLUSH PRIVILEGES;
-5.接着输入：ALTER USER 'root'@'localhost' IDENTIFIED BY 'NewPassword';
-6.再输入：FLUSH PRIVILEGES;输入\q退出。
-7.重启mysql。
-</code></pre>
-<p>至此就ok啦，妥妥的连接上~</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[java O(n^2)实现]]></title>
-        <id>https://skytotwo.github.io//post/java-on2</id>
-        <link href="https://skytotwo.github.io//post/java-on2">
-        </link>
-        <updated>2019-08-26T13:32:32.000Z</updated>
-        <content type="html"><![CDATA[<pre><code class="language-java">/**
- * 算法实现，拼接设备
- * 示例：
- * 实现前：甲-重要设备,乙-重要设备,丙-关注设备,丁-关注设备,你-重要设备
- * 实现后：甲、乙、你为重要设备,丙、丁为关注设备,
- * @author xyq
- */
-String dataheader = &quot;&quot;;
-String finaldata = &quot;&quot;;
-String[] datas = totals.split(&quot;,&quot;);
-for (int i = 0; i &lt; datas.length; i++) { //遍历每一个，得到每个的格式“xxxx-xxxx”
-	String shebei = datas[i].split(&quot;-&quot;)[0]; //取出当前设备
-	String sbzyd = datas[i].split(&quot;-&quot;)[1];  //取出当前重要度
-	if(finaldata.contains(shebei)){ //最后拼接包含该循环设备则跳出
-		continue;
-	}
-	for (int j = i; j &lt; datas.length; j++) { //再次遍历，起点为当前循环位置
-		if(datas[j].contains(sbzyd)){  
-			if(datas[j].contains(shebei)){
-				dataheader = shebei;
-				continue;
-			}
-			if(!&quot;&quot;.equals(dataheader)){ //判断当无重复匹配的时候
-				dataheader = dataheader+&quot;、&quot;+datas[j].split(&quot;-&quot;)[0];
-			}else{
-				dataheader = datas[i].split(&quot;-&quot;)[0]+&quot;、&quot;+datas[j].split(&quot;-&quot;)[0];
-			}
-		}
-	}
-	finaldata+=dataheader+&quot;为&quot;+sbzyd+&quot;,&quot;;
-}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Flask中自定义JSONEncoder]]></title>
-        <id>https://skytotwo.github.io//post/flask-jsonencoder</id>
-        <link href="https://skytotwo.github.io//post/flask-jsonencoder">
-        </link>
-        <updated>2019-08-26T13:29:21.000Z</updated>
-        <summary type="html"><![CDATA[<p>正在用Flask写个小项目，要实现将自定义类型转化成json格式。Flask一般用jsonify来使接口返回json数据，实现一个Flask内使用的JSONEncoder。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>正在用Flask写个小项目，要实现将自定义类型转化成json格式。Flask一般用jsonify来使接口返回json数据，实现一个Flask内使用的JSONEncoder。</p>
- <!-- more --> 
-<pre><code class="language-python">from flask.json import JSONEncoder
-
-#编写自己的json编码器，并继承原有的
-class MyJSONEncoder(JSONEncoder):
-	#在jsonify中不能直接序列化该类型的时候，才会调用default方法，并进入分类执行
-    def default(self, obj):
-        if isinstance(obj, EqltByGene):
-			#自定义返回字典
-            return {
-                'gene_id': obj.gene_id, 
-                'gene_symbol': obj.gene_symbol,
-                'p_value': obj.p_value,
-            }
-        return super(MyJSONEncoder, self).default(obj)
-
-app = Flask(__name__)
-app.json_encoder = MyJSONEncoder #将自定义的json编码器赋给flask原有的
-</code></pre>
-<p>这样在使用jsonify的时候，就可以将MyObject类型的实例转化到json格式。</p>
-<p>问题思考：</p>
-<ol>
-<li>如果项目中有很多自定义Class，都有这个需求，JSONEncoder的实现似乎会很丑陋，有什么好的方式？</li>
-<li>同一个Class在不同的场景，json后要保留的字段差别如果很大，该如果实现？</li>
-</ol>
-<p>对该问题的实现，可以采用以下方式：</p>
-<pre><code class="language-python">#在模型对象中重写dict方法
-class User(Base):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(50), unique=True, nullable=False)
-    nickname = db.Column(db.String(24), unique=True)
-    auth = db.Column(db.SmallInteger, default=1) # 1是普通用户，2是管理员
-    _password = db.Column('password', db.String(100))
-
-    #自定义将模型对象转成dict ，即dict(user)
-    #dict(user)，会先调用keys方法，这里重写，自定义获取返回的字段
-    def keys(self):
-        return ['id', 'email', 'nickname', 'auth']
-
-    # dict(user)获取完字段后，会取出对应字段的值，这里使用__getitem__，这里getattr(self, item)拿到值信息，item为key名
-    def __getitem__(self, item):
-        return getattr(self, item)
-</code></pre>
-<p>以上的keys和getitem方法，会在自定义的jsonencoder方法中dict（对象）时候调用，如下：</p>
-<pre><code class="language-python">#自定义json方法，在方法中实现对象转字典返回，这需要在模型对象中实现对应dict方法
-class JSONEncoder(_JSONEncoder):
-    def default(self, o):
-        return dict(o)
-</code></pre>
-<p>调用方法如：</p>
-<pre><code class="language-python">def get_user(uid):
-    user = User.query.get_or_404(uid)
-    return jsonify(user)
-</code></pre>
-<p>所以这样就实现了jsonencoder将对象转化成字典，然后直接jsonnfy调用序列化。并且复用性强，在模型中定义dict调用的方法，使得转化的字典key可以控制。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Python可迭代对象，迭代器，生成器的区别]]></title>
-        <id>https://skytotwo.github.io//post/python-iter&amp;decorator</id>
-        <link href="https://skytotwo.github.io//post/python-iter&amp;decorator">
-        </link>
-        <updated>2019-08-26T13:23:20.000Z</updated>
-        <summary type="html"><![CDATA[<p>三者简要关系图</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>三者简要关系图</p>
-<!-- more --> 
-<p><img src="http://picture.totoro.site/images/2019/08/26/20180602164019_717.png" alt="20180602164019_717.png"></p>
-<p>###<strong>可迭代对象与迭代器</strong></p>
-<p>刚开始我认为这两者是等同的，但后来发现并不是这样；下面直接抛出结论：</p>
-<ul>
-<li>1）可迭代对象包含迭代器。</li>
-<li>2）如果一个对象拥有__iter__方法，其是可迭代对象；如果一个对象拥有next方法，其是迭代器。</li>
-<li>3）定义可迭代对象，必须实现__iter__方法；定义迭代器，必须实现__iter__和next方法。</li>
-</ul>
-<p>你也许会问，结论3与结论2是不是有一点矛盾？既然一个对象拥有了next方法就是迭代器，那为什么迭代器必须同时实现两方法呢？</p>
-<p>因为结论1，迭代器也是可迭代对象，因此迭代器必须也实现__iter__方法。</p>
-<p><strong>介绍一下上面涉及到的两个方法：</strong></p>
-<p>1）<strong>iter</strong>()</p>
-<p>该方法返回的是当前对象的迭代器类的实例。因为可迭代对象与迭代器都要实现这个方法，因此有以下两种写法。</p>
-<p>写法一：用于可迭代对象类的写法，返回该可迭代对象的迭代器类的实例。</p>
-<p>写法二：用于迭代器类的写法，直接返回self（即自己本身），表示自身即是自己的迭代器。</p>
-<p>也许有点晕，没关系，下面会给出两写法的例子，我们结合具体例子看。</p>
-<p>2）next()<br>
-返回迭代的每一步，实现该方法时注意要最后超出边界要抛出StopIteration异常。</p>
-<p>下面举个可迭代对象与迭代器的例子：</p>
-<pre><code class="language-python">[python] view plain copy
-#!/usr/bin/env python  
-# coding=utf-8  
-  
-  
-class MyList(object):            # 定义可迭代对象类  
-  
-    def __init__(self, num):  
-        self.data = num          # 上边界  
-  
-    def __iter__(self):  
-        return MyListIterator(self.data)  # 返回该可迭代对象的迭代器类的实例  
-  
-  
-class MyListIterator(object):    # 定义迭代器类，其是MyList可迭代对象的迭代器类  
-  
-    def __init__(self, data):  
-        self.data = data         # 上边界  
-        self.now = 0             # 当前迭代值，初始为0  
-  
-    def __iter__(self):  
-        return self              # 返回该对象的迭代器类的实例；因为自己就是迭代器，所以返回self  
-  
-    def next(self):              # 迭代器类必须实现的方法  
-        while self.now &lt; self.data:  
-            self.now += 1  
-            return self.now - 1  # 返回当前迭代值  
-        raise StopIteration      # 超出上边界，抛出异常  
-  
-  
-my_list = MyList(5)              # 得到一个可迭代对象  
-print type(my_list)              # 返回该对象的类型  
-  
-my_list_iter = iter(my_list)     # 得到该对象的迭代器实例，iter函数在下面会详细解释  
-print type(my_list_iter)  
-  
-  
-for i in my_list:                # 迭代  
-    print i  
-</code></pre>
-<p>运行结果：<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180602164211_226.png" alt="20180602164211_226.png"></p>
-<p>问题：上面的例子中出现了iter函数，这是什么东西？和__iter__方法有关系吗？<br>
-其实该函数与迭代是息息相关的，通过在Python命令行中打印“help(iter)”得知其有以下两种用法。</p>
-<p>用法一：iter(callable, sentinel)<br>
-不停的调用callable，直至其的返回值等于sentinel。其中的callable可以是函数，方法或实现了__call__方法的实例。</p>
-<p>用法二：iter(collection)<br>
-1）用于返回collection对象的迭代器实例，这里的collection我认为表示的是可迭代对象，即该对象必须实现__iter__方法；事实上iter函数与__iter__方法联系非常紧密，iter()是直接调用该对象的__iter__()，并把__iter__()的返回结果作为自己的返回值，故该用法常被称为“创建迭代器”。<br>
-2）iter函数可以显示调用，或当执行“for i in obj:”，Python解释器会在第一次迭代时自动调用iter(obj)，之后的迭代会调用迭代器的next方法，for语句会自动处理最后抛出的StopIteration异常。</p>
-<p>通过上面的例子，相信对可迭代对象与迭代器有了更具体的认识，那么生成器与它们有什么关系呢？下面简单谈一谈</p>
-<p>###<strong>生成器</strong></p>
-<p>生成器是一种特殊的迭代器，生成器自动实现了“迭代器协议”（即__iter__和next方法），不需要再手动实现两方法。</p>
-<p>生成器在迭代的过程中可以改变当前迭代值，而修改普通迭代器的当前迭代值往往会发生异常，影响程序的执行。</p>
-<pre><code class="language-python">for c1 in c:
-    print(c1+=2)
-</code></pre>
-<p><img src="http://picture.totoro.site/images/2019/08/26/20180602164347_746.png" alt="20180602164347_746.png"></p>
-<p>看一个生成器的例子：</p>
-<pre><code class="language-python">[python] view plain copy
-#!/usr/bin/env python  
-# coding=utf-8  
-  
-  
-def myList(num):      # 定义生成器  
-    now = 0           # 当前迭代值，初始为0  
-    while now &lt; num:  
-        val = (yield now)                      # 返回当前迭代值，并接受可能的send发送值；yield在下面会解释  
-        now = now + 1 if val is None else val  # val为None，迭代值自增1，否则重新设定当前迭代值为val  
-  
-my_list = myList(5)   # 得到一个生成器对象  
-  
-print my_list.next()  # 返回当前迭代值  
-print my_list.next()  
-  
-my_list.send(3)       # 重新设定当前的迭代值  
-print my_list.next()  
-  
-print dir(my_list)    # 返回该对象所拥有的方法名，可以看到__iter__与next在其中 
-</code></pre>
-<p>运行结果：<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180602164437_60.png" alt="20180602164437_60.png"></p>
-<p>具有yield关键字的函数都是生成器，yield可以理解为return，返回后面的值给调用者。不同的是return返回后，函数会释放，而生成器则不会。在直接调用next方法或用for语句进行下一次迭代时，生成器会从yield下一句开始执行，直至遇到下一个yield。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[flask全局404装饰器（全局以及蓝图）]]></title>
-        <id>https://skytotwo.github.io//post/flask-404-decorator</id>
-        <link href="https://skytotwo.github.io//post/flask-404-decorator">
-        </link>
-        <updated>2019-08-26T08:25:56.000Z</updated>
-        <summary type="html"><![CDATA[<p>在flask里是可以实现全局事件注册的，利用装饰器来注册相应的事件，比如404错误，数据库错误等，当错误出现就会捕获走对应的逻辑，很方便。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>在flask里是可以实现全局事件注册的，利用装饰器来注册相应的事件，比如404错误，数据库错误等，当错误出现就会捕获走对应的逻辑，很方便。</p>
-<!-- more --> 
-<pre><code class="language-python">#全局
-@app.errorhandler(404)
-def page_not_found(error):
-    &quot;&quot;&quot;
-    404
-    &quot;&quot;&quot;
-    return render_template(&quot;home/404.html&quot;), 404
-
-#蓝图，注册范围为本蓝图
-@web.errorhandler(404)
-def page_not_found(error):
-    &quot;&quot;&quot;
-    404
-    &quot;&quot;&quot;
-    return render_template(&quot;home/404.html&quot;), 404
-
-#蓝图，注册范围为全局
-@web.app_errorhandler(404)
-def page_not_found(error):
-    &quot;&quot;&quot;
-    404
-    &quot;&quot;&quot;
-    return render_template(&quot;home/404.html&quot;), 404
-</code></pre>
-<p>注意：</p>
-<ul>
-<li>核心对象加载的错误处理装饰器，全局的直接是@app.errorhandler(404)</li>
-<li>蓝图的加载错误处理装饰器：
-<ol>
-<li>蓝图名.errorhandler(404)，表示在该蓝图范围中的错误才能触发处理程序</li>
-<li>蓝图名.app_errorhandler(404)，表示注册为程序全局的错误处理程序</li>
-</ol>
-</li>
-</ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[关于Flask的蓝图解释一二]]></title>
-        <id>https://skytotwo.github.io//post/flask-blueprint</id>
-        <link href="https://skytotwo.github.io//post/flask-blueprint">
-        </link>
-        <updated>2019-08-26T08:23:37.000Z</updated>
-        <summary type="html"><![CDATA[<p>以下是一个最基本的蓝图示例。在这里，我们将使用蓝图来简单地渲染静态模板:</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>以下是一个最基本的蓝图示例。在这里，我们将使用蓝图来简单地渲染静态模板:</p>
-<!-- more -->
-<pre><code class="language-python">from flask import Blueprint, render_template, abort
-from jinja2 import TemplateNotFound
-
-simple_page = Blueprint('simple_page', __name__,
-                        template_folder='templates')
-
-from app.feedback import feedback #视图
-</code></pre>
-<pre><code class="language-python">#视图部分 feedback.py
-from . import simple_page
-
-@simple_page.route('/', defaults={'page': 'index'})
-@simple_page.route('/&lt;page&gt;')
-def show(page):
-    try:
-        return render_template('pages/%s.html' % page)
-    except TemplateNotFound:
-        abort(404)
-</code></pre>
-<p>当你使用 @simple_page.route 装饰器绑定一个函数时，蓝图会记录下所登记的 show 函数。当以后在应用中注册蓝图时，这个函数会被注册到应用中。另外，它 会把构建 Blueprint 时所使用的名称（在本例为 simple_page ）作 为函数端点的前缀。</p>
-<pre><code class="language-python">可以这样注册蓝图:
-
-from flask import Flask
-from yourapplication.simple_page import simple_page
-
-app = Flask(__name__)
-app.register_blueprint(simple_page)
-以下是注册蓝图后形成的规则:
-
-[&lt;Rule '/static/&lt;filename&gt;' (HEAD, OPTIONS, GET) -&gt; static&gt;,
- &lt;Rule '/&lt;page&gt;' (HEAD, OPTIONS, GET) -&gt; simple_page.show&gt;,
- &lt;Rule '/' (HEAD, OPTIONS, GET) -&gt; simple_page.show&gt;]
-</code></pre>
-<p>所以当外部访问到对应url规则时，会直接找到指定蓝图下的方法。也就是定义蓝图下引入视图的意义，会直接在那里找对应方法。</p>
 ]]></content>
     </entry>
 </feed>

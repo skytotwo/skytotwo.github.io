@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>go语言与python并发（协程）的异同 | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1566830938697">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1566830938697" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="http://picture.totoro.site/" class="site-nav">
+            图床
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">go语言与python并发（协程）的异同</h2>
+            <div class="post-date">2019-08-26</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/7403ae9274d4dc81d567836a10cea287.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <p><strong>go语言和python都是时下火热的语言，两者在各自领域有自己的优势。它们都支持并发，这里对此做相应比较和区分。</strong></p>
+<h2 id="-more-"><!-- more --></h2>
+<h4 id="go语言"><strong>go语言：</strong></h4>
+<p>go语言是原生支持并发，这个是天生骄傲的，go语言的并发和python一样都是依靠协程，协程相当于函数层面的相继顺序调用，是一种区别于线程的非抢占式的任务调度。<br>
+go语言的协程其实已经封装的很好了，直接用“go”关键字就能开启，定义完协程后，启动程序，go语言内部的调度器就会在执行带goroutine处很智能的执行协程部分代码，随后遇到耗时操作（io等操作）需要让渡处操控权时就让别的协程执行（定义了goroutine后，一定意义上来说，主线程也是一个协程）。<br>
+go语言的协程分配的很智能，会自动根据cpu核数，以及协程总量来讲协程分配至一定数量的线程上，这样来说，并发上千上万个协程是完全没问题的。也正是这样，go语言现在成为高并发领域（直播等）的首选语言。</p>
+<hr>
+<h4 id="python"><strong>python：</strong></h4>
+<p>我个人很喜欢python的语法，很易懂、人性化，相比go语言来说，不会那么严格，当然严格有严格的好处，统一规范，在开发大型项目协同合作上面是很有优势的。<br>
+python是一个不断进步的语言，python起初对并发其实支持并不好，因为有gil这把锁的存在，多核情况下多线程其实是鸡肋（具体想了解gil相关知识，可以看我另一篇文章：<a href="https://totoro.site/post/python-gil/" title="Python中的GIL详解">Python中的GIL详解</a>）。<br>
+随后python出现了协程，python的协程并没有像go语言一样智能调度，它是需要手动yield，将操作权yield给另一个函数，yield也可以接收值，可以产出值，有通信的作用。随后python3.3出现了yield from，yield from实现了协程调用方调用子生成器并与之通信。<br>
+python为了将语义变得更加明确，就引入了async和await关键词用于定义原生的协程，通过async 函数名这样的方式来声明这个函数是一个协程，通过await 函数名方式将操作权让渡出去，这个协程的调度完全是人为的操纵的。<br>
+现在的python其实更具野心的并发库是asyncio，asyncio的定义并发其实效果和go差不多，采用的是时间轮循加协程，asyncio通过get_event_loop方法初始化一个事件轮循，这相当于一个调度器一样，调用方将所有协程注册到循环里，开启循环执行主方法，协程就能依次执行，碰到io操作时候就将协程挂起，知道执行完io就等待事件轮循下一次调度。<br>
+其实python的知名框架tornado就是使用事件轮循加协程方式实现高并发，也是非常牛X的框架。</p>
+<hr>
+<h4 id="对比总结"><strong>对比总结：</strong></h4>
+<p>其实就并发而言我是比较喜欢go语言的，毕竟对使用者比较友好嘛，但是对语言来说，我喜欢Python没道理，哈哈。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/QdOfncYO8" class="tag">
+                    go
+                  </a>
+                
+                  <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="tag">
+                    python
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/go-channel">
+                  <h3 class="post-title">
+                    go语言channel概要记录
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

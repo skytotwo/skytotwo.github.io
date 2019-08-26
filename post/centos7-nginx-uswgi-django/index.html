@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Centos7 nginx + uswgi 部署Django应用 | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1566830938697">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1566830938697" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="http://picture.totoro.site/" class="site-nav">
+            图床
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Centos7 nginx + uswgi 部署Django应用</h2>
+            <div class="post-date">2019-08-26</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/v2-9bc6cfcdb7b946a728ccfe26f4eb5c01_1200x500.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <p>前些天写了flask应用的部署，今天来讲讲Django的部署吧，毕竟Django部署坑确实多，写篇教程记录下具体步骤要点和踩过得坑。</p>
+<!-- more -->
+<p>首先是linux环境的配置，比如说安装python3.6；安装虚拟环境；安装mysql数据库；安装nginx，这些其实都在之前的一篇教程中写过了，可以点击链接查看：<br>
+<a href="https://totoro.site/post/centos7-python-env/" title="点我查看linux具体环境配置">点我查看linux具体环境配置</a></p>
+<p>接下来就是具体Django的部署了。</p>
+<hr>
+<h4 id="1代码和数据的修改"><strong>1.代码和数据的修改</strong></h4>
+<p>上线的代码是需要修改的，主要修改的地方有两点，如下：</p>
+<pre><code class="language-python">在settings中增加：
+STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
+</code></pre>
+<p>这是用作后面统一存放静态文件，以便nginx来管理。</p>
+<pre><code class="language-python">在settings中：
+DEBUG = True 改成False
+</code></pre>
+<p>这是为了网站安全考虑，报错影藏，生产环境必须这样。</p>
+<h4 id="2代码项目的迁移"><strong>2.代码项目的迁移</strong></h4>
+<p>我的nginx安装目录是在usl/local/nginx，将项目放在usl/local/nginx/html/下面</p>
+<h4 id="3安装uwsgi"><strong>3.安装uwsgi</strong></h4>
+<p>安装前需要安装一些依赖包，输入如下命令</p>
+<pre><code class="language-shell">yum -y install gcc  gcc-c++ zlib zlib-devel openssl openssl-devel pcre pcre-devel GeoIP gd libXpm libxslt sqlite-devel
+</code></pre>
+<p>然后：</p>
+<pre><code class="language-shell">进入虚拟环境里：
+pip  install uwsgi
+</code></pre>
+<p>然后新建一个uwsgi.ini配置文件，放置在应用根部目下，<br>
+打开并写入以下内容：</p>
+<pre><code class="language-shell"># mysite_uwsgi.ini file
+[uwsgi]
+
+# Django-related settings
+# the base directory (full path)
+wsgi-file=/usr/local/nginx/html/MxOnline/uwsgi.ini  #项目目录下的uwsgi.ini
+
+chdir = /usr/local/nginx/html/MxOnline
+# Django's wsgi file
+module = MxOnline.wsgi:application
+# the virtualenv (full path)
+
+# process-related settings
+# master
+master = true
+# maximum number of worker processes
+processes = 10
+# the socket (use the full path to be safe
+socket = 127.0.0.1:8000
+# ... with appropriate permissions - may be needed
+#chmod-socket    = 660
+# clear environment on exit
+home = /root/.virtualenvs/mxonline
+env = DJANGO_SETTINGS_MODULE=MxOnline.settings
+vacuum = true     #退出时清理环境
+buffer-size = 65536  #最大缓冲区，如果设置得太小，请求的数据超过buffer-size的话，网站会起不来
+</code></pre>
+<p>注意不要写错了。<br>
+然后uwsgi的命令是：</p>
+<pre><code class="language-shell">uwsgi 启动 ：虚拟环境下uwsgi config.ini
+uwsgi 关闭：虚拟环境下killall -9 uwsgi
+</code></pre>
+<p>启动后去过出现一下报文说明成功启动：</p>
+<pre><code class="language-shell">(mxonline) [root@VM_0_5_centos MxOnline]# uwsgi uwsgi.ini 
+[uWSGI] getting INI configuration from uwsgi.ini
+*** Starting uWSGI 2.0.17.1 (64bit) on [Fri Aug 24 21:24:29 2018] ***
+compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-28) on 16 August 2018 10:08:12
+os: Linux-3.10.0-514.26.2.el7.x86_64 #1 SMP Tue Jul 4 15:04:05 UTC 2017
+nodename: VM_0_5_centos
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /usr/local/nginx/html/MxOnline
+detected binary path: /root/.virtualenvs/mxonline/bin/uwsgi
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /usr/local/nginx/html/MxOnline
+your processes number limit is 7282
+your memory page size is 4096 bytes
+detected max file descriptor number: 100001
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:8000 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.6.3 (default, Aug 15 2018, 16:38:27)  [GCC 4.8.5 20150623 (Red Hat 4.8.5-28)]
+Set PythonHome to /root/.virtualenvs/mxonline
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x13d3230
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 1477949 bytes (1443 KB) for 10 cores
+*** Operational MODE: preforking ***
+WSGI app 0 (mountpoint='') ready in 3 seconds on interpreter 0x13d3230 pid: 16267 (default app)
+mountpoint  already configured. skip.
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 16267)
+spawned uWSGI worker 1 (pid: 16271, cores: 1)
+spawned uWSGI worker 2 (pid: 16272, cores: 1)
+spawned uWSGI worker 3 (pid: 16273, cores: 1)
+spawned uWSGI worker 4 (pid: 16274, cores: 1)
+spawned uWSGI worker 5 (pid: 16275, cores: 1)
+spawned uWSGI worker 6 (pid: 16276, cores: 1)
+spawned uWSGI worker 7 (pid: 16277, cores: 1)
+spawned uWSGI worker 8 (pid: 16278, cores: 1)
+spawned uWSGI worker 9 (pid: 16279, cores: 1)
+spawned uWSGI worker 10 (pid: 16280, cores: 1)
+</code></pre>
+<p>当然你也可以用用ps -ef|grep uwsgi命令来查看是否启动。</p>
+<h4 id="4nginx的配置"><strong>4.nginx的配置</strong></h4>
+<p>nginx的安装前文已经详解过了，如今需要做的就是对他做相关的配置。<br>
+这里注意几个路径：</p>
+<pre><code class="language-shell">nginx安装路径：usr/local/nginx/
+nginx主配置文件路径：usr/local/nginx/conf
+nginx日志路径路径：usr/local/nginx/logs
+nginx子配置文件路径：etc/nginx/vhosts/
+这些路径和你的可以不一样，这里只是为了让后面的配置更清晰~~~
+</code></pre>
+<p>这里主要还是用主配置文件加include子配置文件的方式来配置，因为你的服务器可能会有多个项目需要nginx来反向代理，这样配置的好处就是清晰，简单，后续扩展容易。</p>
+<p><strong>下面是主配置文件：</strong><br>
+nginx.conf，存放在usr/local/nginx/conf中</p>
+<pre><code class="language-shell">worker_processes 4;
+events {
+    worker_connections 262140;
+}
+http {
+    include mime.types;
+    default_type application/octet-stream;
+    sendfile on;
+
+    fastcgi_connect_timeout 300;
+    fastcgi_send_timeout 300;
+    fastcgi_read_timeout 300;
+    fastcgi_buffer_size 256k;         #以下四个参数已加大，如果设置太小也会出现timeout 504
+    fastcgi_buffers 16 256k;
+    fastcgi_busy_buffers_size 512k;
+    fastcgi_temp_file_write_size 512k;
+    keepalive_timeout 60;
+    limit_conn_zone $binary_remote_addr zone=addr:5m;
+    client_max_body_size 200m;
+
+        include /etc/nginx/vhosts/*.conf; #注意这里是引入子配置文件，重要
+}
+
+</code></pre>
+<p>下面引入子配置文件，就是说在子配置文件中所有以conf结尾的文件都会被引入，厉害吧。</p>
+<p><strong>子配置文件：</strong><br>
+mxonline.conf 存放在etc/nginx/vhosts/下</p>
+<pre><code class="language-shell">server {
+    # the port your site will be served on
+    listen      8080; #监听端口是8080，也就是访问的端口
+    # the domain name it will serve for
+    server_name localhost; # substitute your machine's IP address or FQDN
+    charset     utf-8;
+    proxy_http_version 1.1;
+    proxy_set_header Connection &quot;&quot;;
+
+    # max upload size
+    #client_max_body_size 75M;   # adjust to taste
+
+    # Django media
+    location /media  {
+        alias /usr/local/nginx/html/MxOnline/media;  # 指向django的media目录
+    }
+
+    location /static {
+        alias /usr/local/nginx/html/MxOnline/collected_static; # 指向django的static目录
+    }
+
+    # Finally, send all non-media requests to the Django server.
+    location / {
+        include     /usr/local/nginx/conf/uwsgi_params; # the uwsgi_params file you installed
+
+        #root html;
+        #index index.html index.htm;
+        uwsgi_pass  127.0.0.1:8000; # 指向uwsgi 所应用的内部地址,所有请求将转发给uwsgi 处理 
+        uwsgi_param UWSGI_PYHOME /root/.virtualenvs/mxonline; # 指向虚拟环境目录 
+        uwsgi_param UWSGI_CHDIR /usr/local/nginx/html/MxOnline; # 指向网站根目录 
+        uwsgi_connect_timeout 600;
+        uwsgi_ignore_client_abort off;
+        uwsgi_read_timeout 600;
+        uwsgi_send_timeout 600;
+
+    }
+}
+</code></pre>
+<p><strong>这里需要注意的有几点， uwsgi_pass需要写uwsgi.ini配置文件中socket的地址；静态文件路径要指向我们之前在settings中加的STATIC_ROOT地址。</strong></p>
+<p>这里附上nginx的启动、停止和重启命令：</p>
+<pre><code class="language-shell">启动：到usr/sbin/下， ./nginx启动
+停止：nginx -s stop
+重启：nginx -s reload
+</code></pre>
+<h4 id="5收集静态资源"><strong>5.收集静态资源</strong></h4>
+<p>其实到了这一步已经完成了百分之90啦，什么叫做收集静态资源呢，这是因为，将项目迁移至生产环境后，因为DEBUG = False，项目不会自己去管控寻找静态资源了，这里就将静态资源的管理交给了nginx，这也就是为什么之前nginx的static配置路径中需要指定STATIC_ROOT路径的原因。<br>
+我们需要将静态资源放置在根目录下的collected_static文件夹下，进入虚拟环境，进入到项目根目录，执行以下语句：</p>
+<pre><code class="language-shell">python manage.py  collectstatic
+</code></pre>
+<p>这样，所有静态资源都会被收集到这个目录下。<br>
+<strong>注意这里有个坑。就是静态资源的文件名，比如图片文件名不要有中文名，不然会报编码错误，这个暂时不知道什么原因，先暂时避免吧。</strong></p>
+<h4 id="6数据表的迁移或生成"><strong>6.数据表的迁移或生成</strong></h4>
+<p>数据表是很关键的，首先要确保settings文件中的数据库配置项没错，服务器上mysql已经有建好了数据库。</p>
+<pre><code class="language-python">DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mxonline',
+        'USER': 'root',
+        'PASSWORD': '123456',
+        'HOST':'127.0.0.1'
+
+    }
+}
+</code></pre>
+<p><strong>这里数据表有两种处理方式：</strong><br>
+一个是迁移，将本地的开发环境数据库传输至服务器的对应数据库中，这个适用于你想保留所有数据的情况下，可以用navicat操作，也很简单，这里不做赘述。</p>
+<p>另一个是在线生成数据表，以下是具体操作：</p>
+<pre><code class="language-shell">1.进入虚拟环境中
+2.进入到项目根目录
+3.执行 python manage.py makemigrations，生成数据库描述文件
+4.执行 python manage.py migrate，生成表文件
+</code></pre>
+<p>这样就生成了数据表。<br>
+然后执行python manage.py createsuperuser生成超级用户。</p>
+<h4 id="7完成啦"><strong>7.完成啦</strong></h4>
+<p>这样就已经完成了部署，只需要先启动项目，然后reload一下nginx，通过localhost:8080， 就能访问啦。</p>
+<h4 id="补充"><strong>补充：</strong></h4>
+<p><strong>1.mysql的启动操作</strong></p>
+<pre><code class="language-shell"># systemctl start mariadb.service //启动服务  
+# systemctl enable mariadb.service //开机启动服务  
+# mysql -u root -p //登录mysql 
+</code></pre>
+<p>因为安装的其实是mariadb，启动和重启方式有所不同。</p>
+<p><strong>2.腾讯云默认封禁25端口（气愤）</strong><br>
+因为项目中用到了通过第三方smtp发送注册激活邮件的功能，然而部署后邮件一直发不出，很奇怪，页面也是一直panding着。查看nginx的错误日志，显示是connecting out time ！！ what？在我怀疑项目问题并折腾许久后，才发现腾讯云其实默认封禁了25端口，也就是说你无法通过25端口发送邮件。<br>
+但是这是可以解封的，申请一下1秒钟的事。第三方smtp发送邮件腾讯是支持的，所以解封了也没事。</p>
+<p><strong>3.查看错误日志</strong><br>
+因为使用nginx代理了项目，我们项目报错就可以去nginx的日志中查看啦，具体路径在usr/local/nginx/logs/下，可以通过 tail -500f ./error.log打印查看~</p>
+<p>bye~~</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="tag">
+                    python
+                  </a>
+                
+                  <a href="https://skytotwo.github.io//tag/Iv9ahsKWG" class="tag">
+                    Django
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/go-python-decorator">
+                  <h3 class="post-title">
+                    go语言与python并发（协程）的异同
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

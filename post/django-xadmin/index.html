@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Django中xadmin的学习与记录总结 | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1566830938697">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1566830938697" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="http://picture.totoro.site/" class="site-nav">
+            图床
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Django中xadmin的学习与记录总结</h2>
+            <div class="post-date">2019-08-26</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/996586-20170605162226653-1872832239.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>xadmin是Django中admin后台的进阶插件，它包含了admin的基本功能，并在此基础上进行进一步的升级，使得成为一个功能完善的后台管理系统，像瑞士军刀一样拥有各种功能。</p>
+<h2 id="-more-"><!-- more --></h2>
+<h3 id="一xadmin的安装与简单使用"><strong>一.xadmin的安装与简单使用</strong></h3>
+<h4 id="1安装"><strong>1.安装</strong></h4>
+<p>xadmin有两种方式，一种是通过pip的方式安装，如下：</p>
+<pre><code class="language-python">pip install xadmin
+</code></pre>
+<p>但也可以直接进入github下载，xadmin的下载地址是：<br>
+<a href="https://github.com/sshwsfc/xadmin" title="点我进入下载链接">点我进入下载链接</a><br>
+并将其直接放置在项目目录下。<br>
+采用直接下载方式的原因是直接下载的源码包含更多没有发布至pypi上面的新功能，然后有了源码，后面可以直接更改源码，增加自己的功能，这样其实更方便扩展。</p>
+<h4 id="2注册xadmin"><strong>2.注册xadmin</strong></h4>
+<p>在settings.py的INSTALLED_APPS中增加如下：</p>
+<pre><code class="language-python">'xadmin',
+'crispy_forms'
+</code></pre>
+<p>然后把urls中默认admin指向xadmin:</p>
+<pre><code class="language-python">#导入xadmin，替换admin
+import xadmin
+urlpatterns = [
+    url(r'^xadmin/', xadmin.site.urls),
+]
+</code></pre>
+<h4 id="3生成xadmin数据表"><strong>3.生成xadmin数据表</strong></h4>
+<p>点击Tools 菜单下 Run manage.py Task：</p>
+<pre><code class="language-python">makemigrations
+migrate
+</code></pre>
+<h4 id="4注册model"><strong>4.注册model</strong></h4>
+<p>简单的注册一个model看一下效果，如下：</p>
+<pre><code class="language-python">
+from .models import UserInfo
+import xadmin
+ 
+ 
+class UserInfoAdmin(object):
+	list_display = ['user_name', 'user_email', 'user_mobile']  # 默认显示
+    search_fields = ['user_name', 'user_email', 'user_mobile']  # 查询
+    list_filter = ['user_name', 'user_email', 'user_mobile']  # 过滤筛选
+ 
+xadmin.site.register(UserInfo, UserInfoAdmin)
+</code></pre>
+<p>如代码中所示，这里是将model和自定义的admin显示规则绑定注册至xadmin中，list_display、search_fields和list_filter分别表示默认显示的字段、可以查询的字段和可以过滤筛选的字段。</p>
+<p>实际显示效果如下：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180901214106_476.png" alt="20180901214106_476.png"></p>
+<hr>
+<h3 id="二xadmin的进阶功能"><strong>二.xadmin的进阶功能</strong></h3>
+<p><strong>1.一般外键关联数据在xadmin只能通过在列表选择对应外键数据跳转再去编辑，但是想在详情编辑中，可以直接编辑（只能一层嵌套）：</strong></p>
+<pre><code class="language-python">class LessonInline(object):
+    model = Lesson
+    extra = 0
+
+class CourseAdmin(object):
+    list_display = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num','add_time']
+    search_fields = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num']
+    list_filter = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num','add_time']
+    inlines = [LessonInline]
+
+</code></pre>
+<p><strong>2.自定义图标、自定义字段排序、自定义字段不可编辑、编辑页面自定义影藏某字段、下拉选涉及到外检选择的改为搜索选择</strong></p>
+<pre><code class="language-python">class CourseAdmin(object):
+    list_display = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num','add_time']
+    search_fields = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num']
+    list_filter = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num','add_time']
+    model_icon = 'fa fa-book' #自定义图标
+    ordering = ['-click_num'] #显示排序
+    readonly_fields = ['click_num','fav_nums']#后台不可编辑
+    exclude= ['add_time']  #详情不显示add_time 此字段与readonly_fields互斥
+    relfield_style='fk-ajax' #下拉筛选改为搜索
+</code></pre>
+<p><strong>3.一张表在后台注册成两个管理器，以课程为例，课程一张表，后台分为轮播课程、非轮播课程。</strong><br>
+<strong>model代码如下：</strong></p>
+<pre><code class="language-python">class Course(models.Model):
+    name = models.CharField(verbose_name=u'课程名',max_length=50)
+    is_banner = models.BooleanField(verbose_name=u'是否轮播',default=False) #是否为轮播课程
+    add_time = models.DateTimeField(verbose_name=u'添加时间',default=datetime.now)
+
+    class Meta:
+        verbose_name = u'课程'
+        verbose_name_plural = verbose_name
+
+    def __unicode__(self):
+        return self.name
+
+class BannerCourse(Course):
+    '''banner课程'''
+    class Meta:
+        verbose_name = u'轮播课程'
+        verbose_name_plural = verbose_name
+        proxy = True #不会生成表
+
+</code></pre>
+<p>这样定义其实原理是，其中自定义一个model，继承自另一个model，然后关键的是自定义的马哥model，需要在Meta中声明proxy = True，这样就不会生成另一个表，实现两个model公共一个表，而两个model可以在xadmin中注册两个管理器。</p>
+<p><strong>下面是adminx的代码:</strong></p>
+<pre><code class="language-python">class CourseAdmin(object):
+    list_display = ['name','is_banner','add_time']
+    search_fields = ['name','is_banner']
+    list_filter = ['name','is_banner', 'add_time']
+
+    def queryset(self):
+        qs = super().queryset()
+        qs = qs.filter(is_banner=False)
+        return qs
+
+class BannerCourseAdmin(object):
+    list_display = ['name', 'is_banner', 'add_time']
+    search_fields = ['name', 'is_banner']
+    list_filter = ['name', 'is_banner', 'add_time']
+
+    def queryset(self):
+        qs = super().queryset()
+        qs = qs.filter(is_banner=True)
+        return qs
+
+xadmin.site.register(BannerCourse, BannerCourseAdmin)
+xadmin.site.register(Course, CourseAdmin)
+</code></pre>
+<p>其中重要的是queryset方法，该方法的重写，意义在于重写父类的queryset方法，然后过滤出自定义管理器，如直接定义is_banner=True，这样，两个管理器就实现了分别管理不同的数据了。</p>
+<p><strong>4.将model中的方法获取的值，在后台列表字段显示：</strong></p>
+<pre><code class="language-python">#model中代码如下：
+class Course(models.Model):
+    name = models.CharField(verbose_name=u'课程名',max_length=50)
+
+    class Meta:
+        verbose_name = u'课程'
+        verbose_name_plural = verbose_name
+
+    def get_zj_nums(self):
+        '''获取该课程章节'''
+        return  self.lesson_set.all().count()
+    get_zj_nums.short_description = u'章节数'   #指定后台显示列表字段名
+
+    def __unicode__(self):
+        return self.name
+</code></pre>
+<pre><code class="language-python">#admix中代码如下：
+class CourseAdmin(object):
+    list_display = ['name','get_zj_nums']
+    search_fields = ['name']
+    list_filter = ['name']
+</code></pre>
+<p>直接将在model中定义的方法，写在list_display中展示，xadmin会自动判断这是一个方法，并将方法得到的值进行展示。<br>
+注意：如果需要改变该方法的字段名显示，直接方法名.short_description即可，如get_zj_nums.short_description = u'章节数'</p>
+<p><strong>5.在model中定义方法，返回html，在后台以html代码形式显示：</strong></p>
+<pre><code class="language-python">#model中代码：
+class Course(models.Model):
+    name = models.CharField(verbose_name=u'课程名',max_length=50)
+
+    class Meta:
+        verbose_name = u'课程'
+        verbose_name_plural = verbose_name
+
+    def go_to(self):
+        from django.utils.safestring import mark_safe
+        return mark_safe('&lt;a href=&quot;http://www.baidu.com&quot;&gt;百度&lt;/a&gt;')百度&lt;/a&gt;' #如果不使用mark_safe，在后台显示的就是一段文本了
+     go_to.short_description = u'跳转'  # 指定后台显示列表字段名
+
+    def __unicode__(self):
+        return self.name
+
+# admix中代码如下：
+class CourseAdmin(object):
+    list_display = ['name', 'go_to']
+    search_fields = ['name']
+    list_filter = ['name']
+</code></pre>
+<p>这里关键处在于，对返回的链接的处理，这里需要使用django.utils.safestring中的mark_safe方法，因为Django有自己的保护机制，如果不使用mark_safe，在后台显示的就是一段文本了，这里需要使用mark_safe将其正确解读成一个链接。</p>
+<p><strong>6.xadmin集成百度uditor编辑器</strong><br>
+基本步骤：</p>
+<pre><code class="language-shell">github上搜素django ueditor，找到zhangfisher/DjangoUeditor,下载并解压，
+切换命令行到解压后的目录执行python setup.py install（如果是虚拟环境开发，进入虚拟环境在进入对应目录）
+将 DjangoUeditor 放入到settings.py中的INSTALLED_APPS
+</code></pre>
+<p>配置urls.py如下：</p>
+<pre><code class="language-python">urlpatterns = [
+    ...
+    url(r'^ueditor/', include('DjangoUeditor.urls')),
+]
+</code></pre>
+<p>比如给课程加富文本编辑器，去Course的model中引入代码：</p>
+<pre><code class="language-python">from DjangoUeditor.models import UEditorField
+</code></pre>
+<p>对需要添加ueditor字段的修改：</p>
+<pre><code class="language-python">detail = UEditorField(u'课程详情', width=600, height=300, imagePath=&quot;course/ueditor/&quot;, filePath=&quot;course/ueditor/&quot;, upload_settings={&quot;imageMaxSize&quot;: 1204000},default='')
+#imagePath：图片上传路径，跟平时写的model中的路径是一样的
+#filePath:富文本中文件的路径，跟平时写的model中的路径是一样的
+</code></pre>
+<p>给xadmin写插件集成ueditor，在xadmin/plugin下新建ueditor.py(名字随意.py),代码如下：</p>
+<pre><code class="language-python">```python
+import xadmin
+from xadmin.views import BaseAdminPlugin,CreateAdminView,UpdateAdminView
+from DjangoUeditor.models import UEditorField
+from DjangoUeditor.widgets import UEditorWidget
+from django.conf import settings
+
+class XadminUEditorWidget(UEditorWidget):
+    def __init__(self,**kwargs):
+        self.ueditor_options = kwargs
+        self.Media.js = None
+        super(XadminUEditorWidget,self).__init__(kwargs)
+
+class UeditorPlugin(BaseAdminPlugin):
+    def get_field_style(self,attrs,db_field,style,**kwargs):
+        if style == 'ueditor': #这个字段与adminx中的style_fields = {'detail':'ueditor'} 字段对应
+            if isinstance(db_field,UEditorField):
+                widget = db_field.formfield().widget
+                param = {}
+                param.update(widget.ueditor_settings)
+                param.update(widget.attrs)
+                return {'widget':XadminUEditorWidget(**param)}
+            return attrs
+
+	def block_extrahead(self,context,nodes):
+        js = '&lt;script type=&quot;text/javascript&quot; src=&quot;%s&quot;&gt;&lt;/script&gt;' % (settings.STATIC_URL + &quot;ueditor/ueditor.config.js&quot;)
+        js += '&lt;script type=&quot;text/javascript&quot; src=&quot;%s&quot;&gt;&lt;/script&gt;' % (settings.STATIC_URL + &quot;ueditor/ueditor.all.min.js&quot;)
+            nodes.append(js)
+
+xadmin.site.register_plugin(UeditorPlugin,UpdateAdminView)
+xadmin.site.register_plugin(UeditorPlugin,CreateAdminView)
+</code></pre>
+<pre><code>在课程的adminx中CourseAdmin加入代码如下：
+```python
+class CourseAdmin(object):
+    ....
+    style_fields = {'detail':'ueditor'}
+</code></pre>
+<p>修改urls中的上传路由：</p>
+<pre><code class="language-python">#富文本相关url(用于上传文件等)
+    url(r'^ueditor/', include('DjangoUeditor.urls')),
+</code></pre>
+<p>前端展示，全是转义后的html，关闭django模板转义：</p>
+<pre><code class="language-python">{% autoescape off%}
+   {{ course.detail }}
+{% endautoescape %}
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/Iv9ahsKWG" class="tag">
+                    Django
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/jquery-pop-window">
+                  <h3 class="post-title">
+                    使用jquery实现页面右下角弹窗提醒
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

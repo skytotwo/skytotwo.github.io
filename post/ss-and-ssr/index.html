@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>搭建SS/SSR服务 | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1566830938697">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1566830938697" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="http://picture.totoro.site/" class="site-nav">
+            图床
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">搭建SS/SSR服务</h2>
+            <div class="post-date">2019-08-26</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/SSR-Teach-Logo.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <p>系统为centos7 ，xshell用root用户远程登录，进入root目录下，然后做如下操作。</p>
+<h4 id="一-搭建ss"><strong>一、搭建SS</strong></h4>
+<p>输入三行代码：</p>
+<pre><code class="language-shell">wget --no-check-certificate -O shadowsocks.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh
+chmod +x shadowsocks.sh
+./shadowsocks.sh 2&gt;&amp;1 | tee shadowsocks.log
+</code></pre>
+<p>按提示输入密码、端口、加密方式，（加密方式建议选 7；端口默认 443，建议改成 1000~10000）。</p>
+<p>等待安装完成，即可获得 SS 账号信息（IP，密码，端口，加密方式）。</p>
+<h4 id="二-搭建ssr免流"><strong>二、搭建SSR（免流）</strong></h4>
+<p>如果安装了SS，就不需要再安装SSR了，如果要改装SSR，请按照上一部分内容的教程先卸载SS！！！</p>
+<p><strong>1.下载一键搭建SSR脚本（只需要执行一次，卸载SSR后也不需要重新执行）</strong><br>
+如果服务器没有安装git，执行如下命令安装git：</p>
+<pre><code class="language-shell">centos：
+sudo yum install git
+</code></pre>
+<pre><code class="language-shell">git clone https://github.com/flyzy2005/ss-fly，此步骤与一键搭建ss一致，就是clone一键脚本代码。
+</code></pre>
+<p><strong>2.运行搭建SSR脚本代码</strong></p>
+<pre><code class="language-shell">ss-fly/ss-fly.sh -ssr
+</code></pre>
+<p>全部结束后，看到如下就说明安装成功了：</p>
+<pre><code class="language-shell">Congratulations, ShadowsocksR server install completed!
+Your Server IP        :你的服务器ip
+Your Server Port      :你的端口
+Your Password         :你的密码
+Your Protocol         :你的协议
+Your obfs             :你的混淆
+Your Encryption Method:your_encryption_method
+ 
+Welcome to visit:https://shadowsocks.be/9.html
+Enjoy it!
+</code></pre>
+<p><strong>3.注意：</strong><br>
+加密方式（method）选择aes-256-cfb；混淆方式（obfs）选择http_simple；协议（protocol）选择auth_sha1_v4。</p>
+<p><strong>4.相关操作SSR命令</strong></p>
+<pre><code class="language-shell">启动：/etc/init.d/shadowsocks start
+停止：/etc/init.d/shadowsocks stop
+重启：/etc/init.d/shadowsocks restart
+状态：/etc/init.d/shadowsocks status
+
+配置文件路径：/etc/shadowsocks.json
+日志文件路径：/var/log/shadowsocks.log
+代码安装目录：/usr/local/shadowsocks
+</code></pre>
+<p><strong>5.卸载SSR服务</strong></p>
+<pre><code class="language-shell">./shadowsocksR.sh uninstall
+</code></pre>
+<h4 id="三-安装bbr加速"><strong>三、安装bbr加速</strong></h4>
+<p>锐速已经停更，对于新的系统内核支持有限，建议改用谷歌的开源方案：Google BBR 对 SS 进行优化加速。效果都差不多的。</p>
+<p>逐行执行下面命令安装 BBR。</p>
+<pre><code class="language-shell">wget — no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh
+chmod +x bbr.sh
+./bbr.sh
+</code></pre>
+<p>显示 “Press any key to start…” 按回车确认。</p>
+<p>安装完后，按提示重启 VPS，输入 Y 回车重启。稍候 1min 等待重启完成，再重新连接 Xshell。</p>
+<p>重启后输入 lsmod | grep bbr ，出现 tcp_bbr 即说明 BBR 已经启动。</p>
+<h4 id="四-配置shadowsocks配置文件"><strong>四、配置shadowsocks配置文件</strong></h4>
+<p>进入到etc目录下执行：</p>
+<pre><code class="language-shell">vi shadowsocks.json
+</code></pre>
+<p>编辑配置文件如下：</p>
+<pre><code class="language-shell">{
+    &quot;server&quot;:&quot;0.0.0.0&quot;,
+    &quot;server_ipv6&quot;:&quot;[::]&quot;,
+    &quot;local_address&quot;:&quot;127.0.0.1&quot;,
+    &quot;local_port&quot;:1080,
+    &quot;port_password&quot;:{
+        &quot;1088&quot;:&quot;**********&quot;,
+        &quot;8080&quot;:&quot;**********&quot;,
+        &quot;80&quot;:&quot;***********&quot;
+    },
+    &quot;timeout&quot;:120,
+    &quot;method&quot;:&quot;aes-256-cfb&quot;,
+    &quot;protocol&quot;:&quot;auth_sha1_v4&quot;,
+    &quot;protocol_param&quot;:&quot;&quot;,
+    &quot;obfs&quot;:&quot;http_simple&quot;,
+    &quot;obfs_param&quot;:&quot;&quot;,
+    &quot;redirect&quot;:&quot;&quot;,
+    &quot;dns_ipv6&quot;:false,
+    &quot;fast_open&quot;:false,
+    &quot;workers&quot;:1
+}
+
+</code></pre>
+<p>这个是多端口的配置，因为涉及到后面要免流，联通的话需要开8080和80端口。</p>
+<h4 id="五-开启防火墙端口使用iptables"><strong>五、开启防火墙端口（使用iptables）</strong></h4>
+<p>在旧版本的CentOS中，是使用 iptables 命令来设置防火墙的。但是，从CentOS7开始，默认就没有安装iptables，而是改用firewall来配置防火墙。</p>
+<p><strong>1.CentOS7更改为iptables防火墙</strong><br>
+CentOS7切换到iptables防火墙，首先应该关闭默认的firewall防火墙并禁止自启动，然后再来安装和启动iptables防火墙。</p>
+<p>操作步骤如下：</p>
+<pre><code class="language-shell">systemctl stop firewalld
+# 停止firewall
+
+systemctl disable firewalld
+# 禁止firewall的开机自启动
+
+yum install iptables-services
+# 安装iptables
+
+systemctl start iptables
+# 开启iptables
+
+systemctl enable iptables
+# 启用iptables的自启动
+</code></pre>
+<p>之后，就可以在CentOS7中使用iptables配置防火墙。</p>
+<p><strong>2.开启shadowsocks.json配置的端口，这样外面才能访问</strong><br>
+进入/etc/sysconfig/</p>
+<pre><code class="language-shell">cd /etc/sysconfig
+</code></pre>
+<p>执行</p>
+<pre><code class="language-shell">vi iptables
+</code></pre>
+<p>按i进行插入开放端口命令</p>
+<pre><code class="language-shell">-A INPUT -p udp -m state --state NEW -m udp --dport 1088 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 1088 -j ACCEPT
+-A INPUT -p udp -m state --state NEW -m udp --dport 8080 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 8080 -j ACCEPT
+-A INPUT -p udp -m state --state NEW -m udp --dport 80 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 80 -j ACCEPT
+</code></pre>
+<p>最后如下：</p>
+<pre><code class="language-shell"># Generated by iptables-save v1.4.21 on Tue Dec 18 03:38:00 2018
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [113:31400]
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -p icmp -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT
+-A INPUT -p udp -m state --state NEW -m udp --dport 1088 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 1088 -j ACCEPT
+-A INPUT -p udp -m state --state NEW -m udp --dport 8080 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 8080 -j ACCEPT
+-A INPUT -p udp -m state --state NEW -m udp --dport 80 -j ACCEPT
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 80 -j ACCEPT
+-A INPUT -j REJECT --reject-with icmp-host-prohibited
+-A FORWARD -j REJECT --reject-with icmp-host-prohibited
+COMMIT
+# Completed on Tue Dec 18 03:38:00 2018
+</code></pre>
+<p>然后重启防火墙：</p>
+<pre><code class="language-shell">service iptables restart
+</code></pre>
+<p>最后查看端口是否开放：</p>
+<pre><code class="language-shell">/sbin/iptables -L -n
+</code></pre>
+<p>重启shadowsocks：</p>
+<pre><code class="language-shell">/etc/init.d/shadowsocks restart
+</code></pre>
+<h4 id="六-配置客户端访问"><strong>六、配置客户端访问</strong></h4>
+<p><strong>1.电脑端：</strong><br>
+SS：<br>
+Shadowsocks 的MAC客户端，主要有两个版本：ShadowsocksX 和 ShadowsocksX-NG，其中ShadowsocksX-NG为ShadowsocksX的最新版本 。目前这两个版本仅支持SS原版，不支持SSR的混淆功能。</p>
+<p>SSR：<br>
+推荐使用Shadowsocks-NG-R，下载地址是：<br>
+<a href="https://github.com/qinyuhang/ShadowsocksX-NG-R/releases/download/1.4.4-r8/ShadowsocksX-NG-R8.dmg" title="点我下载">点我下载</a></p>
+<p>配置：<br>
+如果按照上面安装步骤来的话，SS就填写服务器ip，端口，加密方式，密码就能访问了；SSR的话要加上上面的协议和混淆，可以不用填写混淆参数，因为不需要免流。</p>
+<p><strong>2.客户端（ios）:</strong><br>
+ios端的话就推荐使用小火箭，去美区商店下载。<br>
+SS：<br>
+选择SS配置，然后填写服务器ip，端口，加密方式，密码。访问ok。</p>
+<p>SSR：<br>
+选择SSR配置，然后填写服务器ip，端口，加密方式，密码，协议，混淆，额外需要填写混淆参数，这是为了免流，联通大王卡的混淆参数是：mmbiz.qpic.cn  测试可以免流。注意免流的话需要开启全局代理。</p>
+<h4 id="七-免流科普"><strong>七、免流科普：</strong></h4>
+<p>大概介绍一下，一些移动运营商存在一些特定的免流优惠，比如手机流量登录运营商客户端免流量。前期是简单的通过网址来判断是否符合免流条件。SSR安装在手机上后，上网时手机流量经SSR转发到上网地址，通过在SSR内加入免流网址的混淆参数后，让运营商判断失误，达到免流的目的。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/wRl1VpbGG" class="tag">
+                    vps
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/openoffice">
+                  <h3 class="post-title">
+                    使用openOffice实现word、excel等转pdf功能
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

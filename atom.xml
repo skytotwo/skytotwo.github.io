@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-08-26T13:37:58.704Z</updated>
+    <updated>2019-08-26T13:45:01.951Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,77 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[对python鸭子类型的理解]]></title>
+        <id>https://skytotwo.github.io//post/python-docktype</id>
+        <link href="https://skytotwo.github.io//post/python-docktype">
+        </link>
+        <updated>2019-08-26T13:41:10.000Z</updated>
+        <summary type="html"><![CDATA[<p><strong>首先Python不支持多态，也不用支持多态，python是一种多态语言，崇尚鸭子类型。</strong> 以下是维基百科中对鸭子类型得论述：</p>
+]]></summary>
+        <content type="html"><![CDATA[<p><strong>首先Python不支持多态，也不用支持多态，python是一种多态语言，崇尚鸭子类型。</strong> 以下是维基百科中对鸭子类型得论述：</p>
+<!-- more --> 
+<p>在程序设计中，鸭子类型（英语：duck typing）是动态类型的一种风格。在这种风格中，一个对象有效的语义，不是由继承自特定的类或实现特定的接口，而是由当前方法和属性的集合决定。这个概念的名字来源于由James Whitcomb Riley提出的鸭子测试，“鸭子测试”可以这样表述：<br>
+<strong>“当看到一只鸟走起来像鸭子、游泳起来像鸭子、叫起来也像鸭子，那么这只鸟就可以被称为鸭子。”</strong></p>
+<p>在鸭子类型中，关注的不是对象的类型本身，而是它是如何使用的。例如，在不使用鸭子类型的语言中，我们可以编写一个函数，它接受一个类型为鸭的对象，并调用它的走和叫方法。<strong>在使用鸭子类型的语言中，这样的一个函数可以接受一个任意类型的对象，并调用它的走和叫方法</strong>。如果这些需要被调用的方法不存在，那么将引发一个运行时错误。<strong>任何拥有这样的正确的走和叫方法的对象都可被函数接受的这种行为</strong>引出了以上表述，这种决定类型的方式因此得名。</p>
+<p>鸭子类型通常得益于不测试方法和函数中参数的类型，而是依赖文档、清晰的代码和测试来确保正确使用。从静态类型语言转向动态类型语言的用户通常试图添加一些静态的（在运行之前的）类型检查，从而影响了鸭子类型的益处和可伸缩性，并约束了语言的动态特性。</p>
+<h4 id="python中的具体实现">python中的具体实现</h4>
+<p>下面的代码就是一个简单的鸭子类型</p>
+<pre><code class="language-python">class duck():
+  def walk(self):
+    print('I walk like a duck')
+  def swim(self):
+    print('i swim like a duck')
+
+class person():
+  def walk(self):
+    print('this one walk like a duck') 
+  def swim(self):
+    print('this man swim like a duck')
+</code></pre>
+<pre><code class="language-python">def watch_duck(animal):
+  animal.walk()
+  animal.swim()
+
+small_duck = duck()
+watch_duck(small_duck)
+
+duck_like_man = person()
+watch_duck(duck_like_man)
+
+</code></pre>
+<p>输出结果：</p>
+<pre><code class="language-python">output &gt;&gt; 
+I walk like a duck
+i swim like a duck
+
+this one walk like a duck
+this man swim like a duck
+</code></pre>
+<p>对于watch_duck方法来说，传入的参数类型并不重要，只要它实现了walk和swim方法，一切就ok。这就是鸭子类型的基本实现。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Golang关于import包的问题记录]]></title>
+        <id>https://skytotwo.github.io//post/golang-import</id>
+        <link href="https://skytotwo.github.io//post/golang-import">
+        </link>
+        <updated>2019-08-26T13:39:14.000Z</updated>
+        <content type="html"><![CDATA[<ul>
+<li>多个源文件可同属于一个包，只要声明时package指定的包名一样；</li>
+<li>一个包对应生成一个*.a文件，生成的文件名并不是包名+.a组成，应该是目录名+.a组成</li>
+<li>go install ××× 这里对应的并不是包名，而是路径名！！</li>
+<li>import ××× 这里使用的也不是包名，也是路径名</li>
+<li>×××××.SayHello() 这里使用的才是包名！</li>
+<li>指定×××路径名就代表了此目录下唯一的包，编译器连接器默认就会去生成或者使用它，而不需要我们手动指明！</li>
+<li>一个目录下就只能有一个包存在</li>
+<li>对于调用有源码的第三方包，连接器在连接时，其实使用的并不是我们工作目录下的.a文件，而是以该最新源码编译出的临时文件夹中的.a文件</li>
+<li>对于调用没有源码的第三方包，上面的临时编译不可能成功，那么临时目录下就不可能有.a文件，所以最后链接时就只能链接到工作目录下的.a文件</li>
+<li>对于标准库，即便是修改了源代码，只要不重新编译Go源码，那么链接时使用的就还是已经编译好的*.a文件</li>
+<li>包导入有三种模式：正常模式、别名模式、简便模式</li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Mac下重置mysql5.7 密码]]></title>
         <id>https://skytotwo.github.io//post/mac-mysql57-resetpd</id>
@@ -444,72 +515,6 @@ _method：http方法,post、get等</p>
 <p>url_for() 函数还支持一种简写的端点形式，在蓝本中可以省略蓝本名，例如url_for('.<br>
 index')。在这种写法中，命名空间是当前请求所在的蓝本。这意味着同一蓝本中的重定向<br>
 可以使用简写形式，但跨蓝本的重定向必须使用带有命名空间的端点名。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[单页面应用程序和多页面应用程序（网站）的区别]]></title>
-        <id>https://skytotwo.github.io//post/single&amp;mutipage</id>
-        <link href="https://skytotwo.github.io//post/single&amp;mutipage">
-        </link>
-        <updated>2019-08-26T08:13:52.000Z</updated>
-        <summary type="html"><![CDATA[<p>单页面和双页面应用的区别：</p>
-<ul>
-<li>1、单页面应用程序的数据渲染是在客户端进行的；而多页面应用程序的数据渲染则是在服务端进行的。</li>
-<li>2、单页面应用程序的数据请求等是在js中通过ajax完成的；多页面应用程序则是在服务端试图函数中完成的。</li>
-</ul>
-]]></summary>
-        <content type="html"><![CDATA[<p>单页面和双页面应用的区别：</p>
-<ul>
-<li>1、单页面应用程序的数据渲染是在客户端进行的；而多页面应用程序的数据渲染则是在服务端进行的。</li>
-<li>2、单页面应用程序的数据请求等是在js中通过ajax完成的；多页面应用程序则是在服务端试图函数中完成的。</li>
-</ul>
-<h2 id="-more-"><!-- more --></h2>
-<h3 id="单页面应用singlepage-web-applicationspa"><strong>单页面应用（SinglePage Web Application，SPA）</strong></h3>
-<p>只有一张Web页面的应用，是一种从Web服务器加载的富客户端，单页面跳转仅刷新局部资源 ，公共资源(js、css等)仅需加载一次，常用于PC端官网、购物等网站<br>
-如图：<br>
-<img src="/attached/image/20180508/20180508223839_750.png" alt=""></p>
-<h3 id="多页面应用multipage-applicationmpa"><strong>多页面应用（MultiPage Application，MPA）</strong></h3>
-<p>多页面跳转刷新所有资源，每个公共资源(js、css等)需选择性重新加载，常用于 app 或 客户端等</p>
-<p>如图：<br>
-<img src="/attached/image/20180508/20180508223908_626.png" alt=""></p>
-<p>具体对比分析：</p>
-<p><img src="/attached/image/20180508/20180508223927_729.jpg" alt=""></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Python的with上下文要点]]></title>
-        <id>https://skytotwo.github.io//post/python-with-context</id>
-        <link href="https://skytotwo.github.io//post/python-with-context">
-        </link>
-        <updated>2019-08-26T08:09:49.000Z</updated>
-        <summary type="html"><![CDATA[<p>python的的with上下文其实可以自己实现，只要该对象实现了__enter__和__exit__方法，就实现了一个with上下文，可以用with来处理该对象，如下：</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>python的的with上下文其实可以自己实现，只要该对象实现了__enter__和__exit__方法，就实现了一个with上下文，可以用with来处理该对象，如下：</p>
-<!-- more -->
-<pre><code class="language-python">class MyResource:
-	def __enter__(self):
-		return self
-	
-	def __exit__(self, exc_type, exc_value, tb):
-		if tb:
-			print('proccess exception')
-		else:
-			print('no exception')
-		print('close resource connection')
-		
-	def query(self):
-		print('query data')
-		
-
-with MyResource() as resource:
-	resource.query()
-</code></pre>
-<p>注意：<br>
-1、任何实现了__enter__和__exit__魔法方法的对象都能用with处理<br>
-2、with实例化对象后用as赋给一个变量，变量为__enter__所返回的值，上面代码中__enter__返回的是实例对象。<br>
-3、调用的顺序是__enter__，然后with里的逻辑，最后是__exit__方法。<br>
-4、<strong>exit</strong> 方法包含4个参数，分别是(self, exc_type, exc_value, tb)，第一个是实例对象，后面三个分别为异常类型、异常值和异常堆栈信息。这里主要是为了捕获异常，只要是逻辑处理中危险异常，都会在这里捕获，并退出。<br>
-5、<strong>exit</strong> 方法是有返回的，如果return值是Ture的话，就代表捕获了异常，不会抛出；如果返回值为空或者返回False，就代表异常会继续抛出。</p>
 ]]></content>
     </entry>
 </feed>

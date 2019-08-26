@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>java程序实现删除本地文件 | Totoro の Home</title>
+<title>Golang关于import包的问题记录 | Totoro の Home</title>
 <meta name="description" content="空杯心态，每天进步">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -104,74 +104,33 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">java程序实现删除本地文件</h2>
-            <div class="post-date">2019-08-05</div>
+            <h2 class="post-title">Golang关于import包的问题记录</h2>
+            <div class="post-date">2019-08-26</div>
             
-              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/05/javastudy.png')">
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/1_AADBtqWJRCsU0Fqss0HnIg.md.png')">
               </div>
             
             <div class="post-content">
-              <p>之前有用到过在项目里删除本地文件，记录下代码。</p>
-<!-- more -->
-<pre><code class="language-java">import Java.io.File;
-public class Test {
-public static void main(String args[]) {
-   Test t = new Test();
-   delFolder(&quot;d:/test&quot;);
-   System.out.println(&quot;OK&quot;);
-}
-// 删除文件夹
-// param folderPath 文件夹完整绝对路径
-public static void delFolder(String folderPath) {
-   try {
-    delAllFile(folderPath); // 删除完里面所有内容
-    String filePath = folderPath;
-    filePath = filePath.toString();
-    java.io.File myFilePath = new java.io.File(filePath);
-    myFilePath.delete(); // 删除空文件夹
-   } catch (Exception e) {
-    e.printStackTrace();
-   }
-}
-// 删除指定文件夹下所有文件
-// param path 文件夹完整绝对路径
-public static boolean delAllFile(String path) {
-   boolean flag = false;
-   File file = new File(path);
-   if (!file.exists()) {
-    return flag;
-   }
-   if (!file.isDirectory()) {
-    return flag;
-   }
-   String[] tempList = file.list();
-   File temp = null;
-   for (int i = 0; i &lt; tempList.length; i++) {
-    if (path.endsWith(File.separator)) {
-     temp = new File(path + tempList[i]);
-    } else {
-temp = new File(path + File.separator + tempList[i]);
-    }
-    if (temp.isFile()) {
-     temp.delete();
-    }
-    if (temp.isDirectory()) {
-       delAllFile(path + &quot;/&quot; + tempList[i]);// 先删除文件夹里面的文件
-       delFolder(path + &quot;/&quot; + tempList[i]);// 再删除空文件夹
-     flag = true;
-    }
-   }
-   return flag;
-}
-}
-</code></pre>
+              <ul>
+<li>多个源文件可同属于一个包，只要声明时package指定的包名一样；</li>
+<li>一个包对应生成一个*.a文件，生成的文件名并不是包名+.a组成，应该是目录名+.a组成</li>
+<li>go install ××× 这里对应的并不是包名，而是路径名！！</li>
+<li>import ××× 这里使用的也不是包名，也是路径名</li>
+<li>×××××.SayHello() 这里使用的才是包名！</li>
+<li>指定×××路径名就代表了此目录下唯一的包，编译器连接器默认就会去生成或者使用它，而不需要我们手动指明！</li>
+<li>一个目录下就只能有一个包存在</li>
+<li>对于调用有源码的第三方包，连接器在连接时，其实使用的并不是我们工作目录下的.a文件，而是以该最新源码编译出的临时文件夹中的.a文件</li>
+<li>对于调用没有源码的第三方包，上面的临时编译不可能成功，那么临时目录下就不可能有.a文件，所以最后链接时就只能链接到工作目录下的.a文件</li>
+<li>对于标准库，即便是修改了源代码，只要不重新编译Go源码，那么链接时使用的就还是已经编译好的*.a文件</li>
+<li>包导入有三种模式：正常模式、别名模式、简便模式</li>
+</ul>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://skytotwo.github.io//tag/wpLYFim1c" class="tag">
-                    java
+                  <a href="https://skytotwo.github.io//tag/QdOfncYO8" class="tag">
+                    go
                   </a>
                 
               </div>
@@ -179,9 +138,9 @@ temp = new File(path + File.separator + tempList[i]);
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://skytotwo.github.io//post/js-cookie-set">
+                <a href="https://skytotwo.github.io//post/mac-mysql57-resetpd">
                   <h3 class="post-title">
-                    网页登陆页面设置Cookie
+                    Mac下重置mysql5.7 密码
                   </h3>
                 </a>
               </div>

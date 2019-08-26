@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Django settings.py 的media路径设置 | Totoro の Home</title>
+<title>关于Flask的蓝图解释一二 | Totoro の Home</title>
 <meta name="description" content="空杯心态，每天进步">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -104,56 +104,56 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Django settings.py 的media路径设置</h2>
-            <div class="post-date">2019-06-16</div>
+            <h2 class="post-title">关于Flask的蓝图解释一二</h2>
+            <div class="post-date">2019-08-26</div>
             
-              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/06/16/1562632_a245_2.jpg')">
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/u769n7m5po.jpg')">
               </div>
             
             <div class="post-content">
-              <p>Django对media等静态文件的路径配置有自己的一套，在settings和url里面都有对应配置，这里简单做一下介绍。</p>
-<!--more-->
-<p>在一个 models 中使用 FileField 或 ImageField 需要以下步骤:</p>
-<ol>
-<li>
-<p>在你的 settings 文件中, 定义一个完整路径给MEDIA_ROOT 以便让 Django在此处保存上传文件. (出于性能考虑,这些文件并不保存到数据库.) 定义MEDIA_URL 作为该目录的公共 URL. 要确保该目录对 WEB 服务器用户帐号是可写的.</p>
-</li>
-<li>
-<p>在你的 models.py 中添加 FileField 或 ImageField, 并确保定义了upload_to 选项,以告诉 Django 使用MEDIA_ROOT 的哪个子目录保存上传文件.</p>
-</li>
-<li>
-<p>你的数据库中要保存的只是文件的路径(相对于 MEDIA_ROOT)，要想得到这个文件的路径可以用&quot;.url&quot;方法。例如，如果models里有一个取名为&quot;photo&quot;的ImageField，可以在Html模板里通过双花括号加object.photo.url得到该图片的路径。</p>
-</li>
-</ol>
-<p>settings.py 设置</p>
-<p>媒体文件的绝对路径：</p>
-<pre><code class="language-python"># Absolute path to the directory that holds media.
-# Example: &quot;/home/media/media.lawrence.com/&quot;   
-MEDIA_ROOT = 'D:/Python26/Lib/site-packages/django/bin/newproj/media'
+              <p>以下是一个最基本的蓝图示例。在这里，我们将使用蓝图来简单地渲染静态模板:</p>
+<!-- more -->
+<pre><code class="language-python">from flask import Blueprint, render_template, abort
+from jinja2 import TemplateNotFound
+
+simple_page = Blueprint('simple_page', __name__,
+                        template_folder='templates')
+
+from app.feedback import feedback #视图
 </code></pre>
-<p>媒体文件的相对路径：</p>
-<pre><code class="language-python"># URL that handles the media served from MEDIA_ROOT.
-# Example: &quot;http://media.lawrence.com&quot;
-MEDIA_URL = '/site_media/' 
+<pre><code class="language-python">#视图部分 feedback.py
+from . import simple_page
+
+@simple_page.route('/', defaults={'page': 'index'})
+@simple_page.route('/&lt;page&gt;')
+def show(page):
+    try:
+        return render_template('pages/%s.html' % page)
+    except TemplateNotFound:
+        abort(404)
 </code></pre>
-<p>设置静态文件路径</p>
-<pre><code class="language-python">STATIC_PATH = 'D:/Python26/Lib/site-packages/django/bin/newproj/media'
+<p>当你使用 @simple_page.route 装饰器绑定一个函数时，蓝图会记录下所登记的 show 函数。当以后在应用中注册蓝图时，这个函数会被注册到应用中。另外，它 会把构建 Blueprint 时所使用的名称（在本例为 simple_page ）作 为函数端点的前缀。</p>
+<pre><code class="language-python">可以这样注册蓝图:
+
+from flask import Flask
+from yourapplication.simple_page import simple_page
+
+app = Flask(__name__)
+app.register_blueprint(simple_page)
+以下是注册蓝图后形成的规则:
+
+[&lt;Rule '/static/&lt;filename&gt;' (HEAD, OPTIONS, GET) -&gt; static&gt;,
+ &lt;Rule '/&lt;page&gt;' (HEAD, OPTIONS, GET) -&gt; simple_page.show&gt;,
+ &lt;Rule '/' (HEAD, OPTIONS, GET) -&gt; simple_page.show&gt;]
 </code></pre>
-<p>urls.py 影射路径</p>
-<pre><code class="language-python">(r'^site_media/(?P&lt;path&gt;.*)$', 'django.views.static.serve',{'document_root': settings.STATIC_PATH}),
-</code></pre>
-<p>将 MEDIA_URL 的site_media 影射到 settings.STATIC_PATH</p>
-<p>models.py 上传图片字段设置</p>
-<pre><code class="language-python">photo = models.ImageField('上传图片',upload_to='photos')
-</code></pre>
-<p>相当于传到 D:/Python26/Lib/site-packages/django/bin/newproj/media/photos 目录下，浏览时通过/site_media/photos/ 访问。</p>
+<p>所以当外部访问到对应url规则时，会直接找到指定蓝图下的方法。也就是定义蓝图下引入视图的意义，会直接在那里找对应方法。</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://skytotwo.github.io//tag/Iv9ahsKWG" class="tag">
-                    Django
+                  <a href="https://skytotwo.github.io//tag/WllsaKoVz" class="tag">
+                    flask
                   </a>
                 
               </div>
@@ -161,9 +161,9 @@ MEDIA_URL = '/site_media/'
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://skytotwo.github.io//post/django-drf-disanfang">
+                <a href="https://skytotwo.github.io//post/python-copy">
                   <h3 class="post-title">
-                    django drf实现第三方登录
+                    谈谈python中的深拷贝和浅拷贝
                   </h3>
                 </a>
               </div>

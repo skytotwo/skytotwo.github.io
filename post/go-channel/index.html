@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>SqlAlchemy relationship函数 之 backref参数反向引用的理解 | Totoro の Home</title>
+<title>go语言channel概要记录 | Totoro の Home</title>
 <meta name="description" content="空杯心态，每天进步">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -104,88 +104,27 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">SqlAlchemy relationship函数 之 backref参数反向引用的理解</h2>
+            <h2 class="post-title">go语言channel概要记录</h2>
             <div class="post-date">2019-08-26</div>
             
-              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/Screenshot_2.png')">
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/bufferedchannel.png')">
               </div>
             
             <div class="post-content">
-              <p>简单来说, relationship函数是sqlalchemy对关系之间提供的一种便利的调用方式, backref参数则对关系提供反向引用的声明。</p>
-<!-- more --> 
-<p>如下例子：</p>
-<pre><code class="language-python"># 电影
-class Movie(db.Model):
-    __tablename__ = &quot;movie&quot;
-    id = db.Column(db.Integer, primary_key=True)  # 编号
-    title = db.Column(db.String(255), unique=True)  # 标题
-    url = db.Column(db.String(255), unique=True)  # 地址
-    info = db.Column(db.Text)  # 电影简介
-    logo = db.Column(db.String(255), unique=True)  # 封面
-    star = db.Column(db.SmallInteger)  # 星级
-    playnum = db.Column(db.BigInteger)  # 播放量
-    commentnum = db.Column(db.BigInteger)  # 评论量
-    #  （设置外键第一步）
-    tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'))  # 所属标签
-    area = db.Column(db.String(255))  # 上映地区
-    release_time = db.Column(db.Date)  # 上映时间
-    length = db.Column(db.String(100))  # 播放时间
-    addtime = db.Column(db.DateTime, index=True, default=datetime.now)  # 添加时间
-    comments = db.relationship(&quot;Comment&quot;, backref='movie')  # 评论外键关系关联
-    moviecols = db.relationship(&quot;Moviecol&quot;, backref='movie')  # 收藏外键关系关联
-
-    def __repr__(self):
-        return &quot;&lt;Movie %r&gt;&quot; % self.title
-
-</code></pre>
-<pre><code class="language-python"># 评论
-class Comment(db.Model):
-    __tablename__ = &quot;comment&quot;
-    id = db.Column(db.Integer, primary_key=True)  # 编号
-    content = db.Column(db.Text)  # 评论内容
-    # 关联外键第一步，还要去user表和movie表进行第二步
-    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'))  # 所属电影
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # 所属用户
-    addtime = db.Column(db.DateTime, index=True, default=datetime.now)  # 添加时间
-
-    def __repr__(self):
-        return &quot;&lt;Comment %r&gt;&quot; % self.id
-</code></pre>
-<p>如果在Movie中使用relationship定义comment属性的话，就可以实例化Movie对象的时候调用comment属性，如下所示：</p>
-<pre><code class="language-python">movie = Movie.query.get_or_404(int(id))
-comment = movie.comment
-</code></pre>
-<p>注意，这里的到的comment，可以取出comment表中的所有属性字段，如果有外键，甚至外键的所属的表数据也能找到。</p>
-<p>而定义的backref参数则对关系提供反向引用的声明。意思就是电影中relationship函数定义了backref，然后实例化Comment后，该对象可以反向找到backref指向的表，具体如下：</p>
-<pre><code class="language-python">comment = Comment.query.get_or_404(int(id))
-movie = comment.movie
-</code></pre>
-<p>除了可以拿到movie表所有字段，还能拿到完成度的relationship指向的comments中comment表数据。</p>
-<p>例子示例2：<br>
-一对多：一个父亲可能有多个孩子</p>
-<pre><code class="language-python">1     class Father(……): 
-2         id = …… 
-3         children = db.relationship('Children', backref='father') 
-4
-5     class Children(……): 
-6         # ……
-7         father_id = …… ForeignKey('father.id'))
-</code></pre>
-<pre><code class="language-python">1 我是爸爸
-2 我是身份证号
-3 我有一些孩子登记在Children表上。上面的每一个children都可以通过 . father找到我。backref是我给孩子们的名片（上面是身份证号）。
-5 我们是孩子们 
-7 我拿着爸爸的身份证号
-
-</code></pre>
-<p>当我们需要在父表中添加子表关系时使用 relationship，外键通常是父表的主键</p>
+              <p>最近在学习go语言，对channel有几点概念进行记录：</p>
+<ol>
+<li>chan用var声明后值为nil，需要初始化的话，需要使用make函数，像slice、map和chan这种需要访问底层数据结构的类型，使用前都需要初始化，这也是它们与其他类型的不同之处。</li>
+<li>chan使用&lt;-赋值，赋值后需要goroutine使用，也就是需要取出值来，不然会报错。</li>
+<li>chan可以作为参数传入函数中，也可以作为返回值返回。</li>
+<li>chan可以定义类型，只接收数据传入，编写成chan&lt;-即可，如果需要定义为只输出数据，则写成&lt;-chan即可。</li>
+</ol>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://skytotwo.github.io//tag/WllsaKoVz" class="tag">
-                    flask
+                  <a href="https://skytotwo.github.io//tag/QdOfncYO8" class="tag">
+                    go
                   </a>
                 
               </div>
@@ -193,9 +132,9 @@ movie = comment.movie
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://skytotwo.github.io//post/mysql-connect-num">
+                <a href="https://skytotwo.github.io//post/centos7-nginx-uwsgi-flask">
                   <h3 class="post-title">
-                    Centos7 修改mysql 最大连接数
+                    centos7 nginx + uwsgi 部署flask应用
                   </h3>
                 </a>
               </div>

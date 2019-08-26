@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-08-26T13:52:38.602Z</updated>
+    <updated>2019-08-26T13:56:53.262Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,21 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[go语言channel概要记录]]></title>
+        <id>https://skytotwo.github.io//post/go-channel</id>
+        <link href="https://skytotwo.github.io//post/go-channel">
+        </link>
+        <updated>2019-08-26T13:54:17.000Z</updated>
+        <content type="html"><![CDATA[<p>最近在学习go语言，对channel有几点概念进行记录：</p>
+<ol>
+<li>chan用var声明后值为nil，需要初始化的话，需要使用make函数，像slice、map和chan这种需要访问底层数据结构的类型，使用前都需要初始化，这也是它们与其他类型的不同之处。</li>
+<li>chan使用&lt;-赋值，赋值后需要goroutine使用，也就是需要取出值来，不然会报错。</li>
+<li>chan可以作为参数传入函数中，也可以作为返回值返回。</li>
+<li>chan可以定义类型，只接收数据传入，编写成chan&lt;-即可，如果需要定义为只输出数据，则写成&lt;-chan即可。</li>
+</ol>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[centos7 nginx + uwsgi 部署flask应用]]></title>
         <id>https://skytotwo.github.io//post/centos7-nginx-uwsgi-flask</id>
@@ -396,12 +411,11 @@ class JSONEncoder(_JSONEncoder):
         <link href="https://skytotwo.github.io//post/python-iter&amp;decorator">
         </link>
         <updated>2019-08-26T13:23:20.000Z</updated>
-        <summary type="html"><![CDATA[<p>三者简要关系图<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180602164019_717.png" alt="20180602164019_717.png"></p>
+        <summary type="html"><![CDATA[<p>三者简要关系图</p>
 ]]></summary>
-        <content type="html"><![CDATA[<p>三者简要关系图<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180602164019_717.png" alt="20180602164019_717.png"></p>
+        <content type="html"><![CDATA[<p>三者简要关系图</p>
 <!-- more --> 
+<p><img src="http://picture.totoro.site/images/2019/08/26/20180602164019_717.png" alt="20180602164019_717.png"></p>
 <p>###<strong>可迭代对象与迭代器</strong></p>
 <p>刚开始我认为这两者是等同的，但后来发现并不是这样；下面直接抛出结论：</p>
 <ul>
@@ -594,69 +608,6 @@ app.register_blueprint(simple_page)
  &lt;Rule '/' (HEAD, OPTIONS, GET) -&gt; simple_page.show&gt;]
 </code></pre>
 <p>所以当外部访问到对应url规则时，会直接找到指定蓝图下的方法。也就是定义蓝图下引入视图的意义，会直接在那里找对应方法。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[谈谈python中的深拷贝和浅拷贝]]></title>
-        <id>https://skytotwo.github.io//post/python-copy</id>
-        <link href="https://skytotwo.github.io//post/python-copy">
-        </link>
-        <updated>2019-08-26T08:19:53.000Z</updated>
-        <summary type="html"><![CDATA[<p>原文链接：谈谈python中的深拷贝和浅拷贝<a href="https://www.jianshu.com/p/efa9dd51f5cc">https://www.jianshu.com/p/efa9dd51f5cc</a></p>
-<p>最近面试被问到python中深拷贝和浅拷贝的知识<br>
-这里进行下总结，以便今后复习<br>
-python中的深拷贝和浅拷贝和java里面的概念是一样的，所谓浅拷贝就是对引用的拷贝，所谓深拷贝就是对对象的资源的拷贝。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>原文链接：谈谈python中的深拷贝和浅拷贝<a href="https://www.jianshu.com/p/efa9dd51f5cc">https://www.jianshu.com/p/efa9dd51f5cc</a></p>
-<p>最近面试被问到python中深拷贝和浅拷贝的知识<br>
-这里进行下总结，以便今后复习<br>
-python中的深拷贝和浅拷贝和java里面的概念是一样的，所谓浅拷贝就是对引用的拷贝，所谓深拷贝就是对对象的资源的拷贝。</p>
- <!-- more -->
-<p><strong>首先，对赋值操作我们要有以下认识：</strong></p>
-<ol>
-<li>赋值是将一个对象的地址赋值给一个变量，让变量指向该地址（ 旧瓶装旧酒 ）。</li>
-<li>修改不可变对象（str、tuple）需要开辟新的空间</li>
-<li>修改可变对象（list等）不需要开辟新的空间<br>
-浅拷贝仅仅复制了容器中元素的地址</li>
-</ol>
-<pre><code class="language-python">&gt;&gt;&gt; a=['hello',[1,2,3]]
-&gt;&gt;&gt; b=a[:]
-&gt;&gt;&gt; [id(x) for x in a]
-[55792504, 6444104]
-&gt;&gt;&gt; [id(x) for x in b]
-[55792504, 6444104]
-&gt;&gt;&gt; a[0]='world'
-&gt;&gt;&gt; a[1].append(4)
-&gt;&gt;&gt; print(a)
-['world', [1, 2, 3, 4]]
-&gt;&gt;&gt; print(b)
-['hello', [1, 2, 3, 4]]
-</code></pre>
-<p>这里可以看出，未修改前，a和b中元素的地址都是相同的，不可变的hello<br>
-和可变的list地址都一样，说明浅拷贝知识将容器内的元素的地址复制了一份。这可以通过修改后，b中字符串没改变，但是list元素随着a相应改变得到验证。</p>
-<ul>
-<li>浅拷贝是在另一块地址中创建一个新的变量或容器，但是容器内的元素的地址均是源对象的元素的地址的拷贝。也就是说新的容器中指向了旧的元素（ 新瓶装旧酒 ）。</li>
-</ul>
-<p>深拷贝，完全拷贝了一个副本，容器内部元素地址都不一样</p>
-<pre><code class="language-python">&gt;&gt;&gt; from copy import deepcopy
-&gt;&gt;&gt; a=['hello',[1,2,3]]
-&gt;&gt;&gt; b=deepcopy(a)
-&gt;&gt;&gt; [id(x) for x in a]
-[55792504, 55645000]
-&gt;&gt;&gt; [id(x) for x in b]
-[55792504, 58338824]
-&gt;&gt;&gt; a[0]='world'
-&gt;&gt;&gt; a[1].append(4)
-&gt;&gt;&gt; 
-&gt;&gt;&gt; print(a)
-['world', [1, 2, 3, 4]]
-&gt;&gt;&gt; print(b)
-['hello', [1, 2, 3]]
-</code></pre>
-<p>这里可以看出，深拷贝后，a和b的地址以及a和b中的元素地址均不同，这是完全拷贝的一个副本，修改a后，发现b没有发生任何改变，因为b是一个完全的副本，元素地址与a均不同，a修改不影响b。</p>
-<ul>
-<li>深拷贝是在另一块地址中创建一个新的变量或容器，同时容器内的元素的地址也是新开辟的，仅仅是值相同而已，是完全的副本。也就是说（ 新瓶装新酒 ）。</li>
-</ul>
 ]]></content>
     </entry>
 </feed>

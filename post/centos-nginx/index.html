@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Centos7 修改mysql 最大连接数 | Totoro の Home</title>
+<title>Centos系统下nginx 相关命令 | Totoro の Home</title>
 <meta name="description" content="空杯心态，每天进步">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -104,37 +104,53 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Centos7 修改mysql 最大连接数</h2>
+            <h2 class="post-title">Centos系统下nginx 相关命令</h2>
             <div class="post-date">2019-08-26</div>
             
-              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/images.jpg')">
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/images.png')">
               </div>
             
             <div class="post-content">
-              <h3 id="步骤">步骤：</h3>
-<p><strong>1.编辑  /etc/my.cnf  添加如下一行，注意是在[mysqld] 区域下面添加 而不是最后，最后添加是不生效的</strong></p>
-<p>max_connections = 1000</p>
-<p><strong>2.编辑 /usrb/systemd/system/mysqld.service 文件，在文件最后添加</strong></p>
-<p>LimitNOFILE=65535<br>
-LimitNPROC=65535</p>
-<p><strong>3.重启服务</strong><br>
-$ systemctl daemon-reload<br>
-$ systemctl restart  mysqld.service</p>
-<p><strong>4.连接数据库，查看最大连接数</strong><br>
-mysql&gt; show variables like 'max_connections';<br>
-+-----------------+-------+<br>
-| Variable_name   | Value |<br>
-+-----------------+-------+<br>
-| max_connections | 1000  |<br>
-+-----------------+-------+<br>
-1 row in set (0.00 sec)</p>
+              <pre><code class="language-python">linux（centos）系统下nginx 服务器重启，关闭的命令。
+
+nginx -s reload  ：修改配置后重新加载生效
+
+nginx -s reopen  ：重新打开日志文件
+
+nginx -t 测试nginx配置文件是否正确
+
+nginx -t -c /path/to/nginx.conf 测试nginx配置文件是否正确
+
+关闭nginx：
+
+nginx -s stop  : 快速停止nginx
+         quit  : 完整有序的停止nginx
+
+其他的停止 nginx 方式：
+
+ps -ef | grep nginx
+
+kill -QUIT 主进程号     ：从容停止Nginx
+
+kill -TERM 主进程号     ：快速停止Nginx
+
+pkill -9 nginx         :强制停止Nginx
+
+启动nginx:
+
+nginx -c /path/to/nginx.conf
+
+平滑重启nginx：
+
+kill -HUP 主进程号
+</code></pre>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://skytotwo.github.io//tag/ek3qBGSgi" class="tag">
-                    数据库
+                  <a href="https://skytotwo.github.io//tag/OM99oRtav" class="tag">
+                    linux
                   </a>
                 
               </div>
@@ -142,9 +158,9 @@ mysql&gt; show variables like 'max_connections';<br>
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://skytotwo.github.io//post/python-collections">
+                <a href="https://skytotwo.github.io//post/centos7-flask-env">
                   <h3 class="post-title">
-                    Collections模块基本介绍
+                    Centos7 环境下部署flask网站步骤
                   </h3>
                 </a>
               </div>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Django settings.py 的media路径设置 | Totoro の Home</title>
+<title>Centos7 环境下部署flask网站步骤 | Totoro の Home</title>
 <meta name="description" content="空杯心态，每天进步">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -104,56 +104,132 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Django settings.py 的media路径设置</h2>
-            <div class="post-date">2019-06-16</div>
+            <h2 class="post-title">Centos7 环境下部署flask网站步骤</h2>
+            <div class="post-date">2019-08-26</div>
             
-              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/06/16/1562632_a245_2.jpg')">
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/flask-python.png')">
               </div>
             
             <div class="post-content">
-              <p>Django对media等静态文件的路径配置有自己的一套，在settings和url里面都有对应配置，这里简单做一下介绍。</p>
-<!--more-->
-<p>在一个 models 中使用 FileField 或 ImageField 需要以下步骤:</p>
-<ol>
-<li>
-<p>在你的 settings 文件中, 定义一个完整路径给MEDIA_ROOT 以便让 Django在此处保存上传文件. (出于性能考虑,这些文件并不保存到数据库.) 定义MEDIA_URL 作为该目录的公共 URL. 要确保该目录对 WEB 服务器用户帐号是可写的.</p>
-</li>
-<li>
-<p>在你的 models.py 中添加 FileField 或 ImageField, 并确保定义了upload_to 选项,以告诉 Django 使用MEDIA_ROOT 的哪个子目录保存上传文件.</p>
-</li>
-<li>
-<p>你的数据库中要保存的只是文件的路径(相对于 MEDIA_ROOT)，要想得到这个文件的路径可以用&quot;.url&quot;方法。例如，如果models里有一个取名为&quot;photo&quot;的ImageField，可以在Html模板里通过双花括号加object.photo.url得到该图片的路径。</p>
-</li>
-</ol>
-<p>settings.py 设置</p>
-<p>媒体文件的绝对路径：</p>
-<pre><code class="language-python"># Absolute path to the directory that holds media.
-# Example: &quot;/home/media/media.lawrence.com/&quot;   
-MEDIA_ROOT = 'D:/Python26/Lib/site-packages/django/bin/newproj/media'
+              <p>自己之前做了一个flask项目，完成后部署在腾讯云，过程由踩一点坑，这里记录下过程。在部署之前，需要先配置centos7环境，具体链接为：<br>
+<a href="https://totoro.site/post/centos7-python-env/" title="centos7 环境配置">centos7 环境配置</a></p>
+ <!-- more --> 
+<p>1、安装依赖包<br>
+在虚拟环境中安装好所有包，例如：</p>
+<pre><code class="language-python">pip install -r requements.txt
 </code></pre>
-<p>媒体文件的相对路径：</p>
-<pre><code class="language-python"># URL that handles the media served from MEDIA_ROOT.
-# Example: &quot;http://media.lawrence.com&quot;
-MEDIA_URL = '/site_media/' 
+<p>2、关闭调试模式 app.debug = False，并且安装flask-script插件来进行命令行启动项目，如下：</p>
+<pre><code class="language-python">pip install flask-script
+from flask_script import Manager
+
+manage = Manager(app)
+
+if __name__ == &quot;__main__&quot;:
+    manage.run()
 </code></pre>
-<p>设置静态文件路径</p>
-<pre><code class="language-python">STATIC_PATH = 'D:/Python26/Lib/site-packages/django/bin/newproj/media'
+<p>3、在init文件中修改mysql数据库连接（ip地址等），然后在navicat中远程连接到服务器的mysql，进行数据传输，这样是最省时的。<br>
+4、配置nginx 反向代理<br>
+nginx配置文件：</p>
+<pre><code class="language-python">worker_processes 4;
+events {
+    worker_connections 262140;
+}
+http {
+    include mime.types;
+    default_type application/octet-stream;
+    sendfile on;
+    keepalive_timeout 65;
+    limit_conn_zone $binary_remote_addr zone=addr:5m;
+    upstream movie {
+		server 127.0.0.1:5000;
+        server 127.0.0.1:5001;
+        server 127.0.0.1:5002;
+        server 127.0.0.1:5003;
+        server 127.0.0.1:5004;
+    }
+    server {
+        listen 80;
+        server_name localhost;
+        location / {
+            root html;
+            index index.html index.htm;
+            proxy_pass http://movie;
+        }
+        location ~ \.flv$ {
+            flv;
+            limit_conn addr 4;
+            limit_rate 1024k;
+            rewrite ^/static/uploads/movies/(.+?).flv$ /flask_movie/app/static/uploads/movies/$1.flv permanent;
+        }
+        location ~ \.mp4$ {
+            mp4;
+            limit_conn addr 4;
+            limit_rate 1024k;
+            rewrite ^/static/uploads/movies/(.+?).mp4$ /flask_movie/app/static/uploads/movies/$1.mp4 permanent;
+        }
+        error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+            root html;
+        }
+    }
+}
+
 </code></pre>
-<p>urls.py 影射路径</p>
-<pre><code class="language-python">(r'^site_media/(?P&lt;path&gt;.*)$', 'django.views.static.serve',{'document_root': settings.STATIC_PATH}),
+<p>然后将配置文件拷贝至nginx目录中，覆盖原有配置文件：</p>
+<pre><code class="language-python">cp nginx.conf /usr/local/nginx/conf/
+ubuntu: cp nginx.conf /etc/nginx/conf.d
 </code></pre>
-<p>将 MEDIA_URL 的site_media 影射到 settings.STATIC_PATH</p>
-<p>models.py 上传图片字段设置</p>
-<pre><code class="language-python">photo = models.ImageField('上传图片',upload_to='photos')
+<p>将项目拷贝到nginx的html目录：</p>
+<pre><code class="language-python">cp -r movie_project /usr/local/nginx/html
+
 </code></pre>
-<p>相当于传到 D:/Python26/Lib/site-packages/django/bin/newproj/media/photos 目录下，浏览时通过/site_media/photos/ 访问。</p>
+<p>然后重启nginx：</p>
+<pre><code class="language-python">nginx -s stop
+nginx
+nginx -s reload
+</code></pre>
+<p>启动项目：</p>
+<pre><code class="language-python">cd /usr/local/nginx/html/movie_project
+
+python manage.py runserver
+</code></pre>
+<p>5、开启多个端口后台运行</p>
+<pre><code class="language-python">nohup python manage.py runserver -h 127.0.0.1 -p 5001 &amp;
+
+然后 ctr + c
+
+nohup python manage.py runserver -h 127.0.0.1 -p 5002 &amp;
+
+然后 ctr + c
+
+nohup python manage.py runserver -h 127.0.0.1 -p 5003 &amp;
+
+然后 ctr + c
+
+nohup python manage.py runserver -h 127.0.0.1 -p 5004 &amp;
+</code></pre>
+<p>这样就开启了四个端口，输入如下命令可以查看：</p>
+<pre><code class="language-python">netstat -anptu | grep 500*
+</code></pre>
+<p>6、流媒体访问限制<br>
+限制单个ip能发起的连接: limit_conn addr 1;<br>
+限制视频速率: limit_rate 1024k;<br>
+刷新nginx nginx -s reload</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://skytotwo.github.io//tag/Iv9ahsKWG" class="tag">
-                    Django
+                  <a href="https://skytotwo.github.io//tag/WllsaKoVz" class="tag">
+                    flask
+                  </a>
+                
+                  <a href="https://skytotwo.github.io//tag/OM99oRtav" class="tag">
+                    linux
+                  </a>
+                
+                  <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="tag">
+                    python
                   </a>
                 
               </div>
@@ -161,9 +237,9 @@ MEDIA_URL = '/site_media/'
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://skytotwo.github.io//post/django-drf-disanfang">
+                <a href="https://skytotwo.github.io//post/centos7-python-env">
                   <h3 class="post-title">
-                    django drf实现第三方登录
+                    Centos7 部署python应用相关配置
                   </h3>
                 </a>
               </div>

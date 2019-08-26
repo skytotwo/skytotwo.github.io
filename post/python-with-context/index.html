@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Centos7 修改mysql 最大连接数 | Totoro の Home</title>
+<title>Python的with上下文要点 | Totoro の Home</title>
 <meta name="description" content="空杯心态，每天进步">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -104,37 +104,46 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Centos7 修改mysql 最大连接数</h2>
+            <h2 class="post-title">Python的with上下文要点</h2>
             <div class="post-date">2019-08-26</div>
             
-              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/images.jpg')">
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/t1gluj65w1.jpg')">
               </div>
             
             <div class="post-content">
-              <h3 id="步骤">步骤：</h3>
-<p><strong>1.编辑  /etc/my.cnf  添加如下一行，注意是在[mysqld] 区域下面添加 而不是最后，最后添加是不生效的</strong></p>
-<p>max_connections = 1000</p>
-<p><strong>2.编辑 /usrb/systemd/system/mysqld.service 文件，在文件最后添加</strong></p>
-<p>LimitNOFILE=65535<br>
-LimitNPROC=65535</p>
-<p><strong>3.重启服务</strong><br>
-$ systemctl daemon-reload<br>
-$ systemctl restart  mysqld.service</p>
-<p><strong>4.连接数据库，查看最大连接数</strong><br>
-mysql&gt; show variables like 'max_connections';<br>
-+-----------------+-------+<br>
-| Variable_name   | Value |<br>
-+-----------------+-------+<br>
-| max_connections | 1000  |<br>
-+-----------------+-------+<br>
-1 row in set (0.00 sec)</p>
+              <p>python的的with上下文其实可以自己实现，只要该对象实现了__enter__和__exit__方法，就实现了一个with上下文，可以用with来处理该对象，如下：</p>
+<!-- more -->
+<pre><code class="language-python">class MyResource:
+	def __enter__(self):
+		return self
+	
+	def __exit__(self, exc_type, exc_value, tb):
+		if tb:
+			print('proccess exception')
+		else:
+			print('no exception')
+		print('close resource connection')
+		
+	def query(self):
+		print('query data')
+		
+
+with MyResource() as resource:
+	resource.query()
+</code></pre>
+<p>注意：<br>
+1、任何实现了__enter__和__exit__魔法方法的对象都能用with处理<br>
+2、with实例化对象后用as赋给一个变量，变量为__enter__所返回的值，上面代码中__enter__返回的是实例对象。<br>
+3、调用的顺序是__enter__，然后with里的逻辑，最后是__exit__方法。<br>
+4、<strong>exit</strong> 方法包含4个参数，分别是(self, exc_type, exc_value, tb)，第一个是实例对象，后面三个分别为异常类型、异常值和异常堆栈信息。这里主要是为了捕获异常，只要是逻辑处理中危险异常，都会在这里捕获，并退出。<br>
+5、<strong>exit</strong> 方法是有返回的，如果return值是Ture的话，就代表捕获了异常，不会抛出；如果返回值为空或者返回False，就代表异常会继续抛出。</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://skytotwo.github.io//tag/ek3qBGSgi" class="tag">
-                    数据库
+                  <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="tag">
+                    python
                   </a>
                 
               </div>
@@ -142,9 +151,9 @@ mysql&gt; show variables like 'max_connections';<br>
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://skytotwo.github.io//post/python-collections">
+                <a href="https://skytotwo.github.io//post/flask-content">
                   <h3 class="post-title">
-                    Collections模块基本介绍
+                    详解flask上下文与出入栈
                   </h3>
                 </a>
               </div>

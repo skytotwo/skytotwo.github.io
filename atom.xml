@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-08-26T07:56:10.768Z</updated>
+    <updated>2019-08-26T08:22:57.616Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -11,16 +11,256 @@
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
     <entry>
+        <title type="html"><![CDATA[谈谈python中的深拷贝和浅拷贝]]></title>
+        <id>https://skytotwo.github.io//post/python-copy</id>
+        <link href="https://skytotwo.github.io//post/python-copy">
+        </link>
+        <updated>2019-08-26T08:19:53.000Z</updated>
+        <summary type="html"><![CDATA[<p>原文链接：谈谈python中的深拷贝和浅拷贝<a href="https://www.jianshu.com/p/efa9dd51f5cc">https://www.jianshu.com/p/efa9dd51f5cc</a></p>
+<p>最近面试被问到python中深拷贝和浅拷贝的知识<br>
+这里进行下总结，以便今后复习<br>
+python中的深拷贝和浅拷贝和java里面的概念是一样的，所谓浅拷贝就是对引用的拷贝，所谓深拷贝就是对对象的资源的拷贝。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>原文链接：谈谈python中的深拷贝和浅拷贝<a href="https://www.jianshu.com/p/efa9dd51f5cc">https://www.jianshu.com/p/efa9dd51f5cc</a></p>
+<p>最近面试被问到python中深拷贝和浅拷贝的知识<br>
+这里进行下总结，以便今后复习<br>
+python中的深拷贝和浅拷贝和java里面的概念是一样的，所谓浅拷贝就是对引用的拷贝，所谓深拷贝就是对对象的资源的拷贝。</p>
+ <!-- more -->
+<p><strong>首先，对赋值操作我们要有以下认识：</strong></p>
+<ol>
+<li>赋值是将一个对象的地址赋值给一个变量，让变量指向该地址（ 旧瓶装旧酒 ）。</li>
+<li>修改不可变对象（str、tuple）需要开辟新的空间</li>
+<li>修改可变对象（list等）不需要开辟新的空间<br>
+浅拷贝仅仅复制了容器中元素的地址</li>
+</ol>
+<pre><code class="language-python">&gt;&gt;&gt; a=['hello',[1,2,3]]
+&gt;&gt;&gt; b=a[:]
+&gt;&gt;&gt; [id(x) for x in a]
+[55792504, 6444104]
+&gt;&gt;&gt; [id(x) for x in b]
+[55792504, 6444104]
+&gt;&gt;&gt; a[0]='world'
+&gt;&gt;&gt; a[1].append(4)
+&gt;&gt;&gt; print(a)
+['world', [1, 2, 3, 4]]
+&gt;&gt;&gt; print(b)
+['hello', [1, 2, 3, 4]]
+</code></pre>
+<p>这里可以看出，未修改前，a和b中元素的地址都是相同的，不可变的hello<br>
+和可变的list地址都一样，说明浅拷贝知识将容器内的元素的地址复制了一份。这可以通过修改后，b中字符串没改变，但是list元素随着a相应改变得到验证。</p>
+<ul>
+<li>浅拷贝是在另一块地址中创建一个新的变量或容器，但是容器内的元素的地址均是源对象的元素的地址的拷贝。也就是说新的容器中指向了旧的元素（ 新瓶装旧酒 ）。</li>
+</ul>
+<p>深拷贝，完全拷贝了一个副本，容器内部元素地址都不一样</p>
+<pre><code class="language-python">&gt;&gt;&gt; from copy import deepcopy
+&gt;&gt;&gt; a=['hello',[1,2,3]]
+&gt;&gt;&gt; b=deepcopy(a)
+&gt;&gt;&gt; [id(x) for x in a]
+[55792504, 55645000]
+&gt;&gt;&gt; [id(x) for x in b]
+[55792504, 58338824]
+&gt;&gt;&gt; a[0]='world'
+&gt;&gt;&gt; a[1].append(4)
+&gt;&gt;&gt; 
+&gt;&gt;&gt; print(a)
+['world', [1, 2, 3, 4]]
+&gt;&gt;&gt; print(b)
+['hello', [1, 2, 3]]
+</code></pre>
+<p>这里可以看出，深拷贝后，a和b的地址以及a和b中的元素地址均不同，这是完全拷贝的一个副本，修改a后，发现b没有发生任何改变，因为b是一个完全的副本，元素地址与a均不同，a修改不影响b。</p>
+<ul>
+<li>深拷贝是在另一块地址中创建一个新的变量或容器，同时容器内的元素的地址也是新开辟的，仅仅是值相同而已，是完全的副本。也就是说（ 新瓶装新酒 ）。</li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Flask中url_for的参数解释]]></title>
+        <id>https://skytotwo.github.io//post/flask-url_for</id>
+        <link href="https://skytotwo.github.io//post/flask-url_for">
+        </link>
+        <updated>2019-08-26T08:17:44.000Z</updated>
+        <summary type="html"><![CDATA[<p>url_for函数的作用是：通过给定的endpoint端点和额外参数，结合请求上下文和应用上下文，生成一个url地址并返回。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>url_for函数的作用是：通过给定的endpoint端点和额外参数，结合请求上下文和应用上下文，生成一个url地址并返回。</p>
+<!-- more --> 
+<p>其中的额外参数有：<br>
+_external: 是否使用绝对路径<br>
+_scheme：使用http还是https，设置这个参数时，必须使_external=True<br>
+_anchor：锚点，可以定位到html中的某一个位置<br>
+_method：http方法,post、get等</p>
+<p>endpoint其实又叫做端点，默认情况下是视图函数名，也可以自定义端点名，主要是用作url_for反向寻找视图的一个标记，如：</p>
+<pre><code class="language-python">{{ url_for('login') }}
+</code></pre>
+<p>login就是endpoint端点名。</p>
+<p>url_for() 函数还支持一种简写的端点形式，在蓝本中可以省略蓝本名，例如url_for('.<br>
+index')。在这种写法中，命名空间是当前请求所在的蓝本。这意味着同一蓝本中的重定向<br>
+可以使用简写形式，但跨蓝本的重定向必须使用带有命名空间的端点名。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[单页面应用程序和多页面应用程序（网站）的区别]]></title>
+        <id>https://skytotwo.github.io//post/single&amp;mutipage</id>
+        <link href="https://skytotwo.github.io//post/single&amp;mutipage">
+        </link>
+        <updated>2019-08-26T08:13:52.000Z</updated>
+        <summary type="html"><![CDATA[<p>单页面和双页面应用的区别：</p>
+<ul>
+<li>1、单页面应用程序的数据渲染是在客户端进行的；而多页面应用程序的数据渲染则是在服务端进行的。</li>
+<li>2、单页面应用程序的数据请求等是在js中通过ajax完成的；多页面应用程序则是在服务端试图函数中完成的。</li>
+</ul>
+]]></summary>
+        <content type="html"><![CDATA[<p>单页面和双页面应用的区别：</p>
+<ul>
+<li>1、单页面应用程序的数据渲染是在客户端进行的；而多页面应用程序的数据渲染则是在服务端进行的。</li>
+<li>2、单页面应用程序的数据请求等是在js中通过ajax完成的；多页面应用程序则是在服务端试图函数中完成的。</li>
+</ul>
+<h2 id="-more-"><!-- more --></h2>
+<h3 id="单页面应用singlepage-web-applicationspa"><strong>单页面应用（SinglePage Web Application，SPA）</strong></h3>
+<p>只有一张Web页面的应用，是一种从Web服务器加载的富客户端，单页面跳转仅刷新局部资源 ，公共资源(js、css等)仅需加载一次，常用于PC端官网、购物等网站<br>
+如图：<br>
+<img src="/attached/image/20180508/20180508223839_750.png" alt=""></p>
+<h3 id="多页面应用multipage-applicationmpa"><strong>多页面应用（MultiPage Application，MPA）</strong></h3>
+<p>多页面跳转刷新所有资源，每个公共资源(js、css等)需选择性重新加载，常用于 app 或 客户端等</p>
+<p>如图：<br>
+<img src="/attached/image/20180508/20180508223908_626.png" alt=""></p>
+<p>具体对比分析：</p>
+<p><img src="/attached/image/20180508/20180508223927_729.jpg" alt=""></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Python的with上下文要点]]></title>
+        <id>https://skytotwo.github.io//post/python-with-context</id>
+        <link href="https://skytotwo.github.io//post/python-with-context">
+        </link>
+        <updated>2019-08-26T08:09:49.000Z</updated>
+        <summary type="html"><![CDATA[<p>python的的with上下文其实可以自己实现，只要该对象实现了__enter__和__exit__方法，就实现了一个with上下文，可以用with来处理该对象，如下：</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>python的的with上下文其实可以自己实现，只要该对象实现了__enter__和__exit__方法，就实现了一个with上下文，可以用with来处理该对象，如下：</p>
+<!-- more -->
+<pre><code class="language-python">class MyResource:
+	def __enter__(self):
+		return self
+	
+	def __exit__(self, exc_type, exc_value, tb):
+		if tb:
+			print('proccess exception')
+		else:
+			print('no exception')
+		print('close resource connection')
+		
+	def query(self):
+		print('query data')
+		
+
+with MyResource() as resource:
+	resource.query()
+</code></pre>
+<p>注意：<br>
+1、任何实现了__enter__和__exit__魔法方法的对象都能用with处理<br>
+2、with实例化对象后用as赋给一个变量，变量为__enter__所返回的值，上面代码中__enter__返回的是实例对象。<br>
+3、调用的顺序是__enter__，然后with里的逻辑，最后是__exit__方法。<br>
+4、<strong>exit</strong> 方法包含4个参数，分别是(self, exc_type, exc_value, tb)，第一个是实例对象，后面三个分别为异常类型、异常值和异常堆栈信息。这里主要是为了捕获异常，只要是逻辑处理中危险异常，都会在这里捕获，并退出。<br>
+5、<strong>exit</strong> 方法是有返回的，如果return值是Ture的话，就代表捕获了异常，不会抛出；如果返回值为空或者返回False，就代表异常会继续抛出。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[详解flask上下文与出入栈]]></title>
+        <id>https://skytotwo.github.io//post/flask-content</id>
+        <link href="https://skytotwo.github.io//post/flask-content">
+        </link>
+        <updated>2019-08-26T08:04:10.000Z</updated>
+        <summary type="html"><![CDATA[<p>在flask中，上下文算是核心中的核心了，其作用于请求的访问处理，多线程隔离的实现等。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>在flask中，上下文算是核心中的核心了，其作用于请求的访问处理，多线程隔离的实现等。</p>
+ <!-- more --> 
+<h4 id="flask的上下文">flask的上下文：</h4>
+<p>1、应用上下文 （AppContent）<br>
+2、请求上下文 （Request Context）</p>
+<p>如图所示：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180506181132_533.jpg" alt="20180506181132_533.jpg"></p>
+<p>应用上下文是对当前应用实例app的封装<br>
+请求上下文是对当前请求Request的封装</p>
+<p>1、当每一个请求进入系统的时候，都会将当前的应用上下文和请求上下文进行入栈操作，所代表的栈对象分别是_app_ctx_stack和_request_ctx_stack。<br>
+2、栈对象进入栈顶的顺序是，先应用上下文的栈对象先进入栈顶，然后才是请求上下文的栈对象进入栈顶</p>
+<h4 id="注意">注意：</h4>
+<p>1、当一个请求进来时，也就是在请求的逻辑中要获取应用上下文，flask会先判断应用上下文的栈顶是否有该应用实例栈对象，没有的话会自动帮着将当前的应用上下文栈对象推入栈中。也就是说，在请求的逻辑视图处理中，是可以获取到当前的应用上下文的。<br>
+2、通过current_app和request获取当前应用上下文和请求上下文，其实都是经过了flask的封装，该方法是localproxy，都是分别去各自的栈顶获取栈对象，然后再取出app和request这个属性。</p>
+<p>3、在不是请求视图中要获取当前的应用上下文，是需要自己将当前的应用栈对象push到栈中的，然后才能通过current_app来获取到当前应用实例。通常在离线应用和单元测试场景上会使用到。<br>
+具体代码如下：</p>
+<pre><code class="language-python">app = Flask(__name__)
+
+ctx = app.app_content()
+ctx.push()
+
+然后使用完了需要将其在栈中去除
+ctx.pop()
+</code></pre>
+<h4 id="所有名词解释">所有名词解释</h4>
+<p>1、以线程ID号作为key的字典-&gt;Local-&gt;LocalStack<br>
+（local是通过点来实现线程隔离的，localstack则是封装了local通过push()、pop()和top成为线程隔离对象(栈)）<br>
+2、AppContext RequestContext -&gt; LocalStack<br>
+（AppContext是应用上下文，RequestContext是请求上下文，分别依次推入各自的线程隔离对象中）<br>
+3、Flask -&gt; AppContext   Request -&gt; RequestContext<br>
+（AppContext封装的是Flask的应用核心对象，RequestContext封装的是本次请求的Request对象）<br>
+4、current_app -&gt;(LocalStack.top = AppContext top.app=Flask)<br>
+（current_app指的是线程隔离对象栈顶的元素（应用上下文）的app属性（核心对象））<br>
+5、request -&gt;(LocalStack.top = RequestContext top.request= Request)<br>
+（request指的是线程隔离对象栈顶元素（请求上下文）的request属性（当前request对象））</p>
+<p>注意：app，也就是当前应用核心对象只有一个，因为它是在主线程中生成的，而request则是每次请求都会生成一个，所以需要线程隔离。app的话，因为作为字典存在的线程隔离，都是同一个value是没有意义的，所以app并没有被线程隔离</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Centos系统下nginx 相关命令]]></title>
+        <id>https://skytotwo.github.io//post/centos-nginx</id>
+        <link href="https://skytotwo.github.io//post/centos-nginx">
+        </link>
+        <updated>2019-08-26T08:01:26.000Z</updated>
+        <content type="html"><![CDATA[<pre><code class="language-python">linux（centos）系统下nginx 服务器重启，关闭的命令。
+
+nginx -s reload  ：修改配置后重新加载生效
+
+nginx -s reopen  ：重新打开日志文件
+
+nginx -t 测试nginx配置文件是否正确
+
+nginx -t -c /path/to/nginx.conf 测试nginx配置文件是否正确
+
+关闭nginx：
+
+nginx -s stop  : 快速停止nginx
+         quit  : 完整有序的停止nginx
+
+其他的停止 nginx 方式：
+
+ps -ef | grep nginx
+
+kill -QUIT 主进程号     ：从容停止Nginx
+
+kill -TERM 主进程号     ：快速停止Nginx
+
+pkill -9 nginx         :强制停止Nginx
+
+启动nginx:
+
+nginx -c /path/to/nginx.conf
+
+平滑重启nginx：
+
+kill -HUP 主进程号
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Centos7 环境下部署flask网站步骤]]></title>
-        <id>https://skytotwo.github.io//post/centos7-huan-jing-xia-bu-shu-flask-wang-zhan-bu-zou</id>
-        <link href="https://skytotwo.github.io//post/centos7-huan-jing-xia-bu-shu-flask-wang-zhan-bu-zou">
+        <id>https://skytotwo.github.io//post/centos7-flask-env</id>
+        <link href="https://skytotwo.github.io//post/centos7-flask-env">
         </link>
         <updated>2019-08-26T07:53:41.000Z</updated>
         <summary type="html"><![CDATA[<p>自己之前做了一个flask项目，完成后部署在腾讯云，过程由踩一点坑，这里记录下过程。在部署之前，需要先配置centos7环境，具体链接为：<br>
-<a href="https://www.listenlife.cn/post/43" title="centos7 环境配置">centos7 环境配置</a></p>
+<a href="https://totoro.site/post/centos7-python-env/" title="centos7 环境配置">centos7 环境配置</a></p>
 ]]></summary>
         <content type="html"><![CDATA[<p>自己之前做了一个flask项目，完成后部署在腾讯云，过程由踩一点坑，这里记录下过程。在部署之前，需要先配置centos7环境，具体链接为：<br>
-<a href="https://www.listenlife.cn/post/43" title="centos7 环境配置">centos7 环境配置</a></p>
+<a href="https://totoro.site/post/centos7-python-env/" title="centos7 环境配置">centos7 环境配置</a></p>
  <!-- more --> 
 <p>1、安装依赖包<br>
 在虚拟环境中安装好所有包，例如：</p>
@@ -525,2199 +765,6 @@ movie = comment.movie
 
 </code></pre>
 <p>当我们需要在父表中添加子表关系时使用 relationship，外键通常是父表的主键</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Centos7 修改mysql 最大连接数]]></title>
-        <id>https://skytotwo.github.io//post/mysql-connect-num</id>
-        <link href="https://skytotwo.github.io//post/mysql-connect-num">
-        </link>
-        <updated>2019-08-26T07:25:17.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="步骤">步骤：</h3>
-<p><strong>1.编辑  /etc/my.cnf  添加如下一行，注意是在[mysqld] 区域下面添加 而不是最后，最后添加是不生效的</strong></p>
-<p>max_connections = 1000</p>
-<p><strong>2.编辑 /usrb/systemd/system/mysqld.service 文件，在文件最后添加</strong></p>
-<p>LimitNOFILE=65535<br>
-LimitNPROC=65535</p>
-<p><strong>3.重启服务</strong><br>
-$ systemctl daemon-reload<br>
-$ systemctl restart  mysqld.service</p>
-<p><strong>4.连接数据库，查看最大连接数</strong><br>
-mysql&gt; show variables like 'max_connections';<br>
-+-----------------+-------+<br>
-| Variable_name   | Value |<br>
-+-----------------+-------+<br>
-| max_connections | 1000  |<br>
-+-----------------+-------+<br>
-1 row in set (0.00 sec)</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Collections模块基本介绍]]></title>
-        <id>https://skytotwo.github.io//post/python-collections</id>
-        <link href="https://skytotwo.github.io//post/python-collections">
-        </link>
-        <updated>2019-08-26T07:17:18.000Z</updated>
-        <summary type="html"><![CDATA[<p>我们都知道，Python拥有一些内置的数据类型，比如str, int, list, tuple, dict等， collections模块在这些内置数据类型的基础上，提供了几个额外的数据类型，更便捷的实现了一些功能。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>我们都知道，Python拥有一些内置的数据类型，比如str, int, list, tuple, dict等， collections模块在这些内置数据类型的基础上，提供了几个额外的数据类型，更便捷的实现了一些功能。</p>
- <!-- more -->
-<p>共由以下组成：</p>
-<ul>
-<li><strong>namedtuple()</strong>: 生成可以使用名字来访问元素内容的tuple子类</li>
-<li><strong>deque</strong>: 双端队列，可以快速的从另外一侧追加和推出对象</li>
-<li><strong>Counter</strong>: 计数器，主要用来计数</li>
-<li><strong>OrderedDict</strong>: 有序字典</li>
-<li><strong>defaultdict</strong>: 带有默认值的字典</li>
-</ul>
-<h3 id="1-可命名元组namedtuple">1、可命名元组(namedtuple)</h3>
-<p><strong>作用：namedtuple主要用来产生可以使用名称来访问元素的数据对象，通常用来增强代码的可读性， 在访问一些tuple类型的数据时尤其好用。</strong></p>
-<pre><code class="language-python">class Mytuple(__builtin__.tuple)
- |  Mytuple(x, y)
- |  
- |  Method resolution order:
- |      Mytuple
- |      __builtin__.tuple
- |      __builtin__.object
- |  
- |  Methods defined here:
- |  
- |  __getnewargs__(self)
- |      Return self as a plain tuple.  Used by copy and pickle.
- |  
- |  __getstate__(self)
- |      Exclude the OrderedDict from pickling
- |  
- |  __repr__(self)
- |      Return a nicely formatted representation string
- |  
- |  _asdict(self)
- |      Return a new OrderedDict which maps field names to their values
- |  
- |  _replace(_self, **kwds)
- |      Return a new Mytuple object replacing specified fields with new values
- |  
- |  ----------------------------------------------------------------------
- |  Class methods defined here:
- |  
- |  _make(cls, iterable, new=&lt;built-in method __new__ of type object&gt;, len=&lt;built-in function len&gt;) from __builtin__.type
- |      Make a new Mytuple object from a sequence or iterable
- |  
- |  ----------------------------------------------------------------------
- |  Static methods defined here:
- |  
- |  __new__(_cls, x, y)
- |      Create new instance of Mytuple(x, y)
- |  
- |  ----------------------------------------------------------------------
- |  Data descriptors defined here:
- |  
- |  __dict__
- |      Return a new OrderedDict which maps field names to their values
- |  
- |  x
- |      Alias for field number 0
- |  
- |  y
- |      Alias for field number 1
- |  
- |  ----------------------------------------------------------------------
- |  Data and other attributes defined here:
- |  
- |  _fields = ('x', 'y')
- |  
- |  ----------------------------------------------------------------------
- |  Methods inherited from __builtin__.tuple:
- |  
- |  __add__(...)
- |      x.__add__(y) &lt;==&gt; x+y
- |  
- |  __contains__(...)
- |      x.__contains__(y) &lt;==&gt; y in x
- |  
- |  __eq__(...)
- |      x.__eq__(y) &lt;==&gt; x==y
- |  
- |  __ge__(...)
- |      x.__ge__(y) &lt;==&gt; x&gt;=y
- |  
- |  __getattribute__(...)
- |      x.__getattribute__('name') &lt;==&gt; x.name
- |  
- |  __getitem__(...)
- |      x.__getitem__(y) &lt;==&gt; x[y]
- |  
- |  __getslice__(...)
- |      x.__getslice__(i, j) &lt;==&gt; x[i:j]
- |      
- |      Use of negative indices is not supported.
- |  
- |  __gt__(...)
- |      x.__gt__(y) &lt;==&gt; x&gt;y
- |  
- |  __hash__(...)
- |      x.__hash__() &lt;==&gt; hash(x)
- |  
- |  __iter__(...)
- |      x.__iter__() &lt;==&gt; iter(x)
- |  
- |  __le__(...)
- |      x.__le__(y) &lt;==&gt; x&lt;=y
- |  
- |  __len__(...)
- |      x.__len__() &lt;==&gt; len(x)
- |  
- |  __lt__(...)
- |      x.__lt__(y) &lt;==&gt; x&lt;y
- |  
- |  __mul__(...)
- |      x.__mul__(n) &lt;==&gt; x*n
- |  
- |  __ne__(...)
- |      x.__ne__(y) &lt;==&gt; x!=y
- |  
- |  __rmul__(...)
- |      x.__rmul__(n) &lt;==&gt; n*x
- |  
- |  __sizeof__(...)
- |      T.__sizeof__() -- size of T in memory, in bytes
- |  
- |  count(...)
- |      T.count(value) -&gt; integer -- return number of occurrences of value
- |  
- |  index(...)
- |      T.index(value, [start, [stop]]) -&gt; integer -- return first index of value.
- |      Raises ValueError if the value is not present.
-
-Mytuple
-
-Mytuple
-
-namedtuple
-</code></pre>
-<p>创建一个自己的可扩展tuple的类（包含tuple所有功能以及其他功能的类型），在根据类创建对象，然后调用对象最长用于坐标，普通的元组类似于列表以index编号来访问，而自定义可扩展的可以类似于字典的keys进行访问</p>
-<p>下例列举用collections.namedtuple以及普通元组进行元素调用的实例子。</p>
-<pre><code class="language-python">实例1：
-
-【collections方法】
-import collections　　　　　　　　#导入collections模块
- 
-mytuple = collections.namedtuple('mytuple',['x','y','z'])　　　#调用namedtuple方法来定义mytuple的变量，并创建一个名称为['x','y','z']的列表。
- 
-a = mytuple(3,5,7)　　　　　　　　#给mytuple赋值，这里赋值的（3,5,7）是分别赋值给['x','y','z']这个列表中每个元素的。
-print(a)
-&gt;&gt;&gt;mytuple(x=3, y=5, z=7)  　　 #打印结果可以看出赋值的每个值已经传给了列表中对应的每个元素中了。
- 
-print(a.x)　　　　　　　　　　　　 #上述我们把mytuple赋给了变量a,所以a=mytuple。那么我们在调用mytuple中的元素时，要使用a.x,a.y,a.z的方式去调用。
- 
-&gt;&gt;&gt;3
- 
-print(a.x*a.z)　　　　　　　　　　#a.x=3，a.z=7那么再相乘结果为21
- 
-&gt;&gt;&gt;21
-</code></pre>
-<p><strong>【普通tuple调用方法】</strong></p>
-<pre><code class="language-python">mytuple = (3,5,7)　　　　　　　　#生成一个普通的数字元组
-print(mytuple)
- 
-&gt;&gt;&gt;(3,5,7)
- 
-print(mytuple[0]*mytuple[2])   #在做元素调用以及算法计算时，因为元组调用元素跟列表一样是通过index编号来访问的所以要取出每个元素必须使用坐标，然后再做计算。
- 
-&gt;&gt;&gt;21
-</code></pre>
-<p><strong>总结：通过上述方法可以看出使用collections模块中的namedtuple方法可以给每个元素起别名，通过名称调用的方式来获取值使用。而普通元组的方法必须通过下标的方式来取值。</strong></p>
-<p>实例2：</p>
-<pre><code class="language-python">from collections import namedtuple　　　　　　　　　　　　　　　　#通过from import的方式直接调用collections模块中namedtuple这个方法。而import collections是导入这个模块中所有的方法。这种调用在使用时必须collections.namedtuple的方式来使用。
- 
-websites = [
-    ('Sohu', 'http://www.google.com/', u'liupeng'),
-    ('Sina', 'http://www.sina.com.cn/', u'tony'),
-    ('163', 'http://www.163.com/', u'jack')
-]　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　#假设我们有一个列表，列表中有三个元组，每个元组中的元素都是不同格式的字符串
- 
-Website = namedtuple('Website_list', ['name', 'url', 'founder'])  #通过调用namedtuple，来设置一个列表'Website_list'是这个列表的别名.而['name','url','founder']的命名是分别为了分配给大列表websites中哥哥元组中的各个元素的。
-for i in websites:　　　　　　　　　　　　　　　　　　　　　　　　　# for循环websites这个大列表，这里的i循环得出的结果是这个大列表中每个元组
-    x = Website._make(i)　　　　　　　　　　　　　　　　　　　　　 #从已经存在迭代对象或者序列生成一个新的命名元组。 Website是namedtuple('Website_list', ['name', 'url', 'founder'])的内容，._make(i)是websites各个元组的内容，把这两个元组重组成新的元组。
-    print (x)　　　　　　　　　　　　　　　　　　　　　　　　　　　　#x打印结果如下，生成了新的命名元组。是使用了namedtuple中._make的方法生成的。
- 
-# Result:
-Website_list(name='Sohu', url='http://www.google.com/', founder='liupeng')
-Website_list(name='Sina', url='http://www.sina.com.cn/', founder='tony')
-Website_list(name='163', url='http://www.163.com/', founder='jack')
-</code></pre>
-<h3 id="2-队列deque"><strong>2、队列(deque)</strong></h3>
-<p><strong>作用：deque其实是 double-ended queue 的缩写，翻译过来就是双端队列，它最大的好处就是实现了从队列 头部快速增加和取出对象: .popleft(), .appendleft() 。</strong></p>
-<pre><code class="language-python"> 
-class Queue:
-    &quot;&quot;&quot;Create a queue object with a given maximum size.
-
-    If maxsize is &lt;= 0, the queue size is infinite.
-    &quot;&quot;&quot;
-    def __init__(self, maxsize=0):
-        self.maxsize = maxsize
-        self._init(maxsize)
-        # mutex must be held whenever the queue is mutating.  All methods
-        # that acquire mutex must release it before returning.  mutex
-        # is shared between the three conditions, so acquiring and
-        # releasing the conditions also acquires and releases mutex.
-        self.mutex = _threading.Lock()
-        # Notify not_empty whenever an item is added to the queue; a
-        # thread waiting to get is notified then.
-        self.not_empty = _threading.Condition(self.mutex)
-        # Notify not_full whenever an item is removed from the queue;
-        # a thread waiting to put is notified then.
-        self.not_full = _threading.Condition(self.mutex)
-        # Notify all_tasks_done whenever the number of unfinished tasks
-        # drops to zero; thread waiting to join() is notified to resume
-        self.all_tasks_done = _threading.Condition(self.mutex)
-        self.unfinished_tasks = 0
-
-    def task_done(self):
-        &quot;&quot;&quot;Indicate that a formerly enqueued task is complete.
-
-        Used by Queue consumer threads.  For each get() used to fetch a task,
-        a subsequent call to task_done() tells the queue that the processing
-        on the task is complete.
-
-        If a join() is currently blocking, it will resume when all items
-        have been processed (meaning that a task_done() call was received
-        for every item that had been put() into the queue).
-
-        Raises a ValueError if called more times than there were items
-        placed in the queue.
-        &quot;&quot;&quot;
-        self.all_tasks_done.acquire()
-        try:
-            unfinished = self.unfinished_tasks - 1
-            if unfinished &lt;= 0:
-                if unfinished &lt; 0:
-                    raise ValueError('task_done() called too many times')
-                self.all_tasks_done.notify_all()
-            self.unfinished_tasks = unfinished
-        finally:
-            self.all_tasks_done.release()
-
-    def join(self):
-        &quot;&quot;&quot;Blocks until all items in the Queue have been gotten and processed.
-
-        The count of unfinished tasks goes up whenever an item is added to the
-        queue. The count goes down whenever a consumer thread calls task_done()
-        to indicate the item was retrieved and all work on it is complete.
-
-        When the count of unfinished tasks drops to zero, join() unblocks.
-        &quot;&quot;&quot;
-        self.all_tasks_done.acquire()
-        try:
-            while self.unfinished_tasks:
-                self.all_tasks_done.wait()
-        finally:
-            self.all_tasks_done.release()
-
-    def qsize(self):
-        &quot;&quot;&quot;Return the approximate size of the queue (not reliable!).&quot;&quot;&quot;
-        self.mutex.acquire()
-        n = self._qsize()
-        self.mutex.release()
-        return n
-
-    def empty(self):
-        &quot;&quot;&quot;Return True if the queue is empty, False otherwise (not reliable!).&quot;&quot;&quot;
-        self.mutex.acquire()
-        n = not self._qsize()
-        self.mutex.release()
-        return n
-
-    def full(self):
-        &quot;&quot;&quot;Return True if the queue is full, False otherwise (not reliable!).&quot;&quot;&quot;
-        self.mutex.acquire()
-        n = 0 &lt; self.maxsize == self._qsize()
-        self.mutex.release()
-        return n
-
-    def put(self, item, block=True, timeout=None):
-        &quot;&quot;&quot;Put an item into the queue.
-
-        If optional args 'block' is true and 'timeout' is None (the default),
-        block if necessary until a free slot is available. If 'timeout' is
-        a non-negative number, it blocks at most 'timeout' seconds and raises
-        the Full exception if no free slot was available within that time.
-        Otherwise ('block' is false), put an item on the queue if a free slot
-        is immediately available, else raise the Full exception ('timeout'
-        is ignored in that case).
-        &quot;&quot;&quot;
-        self.not_full.acquire()
-        try:
-            if self.maxsize &gt; 0:
-                if not block:
-                    if self._qsize() == self.maxsize:
-                        raise Full
-                elif timeout is None:
-                    while self._qsize() == self.maxsize:
-                        self.not_full.wait()
-                elif timeout &lt; 0:
-                    raise ValueError(&quot;'timeout' must be a non-negative number&quot;)
-                else:
-                    endtime = _time() + timeout
-                    while self._qsize() == self.maxsize:
-                        remaining = endtime - _time()
-                        if remaining &lt;= 0.0:
-                            raise Full
-                        self.not_full.wait(remaining)
-            self._put(item)
-            self.unfinished_tasks += 1
-            self.not_empty.notify()
-        finally:
-            self.not_full.release()
-
-    def put_nowait(self, item):
-        &quot;&quot;&quot;Put an item into the queue without blocking.
-
-        Only enqueue the item if a free slot is immediately available.
-        Otherwise raise the Full exception.
-        &quot;&quot;&quot;
-        return self.put(item, False)
-
-    def get(self, block=True, timeout=None):
-        &quot;&quot;&quot;Remove and return an item from the queue.
-
-        If optional args 'block' is true and 'timeout' is None (the default),
-        block if necessary until an item is available. If 'timeout' is
-        a non-negative number, it blocks at most 'timeout' seconds and raises
-        the Empty exception if no item was available within that time.
-        Otherwise ('block' is false), return an item if one is immediately
-        available, else raise the Empty exception ('timeout' is ignored
-        in that case).
-        &quot;&quot;&quot;
-        self.not_empty.acquire()
-        try:
-            if not block:
-                if not self._qsize():
-                    raise Empty
-            elif timeout is None:
-                while not self._qsize():
-                    self.not_empty.wait()
-            elif timeout &lt; 0:
-                raise ValueError(&quot;'timeout' must be a non-negative number&quot;)
-            else:
-                endtime = _time() + timeout
-                while not self._qsize():
-                    remaining = endtime - _time()
-                    if remaining &lt;= 0.0:
-                        raise Empty
-                    self.not_empty.wait(remaining)
-            item = self._get()
-            self.not_full.notify()
-            return item
-        finally:
-            self.not_empty.release()
-
-    def get_nowait(self):
-        &quot;&quot;&quot;Remove and return an item from the queue without blocking.
-
-        Only get an item if one is immediately available. Otherwise
-        raise the Empty exception.
-        &quot;&quot;&quot;
-        return self.get(False)
-
-    # Override these methods to implement other queue organizations
-    # (e.g. stack or priority queue).
-    # These will only be called with appropriate locks held
-
-    # Initialize the queue representation
-    def _init(self, maxsize):
-        self.queue = deque()
-
-    def _qsize(self, len=len):
-        return len(self.queue)
-
-    # Put a new item in the queue
-    def _put(self, item):
-        self.queue.append(item)
-
-    # Get an item from the queue
-    def _get(self):
-        return self.queue.popleft()
-
-Queue.Queue
-
-queue
-</code></pre>
-<pre><code class="language-python">a = collections.deque(range(9))　　　　 　　#通过调用collections中deque方法来创建一个数字列表。[0,1,2,3,4,5,6,7,8]
-a.appendleft(4)　　　　　　　　　　　　　　　　#.appendleft（传参）  是把传的参数添加到列表的最左边。appendleft一次只支持传一个参数。
-a.extend([1,2,3,4,5])　　　　　　　　　　　　#.extend（）以及append（）方法是把传的参数添加到列表的最后边。而.extend（【列表，或者元组】）可以把列表中的各个元素传到列表中生成一个新的列表。
-print(a.count(3))　　　　　　　　　　　　　　 #a.count()括号中的参数可以指定。count是查看出现的次数的。按照上例除了生成原列表中生成的数字3以外，我们在extend列表的时候又有一个3，所以count出来的结果应该是2.说明3出现了2次。
-
-print(a)
-</code></pre>
-<pre><code class="language-python">import collections
-from collections import deque
-
-data = collections.deque()
-
-data.extendleft([('Sohu', 'http://www.google.com/', u'liupeng'),
-    ('Sina', 'http://www.sina.com.cn/', u'tony'),
-    ('163', 'http://www.163.com/', u'jack')])
-
-
-li = []
-
-for i in data:
-    li.append(i)
-print(li)
-
-nam = collections.namedtuple('website',['name','url','founder'])
-
-for i in li:
-    x = nam._make(i)
-    print(x)
-</code></pre>
-<h3 id="3-counter计数器"><strong>3、counter计数器</strong></h3>
-<p><strong>计数器是一个非常常用的功能需求，collections也贴心的为你提供了这个功能。如果counter(dict)是对字典的一个补充，如果counter(list)则是对列表的补充，初步测试对字典的值进行排序。</strong></p>
-<pre><code class="language-python">
-########################################################################
-###  Counter
-########################################################################
-
-class Counter(dict):
-    '''Dict subclass for counting hashable items.  Sometimes called a bag
-    or multiset.  Elements are stored as dictionary keys and their counts
-    are stored as dictionary values.
-
-    &gt;&gt;&gt; c = Counter('abcdeabcdabcaba')  # count elements from a string
-
-    &gt;&gt;&gt; c.most_common(3)                # three most common elements
-    [('a', 5), ('b', 4), ('c', 3)]
-    &gt;&gt;&gt; sorted(c)                       # list all unique elements
-    ['a', 'b', 'c', 'd', 'e']
-    &gt;&gt;&gt; ''.join(sorted(c.elements()))   # list elements with repetitions
-    'aaaaabbbbcccdde'
-    &gt;&gt;&gt; sum(c.values())                 # total of all counts
-
-    &gt;&gt;&gt; c['a']                          # count of letter 'a'
-    &gt;&gt;&gt; for elem in 'shazam':           # update counts from an iterable
-    ...     c[elem] += 1                # by adding 1 to each element's count
-    &gt;&gt;&gt; c['a']                          # now there are seven 'a'
-    &gt;&gt;&gt; del c['b']                      # remove all 'b'
-    &gt;&gt;&gt; c['b']                          # now there are zero 'b'
-
-    &gt;&gt;&gt; d = Counter('simsalabim')       # make another counter
-    &gt;&gt;&gt; c.update(d)                     # add in the second counter
-    &gt;&gt;&gt; c['a']                          # now there are nine 'a'
-
-    &gt;&gt;&gt; c.clear()                       # empty the counter
-    &gt;&gt;&gt; c
-    Counter()
-
-    Note:  If a count is set to zero or reduced to zero, it will remain
-    in the counter until the entry is deleted or the counter is cleared:
-
-    &gt;&gt;&gt; c = Counter('aaabbc')
-    &gt;&gt;&gt; c['b'] -= 2                     # reduce the count of 'b' by two
-    &gt;&gt;&gt; c.most_common()                 # 'b' is still in, but its count is zero
-    [('a', 3), ('c', 1), ('b', 0)]
-
-    '''
-    # References:
-    #   http://en.wikipedia.org/wiki/Multiset
-    #   http://www.gnu.org/software/smalltalk/manual-base/html_node/Bag.html
-    #   http://www.demo2s.com/Tutorial/Cpp/0380__set-multiset/Catalog0380__set-multiset.htm
-    #   http://code.activestate.com/recipes/259174/
-    #   Knuth, TAOCP Vol. II section 4.6.3
-
-    def __init__(self, iterable=None, **kwds):
-        '''Create a new, empty Counter object.  And if given, count elements
-        from an input iterable.  Or, initialize the count from another mapping
-        of elements to their counts.
-
-        &gt;&gt;&gt; c = Counter()                           # a new, empty counter
-        &gt;&gt;&gt; c = Counter('gallahad')                 # a new counter from an iterable
-        &gt;&gt;&gt; c = Counter({'a': 4, 'b': 2})           # a new counter from a mapping
-        &gt;&gt;&gt; c = Counter(a=4, b=2)                   # a new counter from keyword args
-
-        '''
-        super(Counter, self).__init__()
-        self.update(iterable, **kwds)
-
-    def __missing__(self, key):
-        &quot;&quot;&quot; 对于不存在的元素，返回计数器为0 &quot;&quot;&quot;
-        'The count of elements not in the Counter is zero.'
-        # Needed so that self[missing_item] does not raise KeyError
-        return 0
-
-    def most_common(self, n=None):
-        &quot;&quot;&quot; 数量大于等n的所有元素和计数器 &quot;&quot;&quot;
-        '''List the n most common elements and their counts from the most
-        common to the least.  If n is None, then list all element counts.
-
-        &gt;&gt;&gt; Counter('abcdeabcdabcaba').most_common(3)
-        [('a', 5), ('b', 4), ('c', 3)]
-
-        '''
-        # Emulate Bag.sortedByCount from Smalltalk
-        if n is None:
-            return sorted(self.iteritems(), key=_itemgetter(1), reverse=True)
-        return _heapq.nlargest(n, self.iteritems(), key=_itemgetter(1))
-
-    def elements(self):
-        &quot;&quot;&quot; 计数器中的所有元素，注：此处非所有元素集合，而是包含所有元素集合的迭代器 &quot;&quot;&quot;
-        '''Iterator over elements repeating each as many times as its count.
-
-        &gt;&gt;&gt; c = Counter('ABCABC')
-        &gt;&gt;&gt; sorted(c.elements())
-        ['A', 'A', 'B', 'B', 'C', 'C']
-
-        # Knuth's example for prime factors of 1836:  2**2 * 3**3 * 17**1
-        &gt;&gt;&gt; prime_factors = Counter({2: 2, 3: 3, 17: 1})
-        &gt;&gt;&gt; product = 1
-        &gt;&gt;&gt; for factor in prime_factors.elements():     # loop over factors
-        ...     product *= factor                       # and multiply them
-        &gt;&gt;&gt; product
-
-        Note, if an element's count has been set to zero or is a negative
-        number, elements() will ignore it.
-
-        '''
-        # Emulate Bag.do from Smalltalk and Multiset.begin from C++.
-        return _chain.from_iterable(_starmap(_repeat, self.iteritems()))
-
-    # Override dict methods where necessary
-
-    @classmethod
-    def fromkeys(cls, iterable, v=None):
-        # There is no equivalent method for counters because setting v=1
-        # means that no element can have a count greater than one.
-        raise NotImplementedError(
-            'Counter.fromkeys() is undefined.  Use Counter(iterable) instead.')
-
-    def update(self, iterable=None, **kwds):
-        &quot;&quot;&quot; 更新计数器，其实就是增加；如果原来没有，则新建，如果有则加一 &quot;&quot;&quot;
-        '''Like dict.update() but add counts instead of replacing them.
-
-        Source can be an iterable, a dictionary, or another Counter instance.
-
-        &gt;&gt;&gt; c = Counter('which')
-        &gt;&gt;&gt; c.update('witch')           # add elements from another iterable
-        &gt;&gt;&gt; d = Counter('watch')
-        &gt;&gt;&gt; c.update(d)                 # add elements from another counter
-        &gt;&gt;&gt; c['h']                      # four 'h' in which, witch, and watch
-
-        '''
-        # The regular dict.update() operation makes no sense here because the
-        # replace behavior results in the some of original untouched counts
-        # being mixed-in with all of the other counts for a mismash that
-        # doesn't have a straight-forward interpretation in most counting
-        # contexts.  Instead, we implement straight-addition.  Both the inputs
-        # and outputs are allowed to contain zero and negative counts.
-
-        if iterable is not None:
-            if isinstance(iterable, Mapping):
-                if self:
-                    self_get = self.get
-                    for elem, count in iterable.iteritems():
-                        self[elem] = self_get(elem, 0) + count
-                else:
-                    super(Counter, self).update(iterable) # fast path when counter is empty
-            else:
-                self_get = self.get
-                for elem in iterable:
-                    self[elem] = self_get(elem, 0) + 1
-        if kwds:
-            self.update(kwds)
-
-    def subtract(self, iterable=None, **kwds):
-        &quot;&quot;&quot; 相减，原来的计数器中的每一个元素的数量减去后添加的元素的数量 &quot;&quot;&quot;
-        '''Like dict.update() but subtracts counts instead of replacing them.
-        Counts can be reduced below zero.  Both the inputs and outputs are
-        allowed to contain zero and negative counts.
-
-        Source can be an iterable, a dictionary, or another Counter instance.
-
-        &gt;&gt;&gt; c = Counter('which')
-        &gt;&gt;&gt; c.subtract('witch')             # subtract elements from another iterable
-        &gt;&gt;&gt; c.subtract(Counter('watch'))    # subtract elements from another counter
-        &gt;&gt;&gt; c['h']                          # 2 in which, minus 1 in witch, minus 1 in watch
-        &gt;&gt;&gt; c['w']                          # 1 in which, minus 1 in witch, minus 1 in watch
-        -1
-
-        '''
-        if iterable is not None:
-            self_get = self.get
-            if isinstance(iterable, Mapping):
-                for elem, count in iterable.items():
-                    self[elem] = self_get(elem, 0) - count
-            else:
-                for elem in iterable:
-                    self[elem] = self_get(elem, 0) - 1
-        if kwds:
-            self.subtract(kwds)
-
-    def copy(self):
-        &quot;&quot;&quot; 拷贝 &quot;&quot;&quot;
-        'Return a shallow copy.'
-        return self.__class__(self)
-
-    def __reduce__(self):
-        &quot;&quot;&quot; 返回一个元组（类型，元组） &quot;&quot;&quot;
-        return self.__class__, (dict(self),)
-
-    def __delitem__(self, elem):
-        &quot;&quot;&quot; 删除元素 &quot;&quot;&quot;
-        'Like dict.__delitem__() but does not raise KeyError for missing values.'
-        if elem in self:
-            super(Counter, self).__delitem__(elem)
-
-    def __repr__(self):
-        if not self:
-            return '%s()' % self.__class__.__name__
-        items = ', '.join(map('%r: %r'.__mod__, self.most_common()))
-        return '%s({%s})' % (self.__class__.__name__, items)
-
-    # Multiset-style mathematical operations discussed in:
-    #       Knuth TAOCP Volume II section 4.6.3 exercise 19
-    #       and at http://en.wikipedia.org/wiki/Multiset
-    #
-    # Outputs guaranteed to only include positive counts.
-    #
-    # To strip negative and zero counts, add-in an empty counter:
-    #       c += Counter()
-
-    def __add__(self, other):
-        '''Add counts from two counters.
-
-        &gt;&gt;&gt; Counter('abbb') + Counter('bcc')
-        Counter({'b': 4, 'c': 2, 'a': 1})
-
-        '''
-        if not isinstance(other, Counter):
-            return NotImplemented
-        result = Counter()
-        for elem, count in self.items():
-            newcount = count + other[elem]
-            if newcount &gt; 0:
-                result[elem] = newcount
-        for elem, count in other.items():
-            if elem not in self and count &gt; 0:
-                result[elem] = count
-        return result
-
-    def __sub__(self, other):
-        ''' Subtract count, but keep only results with positive counts.
-
-        &gt;&gt;&gt; Counter('abbbc') - Counter('bccd')
-        Counter({'b': 2, 'a': 1})
-
-        '''
-        if not isinstance(other, Counter):
-            return NotImplemented
-        result = Counter()
-        for elem, count in self.items():
-            newcount = count - other[elem]
-            if newcount &gt; 0:
-                result[elem] = newcount
-        for elem, count in other.items():
-            if elem not in self and count &lt; 0:
-                result[elem] = 0 - count
-        return result
-
-    def __or__(self, other):
-        '''Union is the maximum of value in either of the input counters.
-
-        &gt;&gt;&gt; Counter('abbb') | Counter('bcc')
-        Counter({'b': 3, 'c': 2, 'a': 1})
-
-        '''
-        if not isinstance(other, Counter):
-            return NotImplemented
-        result = Counter()
-        for elem, count in self.items():
-            other_count = other[elem]
-            newcount = other_count if count &lt; other_count else count
-            if newcount &gt; 0:
-                result[elem] = newcount
-        for elem, count in other.items():
-            if elem not in self and count &gt; 0:
-                result[elem] = count
-        return result
-
-    def __and__(self, other):
-        ''' Intersection is the minimum of corresponding counts.
-
-        &gt;&gt;&gt; Counter('abbb') &amp; Counter('bcc')
-        Counter({'b': 1})
-
-        '''
-        if not isinstance(other, Counter):
-            return NotImplemented
-        result = Counter()
-        for elem, count in self.items():
-            other_count = other[elem]
-            newcount = count if count &lt; other_count else other_count
-            if newcount &gt; 0:
-                result[elem] = newcount
-        return result
-
-Counter
-
-Counter
-
-Counter
-</code></pre>
-<p>实例1：</p>
-<pre><code class="language-python">a = collections.Counter('ababc')　　　　　　　　　　　　　　#通过Counter创建a跟b两个元组，元组中的元素是以字典的方式显示的。通过字典把每个元素重复的次数做统计分别作为字典的keys跟values.例如：Counter({'b': 2, 'a': 2, 'c': 1})　
-b = collections.Counter('1234abd')
- 
-print(a.most_common(3))　　　　　　　　　　　　　　　　　　# 显示n个个数。变量.most_common()中填写的位数代表从大到小取前几个数值的意思。例如是3的话，只会去3位数值[('b', 2), ('a', 2), ('c', 1)]
-print(a)　　　　　　　　　　　　　　　　　　　　　　　　　　　#结果为[('b', 2), ('a', 2), ('c', 1)]
-a.update(b)　　　　　　　　　　　　　　　　　　　　　　　　　# 把b中的值传到a中。组合一个新的元组。（叠加）
-print(a)　　　　　　　　　　　　　　　　　　　　　　　　　　　#结果为Counter({'a': 3, 'b': 3, '1': 1, '4': 1, 'c': 1, 'd': 1, '3': 1, '2': 1})，因为字典是无序的所以不是按照顺序排列的。但是可以看出b中的元素已经传到了a中。
-a.subtract(b)　　　　　　　　　　　　　　　　　　　　　　　　#于.update（）相反。.subtract（）是表示相减。但是虽然相减了，仍然会把相减后不存在的key中的value以0的方式显示。
-print(a)　　　　　　　　　　　　　　　　　　　　　　　　　　 #结果为Counter({'a': 2, 'b': 2, 'c': 1, '1': 0, '4': 0, 'd': 0, '3': 0, '2': 0})
- 
-  
- 
-# Result：
-[('b', 2), ('a', 2), ('c', 1)]
-Counter({'b': 2, 'a': 2, 'c': 1})
-Counter({'a': 3, 'b': 3, '1': 1, '4': 1, 'c': 1, 'd': 1, '3': 1, '2': 1})
-Counter({'a': 2, 'b': 2, 'c': 1, '1': 0, '4': 0, 'd': 0, '3': 0, '2': 0})
-</code></pre>
-<p>实例2：</p>
-<pre><code class="language-python"># Result：
- &quot;&quot;&quot;
-下面这个例子就是使用Counter模块统计一段句子里面所有字符出现次数
-&quot;&quot;&quot;
-from collections import Counter
-s = '''A Counter is a dict subclass for counting hashable objects. It is an unordered collection where elements are stored as dictionary keys and their counts are stored as dictionary values. Counts are allowed to be any integer value including zero or negative counts. The Counter class is similar to bags or multisets in other languages.'''.lower()  
-#.lower()这里指把字符串中所有的内容以小写字母呈现。（大写转小写）
- 
-print(s)
-c = Counter(s)
-print (c.most_common(5))　　　　　　　　　　　　　　# 获取出现频率最高的5个字符
- 
- 
-# Result：
-a counter is a dict subclass for counting hashable objects. it is an unordered collection where elements are stored as dictionary keys and their counts are stored as dictionary values. counts are allowed to be any integer value including zero or negative counts. the counter class is similar to bags or multisets in other languages.
-[(' ', 54), ('e', 32), ('s', 25), ('a', 24), ('t', 24)]
-</code></pre>
-<h3 id="4-有序字典ordereddict"><strong>4、有序字典(orderedDict )</strong></h3>
-<p><strong>在Python中，dict这个数据结构由于hash的特性，是无序的，这在有的时候会给我们带来一些麻烦， 幸运的是，collections模块为我们提供了OrderedDict，当你要获得一个有序的字典对象时，用它就对了。</strong></p>
-<pre><code class="language-python">class OrderedDict(dict):
-    'Dictionary that remembers insertion order'
-    # An inherited dict maps keys to values.
-    # The inherited dict provides __getitem__, __len__, __contains__, and get.
-    # The remaining methods are order-aware.
-    # Big-O running times for all methods are the same as regular dictionaries.
-
-    # The internal self.__map dict maps keys to links in a doubly linked list.
-    # The circular doubly linked list starts and ends with a sentinel element.
-    # The sentinel element never gets deleted (this simplifies the algorithm).
-    # Each link is stored as a list of length three:  [PREV, NEXT, KEY].
-
-    def __init__(self, *args, **kwds):
-        '''Initialize an ordered dictionary.  The signature is the same as
-        regular dictionaries, but keyword arguments are not recommended because
-        their insertion order is arbitrary.
-
-        '''
-        if len(args) &gt; 1:
-            raise TypeError('expected at most 1 arguments, got %d' % len(args))
-        try:
-            self.__root
-        except AttributeError:
-            self.__root = root = []                     # sentinel node
-            root[:] = [root, root, None]
-            self.__map = {}
-        self.__update(*args, **kwds)
-
-    def __setitem__(self, key, value, dict_setitem=dict.__setitem__):
-        'od.__setitem__(i, y) &lt;==&gt; od[i]=y'
-        # Setting a new item creates a new link at the end of the linked list,
-        # and the inherited dictionary is updated with the new key/value pair.
-        if key not in self:
-            root = self.__root
-            last = root[0]
-            last[1] = root[0] = self.__map[key] = [last, root, key]
-        return dict_setitem(self, key, value)
-
-    def __delitem__(self, key, dict_delitem=dict.__delitem__):
-        'od.__delitem__(y) &lt;==&gt; del od[y]'
-        # Deleting an existing item uses self.__map to find the link which gets
-        # removed by updating the links in the predecessor and successor nodes.
-        dict_delitem(self, key)
-        link_prev, link_next, _ = self.__map.pop(key)
-        link_prev[1] = link_next                        # update link_prev[NEXT]
-        link_next[0] = link_prev                        # update link_next[PREV]
-
-    def __iter__(self):
-        'od.__iter__() &lt;==&gt; iter(od)'
-        # Traverse the linked list in order.
-        root = self.__root
-        curr = root[1]                                  # start at the first node
-        while curr is not root:
-            yield curr[2]                               # yield the curr[KEY]
-            curr = curr[1]                              # move to next node
-
-    def __reversed__(self):
-        'od.__reversed__() &lt;==&gt; reversed(od)'
-        # Traverse the linked list in reverse order.
-        root = self.__root
-        curr = root[0]                                  # start at the last node
-        while curr is not root:
-            yield curr[2]                               # yield the curr[KEY]
-            curr = curr[0]                              # move to previous node
-
-    def clear(self):
-        'od.clear() -&gt; None.  Remove all items from od.'
-        root = self.__root
-        root[:] = [root, root, None]
-        self.__map.clear()
-        dict.clear(self)
-
-    # -- the following methods do not depend on the internal structure --
-
-    def keys(self):
-        'od.keys() -&gt; list of keys in od'
-        return list(self)
-
-    def values(self):
-        'od.values() -&gt; list of values in od'
-        return [self[key] for key in self]
-
-    def items(self):
-        'od.items() -&gt; list of (key, value) pairs in od'
-        return [(key, self[key]) for key in self]
-
-    def iterkeys(self):
-        'od.iterkeys() -&gt; an iterator over the keys in od'
-        return iter(self)
-
-    def itervalues(self):
-        'od.itervalues -&gt; an iterator over the values in od'
-        for k in self:
-            yield self[k]
-
-    def iteritems(self):
-        'od.iteritems -&gt; an iterator over the (key, value) pairs in od'
-        for k in self:
-            yield (k, self[k])
-
-    update = MutableMapping.update
-
-    __update = update # let subclasses override update without breaking __init__
-
-    __marker = object()
-
-    def pop(self, key, default=__marker):
-        '''od.pop(k[,d]) -&gt; v, remove specified key and return the corresponding
-        value.  If key is not found, d is returned if given, otherwise KeyError
-        is raised.
-
-        '''
-        if key in self:
-            result = self[key]
-            del self[key]
-            return result
-        if default is self.__marker:
-            raise KeyError(key)
-        return default
-
-    def setdefault(self, key, default=None):
-        'od.setdefault(k[,d]) -&gt; od.get(k,d), also set od[k]=d if k not in od'
-        if key in self:
-            return self[key]
-        self[key] = default
-        return default
-
-    def popitem(self, last=True):
-        '''od.popitem() -&gt; (k, v), return and remove a (key, value) pair.
-        Pairs are returned in LIFO order if last is true or FIFO order if false.
-
-        '''
-        if not self:
-            raise KeyError('dictionary is empty')
-        key = next(reversed(self) if last else iter(self))
-        value = self.pop(key)
-        return key, value
-
-    def __repr__(self, _repr_running={}):
-        'od.__repr__() &lt;==&gt; repr(od)'
-        call_key = id(self), _get_ident()
-        if call_key in _repr_running:
-            return '...'
-        _repr_running[call_key] = 1
-        try:
-            if not self:
-                return '%s()' % (self.__class__.__name__,)
-            return '%s(%r)' % (self.__class__.__name__, self.items())
-        finally:
-            del _repr_running[call_key]
-
-    def __reduce__(self):
-        'Return state information for pickling'
-        items = [[k, self[k]] for k in self]
-        inst_dict = vars(self).copy()
-        for k in vars(OrderedDict()):
-            inst_dict.pop(k, None)
-        if inst_dict:
-            return (self.__class__, (items,), inst_dict)
-        return self.__class__, (items,)
-
-    def copy(self):
-        'od.copy() -&gt; a shallow copy of od'
-        return self.__class__(self)
-
-    @classmethod
-    def fromkeys(cls, iterable, value=None):
-        '''OD.fromkeys(S[, v]) -&gt; New ordered dictionary with keys from S.
-        If not specified, the value defaults to None.
-
-        '''
-        self = cls()
-        for key in iterable:
-            self[key] = value
-        return self
-
-    def __eq__(self, other):
-        '''od.__eq__(y) &lt;==&gt; od==y.  Comparison to another OD is order-sensitive
-        while comparison to a regular mapping is order-insensitive.
-
-        '''
-        if isinstance(other, OrderedDict):
-            return dict.__eq__(self, other) and all(_imap(_eq, self, other))
-        return dict.__eq__(self, other)
-
-    def __ne__(self, other):
-        'od.__ne__(y) &lt;==&gt; od!=y'
-        return not self == other
-
-    # -- the following methods support python 3.x style dictionary views --
-
-    def viewkeys(self):
-        &quot;od.viewkeys() -&gt; a set-like object providing a view on od's keys&quot;
-        return KeysView(self)
-
-    def viewvalues(self):
-        &quot;od.viewvalues() -&gt; an object providing a view on od's values&quot;
-        return ValuesView(self)
-
-    def viewitems(self):
-        &quot;od.viewitems() -&gt; a set-like object providing a view on od's items&quot;
-        return ItemsView(self)
-
-OrderedDict
-
-ordereddict
-</code></pre>
-<p>案例:</p>
-<pre><code class="language-python">import collections
- 
-dic = collections.OrderedDict()  #创建有序字典下列分别是创建有序字典中的keys跟values
- 
-dic['name'] = 'liupeng'
- 
-dic['Job'] = 'IT'
- 
-dic['City'] = 'YanTai'
- 
-print(dic)
- 
-  
- 
-# Result：
-OrderedDict([('name', 'liupeng'), ('Job', 'IT'), ('City', 'YanTai')])　　　　#打印有序字典结果
- 
-dic['school'] = 'DaLian'　　　　#往有序字典中添加新的Key跟value
- 
-print(dic)
- 
-# Result：
-OrderedDict([('name', 'liupeng'), ('Job', 'IT'), ('City', 'YanTai'), ('school', 'DaLian')])　　　　#从打印有序字典结果中可以看出添加的key跟value已经追加到有序字典中去了
- 
-#这里就不列举无序字典例子了。有序字典最大的好处就是它有序。。。接下来你懂得。（- * -））
- 
- 
-dic1 = {'name1':'liupeng1','job1':'IT1','city1':'yantai1'}
- 
-print(dic1)
-</code></pre>
-<h3 id="5-默认字典defaultdict"><strong>5、默认字典(defaultdict)</strong></h3>
-<p><strong>即为字典中的values设置一个默认类型：<br>
-defaultdict的参数默认是dict，也可以为list,tuple</strong></p>
-<pre><code class="language-python">class defaultdict(dict):
-    &quot;&quot;&quot;
-    defaultdict(default_factory[, ...]) --&gt; dict with default factory
-    
-    The default factory is called without arguments to produce
-    a new value when a key is not present, in __getitem__ only.
-    A defaultdict compares equal to a dict with the same items.
-    All remaining arguments are treated the same as if they were
-    passed to the dict constructor, including keyword arguments.
-    &quot;&quot;&quot;
-    def copy(self): # real signature unknown; restored from __doc__
-        &quot;&quot;&quot; D.copy() -&gt; a shallow copy of D. &quot;&quot;&quot;
-        pass
-
-    def __copy__(self, *args, **kwargs): # real signature unknown
-        &quot;&quot;&quot; D.copy() -&gt; a shallow copy of D. &quot;&quot;&quot;
-        pass
-
-    def __getattribute__(self, name): # real signature unknown; restored from __doc__
-        &quot;&quot;&quot; x.__getattribute__('name') &lt;==&gt; x.name &quot;&quot;&quot;
-        pass
-
-    def __init__(self, default_factory=None, **kwargs): # known case of _collections.defaultdict.__init__
-        &quot;&quot;&quot;
-        defaultdict(default_factory[, ...]) --&gt; dict with default factory
-        
-        The default factory is called without arguments to produce
-        a new value when a key is not present, in __getitem__ only.
-        A defaultdict compares equal to a dict with the same items.
-        All remaining arguments are treated the same as if they were
-        passed to the dict constructor, including keyword arguments.
-        
-        # (copied from class doc)
-        &quot;&quot;&quot;
-        pass
-
-    def __missing__(self, key): # real signature unknown; restored from __doc__
-        &quot;&quot;&quot;
-        __missing__(key) # Called by __getitem__ for missing key; pseudo-code:
-          if self.default_factory is None: raise KeyError((key,))
-          self[key] = value = self.default_factory()
-          return value
-        &quot;&quot;&quot;
-        pass
-
-    def __reduce__(self, *args, **kwargs): # real signature unknown
-        &quot;&quot;&quot; Return state information for pickling. &quot;&quot;&quot;
-        pass
-
-    def __repr__(self): # real signature unknown; restored from __doc__
-        &quot;&quot;&quot; x.__repr__() &lt;==&gt; repr(x) &quot;&quot;&quot;
-        pass
-
-    default_factory = property(lambda self: object(), lambda self, v: None, lambda self: None)  # default
-    &quot;&quot;&quot;Factory for default value called by __missing__().&quot;&quot;&quot;
-
-defaultdict
-
-defaultdict
-</code></pre>
-<p>实例说明1：</p>
-<pre><code class="language-python">在使用的dict时，无法指定values的类型，在赋值时要进行判断，具体如下：
- 
-values = [11,22,33,44,55,66,77,88,99,90]
- 
-mydic = {}
- 
-for v in values:
-    if v &gt; 66:
-        if 'k1' in mydic:　　　　　　　　#python2.7中有个.has_key的方法。在3.0以后版本中被废除，用in来替代。python2.7用法：if my_dict.has_key('k1')
-            mydic['k1'].append(v)
- 
-        else:
-            mydic['k1']=[v]
- 
-    else:
-        if 'k2' in mydic:
-            mydic['k2'].append(v)
- 
-        else:
-            mydic['k2']= [v]
-             
-print(mydic)
- 
-# Result:
-{'k2': [11, 22, 33, 44, 55, 66], 'k1': [77, 88, 99, 90]}
- 
-而在使用了defaultdict时，代码进行了简化：
- 
-from collections import defaultdict
- 
-values = [11,22,33,44,55,66,77,88,99,90]
- 
-my_dict = defaultdict(list)
- 
-for v in values:　　　　　　　　　　#v始终都是my_dict中的values,而defaultdict(list)后我们对于keys的指定对比上例就方便很多。不用再做一层if判断了。
-    if v &gt;66:
-        my_dict['k1'].append(v)
- 
-    else:
-        my_dict['k2'].append(v)
- 
-print(my_dict)
- 
-# Result:
-defaultdict(&lt;class 'list'&gt;, {'k1': [77, 88, 99, 90], 'k2': [11, 22, 33, 44, 55, 66]})
-</code></pre>
-<p>实例说明2：</p>
-<pre><code class="language-python">from collections import defaultdict
- 
-members = [
-    ['male', 'John'],
-    ['male', 'Jack'],
-    ['female', 'Lily'],
-    ['male', 'Pony'],
-    ['female', 'Lucy'],
-]
-result = defaultdict(list)
-for sex, name in members:　　　　　　　　#这里设置2个变量作为字典(result)中的key跟value.
-    result[sex].append(name)　　　　　　#这里把[sex]作为了字典中的key，name这个变量作为了value并append到字典result对应的key中。
-print (result)
- 
-# Result:
-defaultdict(&lt;class 'list'&gt;, {'female': ['Lily', 'Lucy'], 'male': ['John', 'Jack', 'Pony']})
-</code></pre>
-<p>以上代码均在python3.4版本中测试过。</p>
-<p>上面只是非常简单的介绍了一下collections模块的主要内容，主要目的就是当你碰到适合使用 它们的场所时，能够记起并使用它们，起到事半功倍的效果。<br>
-如果要对它们有一个更全面和深入了解的话，还是建议阅读官方文档和模块源码。<br>
-https://docs.python.org/3/library/collections.html#module-collections</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Python中的GIL详解]]></title>
-        <id>https://skytotwo.github.io//post/python-gil</id>
-        <link href="https://skytotwo.github.io//post/python-gil">
-        </link>
-        <updated>2019-08-12T09:23:49.000Z</updated>
-        <summary type="html"><![CDATA[<p>在硬件更新发展的年代，为了利用多核，Python开始支持多线程。而解决多线程之间数据完整性和状态同步的最简单方法自然就是加锁，由此出现了GIL这把大锁，但是这把锁又反而有着很多不好的方面，是什么呢，我们来探讨下。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>在硬件更新发展的年代，为了利用多核，Python开始支持多线程。而解决多线程之间数据完整性和状态同步的最简单方法自然就是加锁，由此出现了GIL这把大锁，但是这把锁又反而有着很多不好的方面，是什么呢，我们来探讨下。</p>
-<!-- more -->
-<h3 id="gil是什么"><strong>GIL是什么</strong></h3>
-<p>首先需要明确的一点是GIL并不是Python的特性，它是在实现Python解析器(CPython)时所引入的一个概念。就好比C++是一套语言（语法）标准，但是可以用不同的编译器来编译成可执行代码。有名的编译器例如GCC，INTEL C++，Visual C++等。Python也一样，同样一段代码可以通过CPython，PyPy，Psyco等不同的Python执行环境来执行。像其中的JPython就没有GIL。然而因为CPython是大部分环境下默认的Python执行环境。所以在很多人的概念里CPython就是Python，也就想当然的把GIL归结为Python语言的缺陷。所以这里要先明确一点：GIL并不是Python的特性，Python完全可以不依赖于GIL。</p>
-<p>那么CPython实现中的GIL又是什么呢？GIL全称Global Interpreter Lock为了避免误导，我们还是来看一下官方给出的解释：</p>
-<hr>
-<p>In CPython, the global interpreter lock, or GIL, is a mutex that prevents multiple native threads from executing Python bytecodes at once. This lock is necessary mainly because CPython’s memory management is not thread-safe. (However, since the GIL exists, other features have grown to depend on the guarantees that it enforces.)</p>
-<hr>
-<p>好吧，是不是看上去很糟糕？一个防止多线程并发执行机器码的一个Mutex，乍一看就是个BUG般存在的全局锁嘛！别急，我们下面慢慢的分析。</p>
-<h3 id="为什么会有gil"><strong>为什么会有GIL</strong></h3>
-<p>由于物理上得限制，各CPU厂商在核心频率上的比赛已经被多核所取代。为了更有效的利用多核处理器的性能，就出现了多线程的编程方式，而随之带来的就是线程间数据一致性和状态同步的困难。即使在CPU内部的Cache也不例外，为了有效解决多份缓存之间的数据同步时各厂商花费了不少心思，也不可避免的带来了一定的性能损失。</p>
-<p>Python当然也逃不开，为了利用多核，Python开始支持多线程。而解决多线程之间数据完整性和状态同步的最简单方法自然就是加锁。 于是有了GIL这把超级大锁，而当越来越多的代码库开发者接受了这种设定后，他们开始大量依赖这种特性（即默认python内部对象是thread-safe的，无需在实现时考虑额外的内存锁和同步操作）。</p>
-<p>慢慢的这种实现方式被发现是蛋疼且低效的。但当大家试图去拆分和去除GIL的时候，发现大量库代码开发者已经重度依赖GIL而非常难以去除了。有多难？做个类比，像MySQL这样的“小项目”为了把Buffer Pool Mutex这把大锁拆分成各个小锁也花了从5.5到5.6再到5.7多个大版为期近5年的时间，本且仍在继续。MySQL这个背后有公司支持且有固定开发团队的产品走的如此艰难，那又更何况Python这样核心开发和代码贡献者高度社区化的团队呢？</p>
-<p>所以简单的说GIL的存在更多的是历史原因。如果推到重来，多线程的问题依然还是要面对，但是至少会比目前GIL这种方式会更优雅。</p>
-<h3 id="gil的影响"><strong>GIL的影响</strong></h3>
-<p>从上文的介绍和官方的定义来看，GIL无疑就是一把全局排他锁。毫无疑问全局锁的存在会对多线程的效率有不小影响。甚至就几乎等于Python是个单线程的程序。<br>
-那么读者就会说了，全局锁只要释放的勤快效率也不会差啊。只要在进行耗时的IO操作的时候，能释放GIL，这样也还是可以提升运行效率的嘛。或者说再差也不会比单线程的效率差吧。理论上是这样，而实际上呢？Python比你想的更糟。</p>
-<p>下面我们就对比下Python在多线程和单线程下得效率对比。测试方法很简单，一个循环1亿次的计数器函数。一个通过单线程执行两次，一个多线程执行。最后比较执行总时间。测试环境为双核的Mac pro。注：为了减少线程库本身性能损耗对测试结果带来的影响，这里单线程的代码同样使用了线程。只是顺序的执行两次，模拟单线程。</p>
-<p>顺序执行的单线程(single_thread.py)</p>
-<pre><code class="language-python">Python
-
-#! /usr/bin/python
-
-from threading import Thread
-import time
-
-def my_counter():
-    i = 0
-    for _ in range(100000000):
-        i = i + 1
-    return True
-
-def main():
-    thread_array = {}
-    start_time = time.time()
-    for tid in range(2):
-        t = Thread(target=my_counter)
-        t.start()
-        t.join()
-    end_time = time.time()
-    print(&quot;Total time: {}&quot;.format(end_time - start_time))
-
-if __name__ == '__main__':
-    main()
-</code></pre>
-<p>同时执行的两个并发线程(multi_thread.py)</p>
-<pre><code class="language-python">Python
-
-#! /usr/bin/python
-
-from threading import Thread
-import time
-
-def my_counter():
-    i = 0
-    for _ in range(100000000):
-        i = i + 1
-    return True
-
-def main():
-    thread_array = {}
-    start_time = time.time()
-    for tid in range(2):
-        t = Thread(target=my_counter)
-        t.start()
-        thread_array[tid] = t
-    for i in range(2):
-        thread_array[i].join()
-    end_time = time.time()
-    print(&quot;Total time: {}&quot;.format(end_time - start_time))
-
-if __name__ == '__main__':
-    main()
-</code></pre>
-<p>下图就是测试结果</p>
-<p><img src="http://picture.totoro.site/images/2019/08/12/20180412144339_144.jpg" alt="20180412144339_144.jpg"></p>
-<p>可以看到python在多线程的情况下居然比单线程整整慢了45%。按照之前的分析，即使是有GIL全局锁的存在，串行化的多线程也应该和单线程有一样的效率才对。那么怎么会有这么糟糕的结果呢？</p>
-<p>让我们通过GIL的实现原理来分析这其中的原因。</p>
-<h3 id="当前gil设计的缺陷"><strong>当前GIL设计的缺陷</strong></h3>
-<p><strong>基于pcode数量的调度方式</strong></p>
-<p>按照Python社区的想法，操作系统本身的线程调度已经非常成熟稳定了，没有必要自己搞一套。所以Python的线程就是C语言的一个pthread，并通过操作系统调度算法进行调度（例如linux是CFS）。为了让各个线程能够平均利用CPU时间，python会计算当前已执行的微代码数量，达到一定阈值后就强制释放GIL。而这时也会触发一次操作系统的线程调度（当然是否真正进行上下文切换由操作系统自主决定）。</p>
-<p>伪代码</p>
-<pre><code class="language-python">while True:
-    acquire GIL
-    for i in 1000:
-        do something
-    release GIL
-    /* Give Operating System a chance to do thread scheduling */
-</code></pre>
-<p>这种模式在只有一个CPU核心的情况下毫无问题。任何一个线程被唤起时都能成功获得到GIL（因为只有释放了GIL才会引发线程调度）。但当CPU有多个核心的时候，问题就来了。从伪代码可以看到，从release GIL到acquire GIL之间几乎是没有间隙的。所以当其他在其他核心上的线程被唤醒时，大部分情况下主线程已经又再一次获取到GIL了。这个时候被唤醒执行的线程只能白白的浪费CPU时间，看着另一个线程拿着GIL欢快的执行着。然后达到切换时间后进入待调度状态，再被唤醒，再等待，以此往复恶性循环。</p>
-<p>PS：当然这种实现方式是原始而丑陋的，Python的每个版本中也在逐渐改进GIL和线程调度之间的互动关系。例如先尝试持有GIL在做线程上下文切换，在IO等待时释放GIL等尝试。但是无法改变的是GIL的存在使得操作系统线程调度的这个本来就昂贵的操作变得更奢侈了。<br>
-关于GIL影响的扩展阅读</p>
-<p>为了直观的理解GIL对于多线程带来的性能影响，这里直接借用的一张测试结果图（见下图）。图中表示的是两个线程在双核CPU上得执行情况。两个线程均为CPU密集型运算线程。绿色部分表示该线程在运行，且在执行有用的计算，红色部分为线程被调度唤醒，但是无法获取GIL导致无法进行有效运算等待的时间。</p>
-<p><a href="http://picture.totoro.site/image/DZ53"><img src="http://picture.totoro.site/images/2019/08/12/20180412144426_872.jpg" alt="20180412144426_872.jpg"></a></p>
-<p>由图可见，GIL的存在导致多线程无法很好的立即多核CPU的并发处理能力。</p>
-<p>那么Python的IO密集型线程能否从多线程中受益呢？我们来看下面这张测试结果。颜色代表的含义和上图一致。白色部分表示IO线程处于等待。可见，当IO线程收到数据包引起终端切换后，仍然由于一个CPU密集型线程的存在，导致无法获取GIL锁，从而进行无尽的循环等待。</p>
-<p><img src="http://picture.totoro.site/images/2019/08/12/20180412144444_600.jpg" alt="20180412144444_600.jpg"><br>
-简单的总结下就是：Python的多线程在多核CPU上，只对于IO密集型计算产生正面效果；而当有至少有一个CPU密集型线程存在，那么多线程效率会由于GIL而大幅下降。</p>
-<h3 id="如何避免受到gil的影响"><strong>如何避免受到GIL的影响</strong></h3>
-<p>说了那么多，如果不说解决方案就仅仅是个科普帖，然并卵。GIL这么烂，有没有办法绕过呢？我们来看看有哪些现成的方案。</p>
-<p><strong>用multiprocess替代Thread</strong></p>
-<p>multiprocess库的出现很大程度上是为了弥补thread库因为GIL而低效的缺陷。它完整的复制了一套thread所提供的接口方便迁移。唯一的不同就是它使用了多进程而不是多线程。每个进程有自己的独立的GIL，因此也不会出现进程之间的GIL争抢。</p>
-<p>当然multiprocess也不是万能良药。它的引入会增加程序实现时线程间数据通讯和同步的困难。就拿计数器来举例子，如果我们要多个线程累加同一个变量，对于thread来说，申明一个global变量，用thread.Lock的context包裹住三行就搞定了。而multiprocess由于进程之间无法看到对方的数据，只能通过在主线程申明一个Queue，put再get或者用share memory的方法。这个额外的实现成本使得本来就非常痛苦的多线程程序编码，变得更加痛苦了。具体难点在哪有兴趣的读者可以扩展阅读这篇文章</p>
-<p><strong>用其他解析器</strong></p>
-<p>之前也提到了既然GIL只是CPython的产物，那么其他解析器是不是更好呢？没错，像JPython和IronPython这样的解析器由于实现语言的特性，他们不需要GIL的帮助。然而由于用了Java/C#用于解析器实现，他们也失去了利用社区众多C语言模块有用特性的机会。所以这些解析器也因此一直都比较小众。毕竟功能和性能大家在初期都会选择前者，Done is better than perfect。</p>
-<p>所以没救了么？</p>
-<p>当然Python社区也在非常努力的不断改进GIL，甚至是尝试去除GIL。并在各个小版本中有了不少的进步。有兴趣的读者可以扩展阅读这个Slide</p>
-<p>另一个改进Reworking the GIL<br>
-– 将切换颗粒度从基于opcode计数改成基于时间片计数<br>
-– 避免最近一次释放GIL锁的线程再次被立即调度<br>
-– 新增线程优先级功能（高优先级线程可以迫使其他线程释放所持有的GIL锁）</p>
-<h3 id="总结"><strong>总结</strong></h3>
-<p>Python GIL其实是功能和性能之间权衡后的产物，它尤其存在的合理性，也有较难改变的客观因素。从本分的分析中，我们可以做以下一些简单的总结：</p>
-<p>因为GIL的存在，只有IO Bound场景下得多线程会得到较好的性能<br>
-如果对并行计算性能较高的程序可以考虑把核心部分也成C模块，或者索性用其他语言实现<br>
-GIL在较长一段时间内将会继续存在，但是会不断对其进行改进</p>
-<p>Reference</p>
-<p>Python’s hardest problem<br>
-Official documents about GIL<br>
-Revisiting thread priorities and the new GIL</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[完全理解 Python 迭代对象、迭代器、生成器]]></title>
-        <id>https://skytotwo.github.io//post/iter-generator</id>
-        <link href="https://skytotwo.github.io//post/iter-generator">
-        </link>
-        <updated>2019-08-12T09:18:58.000Z</updated>
-        <summary type="html"><![CDATA[<p>本文源自RQ作者的一篇博文，原文是Iterables vs. Iterators vs. Generators。<br>
-在了解Python的数据结构时，容器(container)、可迭代对象(iterable)、迭代器(iterator)、生成器(generator)、列表/集合/字典推导式(list,set,dict comprehension)众多概念参杂在一起，难免让初学者一头雾水，我将用一篇文章试图将这些概念以及它们之间的关系捋清楚。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>本文源自RQ作者的一篇博文，原文是Iterables vs. Iterators vs. Generators。<br>
-在了解Python的数据结构时，容器(container)、可迭代对象(iterable)、迭代器(iterator)、生成器(generator)、列表/集合/字典推导式(list,set,dict comprehension)众多概念参杂在一起，难免让初学者一头雾水，我将用一篇文章试图将这些概念以及它们之间的关系捋清楚。</p>
-<!-- more -->
-<p><img src="http://picture.totoro.site/images/2019/08/12/20180411145647_562.png" alt="20180411145647_562.png"></p>
-<h3 id="容器container"><strong>容器(container)</strong></h3>
-<p>容器是一种把多个元素组织在一起的数据结构，容器中的元素可以逐个地迭代获取，可以用in, not in关键字判断元素是否包含在容器中。通常这类数据结构把所有的元素存储在内存中（也有一些特例，并不是所有的元素都放在内存，比如迭代器和生成器对象）在Python中，常见的容器对象有：</p>
-<p>list, deque, ….<br>
-set, frozensets, ….<br>
-dict, defaultdict, OrderedDict, Counter, ….<br>
-tuple, namedtuple, …<br>
-str<br>
-容器比较容易理解，因为你就可以把它看作是一个盒子、一栋房子、一个柜子，里面可以塞任何东西。从技术角度来说，当它可以用来询问某个元素是否包含在其中时，那么这个对象就可以认为是一个容器，比如 list，set，tuples都是容器对象：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; assert 1 in [1, 2, 3]      # lists
-&gt;&gt;&gt; assert 4 not in [1, 2, 3]
-&gt;&gt;&gt; assert 1 in {1, 2, 3}      # sets
-&gt;&gt;&gt; assert 4 not in {1, 2, 3}
-&gt;&gt;&gt; assert 1 in (1, 2, 3)      # tuples
-&gt;&gt;&gt; assert 4 not in (1, 2, 3)
-</code></pre>
-<p>询问某元素是否在dict中用dict的中key：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; d = {1: 'foo', 2: 'bar', 3: 'qux'}
-&gt;&gt;&gt; assert 1 in d
-&gt;&gt;&gt; assert 'foo' not in d  # 'foo' 不是dict中的元素
-</code></pre>
-<p>询问某substring是否在string中：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; s = 'foobar'
-&gt;&gt;&gt; assert 'b' in s
-&gt;&gt;&gt; assert 'x' not in s
-&gt;&gt;&gt; assert 'foo' in s
-</code></pre>
-<p>其实in 和 not in也是调用了可迭代对象内部的迭代器，一次次迭代比对是否存在里面。</p>
-<p>尽管绝大多数容器都提供了某种方式来获取其中的每一个元素，但这并不是容器本身提供的能力，而是可迭代对象赋予了容器这种能力，当然并不是所有的容器都是可迭代的，比如：Bloom filter，虽然Bloom filter可以用来检测某个元素是否包含在容器中，但是并不能从容器中获取其中的每一个值，因为Bloom filter压根就没把元素存储在容器中，而是通过一个散列函数映射成一个值保存在数组中。</p>
-<h3 id="可迭代对象iterable"><strong>可迭代对象(iterable)</strong></h3>
-<p>刚才说过，很多容器都是可迭代对象，此外还有更多的对象同样也是可迭代对象，比如处于打开状态的files，sockets等等。但凡是可以返回一个迭代器的对象都可称之为可迭代对象，听起来可能有点困惑，没关系，先看一个例子：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; x = [1, 2, 3]
-&gt;&gt;&gt; y = iter(x)
-&gt;&gt;&gt; z = iter(x)
-&gt;&gt;&gt; next(y)
-1
-&gt;&gt;&gt; next(y)
-2
-&gt;&gt;&gt; next(z)
-1
-&gt;&gt;&gt; type(x)
-&lt;class 'list'&gt;
-&gt;&gt;&gt; type(y)
-&lt;class 'list_iterator'&gt;
-</code></pre>
-<p>这里x是一个可迭代对象，可迭代对象和容器一样是一种通俗的叫法，并不是指某种具体的数据类型，list是可迭代对象，dict是可迭代对象，set也是可迭代对象。y和z是两个独立的迭代器，迭代器内部持有一个状态，该状态用于记录当前迭代所在的位置，以方便下次迭代的时候获取正确的元素。迭代器有一种具体的迭代器类型，比如list_iterator，set_iterator。可迭代对象实现了__iter__方法，该方法返回一个迭代器对象。</p>
-<p>当运行代码：</p>
-<pre><code class="language-python">Python
-
-x = [1, 2, 3]
-for elem in x:
-    ...
-</code></pre>
-<p>实际执行情况是：<br>
-<img src="http://picture.totoro.site/images/2019/08/12/20180411145705_448.png" alt="20180411145705_448.png"></p>
-<p>反编译该段代码，你可以看到解释器显示地调用GET_ITER指令，相当于调用iter(x)，FOR_ITER指令就是调用next()方法，不断地获取迭代器中的下一个元素，但是你没法直接从指令中看出来，因为他被解释器优化过了。</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; import dis
-&gt;&gt;&gt; x = [1, 2, 3]
-&gt;&gt;&gt; dis.dis('for _ in x: pass')
-  1           0 SETUP_LOOP              14 (to 17)
-              3 LOAD_NAME                0 (x)
-              6 GET_ITER
-        &gt;&gt;    7 FOR_ITER                 6 (to 16)
-             10 STORE_NAME               1 (_)
-             13 JUMP_ABSOLUTE            7
-        &gt;&gt;   16 POP_BLOCK
-        &gt;&gt;   17 LOAD_CONST               0 (None)
-             20 RETURN_VALUE
-</code></pre>
-<h3 id="迭代器iterator"><strong>迭代器(iterator)</strong></h3>
-<p>那么什么迭代器呢？它是一个带状态的对象，他能在你调用next()方法的时候返回容器中的下一个值，任何实现了__iter__和__next__()（python2中实现next()）方法的对象都是迭代器，__iter__返回迭代器自身，__next__返回容器中的下一个值，如果容器中没有更多元素了，则抛出StopIteration异常，至于它们到底是如何实现的这并不重要。</p>
-<p>所以，迭代器就是实现了工厂模式的对象，它在你每次你询问要下一个值的时候给你返回。有很多关于迭代器的例子，比如itertools函数返回的都是迭代器对象。</p>
-<p>生成无限序列：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; from itertools import count
-&gt;&gt;&gt; counter = count(start=13)
-&gt;&gt;&gt; next(counter)
-13
-&gt;&gt;&gt; next(counter)
-14
-</code></pre>
-<p>从一个有限序列中生成无限序列：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; from itertools import cycle
-&gt;&gt;&gt; colors = cycle(['red', 'white', 'blue'])
-&gt;&gt;&gt; next(colors)
-'red'
-&gt;&gt;&gt; next(colors)
-'white'
-&gt;&gt;&gt; next(colors)
-'blue'
-&gt;&gt;&gt; next(colors)
-'red'
-</code></pre>
-<p>从无限的序列中生成有限序列：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; from itertools import islice
-&gt;&gt;&gt; colors = cycle(['red', 'white', 'blue'])  # infinite
-&gt;&gt;&gt; limited = islice(colors, 0, 4)            # finite
-&gt;&gt;&gt; for x in limited:                         
-...     print(x)
-red
-white
-blue
-red
-</code></pre>
-<p>为了更直观地感受迭代器内部的执行过程，我们自定义一个迭代器，以斐波那契数列为例：</p>
-<pre><code class="language-python">Python
-
-class Fib:
-    def __init__(self):
-        self.prev = 0
-        self.curr = 1
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        value = self.curr
-        self.curr += self.prev
-        self.prev = value
-        return value
-
-&gt;&gt;&gt; f = Fib()
-&gt;&gt;&gt; list(islice(f, 0, 10))
-[1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
-</code></pre>
-<p>Fib既是一个可迭代对象（因为它实现了__iter__方法），又是一个迭代器（因为实现了__next__方法）。实例变量prev和curr用户维护迭代器内部的状态。每次调用next()方法的时候做两件事：</p>
-<p>为下一次调用next()方法修改状态<br>
-为当前这次调用生成返回结果<br>
-迭代器就像一个懒加载的工厂，等到有人需要的时候才给它生成值返回，没调用的时候就处于休眠状态等待下一次调用。</p>
-<h3 id="生成器generator"><strong>生成器(generator)</strong></h3>
-<p><strong>生成器算得上是Python语言中最吸引人的特性之一，生成器其实是一种特殊的迭代器，不过这种迭代器更加优雅。它不需要再像上面的类一样写__iter__()和__next__()方法了，只需要一个yiled关键字。 生成器一定是迭代器（反之不成立），因此任何生成器也是以一种懒加载的模式生成值。</strong></p>
-<p>用生成器来实现斐波那契数列的例子是：</p>
-<pre><code class="language-python">Python
-
-def fib():
-    prev, curr = 0, 1
-    while True:
-        yield curr
-        prev, curr = curr, curr + prev
-
-&gt;&gt;&gt; f = fib()
-&gt;&gt;&gt; list(islice(f, 0, 10))
-[1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
-</code></pre>
-<p><strong>fib就是一个普通的python函数，它特殊的地方在于函数体中没有return关键字，函数的返回值是一个生成器对象。当执行f=fib()返回的是一个生成器对象，此时函数体中的代码并不会执行，只有显示或隐示地调用next的时候才会真正执行里面的代码。</strong></p>
-<p>生成器在Python中是一个非常强大的编程结构，可以用更少地中间变量写流式代码，此外，相比其它容器对象它更能节省内存和CPU，当然它可以用更少的代码来实现相似的功能。现在就可以动手重构你的代码了，但凡看到类似：</p>
-<pre><code class="language-python">Python
-
-def something():
-    result = []
-    for ... in ...:
-        result.append(x)
-    return result
-</code></pre>
-<p>都可以用生成器函数来替换：</p>
-<pre><code class="language-python">Python
-
-def iter_something():
-    for ... in ...:
-        yield x
-</code></pre>
-<h4 id="生成器表达式generator-expression">生成器表达式(generator expression)</h4>
-<p>生成器表达式是列表推倒式的生成器版本，看起来像列表推导式，但是它返回的是一个生成器对象而不是列表对象。</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; a = (x*x for x in range(10))
-&gt;&gt;&gt; a
-&lt;generator object &lt;genexpr&gt; at 0x401f08&gt;
-&gt;&gt;&gt; sum(a)
-285
-</code></pre>
-<p>总结</p>
-<ul>
-<li>容器是一系列元素的集合，str、list、set、dict、file、sockets对象都可以看作是容器，容器都可以被迭代（用在for，while等语句中），因此他们被称为可迭代对象。</li>
-<li>可迭代对象实现了__iter__方法，该方法返回一个迭代器对象。</li>
-<li>迭代器持有一个内部状态的字段，用于记录下次迭代返回值，它实现了__next__和__iter__方法，迭代器不会一次性把所有元素加载到内存，而是需要的时候才生成返回结果。</li>
-<li>生成器是一种特殊的迭代器，它的返回值不是通过return而是用yield。</li>
-</ul>
-<p>原文出处： liuzhijun<br>
-参考链接：https://docs.python.org/3/library/stdtypes.html#iterator-types</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Python 生成器原理详解]]></title>
-        <id>https://skytotwo.github.io//post/python-generators</id>
-        <link href="https://skytotwo.github.io//post/python-generators">
-        </link>
-        <updated>2019-08-12T09:11:26.000Z</updated>
-        <summary type="html"><![CDATA[<p>原文出处： MichaelDiBernardo   译文出处：你逗比<br>
-这篇文章是对 500 Lines or Less 一书中高效爬虫一章的部分翻译，原文在此 -&gt; How Python Generators Work。建议结合《流畅的 Python》食用。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>原文出处： MichaelDiBernardo   译文出处：你逗比<br>
-这篇文章是对 500 Lines or Less 一书中高效爬虫一章的部分翻译，原文在此 -&gt; How Python Generators Work。建议结合《流畅的 Python》食用。</p>
-<!-- more --> 
-<p>在掌握 Python 生成器之前，你必须了解常规 Python 函数的工作原理。通常，当一个 Python 函数调用子程序（subroutine）时，这个子程序将一直持有控制权，只有当子程序结束（返回或者抛出异常）后，控制权才还给调用者：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; def foo():
-...     bar()
-...
-&gt;&gt;&gt; def bar():
-...     pass
-</code></pre>
-<p>标准的 Python 解释器是用 C 写的。解释器用一个叫做 PyEval_EvalFrameEx 的 C 函数来执行 Python 函数。它接受一个 Python 的堆栈帧（stack frame）对象，并在这个堆栈帧的上下文中执行 Python 字节码。这是 foo 的字节码：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; import dis
-&gt;&gt;&gt; dis.dis(foo)
-  2           0 LOAD_GLOBAL              0 (bar)
-              3 CALL_FUNCTION            0 (0 positional, 0 keyword pair)
-              6 POP_TOP
-              7 LOAD_CONST               0 (None)
-             10 RETURN_VALUE
-</code></pre>
-<p>foo 函数将 bar 加载到堆栈中并调用它，然后从堆栈中弹出返回值，最后加载并返回 None。</p>
-<p>当 PyEval_EvalFrameEx 遇到 CALL_FUNCTION 字节码的时候，它会创建一个新的 Python 堆栈帧，然后用这个新的帧作为参数递归调用 PyEval_EvalFrameEx 来执行 bar。</p>
-<p>Python 的堆栈帧是分配在堆内存中的，理解这一点非常重要！Python 解释器是个普通的 C 程序，所以它的堆栈帧就是普通的堆栈。但是它操作的 Python 堆栈帧是在堆上的。除了其他惊喜之外，这意味着 Python 的堆栈帧可以在它的调用之外存活。(FIXME: 可以在它调用结束后存活)。要以交互方式查看，请从 bar 内保存当前帧：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; import inspect
-&gt;&gt;&gt; frame = None
-&gt;&gt;&gt; def foo():
-...     bar()
-...
-&gt;&gt;&gt; def bar():
-...     global frame
-...     frame = inspect.currentframe()
-...
-&gt;&gt;&gt; foo()
-&gt;&gt;&gt; # The frame was executing the code for 'bar'.
-&gt;&gt;&gt; frame.f_code.co_name
-'bar'
-&gt;&gt;&gt; # Its back pointer refers to t
-&gt;&gt;&gt; def bar():
-...     global frame
-...     frame = inspect.currentframe()he frame for 'foo'.
-&gt;&gt;&gt; caller_frame = frame.f_back
-&gt;&gt;&gt; caller_frame.f_code.co_name
-'foo'
-</code></pre>
-<p><img src="http://picture.totoro.site/images/2019/08/12/20180411135711_504.png" alt="20180411135711_504.png"></p>
-<p>现在这项技术被用到了 Python 生成器（generator）上——使用代码对象和堆栈帧这些相同的组件来产生奇妙的效果。</p>
-<p>这是一个生成器函数（generator function）：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; def gen_fn():
-...     result = yield 1
-...     print('result of yield: {}'.format(result))
-...     result2 = yield 2
-...     print('result of 2nd yield: {}'.format(result2))
-...     return 'done'
-...
-</code></pre>
-<p>当 Python 将 gen_fn 编译为字节码时，它会看到 yield 语句，然后知道 gen_fn 是个生成器函数，而不是普通函数。它会设置一个标志来记住这个事实：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; # The generator flag is bit position 5.
-&gt;&gt;&gt; generator_bit = 1 &lt;&lt; 5
-&gt;&gt;&gt; bool(gen_fn.__code__.co_flags &amp; generator_bit)
-True
-</code></pre>
-<p>当你调用一个生成器函数时，Python 会看到生成器标志，实际上并不运行该函数，而是创建一个生成器（generator）：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; gen = gen_fn()
-&gt;&gt;&gt; type(gen)
-&lt;class 'generator'&gt;
-</code></pre>
-<p>Python 生成器封装了一个堆栈帧和一个对生成器函数代码的引用，在这里就是对 gen_fn 函数体的引用：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; gen.gi_code.co_name
-'gen_fn'
-</code></pre>
-<p>调用 gen_fn 产生的所有生成器都指向同一个代码对象，但是每个都有自己的堆栈帧。这个堆栈帧并不存在于实际的堆栈上，它在堆内存上等待着被使用<br>
-<img src="http://picture.totoro.site/images/2019/08/12/20180411135750_765.png" alt="20180411135750_765.png"><br>
-堆栈帧有个 “last instruction”(FIXME: translate this or not?) 指针，指向最近执行的那条指令。刚开始的时候 last instruction 指针是 -1，意味着生成器尚未开始：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; gen.gi_frame.f_lasti
--1
-</code></pre>
-<p>当我们调用 send 时，生成器达到第一个 yield 处然后暂停执行。send 的返回值是 1，这是因为 gen 把 1 传给了 yield 表达式：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; gen.send(None)
-1
-</code></pre>
-<p>现在生成器的指令指针（instruction pointer）向前移动了 3 个字节码，这些是编译好的 56 字节的 Python 代码的一部分：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; gen.gi_frame.f_lasti
-3
-&gt;&gt;&gt; len(gen.gi_code.co_code)
-56
-</code></pre>
-<p>生成器可以在任何时候被任何函数恢复执行，因为它的堆栈帧实际上不在堆栈上——它在堆（内存）上。生成器在调用调用层次结构中的位置不是固定的，它不需要遵循常规函数执行时遵循的先进后出顺序。生成器被是被解放了的，它像云一样浮动。</p>
-<p>我们可以将 “hello” 发送到这个生成器中，它会成为 yield 表达式的值，然后生成器会继续执行，直到产出（yield）了 2：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; gen.send('hello')
-result of yield: hello
-2
-</code></pre>
-<p>现在这个生成器的堆栈帧包含局部变量 result：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; gen.gi_frame.f_locals
-{'result': 'hello'}
-
-</code></pre>
-<p>从 gen_fn 创建的其他生成器将具有自己的堆栈帧和局部变量。</p>
-<p>当我们再次调用 send 时，生成器将从它第二个 yield 处继续执行，然后以产生特殊异常 StopIteration 结束：</p>
-<pre><code class="language-python">Python
-
-&gt;&gt;&gt; gen.send('goodbye')
-result of 2nd yield: goodbye
-Traceback (most recent call last):
-    File &quot;&lt;input&gt;&quot;, line 1, in &lt;module&gt;
-StopIteration: done
-
-</code></pre>
-<p>异常有一个值，它是那个生成器的返回值：字符串 “done”。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[微信小程序支付  带java后端]]></title>
-        <id>https://skytotwo.github.io//post/wechat-pay-java</id>
-        <link href="https://skytotwo.github.io//post/wechat-pay-java">
-        </link>
-        <updated>2019-08-12T09:07:43.000Z</updated>
-        <summary type="html"><![CDATA[<p>话不多说，直接开撸。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>话不多说，直接开撸。</p>
-<!-- more -->
-<p>支付流程步骤：</p>
-<p>1）首先调用wx.login方法获取code，通过code获取openid；</p>
-<p>2）java后台调用统一下单支付接口（这里会进行第一次签名），用来获取prepay_id；</p>
-<p>3）java后台再次调用签名（这里会进行第二次签名），并返回支付需要用使用的参数；</p>
-<p>4）小程序前端wx.requestPayment方法发起微信支付；</p>
-<p>5）java后台接收来自微信服务器的通知并处理结果。</p>
-<p>详细步骤可参考：https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=7_4&amp;index=3</p>
-<p>demo链接: https://pan.baidu.com/s/1v8QWUE1m2EnA4uAoAZtRRQ 密码: cgrt</p>
-<p>一、获取openid，</p>
-<p>这里的代码可以参考博主的另外一篇文章http://www.listenlife.cn:8080/post/34  中的3.1 代码模块，代码先贴上，如果了解更多点击链接查看</p>
-<p>小程序端代码</p>
-<pre><code class="language-javascript">[javascript] view plain copy
-wx.login({    
-  success: function (res) {    
-    var service_url = 'https://???/???/weixin/api/login?code=' + res.code;//需要将服务器域名添加到小程序的request合法域名中，而且必须是https开头    
-    wx.request({    
-      url: l,    
-      data: {},    
-      method: 'GET',    
-      success: function (res) {    
-        console.log(res);    
-        if (res.data != null &amp;&amp; res.data != undefined &amp;&amp; res.data != '') {    
-          wx.setStorageSync(&quot;openid&quot;, res.data.openid);//将获取的openid存到缓存中    
-        }    
-      }    
-    });    
-  }    
-});
-</code></pre>
-<p>java后端代码</p>
-<pre><code class="language-java">[java] view plain copy
-/**  
-  * 小程序后台登录，向微信平台发送获取access_token请求，并返回openId  
-  * @param code  
-  * @return 用户凭证  
-  * @throws WeixinException  
-  * @throws IOException   
-  * @throws JsonMappingException   
-  * @throws JsonParseException   
-  */    
- @RequestMapping(&quot;login&quot;)    
- @ResponseBody    
- public Map&lt;String, Object&gt; login(String code, HttpServletRequest request) throws WeixinException, JsonParseException, JsonMappingException, IOException {    
-     if (code == null || code.equals(&quot;&quot;)) {    
-         throw new WeixinException(&quot;invalid null, code is null.&quot;);    
-     }    
-         
-     Map&lt;String, Object&gt; ret = new HashMap&lt;String, Object&gt;();    
-     //拼接参数    
-     String param = &quot;?grant_type=&quot; + grant_type + &quot;&amp;appid=&quot; + appid + &quot;&amp;secret=&quot; + secret + &quot;&amp;js_code=&quot; + code;    
-         
-     System.out.println(&quot;https://api.weixin.qq.com/sns/jscode2session&quot; + param);    
-         
-     //创建请求对象    
-     HttpsClient http = new HttpsClient();    
-     //调用获取access_token接口    
-     Response res = http.get(&quot;https://api.weixin.qq.com/sns/jscode2session&quot; + param);    
-     //根据请求结果判定，是否验证成功    
-     JSONObject jsonObj = res.asJSONObject();    
-     if (jsonObj != null) {    
-         Object errcode = jsonObj.get(&quot;errcode&quot;);    
-         if (errcode != null) {    
-             //返回异常信息    
-             throw new WeixinException(getCause(Integer.parseInt(errcode.toString())));    
-         }    
-             
-         ObjectMapper mapper = new ObjectMapper();    
-         OAuthJsToken oauthJsToken = mapper.readValue(jsonObj.toJSONString(),OAuthJsToken.class);    
-         ret.put(&quot;openid&quot;, oauthJsToken.getOpenid());    
-     }    
-     return ret;    
- }
-</code></pre>
-<p>二、小程序调用java后端接口，生成最终签名和相关参数小程序端代码：</p>
-<pre><code class="language-javascript">[javascript] view plain copy
-var that = this;  
-      wx.request({  
-        url: service_url + 'wxPay',  
-        data: { },  
-        method: 'GET',  
-        success: function (res) {  
-          console.log(res);  
-           that.doWxPay(res.data);  
-        }  
-      }); 
-</code></pre>
-<p>java端代码：</p>
-<pre><code class="language-java">[java] view plain copy
-/** 
-     * @Description: 发起微信支付 
-     * @param request 
-     */  
-    public Json wxPay(Integer openid, HttpServletRequest request){  
-        try{  
-            //生成的随机字符串  
-            String nonce_str = StringUtils.getRandomStringByLength(32);  
-            //商品名称  
-            String body = &quot;测试商品名称&quot;;  
-            //获取客户端的ip地址  
-            String spbill_create_ip = IpUtil.getIpAddr(request);  
-              
-            //组装参数，用户生成统一下单接口的签名  
-            Map&lt;String, String&gt; packageParams = new HashMap&lt;String, String&gt;();  
-            packageParams.put(&quot;appid&quot;, WxPayConfig.appid);  
-            packageParams.put(&quot;mch_id&quot;, WxPayConfig.mch_id);  
-            packageParams.put(&quot;nonce_str&quot;, nonce_str);  
-            packageParams.put(&quot;body&quot;, body);  
-            packageParams.put(&quot;out_trade_no&quot;, &quot;123456789&quot;);//商户订单号  
-            packageParams.put(&quot;total_fee&quot;, &quot;1&quot;);//支付金额，这边需要转成字符串类型，否则后面的签名会失败  
-            packageParams.put(&quot;spbill_create_ip&quot;, spbill_create_ip);  
-            packageParams.put(&quot;notify_url&quot;, WxPayConfig.notify_url);//支付成功后的回调地址  
-            packageParams.put(&quot;trade_type&quot;, WxPayConfig.TRADETYPE);//支付方式  
-            packageParams.put(&quot;openid&quot;, openid);  
-                 
-                String prestr = PayUtil.createLinkString(packageParams); // 把数组所有元素，按照“参数=参数值”的模式用“&amp;”字符拼接成字符串   
-              
-                //MD5运算生成签名，这里是第一次签名，用于调用统一下单接口  
-                String mysign = PayUtil.sign(prestr, WxPayConfig.key, &quot;utf-8&quot;).toUpperCase();  
-              
-            //拼接统一下单接口使用的xml数据，要将上一步生成的签名一起拼接进去  
-            String xml = &quot;&lt;xml&gt;&quot; + &quot;&lt;appid&gt;&quot; + WxPayConfig.appid + &quot;&lt;/appid&gt;&quot;   
-                    + &quot;&lt;body&gt;&lt;![CDATA[&quot; + body + &quot;]]&gt;&lt;/body&gt;&quot;   
-                    + &quot;&lt;mch_id&gt;&quot; + WxPayConfig.mch_id + &quot;&lt;/mch_id&gt;&quot;   
-                    + &quot;&lt;nonce_str&gt;&quot; + nonce_str + &quot;&lt;/nonce_str&gt;&quot;   
-                    + &quot;&lt;notify_url&gt;&quot; + WxPayConfig.notify_url + &quot;&lt;/notify_url&gt;&quot;   
-                    + &quot;&lt;openid&gt;&quot; + order.getOpenId() + &quot;&lt;/openid&gt;&quot;   
-                    + &quot;&lt;out_trade_no&gt;&quot; + order.getOrderNo() + &quot;&lt;/out_trade_no&gt;&quot;   
-                    + &quot;&lt;spbill_create_ip&gt;&quot; + spbill_create_ip + &quot;&lt;/spbill_create_ip&gt;&quot;   
-                    + &quot;&lt;total_fee&gt;&quot; + order.getPayMoney() + &quot;&lt;/total_fee&gt;&quot;  
-                    + &quot;&lt;trade_type&gt;&quot; + WxPayConfig.TRADETYPE + &quot;&lt;/trade_type&gt;&quot;   
-                    + &quot;&lt;sign&gt;&quot; + mysign + &quot;&lt;/sign&gt;&quot;  
-                    + &quot;&lt;/xml&gt;&quot;;  
-              
-            System.out.println(&quot;调试模式_统一下单接口 请求XML数据：&quot; + xml);  
-  
-            //调用统一下单接口，并接受返回的结果  
-            String result = PayUtil.httpRequest(WxPayConfig.pay_url, &quot;POST&quot;, xml);  
-              
-            System.out.println(&quot;调试模式_统一下单接口 返回XML数据：&quot; + result);  
-              
-            // 将解析结果存储在HashMap中     
-            Map map = PayUtil.doXMLParse(result);  
-              
-            String return_code = (String) map.get(&quot;return_code&quot;);//返回状态码  
-              
-            Map&lt;String, Object&gt; response = new HashMap&lt;String, Object&gt;();//返回给小程序端需要的参数  
-            if(return_code==&quot;SUCCESS&quot;||return_code.equals(return_code)){     
-                String prepay_id = (String) map.get(&quot;prepay_id&quot;);//返回的预付单信息     
-                response.put(&quot;nonceStr&quot;, nonce_str);  
-                response.put(&quot;package&quot;, &quot;prepay_id=&quot; + prepay_id);  
-                Long timeStamp = System.currentTimeMillis() / 1000;     
-                response.put(&quot;timeStamp&quot;, timeStamp + &quot;&quot;);//这边要将返回的时间戳转化成字符串，不然小程序端调用wx.requestPayment方法会报签名错误  
-                //拼接签名需要的参数  
-                String stringSignTemp = &quot;appId=&quot; + WxPayConfig.appid + &quot;&amp;nonceStr=&quot; + nonce_str + &quot;&amp;package=prepay_id=&quot; + prepay_id+ &quot;&amp;signType=MD5&amp;timeStamp=&quot; + timeStamp;     
-                //再次签名，这个签名用于小程序端调用wx.requesetPayment方法  
-                String paySign = PayUtil.sign(stringSignTemp, WxPayConfig.key, &quot;utf-8&quot;).toUpperCase();  
-                  
-                response.put(&quot;paySign&quot;, paySign);  
-            }  
-              
-            response.put(&quot;appid&quot;, WxPayConfig.appid);  
-              
-            return response;  
-        }catch(Exception e){  
-            e.printStackTrace();  
-        }  
-        return null;  
-    }  
-    /** 
-     * StringUtils工具类方法 
-     * 获取一定长度的随机字符串，范围0-9，a-z 
-     * @param length：指定字符串长度 
-     * @return 一定长度的随机字符串 
-     */  
-    public static String getRandomStringByLength(int length) {  
-        String base = &quot;abcdefghijklmnopqrstuvwxyz0123456789&quot;;  
-        Random random = new Random();  
-        StringBuffer sb = new StringBuffer();  
-        for (int i = 0; i &lt; length; i++) {  
-            int number = random.nextInt(base.length());  
-            sb.append(base.charAt(number));  
-        }  
-        return sb.toString();  
-       }  
-    /** 
-     * IpUtils工具类方法 
-     * 获取真实的ip地址 
-     * @param request 
-     * @return 
-     */  
-    public static String getIpAddr(HttpServletRequest request) {  
-        String ip = request.getHeader(&quot;X-Forwarded-For&quot;);  
-        if(StringUtils.isNotEmpty(ip) &amp;&amp; !&quot;unKnown&quot;.equalsIgnoreCase(ip)){  
-             //多次反向代理后会有多个ip值，第一个ip才是真实ip  
-            int index = ip.indexOf(&quot;,&quot;);  
-            if(index != -1){  
-                return ip.substring(0,index);  
-            }else{  
-                return ip;  
-            }  
-        }  
-        ip = request.getHeader(&quot;X-Real-IP&quot;);  
-        if(StringUtils.isNotEmpty(ip) &amp;&amp; !&quot;unKnown&quot;.equalsIgnoreCase(ip)){  
-           return ip;  
-        }  
-        return request.getRemoteAddr();  
-    } 
-</code></pre>
-<p>WxPayConfig小程序配置文件</p>
-<pre><code class="language-java">[java] view plain copy
-/** 
- * 小程序微信支付的配置文件 
- * @author  
- * 
- */  
-public class WxPayConfig {  
-    //小程序appid  
-    public static final String appid = &quot;&quot;;  
-    //微信支付的商户id  
-    public static final String mch_id = &quot;&quot;;  
-    //微信支付的商户密钥  
-    public static final String key = &quot;&quot;;  
-    //支付成功后的服务器回调url  
-    public static final String notify_url = &quot;https://??/??/weixin/api/wxNotify&quot;;  
-    //签名方式，固定值  
-    public static final String SIGNTYPE = &quot;MD5&quot;;  
-    //交易类型，小程序支付的固定值为JSAPI  
-    public static final String TRADETYPE = &quot;JSAPI&quot;;  
-    //微信统一下单接口地址  
-    public static final String pay_url = &quot;https://api.mch.weixin.qq.com/pay/unifiedorder&quot;;  
-}  
-
-PayUtils工具类
-[java] view plain copy
-import java.io.BufferedReader;  
-import java.io.ByteArrayInputStream;  
-import java.io.IOException;  
-import java.io.InputStream;  
-import java.io.InputStreamReader;  
-import java.io.OutputStream;  
-import java.io.UnsupportedEncodingException;  
-import java.net.HttpURLConnection;  
-import java.net.URL;  
-import java.security.SignatureException;  
-import java.util.ArrayList;  
-import java.util.Collections;  
-import java.util.HashMap;  
-import java.util.Iterator;  
-import java.util.List;  
-import java.util.Map;  
-  
-import org.apache.commons.codec.digest.DigestUtils;  
-import org.jdom.Document;  
-import org.jdom.Element;  
-import org.jdom.JDOMException;  
-import org.jdom.input.SAXBuilder;  
-  
-public class PayUtil {  
-     /**   
-     * 签名字符串   
-     * @param text需要签名的字符串   
-     * @param key 密钥   
-     * @param input_charset编码格式   
-     * @return 签名结果   
-     */     
-    public static String sign(String text, String key, String input_charset) {     
-        text = text + &quot;&amp;key=&quot; + key;     
-        return DigestUtils.md5Hex(getContentBytes(text, input_charset));     
-    }     
-    /**   
-     * 签名字符串   
-     *  @param text需要签名的字符串   
-     * @param sign 签名结果   
-     * @param key密钥   
-     * @param input_charset 编码格式   
-     * @return 签名结果   
-     */     
-    public static boolean verify(String text, String sign, String key, String input_charset) {     
-        text = text + key;     
-        String mysign = DigestUtils.md5Hex(getContentBytes(text, input_charset));     
-        if (mysign.equals(sign)) {     
-            return true;     
-        } else {     
-            return false;     
-        }     
-    }     
-    /**   
-     * @param content   
-     * @param charset   
-     * @return   
-     * @throws SignatureException   
-     * @throws UnsupportedEncodingException   
-     */     
-    public static byte[] getContentBytes(String content, String charset) {     
-        if (charset == null || &quot;&quot;.equals(charset)) {     
-            return content.getBytes();     
-        }     
-        try {     
-            return content.getBytes(charset);     
-        } catch (UnsupportedEncodingException e) {     
-            throw new RuntimeException(&quot;MD5签名过程中出现错误,指定的编码集不对,您目前指定的编码集是:&quot; + charset);     
-        }     
-    }     
-      
-    private static boolean isValidChar(char ch) {     
-        if ((ch &gt;= '0' &amp;&amp; ch &lt;= '9') || (ch &gt;= 'A' &amp;&amp; ch &lt;= 'Z') || (ch &gt;= 'a' &amp;&amp; ch &lt;= 'z'))     
-            return true;     
-        if ((ch &gt;= 0x4e00 &amp;&amp; ch &lt;= 0x7fff) || (ch &gt;= 0x8000 &amp;&amp; ch &lt;= 0x952f))     
-            return true;// 简体中文汉字编码     
-        return false;     
-    }     
-    /**   
-     * 除去数组中的空值和签名参数   
-     * @param sArray 签名参数组   
-     * @return 去掉空值与签名参数后的新签名参数组   
-     */     
-    public static Map&lt;String, String&gt; paraFilter(Map&lt;String, String&gt; sArray) {     
-        Map&lt;String, String&gt; result = new HashMap&lt;String, String&gt;();     
-        if (sArray == null || sArray.size() &lt;= 0) {     
-            return result;     
-        }     
-        for (String key : sArray.keySet()) {     
-            String value = sArray.get(key);     
-            if (value == null || value.equals(&quot;&quot;) || key.equalsIgnoreCase(&quot;sign&quot;)     
-                    || key.equalsIgnoreCase(&quot;sign_type&quot;)) {     
-                continue;     
-            }     
-            result.put(key, value);     
-        }     
-        return result;     
-    }     
-    /**   
-     * 把数组所有元素排序，并按照“参数=参数值”的模式用“&amp;”字符拼接成字符串   
-     * @param params 需要排序并参与字符拼接的参数组   
-     * @return 拼接后字符串   
-     */     
-    public static String createLinkString(Map&lt;String, String&gt; params) {     
-        List&lt;String&gt; keys = new ArrayList&lt;String&gt;(params.keySet());     
-        Collections.sort(keys);     
-        String prestr = &quot;&quot;;     
-        for (int i = 0; i &lt; keys.size(); i++) {     
-            String key = keys.get(i);     
-            String value = params.get(key);     
-            if (i == keys.size() - 1) {// 拼接时，不包括最后一个&amp;字符     
-                prestr = prestr + key + &quot;=&quot; + value;     
-            } else {     
-                prestr = prestr + key + &quot;=&quot; + value + &quot;&amp;&quot;;     
-            }     
-        }     
-        return prestr;     
-    }     
-    /**   
-     *   
-     * @param requestUrl请求地址   
-     * @param requestMethod请求方法   
-     * @param outputStr参数   
-     */     
-    public static String httpRequest(String requestUrl,String requestMethod,String outputStr){     
-        // 创建SSLContext     
-        StringBuffer buffer = null;     
-        try{     
-            URL url = new URL(requestUrl);     
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();     
-            conn.setRequestMethod(requestMethod);     
-            conn.setDoOutput(true);     
-            conn.setDoInput(true);     
-            conn.connect();     
-            //往服务器端写内容     
-            if(null !=outputStr){     
-                OutputStream os=conn.getOutputStream();     
-                os.write(outputStr.getBytes(&quot;utf-8&quot;));     
-                os.close();     
-            }     
-            // 读取服务器端返回的内容     
-            InputStream is = conn.getInputStream();     
-            InputStreamReader isr = new InputStreamReader(is, &quot;utf-8&quot;);     
-            BufferedReader br = new BufferedReader(isr);     
-            buffer = new StringBuffer();     
-            String line = null;     
-            while ((line = br.readLine()) != null) {     
-                buffer.append(line);     
-            }     
-[java] view plain copy
-                br.close();  
-        }catch(Exception e){     
-            e.printStackTrace();     
-        }  
-        return buffer.toString();  
-    }       
-    public static String urlEncodeUTF8(String source){     
-        String result=source;     
-        try {     
-            result=java.net.URLEncoder.encode(source, &quot;UTF-8&quot;);     
-        } catch (UnsupportedEncodingException e) {     
-            // TODO Auto-generated catch block     
-            e.printStackTrace();     
-        }     
-        return result;     
-    }   
-    /** 
-     * 解析xml,返回第一级元素键值对。如果第一级元素有子节点，则此节点的值是子节点的xml数据。 
-     * @param strxml 
-     * @return 
-     * @throws JDOMException 
-     * @throws IOException 
-     */  
-    public static Map doXMLParse(String strxml) throws Exception {  
-        if(null == strxml || &quot;&quot;.equals(strxml)) {  
-            return null;  
-        }  
-          
-        Map m = new HashMap();  
-        InputStream in = String2Inputstream(strxml);  
-        SAXBuilder builder = new SAXBuilder();  
-        Document doc = builder.build(in);  
-        Element root = doc.getRootElement();  
-        List list = root.getChildren();  
-        Iterator it = list.iterator();  
-        while(it.hasNext()) {  
-            Element e = (Element) it.next();  
-            String k = e.getName();  
-            String v = &quot;&quot;;  
-            List children = e.getChildren();  
-            if(children.isEmpty()) {  
-                v = e.getTextNormalize();  
-            } else {  
-                v = getChildrenText(children);  
-            }  
-              
-            m.put(k, v);  
-        }  
-          
-        //关闭流  
-        in.close();  
-          
-        return m;  
-    }  
-    /** 
-     * 获取子结点的xml 
-     * @param children 
-     * @return String 
-     */  
-    public static String getChildrenText(List children) {  
-        StringBuffer sb = new StringBuffer();  
-        if(!children.isEmpty()) {  
-            Iterator it = children.iterator();  
-            while(it.hasNext()) {  
-                Element e = (Element) it.next();  
-                String name = e.getName();  
-                String value = e.getTextNormalize();  
-                List list = e.getChildren();  
-                sb.append(&quot;&lt;&quot; + name + &quot;&gt;&quot;);  
-                if(!list.isEmpty()) {  
-                    sb.append(getChildrenText(list));  
-                }  
-                sb.append(value);  
-                sb.append(&quot;&lt;/&quot; + name + &quot;&gt;&quot;);  
-            }  
-        }  
-          
-        return sb.toString();  
-    }  
-    public static InputStream String2Inputstream(String str) {  
-        return new ByteArrayInputStream(str.getBytes());  
-    }  
-} 
-</code></pre>
-<p>三、小程序端发起最终支付，调用微信付款</p>
-<pre><code class="language-javascript">[javascript] view plain copy
-doWxPay(param){  
-        //小程序发起微信支付  
-            wx.requestPayment({  
-              timeStamp: param.data.timeStamp,//记住，这边的timeStamp一定要是字符串类型的，不然会报错，我这边在java后端包装成了字符串类型了  
-              nonceStr: param.data.nonceStr,  
-              package: param.data.package,  
-              signType: 'MD5',  
-              paySign: param.data.paySign,  
-              success: function (event) {  
-                // success     
-                console.log(event);  
-                  
-                wx.showToast({  
-                  title: '支付成功',  
-                  icon: 'success',  
-                  duration: 2000  
-                });  
-              },  
-              fail: function (error) {  
-                // fail     
-                console.log(&quot;支付失败&quot;)  
-                console.log(error)  
-              },  
-              complete: function () {  
-                // complete     
-                console.log(&quot;pay complete&quot;)  
-              }  
-            });  
-    } 
-</code></pre>
-<p>四、微信服务器通知java后端</p>
-<pre><code class="language-java">[java] view plain copy
-/** 
-     * @Description:微信支付     
-     * @return 
-     * @throws Exception  
-     */  
-    @RequestMapping(value=&quot;/wxNotify&quot;)  
-    @ResponseBody  
-    public void wxNotify(HttpServletRequest request,HttpServletResponse response) throws Exception{  
-        BufferedReader br = new BufferedReader(new InputStreamReader((ServletInputStream)request.getInputStream()));  
-        String line = null;  
-        StringBuilder sb = new StringBuilder();  
-        while((line = br.readLine()) != null){  
-            sb.append(line);  
-        }  
-[java] view plain copy
-        br.close();  
-        //sb为微信返回的xml  
-        String notityXml = sb.toString();  
-        String resXml = &quot;&quot;;  
-        System.out.println(&quot;接收到的报文：&quot; + notityXml);  
-      
-        Map map = PayUtil.doXMLParse(notityXml);  
-          
-        String returnCode = (String) map.get(&quot;return_code&quot;);  
-        if(&quot;SUCCESS&quot;.equals(returnCode)){  
-            //验证签名是否正确  
-            if(PayUtil.verify(PayUtil.createLinkString(map), (String)map.get(&quot;sign&quot;), WxPayConfig.key, &quot;utf-8&quot;)){  
-                /**此处添加自己的业务逻辑代码start**/  
-                  
-                  
-                /**此处添加自己的业务逻辑代码end**/  
-                //通知微信服务器已经支付成功  
-                resXml = &quot;&lt;xml&gt;&quot; + &quot;&lt;return_code&gt;&lt;![CDATA[SUCCESS]]&gt;&lt;/return_code&gt;&quot;  
-                + &quot;&lt;return_msg&gt;&lt;![CDATA[OK]]&gt;&lt;/return_msg&gt;&quot; + &quot;&lt;/xml&gt; &quot;;  
-            }  
-        }else{  
-            resXml = &quot;&lt;xml&gt;&quot; + &quot;&lt;return_code&gt;&lt;![CDATA[FAIL]]&gt;&lt;/return_code&gt;&quot;  
-            + &quot;&lt;return_msg&gt;&lt;![CDATA[报文为空]]&gt;&lt;/return_msg&gt;&quot; + &quot;&lt;/xml&gt; &quot;;  
-        }  
-        System.out.println(resXml);  
-        System.out.println(&quot;微信支付回调数据结束&quot;);  
-  
-  
-        BufferedOutputStream out = new BufferedOutputStream(  
-                response.getOutputStream());  
-        out.write(resXml.getBytes());  
-        out.flush();  
-        out.close();  
-    } 
-</code></pre>
 ]]></content>
     </entry>
 </feed>

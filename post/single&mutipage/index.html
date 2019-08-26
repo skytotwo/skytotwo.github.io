@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Centos7 修改mysql 最大连接数 | Totoro の Home</title>
+<title>单页面应用程序和多页面应用程序（网站）的区别 | Totoro の Home</title>
 <meta name="description" content="空杯心态，每天进步">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -104,37 +104,36 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Centos7 修改mysql 最大连接数</h2>
+            <h2 class="post-title">单页面应用程序和多页面应用程序（网站）的区别</h2>
             <div class="post-date">2019-08-26</div>
             
-              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/images.jpg')">
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/WX20190826-1616522x.png')">
               </div>
             
             <div class="post-content">
-              <h3 id="步骤">步骤：</h3>
-<p><strong>1.编辑  /etc/my.cnf  添加如下一行，注意是在[mysqld] 区域下面添加 而不是最后，最后添加是不生效的</strong></p>
-<p>max_connections = 1000</p>
-<p><strong>2.编辑 /usrb/systemd/system/mysqld.service 文件，在文件最后添加</strong></p>
-<p>LimitNOFILE=65535<br>
-LimitNPROC=65535</p>
-<p><strong>3.重启服务</strong><br>
-$ systemctl daemon-reload<br>
-$ systemctl restart  mysqld.service</p>
-<p><strong>4.连接数据库，查看最大连接数</strong><br>
-mysql&gt; show variables like 'max_connections';<br>
-+-----------------+-------+<br>
-| Variable_name   | Value |<br>
-+-----------------+-------+<br>
-| max_connections | 1000  |<br>
-+-----------------+-------+<br>
-1 row in set (0.00 sec)</p>
+              <p>单页面和双页面应用的区别：</p>
+<ul>
+<li>1、单页面应用程序的数据渲染是在客户端进行的；而多页面应用程序的数据渲染则是在服务端进行的。</li>
+<li>2、单页面应用程序的数据请求等是在js中通过ajax完成的；多页面应用程序则是在服务端试图函数中完成的。</li>
+</ul>
+<h2 id="-more-"><!-- more --></h2>
+<h3 id="单页面应用singlepage-web-applicationspa"><strong>单页面应用（SinglePage Web Application，SPA）</strong></h3>
+<p>只有一张Web页面的应用，是一种从Web服务器加载的富客户端，单页面跳转仅刷新局部资源 ，公共资源(js、css等)仅需加载一次，常用于PC端官网、购物等网站<br>
+如图：<br>
+<img src="/attached/image/20180508/20180508223839_750.png" alt=""></p>
+<h3 id="多页面应用multipage-applicationmpa"><strong>多页面应用（MultiPage Application，MPA）</strong></h3>
+<p>多页面跳转刷新所有资源，每个公共资源(js、css等)需选择性重新加载，常用于 app 或 客户端等</p>
+<p>如图：<br>
+<img src="/attached/image/20180508/20180508223908_626.png" alt=""></p>
+<p>具体对比分析：</p>
+<p><img src="/attached/image/20180508/20180508223927_729.jpg" alt=""></p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://skytotwo.github.io//tag/ek3qBGSgi" class="tag">
-                    数据库
+                  <a href="https://skytotwo.github.io//tag/cRz-_tW8O" class="tag">
+                    前端
                   </a>
                 
               </div>
@@ -142,9 +141,9 @@ mysql&gt; show variables like 'max_connections';<br>
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://skytotwo.github.io//post/python-collections">
+                <a href="https://skytotwo.github.io//post/python-with-context">
                   <h3 class="post-title">
-                    Collections模块基本介绍
+                    Python的with上下文要点
                   </h3>
                 </a>
               </div>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Centos7 修改mysql 最大连接数 | Totoro の Home</title>
+<title>详解flask上下文与出入栈 | Totoro の Home</title>
 <meta name="description" content="空杯心态，每天进步">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -104,37 +104,60 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Centos7 修改mysql 最大连接数</h2>
+            <h2 class="post-title">详解flask上下文与出入栈</h2>
             <div class="post-date">2019-08-26</div>
             
-              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/images.jpg')">
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/20180506181132_533.jpg')">
               </div>
             
             <div class="post-content">
-              <h3 id="步骤">步骤：</h3>
-<p><strong>1.编辑  /etc/my.cnf  添加如下一行，注意是在[mysqld] 区域下面添加 而不是最后，最后添加是不生效的</strong></p>
-<p>max_connections = 1000</p>
-<p><strong>2.编辑 /usrb/systemd/system/mysqld.service 文件，在文件最后添加</strong></p>
-<p>LimitNOFILE=65535<br>
-LimitNPROC=65535</p>
-<p><strong>3.重启服务</strong><br>
-$ systemctl daemon-reload<br>
-$ systemctl restart  mysqld.service</p>
-<p><strong>4.连接数据库，查看最大连接数</strong><br>
-mysql&gt; show variables like 'max_connections';<br>
-+-----------------+-------+<br>
-| Variable_name   | Value |<br>
-+-----------------+-------+<br>
-| max_connections | 1000  |<br>
-+-----------------+-------+<br>
-1 row in set (0.00 sec)</p>
+              <p>在flask中，上下文算是核心中的核心了，其作用于请求的访问处理，多线程隔离的实现等。</p>
+ <!-- more --> 
+<h4 id="flask的上下文">flask的上下文：</h4>
+<p>1、应用上下文 （AppContent）<br>
+2、请求上下文 （Request Context）</p>
+<p>如图所示：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180506181132_533.jpg" alt="20180506181132_533.jpg"></p>
+<p>应用上下文是对当前应用实例app的封装<br>
+请求上下文是对当前请求Request的封装</p>
+<p>1、当每一个请求进入系统的时候，都会将当前的应用上下文和请求上下文进行入栈操作，所代表的栈对象分别是_app_ctx_stack和_request_ctx_stack。<br>
+2、栈对象进入栈顶的顺序是，先应用上下文的栈对象先进入栈顶，然后才是请求上下文的栈对象进入栈顶</p>
+<h4 id="注意">注意：</h4>
+<p>1、当一个请求进来时，也就是在请求的逻辑中要获取应用上下文，flask会先判断应用上下文的栈顶是否有该应用实例栈对象，没有的话会自动帮着将当前的应用上下文栈对象推入栈中。也就是说，在请求的逻辑视图处理中，是可以获取到当前的应用上下文的。<br>
+2、通过current_app和request获取当前应用上下文和请求上下文，其实都是经过了flask的封装，该方法是localproxy，都是分别去各自的栈顶获取栈对象，然后再取出app和request这个属性。</p>
+<p>3、在不是请求视图中要获取当前的应用上下文，是需要自己将当前的应用栈对象push到栈中的，然后才能通过current_app来获取到当前应用实例。通常在离线应用和单元测试场景上会使用到。<br>
+具体代码如下：</p>
+<pre><code class="language-python">app = Flask(__name__)
+
+ctx = app.app_content()
+ctx.push()
+
+然后使用完了需要将其在栈中去除
+ctx.pop()
+</code></pre>
+<h4 id="所有名词解释">所有名词解释</h4>
+<p>1、以线程ID号作为key的字典-&gt;Local-&gt;LocalStack<br>
+（local是通过点来实现线程隔离的，localstack则是封装了local通过push()、pop()和top成为线程隔离对象(栈)）<br>
+2、AppContext RequestContext -&gt; LocalStack<br>
+（AppContext是应用上下文，RequestContext是请求上下文，分别依次推入各自的线程隔离对象中）<br>
+3、Flask -&gt; AppContext   Request -&gt; RequestContext<br>
+（AppContext封装的是Flask的应用核心对象，RequestContext封装的是本次请求的Request对象）<br>
+4、current_app -&gt;(LocalStack.top = AppContext top.app=Flask)<br>
+（current_app指的是线程隔离对象栈顶的元素（应用上下文）的app属性（核心对象））<br>
+5、request -&gt;(LocalStack.top = RequestContext top.request= Request)<br>
+（request指的是线程隔离对象栈顶元素（请求上下文）的request属性（当前request对象））</p>
+<p>注意：app，也就是当前应用核心对象只有一个，因为它是在主线程中生成的，而request则是每次请求都会生成一个，所以需要线程隔离。app的话，因为作为字典存在的线程隔离，都是同一个value是没有意义的，所以app并没有被线程隔离</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://skytotwo.github.io//tag/ek3qBGSgi" class="tag">
-                    数据库
+                  <a href="https://skytotwo.github.io//tag/WllsaKoVz" class="tag">
+                    flask
+                  </a>
+                
+                  <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="tag">
+                    python
                   </a>
                 
               </div>
@@ -142,9 +165,9 @@ mysql&gt; show variables like 'max_connections';<br>
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://skytotwo.github.io//post/python-collections">
+                <a href="https://skytotwo.github.io//post/centos-nginx">
                   <h3 class="post-title">
-                    Collections模块基本介绍
+                    Centos系统下nginx 相关命令
                   </h3>
                 </a>
               </div>

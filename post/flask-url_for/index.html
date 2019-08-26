@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Centos7 环境下部署flask网站步骤 | Totoro の Home</title>
+<title>Flask中url_for的参数解释 | Totoro の Home</title>
 <meta name="description" content="空杯心态，每天进步">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1566806168312">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1566807772741">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://skytotwo.github.io/">
-        <img src="https://skytotwo.github.io//images/avatar.png?v=1566806168312" class="site-logo">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1566807772741" class="site-logo">
         <h1 class="site-title">Totoro の Home</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -104,123 +104,44 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Centos7 环境下部署flask网站步骤</h2>
+            <h2 class="post-title">Flask中url_for的参数解释</h2>
             <div class="post-date">2019-08-26</div>
             
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/hqdefault.jpg')">
+              </div>
+            
             <div class="post-content">
-              <p>自己之前做了一个flask项目，完成后部署在腾讯云，过程由踩一点坑，这里记录下过程。在部署之前，需要先配置centos7环境，具体链接为：<br>
-<a href="https://www.listenlife.cn/post/43" title="centos7 环境配置">centos7 环境配置</a></p>
- <!-- more --> 
-<p>1、安装依赖包<br>
-在虚拟环境中安装好所有包，例如：</p>
-<pre><code class="language-python">pip install -r requements.txt
+              <p>url_for函数的作用是：通过给定的endpoint端点和额外参数，结合请求上下文和应用上下文，生成一个url地址并返回。</p>
+<!-- more --> 
+<p>其中的额外参数有：<br>
+_external: 是否使用绝对路径<br>
+_scheme：使用http还是https，设置这个参数时，必须使_external=True<br>
+_anchor：锚点，可以定位到html中的某一个位置<br>
+_method：http方法,post、get等</p>
+<p>endpoint其实又叫做端点，默认情况下是视图函数名，也可以自定义端点名，主要是用作url_for反向寻找视图的一个标记，如：</p>
+<pre><code class="language-python">{{ url_for('login') }}
 </code></pre>
-<p>2、关闭调试模式 app.debug = False，并且安装flask-script插件来进行命令行启动项目，如下：</p>
-<pre><code class="language-python">pip install flask-script
-from flask_script import Manager
-
-manage = Manager(app)
-
-if __name__ == &quot;__main__&quot;:
-    manage.run()
-</code></pre>
-<p>3、在init文件中修改mysql数据库连接（ip地址等），然后在navicat中远程连接到服务器的mysql，进行数据传输，这样是最省时的。<br>
-4、配置nginx 反向代理<br>
-nginx配置文件：</p>
-<pre><code class="language-python">worker_processes 4;
-events {
-    worker_connections 262140;
-}
-http {
-    include mime.types;
-    default_type application/octet-stream;
-    sendfile on;
-    keepalive_timeout 65;
-    limit_conn_zone $binary_remote_addr zone=addr:5m;
-    upstream movie {
-		server 127.0.0.1:5000;
-        server 127.0.0.1:5001;
-        server 127.0.0.1:5002;
-        server 127.0.0.1:5003;
-        server 127.0.0.1:5004;
-    }
-    server {
-        listen 80;
-        server_name localhost;
-        location / {
-            root html;
-            index index.html index.htm;
-            proxy_pass http://movie;
-        }
-        location ~ \.flv$ {
-            flv;
-            limit_conn addr 4;
-            limit_rate 1024k;
-            rewrite ^/static/uploads/movies/(.+?).flv$ /flask_movie/app/static/uploads/movies/$1.flv permanent;
-        }
-        location ~ \.mp4$ {
-            mp4;
-            limit_conn addr 4;
-            limit_rate 1024k;
-            rewrite ^/static/uploads/movies/(.+?).mp4$ /flask_movie/app/static/uploads/movies/$1.mp4 permanent;
-        }
-        error_page 500 502 503 504 /50x.html;
-        location = /50x.html {
-            root html;
-        }
-    }
-}
-
-</code></pre>
-<p>然后将配置文件拷贝至nginx目录中，覆盖原有配置文件：</p>
-<pre><code class="language-python">cp nginx.conf /usr/local/nginx/conf/
-ubuntu: cp nginx.conf /etc/nginx/conf.d
-</code></pre>
-<p>将项目拷贝到nginx的html目录：</p>
-<pre><code class="language-python">cp -r movie_project /usr/local/nginx/html
-
-</code></pre>
-<p>然后重启nginx：</p>
-<pre><code class="language-python">nginx -s stop
-nginx
-nginx -s reload
-</code></pre>
-<p>启动项目：</p>
-<pre><code class="language-python">cd /usr/local/nginx/html/movie_project
-
-python manage.py runserver
-</code></pre>
-<p>5、开启多个端口后台运行</p>
-<pre><code class="language-python">nohup python manage.py runserver -h 127.0.0.1 -p 5001 &amp;
-
-然后 ctr + c
-
-nohup python manage.py runserver -h 127.0.0.1 -p 5002 &amp;
-
-然后 ctr + c
-
-nohup python manage.py runserver -h 127.0.0.1 -p 5003 &amp;
-
-然后 ctr + c
-
-nohup python manage.py runserver -h 127.0.0.1 -p 5004 &amp;
-</code></pre>
-<p>这样就开启了四个端口，输入如下命令可以查看：</p>
-<pre><code class="language-python">netstat -anptu | grep 500*
-</code></pre>
-<p>6、流媒体访问限制<br>
-限制单个ip能发起的连接: limit_conn addr 1;<br>
-限制视频速率: limit_rate 1024k;<br>
-刷新nginx nginx -s reload</p>
+<p>login就是endpoint端点名。</p>
+<p>url_for() 函数还支持一种简写的端点形式，在蓝本中可以省略蓝本名，例如url_for('.<br>
+index')。在这种写法中，命名空间是当前请求所在的蓝本。这意味着同一蓝本中的重定向<br>
+可以使用简写形式，但跨蓝本的重定向必须使用带有命名空间的端点名。</p>
 
             </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/WllsaKoVz" class="tag">
+                    flask
+                  </a>
+                
+              </div>
             
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://skytotwo.github.io//post/centos7-python-env">
+                <a href="https://skytotwo.github.io//post/single&amp;mutipage">
                   <h3 class="post-title">
-                    Centos7 部署python应用相关配置
+                    单页面应用程序和多页面应用程序（网站）的区别
                   </h3>
                 </a>
               </div>

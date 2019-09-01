@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-09-01T08:35:10.515Z</updated>
+    <updated>2019-09-01T08:40:03.227Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,150 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[关于服务器端口转发的两种常见方法]]></title>
+        <id>https://skytotwo.github.io//post/linux-resend</id>
+        <link href="https://skytotwo.github.io//post/linux-resend">
+        </link>
+        <updated>2019-09-01T08:36:13.000Z</updated>
+        <summary type="html"><![CDATA[<p>很多时候，访问国外服务器时，网络质量是很影响体验的，当我们有一台普通线路的国外服务器，日常使用没有太大要求其实也能满足自身需要，但是如果想要让体验更佳，那就可以尝试使用服务器端口转发。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>很多时候，访问国外服务器时，网络质量是很影响体验的，当我们有一台普通线路的国外服务器，日常使用没有太大要求其实也能满足自身需要，但是如果想要让体验更佳，那就可以尝试使用服务器端口转发。</p>
+ <!-- more -->
+<p>端口转发的原理是用一台国内的服务器来做跳转，利用国内服务器优质的线路，使得访问国外服务器速度更快更稳定。常见的转发有rinetd、Haproxy、iptables、socat，前面2种只能转发TCP，后面TCP/UDP都可以转发，这里介绍iptables、socat，下面来看看两种转发方式。</p>
+<h3 id="一-socat转发"><strong>一、socat转发</strong></h3>
+<p>一键脚本<br>
+脚本说明：脚本默认开启UDP、TCP转发，带开机自启功能，且一次只能转发单个端口，如果想转发多个端口请重复运行本脚本</p>
+<p>使用root运行以下命令：</p>
+<pre><code class="language-shell">wget https://www.moerats.com/usr/shell/socat.sh &amp;&amp; bash socat.sh
+</code></pre>
+<p>按要求输入以下信息：</p>
+<p>如果你要用本地服务器的3333端口转发IP为1.1.1.1服务器的6666端口，那就依次填入指定参数。<br>
+请输入本地端口:3333<br>
+请输入远程端口:6666<br>
+请输入远程IP:1.1.1.1<br>
+输入后直到配置完成</p>
+<h3 id="二-iptables转发"><strong>二、iptables转发</strong></h3>
+<h4 id="21一键脚本"><strong>2.1一键脚本</strong></h4>
+<pre><code class="language-shell">wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubiBackup/skytotwo/master/iptables-pf.sh &amp;&amp; chmod +x iptables-pf.sh &amp;&amp; bash iptables-pf.sh
+</code></pre>
+<p>下载并运行脚本后，先选择 1. 安装 iptables ，会检测是否安装 iptables 同时也会进行 iptables 防火墙开机启动加载等配置。</p>
+<p>使用方法</p>
+<pre><code class="language-shell">./iptables-pf.sh
+</code></pre>
+<p>运行脚本后，会显示菜单：</p>
+<pre><code class="language-shell"> iptables 端口转发一键管理脚本 [vx.x.x]
+ -- Toyo | doub.io/wlzy-20 --
+ 
+ 0. 升级脚本
+————————————
+ 1. 安装 iptables
+ 2. 清空 iptables 端口转发
+————————————
+ 3. 查看 iptables 端口转发
+ 4. 添加 iptables 端口转发
+ 5. 删除 iptables 端口转发
+————————————
+注意：初次使用前请请务必执行 1. 安装 iptables(不仅仅是安装)
+ 
+ 请输入数字 [0-5]:
+</code></pre>
+<p>选择 4. 添加 iptables 端口转发 后，会提示你依次输入 欲转发IP、欲转发端口、本地监听端口、本地IP、转发类型：</p>
+<pre><code class="language-shell">请输入 iptables 欲转发至的 远程端口 [1-65535] (支持端口段 如 2333-6666, 被转发服务器):10000-11000
+ 
+ 欲转发端口 : 10000-11000
+ 
+请输入 iptables 欲转发至的 远程IP(被转发服务器):2.2.2.2
+ 
+ 欲转发服务器IP : 2.2.2.2
+ 
+请输入 iptables 本地监听端口 [1-65535] (支持端口段 如 2333-6666)
+(默认端口: 10000-11000):
+ 
+ 本地监听端口 : 10000-11000
+ 
+请输入 本服务器的 公网IP网卡IP(注意是网卡绑定的IP，而不仅仅是公网IP，回车自动检测):
+ 
+ 本服务器IP : 1.1.1.1
+ 
+请输入数字 来选择 iptables 转发类型:
+ 1. TCP
+ 2. UDP
+ 3. TCP+UDP
+ 
+(默认: TCP+UDP):
+ 
+——————————————————————————————
+ 请检查 iptables 端口转发规则配置是否有误 !
+ 
+ 本地监听端口 : 10000-11000
+ 服务器 IP : 2.2.2.2
+ 
+ 欲转发的端口 : 10000-11000
+ 欲转发 IP : 1.1.1.1
+ 转发类型 : TCP+UDP
+——————————————————————————————
+</code></pre>
+<p>最后会提示你确认配置是否有误，如果没有问题就按任意键继续，启动成功后就会提示：</p>
+<pre><code class="language-shell">——————————————————————————————
+ iptables 端口转发规则配置完成 !
+ 
+ 本地监听端口 : 10000:11000
+ 服务器 IP : 1.1.1.1
+ 
+ 欲转发的端口 : 10000:11000
+ 欲转发 IP : 2.2.2.2
+ 转发类型 : TCP+UDP
+——————————————————————————————
+</code></pre>
+<p>选择 3. 查看 iptables 端口转发 后，会显示如下：</p>
+<pre><code class="language-shell">当前有 2 个 iptables 端口转发规则。
+1. 类型: tcp 监听端口: 10000:20000 转发IP和端口: 2.2.2.2:10000-20000
+2. 类型: udp 监听端口: 10000:20000 转发IP和端口: 2.2.2.2:10000-20000
+</code></pre>
+<p>选择 5. 删除 iptables 端口转发 后，也会显示列表，然后让你选择 要删除的端口转发规则序号。</p>
+<p><strong>Shadowsocks客户端说明</strong><br>
+假设你的海外服务器(被中转)中搭建的Shadowsocks服务端的IP是 2.2.2.2  ，SS端口是 10000 。</p>
+<p>假设中转服务器的IP是 1.1.1.1 ，本地监听端口和SS端口不一致，本地监听端口是 20000 。</p>
+<p>那么，你的Shadowsocks客户端，添加Shadowsocks服务器，IP填写 1.1.1.1 ，端口填写 20000 ，其他的 密码/加密方式/协议/混淆等等 全部和原Shadowsocks账号一样！</p>
+<p><strong>其他说明</strong><br>
+CentOS 7 默认的防火墙是 firewall，要使用本脚本，请先卸载或关闭 firewall 服务器，并安装 iptables 全套软件。</p>
+<p>关于国内腾讯云等服务器转发失败解释<br>
+国内的很多服务器，例如腾讯云，在VPS网卡上面绑定的都是内网IP，这样的话，如果你用脚本自动检测外网IP，会转发失败，需要在添加转发规则的时候，本服务器IP手动写你的服务器 网卡上面绑定的IP。</p>
+<h4 id="22手动添加"><strong>2.2手动添加</strong></h4>
+<p>在使用iptables转发流量之前请执行如下命令：</p>
+<pre><code class="language-shell">sed -i 's/net.ipv4.ip_forward = 0/net.ipv4.ip_forward = 1/g' /etc/sysctl.conf
+sysctl -p
+</code></pre>
+<p>然后我们清除下所有默认的iptables表：</p>
+<pre><code class="language-shell">iptables -F
+iptables -t nat -F
+service iptables save
+</code></pre>
+<p>iptables相同端口转发命令：</p>
+<pre><code class="language-shell">iptables -t nat -A PREROUTING -p tcp --dport [端口号] -j DNAT --to-destination [目标IP]
+iptables -t nat -A PREROUTING -p udp --dport [端口号] -j DNAT --to-destination [目标IP]
+iptables -t nat -A POSTROUTING -p tcp -d [目标IP] --dport [端口号] -j SNAT --to-source [中转服务器IP]
+iptables -t nat -A POSTROUTING -p udp -d [目标IP] --dport [端口号] -j SNAT --to-source [中转服务器IP]
+</code></pre>
+<p>不同端口：</p>
+<pre><code class="language-shell">iptables -t nat -A PREROUTING -p tcp --dport [源端口号] -j DNAT --to-destination [目标IP:目标端口号]
+iptables -t nat -A PREROUTING -p udp --dport [源端口号] -j DNAT --to-destination [目标IP:目标端口号]
+iptables -t nat -A POSTROUTING -p tcp -d [目标IP] --dport [目标端口号] -j SNAT --to-source [中转服务器IP]
+iptables -t nat -A POSTROUTING -p udp -d [目标IP] --dport [目标端口号] -j SNAT --to-source [中转服务器IP]
+</code></pre>
+<p><strong>注意：执行完毕后，必须进行保存 请使用 service iptables save 进行保存。</strong></p>
+<p>以下是一个实例（这里我们的应用端口为50020~50029，我们使用520022测试转发另外一个IP的6053端口，我们的主IP为：192.168.5.2，转发服务器IP为：1.1.1.1）：</p>
+<pre><code class="language-shell">iptables -t nat -A PREROUTING -p tcp --dport 50022 -j DNAT --to-destination 1.1.1.1:6053
+iptables -t nat -A PREROUTING -p udp --dport 50022 -j DNAT --to-destination 1.1.1.1:6053
+iptables -t nat -A POSTROUTING -p tcp -d 1.1.1.1 --dport 6053 -j SNAT --to-source 192.168.5.2
+iptables -t nat -A POSTROUTING -p udp -d 1.1.1.1 --dport 6053 -j SNAT --to-source 192.168.5.2
+service iptables save
+</code></pre>
+<h3 id="三-iptables和socat的优劣"><strong>三、iptables和socat的优劣</strong></h3>
+<p>实际体验中iptables会好一点，socat当转发数多了就会炸，推荐使用iptables转发。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[一款强大好用的个人图床：chevereto安装教程]]></title>
         <id>https://skytotwo.github.io//post/chevereto-setup</id>
@@ -2579,134 +2723,6 @@ $(document).ready(function(){
 <p>其实效果很简单，就是定义弹窗方法，和一些事件。看下面演示图：<br>
 <img src="http://picture.totoro.site/images/2019/08/26/20180828115408_650.gif" alt="20180828115408_650.gif"></p>
 <p>具体这个demo可以抽象成一个小工具来用，也可以通过setInterval来定时，通过ajax与后台交互，这个都行。其实还有纯后台的工具类方法，那是使用JDialog包来实现的，这里不作过多描述。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Nginx采用https协议反向代理tomcat容器项目]]></title>
-        <id>https://skytotwo.github.io//post/nginx-ssl</id>
-        <link href="https://skytotwo.github.io//post/nginx-ssl">
-        </link>
-        <updated>2019-08-26T14:03:24.000Z</updated>
-        <summary type="html"><![CDATA[<p>之前一直只是使用http协议给项目通信，但是由于谷歌大力推行https，https相比http来说也有着很多优点，比如说通信加密，抓包是抓不到具体通信信息的，而且在传统的http协议下，浏览器访问并发数有限，比如谷歌浏览器默认是开启6个信道并发访问，而https则不一样，它采用了信道复用，传输效率大大提升。这也是现今业内推荐的通信协议。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>之前一直只是使用http协议给项目通信，但是由于谷歌大力推行https，https相比http来说也有着很多优点，比如说通信加密，抓包是抓不到具体通信信息的，而且在传统的http协议下，浏览器访问并发数有限，比如谷歌浏览器默认是开启6个信道并发访问，而https则不一样，它采用了信道复用，传输效率大大提升。这也是现今业内推荐的通信协议。</p>
-<!-- more --> 
-<p>这里带来nginx采用https协议反向代理tomcat容器教程，因为自己的博客应用是java编写，部署在tomcat中，通过nginx反向代理，这次就顺便换成https吧。</p>
-<p>首先https是需要ssl证书的，ssl证书通俗来讲就是一种公认的凭证，ssl证书通过在客户端浏览器和Web服务器之间建立一条ssl安全通道，证书讲道理是客户端和服务端双向的，但是现今主流的浏览器都集成了证书，也就是说，我们只需要在服务端部署ssl证书就行了。<br>
-ssl证书其实可以自己制作，也可以在知名的证书机构注册购买，两者的区分是自己制作的浏览器可能不认可，毕竟自己制作的公信力不够。</p>
-<hr>
-<h4 id="1证书制作或购买"><strong>1.证书制作或购买</strong></h4>
-<p>证书制作一般是使用openssl，可以在服务端中直接生成证书，具体不做概述。<br>
-这里推荐在知名机构中注册购买，如腾讯云的TrustAsia TLS RSA CA就能免费注册一年期的证书，还是很美丽的。<br>
-腾讯云的产品列表有ssl证书申请入口，注册选择TrustAsia TLS RSA CA免费的，过程很简单，注册完成后，还需要解析验证才能通过，其实过程也很简单，只需要在绑定的域名解析中，增加一条给定的解析信息，待600秒后机构扫描到解析成功，这个证书也就通过啦。<br>
-通过后如图显示：<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180825230140_385.png" alt="20180825230140_385.png"></p>
-<p>现在我们就有了自己的证书啦。</p>
-<hr>
-<h4 id="2部署证书nginx端"><strong>2.部署证书（nginx端）</strong></h4>
-<p>直接点击下载，下载证书到本机，下载后的文件如下：<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180825230533_600.png" alt="20180825230533_600.png"><br>
-因为我们需要部署nginx，所以需要nginx文件夹里的证书。<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180825230421_338.png" alt="20180825230421_338.png"></p>
-<p>这里面分别是<br>
-SSL证书文件：1_www.domain.com_bundle.crt 和<br>
-私钥文件 ：2_www.domain.com.key<br>
-这便是核心的东西，<strong>将两个文件拷贝至nginx的配置文件文件夹中</strong>，接下来就是部署至nginx中了。</p>
-<p>接下来就是nginx的配置了，证书主要是配置在nginx配置文件nginx.conf中。配置文件是在conf文件夹内，配置如下：</p>
-<pre><code class="language-shell">   server { #此配置段将HTTP请求全部重定向为HTTPS请求
-        listen 80;
-        server_name www.listenlife.cn listenlife.cn;
-        rewrite ^(.*) https://$server_name$1 permanent;
-    }
-    server {
-        listen       443 ssl; #由80改成443
-        #listen       [::]:80 default_server;
-         #listen       [::]:443 ssl http2 www.listenlife.cn;
-        server_name  www.listenlife.cn;
-        
-		#ssl证书配置开始
-        ssl on;
-        ssl_certificate 1_www.listenlife.cn_bundle.crt;
-        ssl_certificate_key 2_www.listenlife.cn.key;
-        ssl_session_timeout 5m;
-        ssl_protocols TLSv1 TLSv1.1 TLSv1.2; #按照这个协议配置
-        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;#按照这个套件配置
-        ssl_prefer_server_ciphers on;
-		#ssl证书配置结束
-		
-        #rewrite ^(.*) https://$host$1 permanent; #http自动跳转https
-        # Load configuration files for the default server block.
-        include /etc/nginx/default.d/*.conf;
-
-        location /{
-		    proxy_pass http://127.0.0.1:8080;
-		    proxy_set_header Host $host;
-            proxy_set_header X-Real-Ip $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection &quot;upgrade&quot;;
-        
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-   
-        error_page 404 /404.html;
-            location = /40x.html {
-        }
-
-        error_page 500 502 503 504 /50x.html;
-            location = /50x.html {
-        }
-    }
-</code></pre>
-<p><strong>要注意三点：</strong><br>
-一是端口需要由80改成443，这是ssl的固定端口，<strong>而且还需要注意的是安全组需要开放443入站规则</strong>；二是配置在server中配置以下：</p>
-<pre><code class="language-shell">ssl on;
-ssl_certificate 1_www.listenlife.cn_bundle.crt;
-ssl_certificate_key 2_www.listenlife.cn.key;
-ssl_session_timeout 5m;
-ssl_protocols TLSv1 TLSv1.1 TLSv1.2; #按照这个协议配置
-ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;#按照这个套件配置
-ssl_prefer_server_ciphers on;
-</code></pre>
-<p>然后再项目location中还需要配置以下：</p>
-<pre><code class="language-shell">proxy_set_header X-Real-Ip $remote_addr;
-proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-proxy_set_header Upgrade $http_upgrade;
-proxy_set_header Connection &quot;upgrade&quot;;
-proxy_set_header X-Forwarded-Proto $scheme;
-</code></pre>
-<p>最后是配置中的第一个server，目的在于将HTTP请求全部重定向为HTTPS请求。这样输入http也能跳转至https。</p>
-<hr>
-<h4 id="3tomcat端配置"><strong>3.tomcat端配置</strong></h4>
-<p>还需要在tomcat的server.xml文件中做两处配置：<br>
-增加：</p>
-<pre><code class="language-xml">&lt;Connector port=&quot;8443&quot; protocol=&quot;HTTP/1.1&quot; SSLEnabled=&quot;true&quot;
-        maxThreads=&quot;150&quot; scheme=&quot;https&quot; secure=&quot;true&quot;
-        keystoreFile=&quot;conf/www.listenlife.cn.jks&quot;
-        keystorePass=&quot;xxxxxxx&quot;
-        clientAuth=&quot;false&quot; sslProtocol=&quot;TLS&quot; /&gt;
-</code></pre>
-<p>此处的keystoreFile和keystorePass来自于之前证书文件中的tomcat文件夹，如下：<br>
-<img src="/attached/image/20180825/20180825233655_925.png" alt=""><br>
-将keystoreFile拷贝至tomcat的conf目录下，然后引入，此处的keystorePass里只需要填写keystorePass.txt中的字符即可。</p>
-<p><strong>注意此处的8443端口是来自于8080端口的跳转：</strong></p>
-<pre><code class="language-xml">&lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;
-               connectionTimeout=&quot;20000&quot;
-               redirectPort=&quot;8443&quot; /&gt;
-</code></pre>
-<p>需要对应。</p>
-<p>然后需要配置一处，在末尾HOST节点中加入：</p>
-<pre><code class="language-xml">&lt;Valve className=&quot;org.apache.catalina.valves.RemoteIpValve&quot;  
-            remoteIpHeader=&quot;X-Forwarded-For&quot;  
-            protocolHeader=&quot;X-Forwarded-Proto&quot;  
-            protocolHeaderHttpsValue=&quot;https&quot;/&gt;
-</code></pre>
-<hr>
-<p><strong>4.结语</strong><br>
-重启项目，重启nginx，访问项目-&gt;<br>
-<img src="/attached/image/20180825/20180825234424_578.png" alt=""><br>
-然后就是喜闻乐见的https和浏览器标识的“安全”啦。</p>
 ]]></content>
     </entry>
 </feed>

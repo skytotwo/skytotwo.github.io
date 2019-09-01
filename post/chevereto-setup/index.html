@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>谈谈python中的深拷贝和浅拷贝 | Totoro の Home</title>
+<title>一款强大好用的个人图床：chevereto安装教程 | Totoro の Home</title>
 <meta name="description" content="空杯心态，每天进步">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -104,70 +104,80 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">谈谈python中的深拷贝和浅拷贝</h2>
-            <div class="post-date">2019-08-26</div>
+            <h2 class="post-title">一款强大好用的个人图床：chevereto安装教程</h2>
+            <div class="post-date">2019-09-01</div>
             
-              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/images1.png')">
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/09/01/landing-medium.jpg')">
               </div>
             
             <div class="post-content">
-              <p>原文链接：谈谈python中的深拷贝和浅拷贝<a href="https://www.jianshu.com/p/efa9dd51f5cc">https://www.jianshu.com/p/efa9dd51f5cc</a></p>
-<p>最近面试被问到python中深拷贝和浅拷贝的知识<br>
-这里进行下总结，以便今后复习<br>
-python中的深拷贝和浅拷贝和java里面的概念是一样的，所谓浅拷贝就是对引用的拷贝，所谓深拷贝就是对对象的资源的拷贝。</p>
- <!-- more -->
-<p><strong>首先，对赋值操作我们要有以下认识：</strong></p>
-<ol>
-<li>赋值是将一个对象的地址赋值给一个变量，让变量指向该地址（ 旧瓶装旧酒 ）。</li>
-<li>修改不可变对象（str、tuple）需要开辟新的空间</li>
-<li>修改可变对象（list等）不需要开辟新的空间<br>
-浅拷贝仅仅复制了容器中元素的地址</li>
-</ol>
-<pre><code class="language-python">&gt;&gt;&gt; a=['hello',[1,2,3]]
-&gt;&gt;&gt; b=a[:]
-&gt;&gt;&gt; [id(x) for x in a]
-[55792504, 6444104]
-&gt;&gt;&gt; [id(x) for x in b]
-[55792504, 6444104]
-&gt;&gt;&gt; a[0]='world'
-&gt;&gt;&gt; a[1].append(4)
-&gt;&gt;&gt; print(a)
-['world', [1, 2, 3, 4]]
-&gt;&gt;&gt; print(b)
-['hello', [1, 2, 3, 4]]
+              <p>说明：chevereto是目前最好的图床之一了。功能也非常强大。其免费版和收费版的区别，在于收费版多了硬盘扩展，社交分享功能和技术支持。硬盘扩展指的是你可以通过sftp等方式把上传的文件储存在其他服务器上。所以个人觉得，这个免费版已经足够使用了。而且chevereto的安装也非常简单，并且支持中文。网上很多教程都写得不是很清楚，这里就发个详细安装教程吧。</p>
+ <!-- more --> 
+<p>官网：https://chevereto.com/<br>
+DEMO：https://demo.chevereto.com/</p>
+<p>如下：<br>
+<a href="http://picture.totoro.site/image/VWCR"><img src="http://picture.totoro.site/images/2019/04/18/WX20190418-1642542x.png" alt="WX20190418-1642542x.png"></a></p>
+<h4 id="安装"><strong>安装</strong></h4>
+<p><strong>环境要求：Apache/Nginx、PHP 5.5+、MySQL 5.0+</strong></p>
+<h4 id="1-搭建web环境"><strong>1、搭建web环境</strong></h4>
+<p>我们可以用lnmp、lamp一键包或者宝塔之类的面板来搭建web环境。<br>
+lnmp安装方法可参考：</p>
+<pre><code class="language-shell">wget -c http://soft.vpser.net/lnmp/lnmp1.4.tar.gz &amp;&amp; tar zxf lnmp1.4.tar.gz &amp;&amp; cd lnmp1.4 &amp;&amp; ./install.sh lnmp
 </code></pre>
-<p>这里可以看出，未修改前，a和b中元素的地址都是相同的，不可变的hello<br>
-和可变的list地址都一样，说明浅拷贝知识将容器内的元素的地址复制了一份。这可以通过修改后，b中字符串没改变，但是list元素随着a相应改变得到验证。</p>
-<ul>
-<li>浅拷贝是在另一块地址中创建一个新的变量或容器，但是容器内的元素的地址均是源对象的元素的地址的拷贝。也就是说新的容器中指向了旧的元素（ 新瓶装旧酒 ）。</li>
-</ul>
-<p>深拷贝，完全拷贝了一个副本，容器内部元素地址都不一样</p>
-<pre><code class="language-python">&gt;&gt;&gt; from copy import deepcopy
-&gt;&gt;&gt; a=['hello',[1,2,3]]
-&gt;&gt;&gt; b=deepcopy(a)
-&gt;&gt;&gt; [id(x) for x in a]
-[55792504, 55645000]
-&gt;&gt;&gt; [id(x) for x in b]
-[55792504, 58338824]
-&gt;&gt;&gt; a[0]='world'
-&gt;&gt;&gt; a[1].append(4)
-&gt;&gt;&gt; 
-&gt;&gt;&gt; print(a)
-['world', [1, 2, 3, 4]]
-&gt;&gt;&gt; print(b)
-['hello', [1, 2, 3]]
+<h3 id="2-上传chevereto程序"><strong>2、上传chevereto程序</strong></h3>
+<p>搭建好web环境后，添加网站并解析，再上传chevereto程序到网站目录，chevereto下载地址：https://github.com/Chevereto/Chevereto-Free。<br>
+这里以lnmp为例，执行命令：</p>
+<pre><code class="language-shell">cd /home/wwwroot/
+mkdir chevereto
+cd chevereto
+wget https://github.com/Chevereto/Chevereto-Free/archive/1.0.9.tar.gz
+tar zvxf 1.0.9.tar.gz
 </code></pre>
-<p>这里可以看出，深拷贝后，a和b的地址以及a和b中的元素地址均不同，这是完全拷贝的一个副本，修改a后，发现b没有发生任何改变，因为b是一个完全的副本，元素地址与a均不同，a修改不影响b。</p>
-<ul>
-<li>深拷贝是在另一块地址中创建一个新的变量或容器，同时容器内的元素的地址也是新开辟的，仅仅是值相同而已，是完全的副本。也就是说（ 新瓶装新酒 ）。</li>
-</ul>
+<p>赋权限</p>
+<p>再执行非常重要的一步：</p>
+<pre><code class="language-shell">chown www:www -R /home/wwwroot/chevereto
+</code></pre>
+<p><strong>创建settings.php文件</strong></p>
+<p>在app目录新建settings.php文件并给予可写入权限:</p>
+<pre><code class="language-shell">cd /home/wwwroot/chevereto/app
+touch settings.php
+chmod -R 777 settings.php
+</code></pre>
+<p><strong>修改nginx配置文件</strong></p>
+<p>修改网站配置文件/usr/local/nginx/conf/nginx.conf,在server中添加以下代码:</p>
+<pre><code class="language-shell">location / {
+try_files $uri $uri/ /index.php?$query_string;
+}
+</code></pre>
+<p>再将程序根路径指向chevereto文件夹：</p>
+<pre><code class="language-shell">root /home/wwwroot/chevereto;
+</code></pre>
+<p>然后重启Nginx，使用命令:</p>
+<pre><code class="language-shell">/etc/init.d/nginx restart
+#或
+lnmp restart
+#或
+lnmp nginx restart
+</code></pre>
+<h3 id="3-生成chevereto图床所需的数据库"><strong>3、生成chevereto图床所需的数据库</strong></h3>
+<p>将安装lnmp自动生成的default文件夹中phpmyadmin拷贝到chevereto文件夹里</p>
+<pre><code class="language-shell">cp -R /home/wwwroot/default/phpmyadmin /home/wwwroot/chevereto
+</code></pre>
+<p>浏览器访问http://IP/phpmyadmin, 登录。<br>
+新增chevereto数据库<br>
+新增chevereto用户，并且赋权限</p>
+<h3 id="4-开始安装chevereto"><strong>4、开始安装chevereto</strong></h3>
+<p>浏览器访问http://IP/<br>
+然后开始填写数据库信息：<br>
+<img src="http://picture.totoro.site/images/2019/04/18/chevereto03.png" alt="chevereto03.png"></p>
+<p>随后安装成功！</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="tag">
-                    python
+                  <a href="https://skytotwo.github.io//tag/4YquhVXyy" class="tag">
+                    daily
                   </a>
                 
               </div>
@@ -175,9 +185,9 @@ python中的深拷贝和浅拷贝和java里面的概念是一样的，所谓浅�
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://skytotwo.github.io//post/flask-url_for">
+                <a href="https://skytotwo.github.io//post/centos-resolvconf-dns">
                   <h3 class="post-title">
-                    Flask中url_for的参数解释
+                    CentOS重启后resolv.conf被重置的解决方案
                   </h3>
                 </a>
               </div>

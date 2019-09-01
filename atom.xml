@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-09-01T08:19:12.155Z</updated>
+    <updated>2019-09-01T08:35:10.515Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,111 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[一款强大好用的个人图床：chevereto安装教程]]></title>
+        <id>https://skytotwo.github.io//post/chevereto-setup</id>
+        <link href="https://skytotwo.github.io//post/chevereto-setup">
+        </link>
+        <updated>2019-09-01T08:27:49.000Z</updated>
+        <summary type="html"><![CDATA[<p>说明：chevereto是目前最好的图床之一了。功能也非常强大。其免费版和收费版的区别，在于收费版多了硬盘扩展，社交分享功能和技术支持。硬盘扩展指的是你可以通过sftp等方式把上传的文件储存在其他服务器上。所以个人觉得，这个免费版已经足够使用了。而且chevereto的安装也非常简单，并且支持中文。网上很多教程都写得不是很清楚，这里就发个详细安装教程吧。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>说明：chevereto是目前最好的图床之一了。功能也非常强大。其免费版和收费版的区别，在于收费版多了硬盘扩展，社交分享功能和技术支持。硬盘扩展指的是你可以通过sftp等方式把上传的文件储存在其他服务器上。所以个人觉得，这个免费版已经足够使用了。而且chevereto的安装也非常简单，并且支持中文。网上很多教程都写得不是很清楚，这里就发个详细安装教程吧。</p>
+ <!-- more --> 
+<p>官网：https://chevereto.com/<br>
+DEMO：https://demo.chevereto.com/</p>
+<p>如下：<br>
+<a href="http://picture.totoro.site/image/VWCR"><img src="http://picture.totoro.site/images/2019/04/18/WX20190418-1642542x.png" alt="WX20190418-1642542x.png"></a></p>
+<h4 id="安装"><strong>安装</strong></h4>
+<p><strong>环境要求：Apache/Nginx、PHP 5.5+、MySQL 5.0+</strong></p>
+<h4 id="1-搭建web环境"><strong>1、搭建web环境</strong></h4>
+<p>我们可以用lnmp、lamp一键包或者宝塔之类的面板来搭建web环境。<br>
+lnmp安装方法可参考：</p>
+<pre><code class="language-shell">wget -c http://soft.vpser.net/lnmp/lnmp1.4.tar.gz &amp;&amp; tar zxf lnmp1.4.tar.gz &amp;&amp; cd lnmp1.4 &amp;&amp; ./install.sh lnmp
+</code></pre>
+<h3 id="2-上传chevereto程序"><strong>2、上传chevereto程序</strong></h3>
+<p>搭建好web环境后，添加网站并解析，再上传chevereto程序到网站目录，chevereto下载地址：https://github.com/Chevereto/Chevereto-Free。<br>
+这里以lnmp为例，执行命令：</p>
+<pre><code class="language-shell">cd /home/wwwroot/
+mkdir chevereto
+cd chevereto
+wget https://github.com/Chevereto/Chevereto-Free/archive/1.0.9.tar.gz
+tar zvxf 1.0.9.tar.gz
+</code></pre>
+<p>赋权限</p>
+<p>再执行非常重要的一步：</p>
+<pre><code class="language-shell">chown www:www -R /home/wwwroot/chevereto
+</code></pre>
+<p><strong>创建settings.php文件</strong></p>
+<p>在app目录新建settings.php文件并给予可写入权限:</p>
+<pre><code class="language-shell">cd /home/wwwroot/chevereto/app
+touch settings.php
+chmod -R 777 settings.php
+</code></pre>
+<p><strong>修改nginx配置文件</strong></p>
+<p>修改网站配置文件/usr/local/nginx/conf/nginx.conf,在server中添加以下代码:</p>
+<pre><code class="language-shell">location / {
+try_files $uri $uri/ /index.php?$query_string;
+}
+</code></pre>
+<p>再将程序根路径指向chevereto文件夹：</p>
+<pre><code class="language-shell">root /home/wwwroot/chevereto;
+</code></pre>
+<p>然后重启Nginx，使用命令:</p>
+<pre><code class="language-shell">/etc/init.d/nginx restart
+#或
+lnmp restart
+#或
+lnmp nginx restart
+</code></pre>
+<h3 id="3-生成chevereto图床所需的数据库"><strong>3、生成chevereto图床所需的数据库</strong></h3>
+<p>将安装lnmp自动生成的default文件夹中phpmyadmin拷贝到chevereto文件夹里</p>
+<pre><code class="language-shell">cp -R /home/wwwroot/default/phpmyadmin /home/wwwroot/chevereto
+</code></pre>
+<p>浏览器访问http://IP/phpmyadmin, 登录。<br>
+新增chevereto数据库<br>
+新增chevereto用户，并且赋权限</p>
+<h3 id="4-开始安装chevereto"><strong>4、开始安装chevereto</strong></h3>
+<p>浏览器访问http://IP/<br>
+然后开始填写数据库信息：<br>
+<img src="http://picture.totoro.site/images/2019/04/18/chevereto03.png" alt="chevereto03.png"></p>
+<p>随后安装成功！</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CentOS重启后resolv.conf被重置的解决方案]]></title>
+        <id>https://skytotwo.github.io//post/centos-resolvconf-dns</id>
+        <link href="https://skytotwo.github.io//post/centos-resolvconf-dns">
+        </link>
+        <updated>2019-09-01T08:21:20.000Z</updated>
+        <summary type="html"><![CDATA[<p>近期在修改一台CentOS服务器的dns时发现只要重启服务器DNS就会被强制还原，解决方案如下：</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>近期在修改一台CentOS服务器的dns时发现只要重启服务器DNS就会被强制还原，解决方案如下：</p>
+ <!-- more -->
+<p><strong>1、首先在网卡设置中修改NM_CONTROLLED的值：</strong><br>
+修改文件/etc/sysconfig/network-scripts/ifcfg-eth0的内容：</p>
+<pre><code class="language-shell">NM_CONTROLLED=&quot;no&quot;  //是否允许Network Manager管理，设置为no
+</code></pre>
+<p>默认允许Network Manager管理DNS，所以首先设置为no，然后操作DNS设置</p>
+<p><strong>2、设置DNS内容：</strong><br>
+修改DNS可以有如下两种方案：</p>
+<p>①、修改网卡设置：<br>
+在/etc/sysconfig/network-scripts/ifcfg-eth0中修改内容：</p>
+<pre><code class="language-shell">PEERDNS=&quot;yes&quot;
+DNS1=&quot;xxx.xxx.xxx.xxx&quot;
+DNS2=&quot;xxx.xxx.xxx.xxx&quot;
+</code></pre>
+<p>这种设置方案是以网卡中设置的DNS为主，resolv.conf中按照网卡设置的DNS内容自动生成，以后想修改DNS，必须修改网卡中的设置才不会在服务器重启之后出现DNS设置失效的问题。</p>
+<p>②、直接修改/etc/resolv.conf的值：<br>
+PS.需要注意的是，若要使直接修改的DNS内容不会在服务器重启之后丢失，需要设置网卡中PEERDNS的值为no：</p>
+<pre><code class="language-shell">nameserver xxx.xxx.xxx.xxx
+nameserver xxx.xxx.xxx.xxx
+</code></pre>
+<p><strong>3、修改完毕之后重启网卡：</strong></p>
+<pre><code class="language-shell">service network restart
+</code></pre>
+<p>按照上面任意一种方案修改DNS设置之后都不会出现重启服务器DNS设置复原的情况，适用于dhcp启动的机器。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Python面试系统准备]]></title>
         <id>https://skytotwo.github.io//post/python-mianshi</id>
@@ -2602,283 +2707,6 @@ proxy_set_header X-Forwarded-Proto $scheme;
 重启项目，重启nginx，访问项目-&gt;<br>
 <img src="/attached/image/20180825/20180825234424_578.png" alt=""><br>
 然后就是喜闻乐见的https和浏览器标识的“安全”啦。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Centos7 nginx + uswgi 部署Django应用]]></title>
-        <id>https://skytotwo.github.io//post/centos7-nginx-uswgi-django</id>
-        <link href="https://skytotwo.github.io//post/centos7-nginx-uswgi-django">
-        </link>
-        <updated>2019-08-26T14:00:23.000Z</updated>
-        <summary type="html"><![CDATA[<p>前些天写了flask应用的部署，今天来讲讲Django的部署吧，毕竟Django部署坑确实多，写篇教程记录下具体步骤要点和踩过得坑。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>前些天写了flask应用的部署，今天来讲讲Django的部署吧，毕竟Django部署坑确实多，写篇教程记录下具体步骤要点和踩过得坑。</p>
-<!-- more -->
-<p>首先是linux环境的配置，比如说安装python3.6；安装虚拟环境；安装mysql数据库；安装nginx，这些其实都在之前的一篇教程中写过了，可以点击链接查看：<br>
-<a href="https://totoro.site/post/centos7-python-env/" title="点我查看linux具体环境配置">点我查看linux具体环境配置</a></p>
-<p>接下来就是具体Django的部署了。</p>
-<hr>
-<h4 id="1代码和数据的修改"><strong>1.代码和数据的修改</strong></h4>
-<p>上线的代码是需要修改的，主要修改的地方有两点，如下：</p>
-<pre><code class="language-python">在settings中增加：
-STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
-</code></pre>
-<p>这是用作后面统一存放静态文件，以便nginx来管理。</p>
-<pre><code class="language-python">在settings中：
-DEBUG = True 改成False
-</code></pre>
-<p>这是为了网站安全考虑，报错影藏，生产环境必须这样。</p>
-<h4 id="2代码项目的迁移"><strong>2.代码项目的迁移</strong></h4>
-<p>我的nginx安装目录是在usl/local/nginx，将项目放在usl/local/nginx/html/下面</p>
-<h4 id="3安装uwsgi"><strong>3.安装uwsgi</strong></h4>
-<p>安装前需要安装一些依赖包，输入如下命令</p>
-<pre><code class="language-shell">yum -y install gcc  gcc-c++ zlib zlib-devel openssl openssl-devel pcre pcre-devel GeoIP gd libXpm libxslt sqlite-devel
-</code></pre>
-<p>然后：</p>
-<pre><code class="language-shell">进入虚拟环境里：
-pip  install uwsgi
-</code></pre>
-<p>然后新建一个uwsgi.ini配置文件，放置在应用根部目下，<br>
-打开并写入以下内容：</p>
-<pre><code class="language-shell"># mysite_uwsgi.ini file
-[uwsgi]
-
-# Django-related settings
-# the base directory (full path)
-wsgi-file=/usr/local/nginx/html/MxOnline/uwsgi.ini  #项目目录下的uwsgi.ini
-
-chdir = /usr/local/nginx/html/MxOnline
-# Django's wsgi file
-module = MxOnline.wsgi:application
-# the virtualenv (full path)
-
-# process-related settings
-# master
-master = true
-# maximum number of worker processes
-processes = 10
-# the socket (use the full path to be safe
-socket = 127.0.0.1:8000
-# ... with appropriate permissions - may be needed
-#chmod-socket    = 660
-# clear environment on exit
-home = /root/.virtualenvs/mxonline
-env = DJANGO_SETTINGS_MODULE=MxOnline.settings
-vacuum = true     #退出时清理环境
-buffer-size = 65536  #最大缓冲区，如果设置得太小，请求的数据超过buffer-size的话，网站会起不来
-</code></pre>
-<p>注意不要写错了。<br>
-然后uwsgi的命令是：</p>
-<pre><code class="language-shell">uwsgi 启动 ：虚拟环境下uwsgi config.ini
-uwsgi 关闭：虚拟环境下killall -9 uwsgi
-</code></pre>
-<p>启动后去过出现一下报文说明成功启动：</p>
-<pre><code class="language-shell">(mxonline) [root@VM_0_5_centos MxOnline]# uwsgi uwsgi.ini 
-[uWSGI] getting INI configuration from uwsgi.ini
-*** Starting uWSGI 2.0.17.1 (64bit) on [Fri Aug 24 21:24:29 2018] ***
-compiled with version: 4.8.5 20150623 (Red Hat 4.8.5-28) on 16 August 2018 10:08:12
-os: Linux-3.10.0-514.26.2.el7.x86_64 #1 SMP Tue Jul 4 15:04:05 UTC 2017
-nodename: VM_0_5_centos
-machine: x86_64
-clock source: unix
-pcre jit disabled
-detected number of CPU cores: 1
-current working directory: /usr/local/nginx/html/MxOnline
-detected binary path: /root/.virtualenvs/mxonline/bin/uwsgi
-uWSGI running as root, you can use --uid/--gid/--chroot options
-*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
-chdir() to /usr/local/nginx/html/MxOnline
-your processes number limit is 7282
-your memory page size is 4096 bytes
-detected max file descriptor number: 100001
-lock engine: pthread robust mutexes
-thunder lock: disabled (you can enable it with --thunder-lock)
-uwsgi socket 0 bound to TCP address 127.0.0.1:8000 fd 3
-uWSGI running as root, you can use --uid/--gid/--chroot options
-*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
-Python version: 3.6.3 (default, Aug 15 2018, 16:38:27)  [GCC 4.8.5 20150623 (Red Hat 4.8.5-28)]
-Set PythonHome to /root/.virtualenvs/mxonline
-*** Python threads support is disabled. You can enable it with --enable-threads ***
-Python main interpreter initialized at 0x13d3230
-uWSGI running as root, you can use --uid/--gid/--chroot options
-*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
-your server socket listen backlog is limited to 100 connections
-your mercy for graceful operations on workers is 60 seconds
-mapped 1477949 bytes (1443 KB) for 10 cores
-*** Operational MODE: preforking ***
-WSGI app 0 (mountpoint='') ready in 3 seconds on interpreter 0x13d3230 pid: 16267 (default app)
-mountpoint  already configured. skip.
-uWSGI running as root, you can use --uid/--gid/--chroot options
-*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
-*** uWSGI is running in multiple interpreter mode ***
-spawned uWSGI master process (pid: 16267)
-spawned uWSGI worker 1 (pid: 16271, cores: 1)
-spawned uWSGI worker 2 (pid: 16272, cores: 1)
-spawned uWSGI worker 3 (pid: 16273, cores: 1)
-spawned uWSGI worker 4 (pid: 16274, cores: 1)
-spawned uWSGI worker 5 (pid: 16275, cores: 1)
-spawned uWSGI worker 6 (pid: 16276, cores: 1)
-spawned uWSGI worker 7 (pid: 16277, cores: 1)
-spawned uWSGI worker 8 (pid: 16278, cores: 1)
-spawned uWSGI worker 9 (pid: 16279, cores: 1)
-spawned uWSGI worker 10 (pid: 16280, cores: 1)
-</code></pre>
-<p>当然你也可以用用ps -ef|grep uwsgi命令来查看是否启动。</p>
-<h4 id="4nginx的配置"><strong>4.nginx的配置</strong></h4>
-<p>nginx的安装前文已经详解过了，如今需要做的就是对他做相关的配置。<br>
-这里注意几个路径：</p>
-<pre><code class="language-shell">nginx安装路径：usr/local/nginx/
-nginx主配置文件路径：usr/local/nginx/conf
-nginx日志路径路径：usr/local/nginx/logs
-nginx子配置文件路径：etc/nginx/vhosts/
-这些路径和你的可以不一样，这里只是为了让后面的配置更清晰~~~
-</code></pre>
-<p>这里主要还是用主配置文件加include子配置文件的方式来配置，因为你的服务器可能会有多个项目需要nginx来反向代理，这样配置的好处就是清晰，简单，后续扩展容易。</p>
-<p><strong>下面是主配置文件：</strong><br>
-nginx.conf，存放在usr/local/nginx/conf中</p>
-<pre><code class="language-shell">worker_processes 4;
-events {
-    worker_connections 262140;
-}
-http {
-    include mime.types;
-    default_type application/octet-stream;
-    sendfile on;
-
-    fastcgi_connect_timeout 300;
-    fastcgi_send_timeout 300;
-    fastcgi_read_timeout 300;
-    fastcgi_buffer_size 256k;         #以下四个参数已加大，如果设置太小也会出现timeout 504
-    fastcgi_buffers 16 256k;
-    fastcgi_busy_buffers_size 512k;
-    fastcgi_temp_file_write_size 512k;
-    keepalive_timeout 60;
-    limit_conn_zone $binary_remote_addr zone=addr:5m;
-    client_max_body_size 200m;
-
-        include /etc/nginx/vhosts/*.conf; #注意这里是引入子配置文件，重要
-}
-
-</code></pre>
-<p>下面引入子配置文件，就是说在子配置文件中所有以conf结尾的文件都会被引入，厉害吧。</p>
-<p><strong>子配置文件：</strong><br>
-mxonline.conf 存放在etc/nginx/vhosts/下</p>
-<pre><code class="language-shell">server {
-    # the port your site will be served on
-    listen      8080; #监听端口是8080，也就是访问的端口
-    # the domain name it will serve for
-    server_name localhost; # substitute your machine's IP address or FQDN
-    charset     utf-8;
-    proxy_http_version 1.1;
-    proxy_set_header Connection &quot;&quot;;
-
-    # max upload size
-    #client_max_body_size 75M;   # adjust to taste
-
-    # Django media
-    location /media  {
-        alias /usr/local/nginx/html/MxOnline/media;  # 指向django的media目录
-    }
-
-    location /static {
-        alias /usr/local/nginx/html/MxOnline/collected_static; # 指向django的static目录
-    }
-
-    # Finally, send all non-media requests to the Django server.
-    location / {
-        include     /usr/local/nginx/conf/uwsgi_params; # the uwsgi_params file you installed
-
-        #root html;
-        #index index.html index.htm;
-        uwsgi_pass  127.0.0.1:8000; # 指向uwsgi 所应用的内部地址,所有请求将转发给uwsgi 处理 
-        uwsgi_param UWSGI_PYHOME /root/.virtualenvs/mxonline; # 指向虚拟环境目录 
-        uwsgi_param UWSGI_CHDIR /usr/local/nginx/html/MxOnline; # 指向网站根目录 
-        uwsgi_connect_timeout 600;
-        uwsgi_ignore_client_abort off;
-        uwsgi_read_timeout 600;
-        uwsgi_send_timeout 600;
-
-    }
-}
-</code></pre>
-<p><strong>这里需要注意的有几点， uwsgi_pass需要写uwsgi.ini配置文件中socket的地址；静态文件路径要指向我们之前在settings中加的STATIC_ROOT地址。</strong></p>
-<p>这里附上nginx的启动、停止和重启命令：</p>
-<pre><code class="language-shell">启动：到usr/sbin/下， ./nginx启动
-停止：nginx -s stop
-重启：nginx -s reload
-</code></pre>
-<h4 id="5收集静态资源"><strong>5.收集静态资源</strong></h4>
-<p>其实到了这一步已经完成了百分之90啦，什么叫做收集静态资源呢，这是因为，将项目迁移至生产环境后，因为DEBUG = False，项目不会自己去管控寻找静态资源了，这里就将静态资源的管理交给了nginx，这也就是为什么之前nginx的static配置路径中需要指定STATIC_ROOT路径的原因。<br>
-我们需要将静态资源放置在根目录下的collected_static文件夹下，进入虚拟环境，进入到项目根目录，执行以下语句：</p>
-<pre><code class="language-shell">python manage.py  collectstatic
-</code></pre>
-<p>这样，所有静态资源都会被收集到这个目录下。<br>
-<strong>注意这里有个坑。就是静态资源的文件名，比如图片文件名不要有中文名，不然会报编码错误，这个暂时不知道什么原因，先暂时避免吧。</strong></p>
-<h4 id="6数据表的迁移或生成"><strong>6.数据表的迁移或生成</strong></h4>
-<p>数据表是很关键的，首先要确保settings文件中的数据库配置项没错，服务器上mysql已经有建好了数据库。</p>
-<pre><code class="language-python">DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mxonline',
-        'USER': 'root',
-        'PASSWORD': '123456',
-        'HOST':'127.0.0.1'
-
-    }
-}
-</code></pre>
-<p><strong>这里数据表有两种处理方式：</strong><br>
-一个是迁移，将本地的开发环境数据库传输至服务器的对应数据库中，这个适用于你想保留所有数据的情况下，可以用navicat操作，也很简单，这里不做赘述。</p>
-<p>另一个是在线生成数据表，以下是具体操作：</p>
-<pre><code class="language-shell">1.进入虚拟环境中
-2.进入到项目根目录
-3.执行 python manage.py makemigrations，生成数据库描述文件
-4.执行 python manage.py migrate，生成表文件
-</code></pre>
-<p>这样就生成了数据表。<br>
-然后执行python manage.py createsuperuser生成超级用户。</p>
-<h4 id="7完成啦"><strong>7.完成啦</strong></h4>
-<p>这样就已经完成了部署，只需要先启动项目，然后reload一下nginx，通过localhost:8080， 就能访问啦。</p>
-<h4 id="补充"><strong>补充：</strong></h4>
-<p><strong>1.mysql的启动操作</strong></p>
-<pre><code class="language-shell"># systemctl start mariadb.service //启动服务  
-# systemctl enable mariadb.service //开机启动服务  
-# mysql -u root -p //登录mysql 
-</code></pre>
-<p>因为安装的其实是mariadb，启动和重启方式有所不同。</p>
-<p><strong>2.腾讯云默认封禁25端口（气愤）</strong><br>
-因为项目中用到了通过第三方smtp发送注册激活邮件的功能，然而部署后邮件一直发不出，很奇怪，页面也是一直panding着。查看nginx的错误日志，显示是connecting out time ！！ what？在我怀疑项目问题并折腾许久后，才发现腾讯云其实默认封禁了25端口，也就是说你无法通过25端口发送邮件。<br>
-但是这是可以解封的，申请一下1秒钟的事。第三方smtp发送邮件腾讯是支持的，所以解封了也没事。</p>
-<p><strong>3.查看错误日志</strong><br>
-因为使用nginx代理了项目，我们项目报错就可以去nginx的日志中查看啦，具体路径在usr/local/nginx/logs/下，可以通过 tail -500f ./error.log打印查看~</p>
-<p>bye~~</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[go语言与python并发（协程）的异同]]></title>
-        <id>https://skytotwo.github.io//post/go-python-decorator</id>
-        <link href="https://skytotwo.github.io//post/go-python-decorator">
-        </link>
-        <updated>2019-08-26T13:57:10.000Z</updated>
-        <summary type="html"><![CDATA[<p><strong>go语言和python都是时下火热的语言，两者在各自领域有自己的优势。它们都支持并发，这里对此做相应比较和区分。</strong></p>
-]]></summary>
-        <content type="html"><![CDATA[<p><strong>go语言和python都是时下火热的语言，两者在各自领域有自己的优势。它们都支持并发，这里对此做相应比较和区分。</strong></p>
-<h2 id="-more-"><!-- more --></h2>
-<h4 id="go语言"><strong>go语言：</strong></h4>
-<p>go语言是原生支持并发，这个是天生骄傲的，go语言的并发和python一样都是依靠协程，协程相当于函数层面的相继顺序调用，是一种区别于线程的非抢占式的任务调度。<br>
-go语言的协程其实已经封装的很好了，直接用“go”关键字就能开启，定义完协程后，启动程序，go语言内部的调度器就会在执行带goroutine处很智能的执行协程部分代码，随后遇到耗时操作（io等操作）需要让渡处操控权时就让别的协程执行（定义了goroutine后，一定意义上来说，主线程也是一个协程）。<br>
-go语言的协程分配的很智能，会自动根据cpu核数，以及协程总量来讲协程分配至一定数量的线程上，这样来说，并发上千上万个协程是完全没问题的。也正是这样，go语言现在成为高并发领域（直播等）的首选语言。</p>
-<hr>
-<h4 id="python"><strong>python：</strong></h4>
-<p>我个人很喜欢python的语法，很易懂、人性化，相比go语言来说，不会那么严格，当然严格有严格的好处，统一规范，在开发大型项目协同合作上面是很有优势的。<br>
-python是一个不断进步的语言，python起初对并发其实支持并不好，因为有gil这把锁的存在，多核情况下多线程其实是鸡肋（具体想了解gil相关知识，可以看我另一篇文章：<a href="https://totoro.site/post/python-gil/" title="Python中的GIL详解">Python中的GIL详解</a>）。<br>
-随后python出现了协程，python的协程并没有像go语言一样智能调度，它是需要手动yield，将操作权yield给另一个函数，yield也可以接收值，可以产出值，有通信的作用。随后python3.3出现了yield from，yield from实现了协程调用方调用子生成器并与之通信。<br>
-python为了将语义变得更加明确，就引入了async和await关键词用于定义原生的协程，通过async 函数名这样的方式来声明这个函数是一个协程，通过await 函数名方式将操作权让渡出去，这个协程的调度完全是人为的操纵的。<br>
-现在的python其实更具野心的并发库是asyncio，asyncio的定义并发其实效果和go差不多，采用的是时间轮循加协程，asyncio通过get_event_loop方法初始化一个事件轮循，这相当于一个调度器一样，调用方将所有协程注册到循环里，开启循环执行主方法，协程就能依次执行，碰到io操作时候就将协程挂起，知道执行完io就等待事件轮循下一次调度。<br>
-其实python的知名框架tornado就是使用事件轮循加协程方式实现高并发，也是非常牛X的框架。</p>
-<hr>
-<h4 id="对比总结"><strong>对比总结：</strong></h4>
-<p>其实就并发而言我是比较喜欢go语言的，毕竟对使用者比较友好嘛，但是对语言来说，我喜欢Python没道理，哈哈。</p>
 ]]></content>
     </entry>
 </feed>

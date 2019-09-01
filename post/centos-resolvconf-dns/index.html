@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>谈谈python中的深拷贝和浅拷贝 | Totoro の Home</title>
+<title>CentOS重启后resolv.conf被重置的解决方案 | Totoro の Home</title>
 <meta name="description" content="空杯心态，每天进步">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -104,70 +104,49 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">谈谈python中的深拷贝和浅拷贝</h2>
-            <div class="post-date">2019-08-26</div>
+            <h2 class="post-title">CentOS重启后resolv.conf被重置的解决方案</h2>
+            <div class="post-date">2019-09-01</div>
             
-              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/images1.png')">
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/09/01/dns.jpg')">
               </div>
             
             <div class="post-content">
-              <p>原文链接：谈谈python中的深拷贝和浅拷贝<a href="https://www.jianshu.com/p/efa9dd51f5cc">https://www.jianshu.com/p/efa9dd51f5cc</a></p>
-<p>最近面试被问到python中深拷贝和浅拷贝的知识<br>
-这里进行下总结，以便今后复习<br>
-python中的深拷贝和浅拷贝和java里面的概念是一样的，所谓浅拷贝就是对引用的拷贝，所谓深拷贝就是对对象的资源的拷贝。</p>
+              <p>近期在修改一台CentOS服务器的dns时发现只要重启服务器DNS就会被强制还原，解决方案如下：</p>
  <!-- more -->
-<p><strong>首先，对赋值操作我们要有以下认识：</strong></p>
-<ol>
-<li>赋值是将一个对象的地址赋值给一个变量，让变量指向该地址（ 旧瓶装旧酒 ）。</li>
-<li>修改不可变对象（str、tuple）需要开辟新的空间</li>
-<li>修改可变对象（list等）不需要开辟新的空间<br>
-浅拷贝仅仅复制了容器中元素的地址</li>
-</ol>
-<pre><code class="language-python">&gt;&gt;&gt; a=['hello',[1,2,3]]
-&gt;&gt;&gt; b=a[:]
-&gt;&gt;&gt; [id(x) for x in a]
-[55792504, 6444104]
-&gt;&gt;&gt; [id(x) for x in b]
-[55792504, 6444104]
-&gt;&gt;&gt; a[0]='world'
-&gt;&gt;&gt; a[1].append(4)
-&gt;&gt;&gt; print(a)
-['world', [1, 2, 3, 4]]
-&gt;&gt;&gt; print(b)
-['hello', [1, 2, 3, 4]]
+<p><strong>1、首先在网卡设置中修改NM_CONTROLLED的值：</strong><br>
+修改文件/etc/sysconfig/network-scripts/ifcfg-eth0的内容：</p>
+<pre><code class="language-shell">NM_CONTROLLED=&quot;no&quot;  //是否允许Network Manager管理，设置为no
 </code></pre>
-<p>这里可以看出，未修改前，a和b中元素的地址都是相同的，不可变的hello<br>
-和可变的list地址都一样，说明浅拷贝知识将容器内的元素的地址复制了一份。这可以通过修改后，b中字符串没改变，但是list元素随着a相应改变得到验证。</p>
-<ul>
-<li>浅拷贝是在另一块地址中创建一个新的变量或容器，但是容器内的元素的地址均是源对象的元素的地址的拷贝。也就是说新的容器中指向了旧的元素（ 新瓶装旧酒 ）。</li>
-</ul>
-<p>深拷贝，完全拷贝了一个副本，容器内部元素地址都不一样</p>
-<pre><code class="language-python">&gt;&gt;&gt; from copy import deepcopy
-&gt;&gt;&gt; a=['hello',[1,2,3]]
-&gt;&gt;&gt; b=deepcopy(a)
-&gt;&gt;&gt; [id(x) for x in a]
-[55792504, 55645000]
-&gt;&gt;&gt; [id(x) for x in b]
-[55792504, 58338824]
-&gt;&gt;&gt; a[0]='world'
-&gt;&gt;&gt; a[1].append(4)
-&gt;&gt;&gt; 
-&gt;&gt;&gt; print(a)
-['world', [1, 2, 3, 4]]
-&gt;&gt;&gt; print(b)
-['hello', [1, 2, 3]]
+<p>默认允许Network Manager管理DNS，所以首先设置为no，然后操作DNS设置</p>
+<p><strong>2、设置DNS内容：</strong><br>
+修改DNS可以有如下两种方案：</p>
+<p>①、修改网卡设置：<br>
+在/etc/sysconfig/network-scripts/ifcfg-eth0中修改内容：</p>
+<pre><code class="language-shell">PEERDNS=&quot;yes&quot;
+DNS1=&quot;xxx.xxx.xxx.xxx&quot;
+DNS2=&quot;xxx.xxx.xxx.xxx&quot;
 </code></pre>
-<p>这里可以看出，深拷贝后，a和b的地址以及a和b中的元素地址均不同，这是完全拷贝的一个副本，修改a后，发现b没有发生任何改变，因为b是一个完全的副本，元素地址与a均不同，a修改不影响b。</p>
-<ul>
-<li>深拷贝是在另一块地址中创建一个新的变量或容器，同时容器内的元素的地址也是新开辟的，仅仅是值相同而已，是完全的副本。也就是说（ 新瓶装新酒 ）。</li>
-</ul>
+<p>这种设置方案是以网卡中设置的DNS为主，resolv.conf中按照网卡设置的DNS内容自动生成，以后想修改DNS，必须修改网卡中的设置才不会在服务器重启之后出现DNS设置失效的问题。</p>
+<p>②、直接修改/etc/resolv.conf的值：<br>
+PS.需要注意的是，若要使直接修改的DNS内容不会在服务器重启之后丢失，需要设置网卡中PEERDNS的值为no：</p>
+<pre><code class="language-shell">nameserver xxx.xxx.xxx.xxx
+nameserver xxx.xxx.xxx.xxx
+</code></pre>
+<p><strong>3、修改完毕之后重启网卡：</strong></p>
+<pre><code class="language-shell">service network restart
+</code></pre>
+<p>按照上面任意一种方案修改DNS设置之后都不会出现重启服务器DNS设置复原的情况，适用于dhcp启动的机器。</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="tag">
-                    python
+                  <a href="https://skytotwo.github.io//tag/wRl1VpbGG" class="tag">
+                    vps
+                  </a>
+                
+                  <a href="https://skytotwo.github.io//tag/OM99oRtav" class="tag">
+                    linux
                   </a>
                 
               </div>
@@ -175,9 +154,9 @@ python中的深拷贝和浅拷贝和java里面的概念是一样的，所谓浅�
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://skytotwo.github.io//post/flask-url_for">
+                <a href="https://skytotwo.github.io//post/python-mianshi">
                   <h3 class="post-title">
-                    Flask中url_for的参数解释
+                    Python面试系统准备
                   </h3>
                 </a>
               </div>

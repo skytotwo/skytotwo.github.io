@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-09-01T09:34:59.521Z</updated>
+    <updated>2019-09-01T09:41:50.517Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,326 +10,6 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
-    <entry>
-        <title type="html"><![CDATA[VPS主机性能和速度测试方法，各种测试工具]]></title>
-        <id>https://skytotwo.github.io//post/vps-test</id>
-        <link href="https://skytotwo.github.io//post/vps-test">
-        </link>
-        <updated>2019-09-01T09:03:37.000Z</updated>
-        <summary type="html"><![CDATA[<p>这年头VPS主机太多了，好多“二手”VPS开始横行其道，让人真假莫辨，想要购买某一个VPS主机，一般是先要看看这家的VPS主机的评测数据。之前分享VPS主机时都会给出VPS的性能与速度测试报告，这次我就来专门整理一下相关的测试工具。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>这年头VPS主机太多了，好多“二手”VPS开始横行其道，让人真假莫辨，想要购买某一个VPS主机，一般是先要看看这家的VPS主机的评测数据。之前分享VPS主机时都会给出VPS的性能与速度测试报告，这次我就来专门整理一下相关的测试工具。</p>
- <!-- more --> 
-<p>一来给自己做一个备忘录，以后测试VPS就不用满大街地找百度要命令了，二来给没有用过的朋友一点帮助，这些工具都是好多站长朋友通用的，自己购买的VPS主机到底值不值这个价格，用这几个工具一测试便知，而且操作简单，只需要几个命令即可完成。</p>
-<p>需要提醒的是，关于IO读写速度的测试，根据以往的经验，像谷歌云服务器、亚马逊服务器等，IO读写速度都比较低，而SSD在IO方面表现出色。另外，国外的VPS主机的速度很大程度上取决于线路的好坏，并且晚上和白天的测试速度会差别比较大。VPS主机性能和速度测试方法。</p>
-<h3 id="常用检测脚本汇总"><strong>常用检测脚本汇总</strong></h3>
-<p>为方便使用，我在这里汇总一下用于VPS各类检测的脚本，有关脚本的详细使用及说明可参阅下文的内容。</p>
-<p>1、一键测试服务器到国内的速度脚本Superspeed.sh ：</p>
-<pre><code class="language-shell">wget https://raw.githubusercontent.com/oooldking/script/master/superspeed.sh
-chmod +x superspeed.sh
-./superspeed.sh
-</code></pre>
-<p>2、一键检测VPS的CPU、内存、负载、IO读写、机房带宽等脚本：bench.sh</p>
-<pre><code class="language-shell">命令1：
-wget -qO- bench.sh | bash
-或者
-curl -Lso- bench.sh | bash
-
-命令2：
-wget -qO- 86.re/bench.sh | bash
-或者
-curl -so- 86.re/bench.sh | bash
-</code></pre>
-<p>备注：<br>
-bench.sh 既是脚本名，同时又是域名。如果以上失效，请使用以下地址下载再执行脚本：<br>
-下载地址：<br>
-https://github.com/teddysun/across/blob/master/bench.sh<br>
-3、可以看作bench.sh强化版：SuperBench.sh</p>
-<p>新增 Virt 检测服务器类型参数。常见 openvz，kvm，独服都能检测出来。同时整合上面的Superspeed.sh一键测试服务器到国内的速度脚本：</p>
-<pre><code class="language-shell">wget -qO- https://raw.githubusercontent.com/oooldking/script/master/superbench.sh | bash
-</code></pre>
-<p>或者</p>
-<pre><code class="language-shell">curl -Lso- https://raw.githubusercontent.com/oooldking/script/master/superbench.sh | bash
-</code></pre>
-<p>4、一键带宽检测工具：speedtest-cli</p>
-<p>安装命令：</p>
-<pre><code class="language-shell">sudo apt-get update
-apt-get install python-pip
-sudo pip install speedtest-cli
-
-#CentOS
-yum update
-yum -y install epel-release
-yum install python-pip
-pip install speedtest-cli
-使用方法：
-
-speedtest-cli
-#后面也可以接以下参数：
--h, --help show this help message and exit 
---share 分享你的网速，该命令会在speedtest网站上生成网速测试结果的图片。 
---simple Suppress verbose output, only show basic information 
---list 根据距离显示speedtest.net的测试服务器列表。 
---server=SERVER 指定列表中id的服务器来做测试。 
---mini=MINI URL of the Speedtest Mini server 
---source=SOURCE Source ip address to bind to 
---version Show the version number and exit
-</code></pre>
-<p>5、VPS性能综合跑分工具：unixbench</p>
-<p>命令如下：</p>
-<pre><code class="language-shell">wget --no-check-certificate https://github.com/teddysun/across/raw/master/unixbench.sh
-chmod +x unixbench.sh
-./unixbench.sh
-</code></pre>
-<p>6、一键测试回程Ping值工具：mPing</p>
-<pre><code class="language-shell">wget https://raw.githubusercontent.com/helloxz/mping/master/mping.sh
-bash mping.sh
-</code></pre>
-<p>7、Serverreview-benchmark综合评测工具</p>
-<p>这是一个老外写的VPS主机综合评测工具，主要评测的项目有VPS主机磁盘IO、内存读写、CPU性能以及Benchmark性能，还有美国、欧洲、亚洲等不同节点的下载速度。主页：https://github.com/sayem314/serverreview-benchmark</p>
-<p>脚本使用使用方法</p>
-<pre><code class="language-shell">#简略版
-yum install curl -y
-curl -LsO git.io/bench.sh; chmod +x bench.sh &amp;&amp; ./bench.sh -a share
-#完整版
-yum install curl -y
-curl -LsO git.io/bench.sh; chmod +x bench.sh &amp;&amp; ./bench.sh -a share 
-</code></pre>
-<p>8、Speedtest一键包 可用于检测VPS网速带宽 vps测速<br>
-使用如下命令获取最新版本：</p>
-<pre><code class="language-shell">wget https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
-赋权：
-
-chmod +x speedtest.py
-使用如下命令来运行测试脚本：
-
-./speedtest.py
-</code></pre>
-<h3 id="一-vps速度测试工具"><strong>一、VPS速度测试工具</strong></h3>
-<p>在线测试工具。使用在线测试工具，可以方便得到服务器的响应时间，这一招对于国外的VPS特别有效果。以下是搜集整理的实用在线网站速度测试工具网站：</p>
-<p>http://ping.chinaz.com/</p>
-<p>http://www.ipip.net/ping.php</p>
-<p>https://www.17ce.com/</p>
-<p>http://www.webkaka.com/</p>
-<p>http://ce.cloud.360.cn/</p>
-<p>这几个在线测速工具各有各的优缺点，推荐使用ipip.net测试服务器IP和路由追踪，用17ce.com测试网页加载速度，用ping.chinaz.com用国内不同地方的Ping值。<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190501113404_937.gif" alt="20190501113404_937.gif"></p>
-<p>本地测试软件。这里推荐使用WinMTR，这是一款方便易用的路由跟踪工具。该软件可以帮助用户直接查看各个节点的响应时间及丢包率，非常适合windows下客户做路由追踪及PING进行测试。</p>
-<p>下载地址：https://www.ucblog.net/wzfou/WinMTR-CN-IP.zip</p>
-<p>项目主页：https://github.com/oott123/WinMTR</p>
-<p>带地图版：https://cdn.ipip.net/17mon/besttrace.exe</p>
-<p>启用WinMTR，点击可以更新IP地址。</p>
-<p><img src="http://picture.totoro.site/images/2019/09/01/20190501113458_204.gif" alt="20190501113458_204.gif"></p>
-<p>输入你想要追踪的域名或者服务器IP，接着你就可以看到数据包经过的节点还有丢包等情况，同时支持导出文本。<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190501113525_361.gif" alt="20190501113525_361.gif"><br>
-相关的参数说明如下：</p>
-<pre><code class="language-shell">Hostname：到目的服务器要经过的每个主机IP或名称
-Nr：经过节点的数量；以上图百度为例子：一共要经过10个节点，其中第一个是出口的路由器
-Loss%：ping 数据包回复失败的百分比；藉此判断，那个节点（线路）出现故障，是服务器所在机房还是国际路由干路
-Sent：已传送的数据包数量
-Recv：成功接收的数据包数量
-Best：回应时间的最小值
-Avrg：平均回应时间
-Worst：回应时间的最大值
-Last：最后一个数据包的回应时间
-</code></pre>
-<h3 id="二-vps性能测试工具"><strong>二、VPS性能测试工具</strong></h3>
-<p>手动命令测试磁盘IO：</p>
-<pre><code class="language-shell">dd if=/dev/zero of=test bs=64k count=4k oflag=dsync 
-</code></pre>
-<p>手动命令测试VPS网络：</p>
-<pre><code class="language-shell">wget http://cachefly.cachefly.net/100mb.test
-</code></pre>
-<p>一键检测脚本。这里有一个一键检测VPS的CPU、内存、负载、IO读写、机房带宽等。</p>
-<pre><code class="language-shell">命令1：
-wget -qO- bench.sh | bash
-或者
-curl -Lso- bench.sh | bash
-
-命令2：
-wget -qO- 86.re/bench.sh | bash
-或者
-curl -so- 86.re/bench.sh | bash
-</code></pre>
-<p>备注：<br>
-bench.sh 既是脚本名，同时又是域名。如果以上失效，请使用以下地址下载再执行脚本：<br>
-下载地址：<br>
-https://github.com/teddysun/across/blob/master/bench.sh</p>
-<p>VPS性能综合跑分工具。UnixBench是一个类unix系（Unix，BSD，Linux）统下的性能测试工具，一个开源工具，被广泛用与测试linux系统主机的性能。Unixbench的主要测试项目有：系统调用、读写、进程、图形化测试、2D、3D、管道、运算、C库等系统基准性能提供测试数据。命令如下：</p>
-<pre><code class="language-shell">wget --no-check-certificate https://github.com/teddysun/across/raw/master/unixbench.sh
-chmod +x unixbench.sh
-./unixbench.sh
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[超级一键加速脚本，bbr 原版/魔改/plus/锐速 四合一]]></title>
-        <id>https://skytotwo.github.io//post/bbr-setup</id>
-        <link href="https://skytotwo.github.io//post/bbr-setup">
-        </link>
-        <updated>2019-09-01T08:58:10.000Z</updated>
-        <summary type="html"><![CDATA[<p>很多时候，我们为了给VPS加速，会选择不同的方式，比如BBR、锐速等，但单独BBR目前就有普通版、魔改版和plus版，加上锐速，无疑需要很多的脚本，这样在安装上也非常的不方便，而最近，loc论坛的网友又发挥了超人的实力，整出了一个集合BBR、BBR魔改、BBR plus、锐速四合一的脚本，给我们安装提供了极大的方便。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>很多时候，我们为了给VPS加速，会选择不同的方式，比如BBR、锐速等，但单独BBR目前就有普通版、魔改版和plus版，加上锐速，无疑需要很多的脚本，这样在安装上也非常的不方便，而最近，loc论坛的网友又发挥了超人的实力，整出了一个集合BBR、BBR魔改、BBR plus、锐速四合一的脚本，给我们安装提供了极大的方便。</p>
-<!-- more --> 
-<p>项目地址：<br>
-<a href="https://github.com/skytotwo/Linux-NetSpeed" title="https://github.com/skytotwo/Linux-NetSpeed">https://github.com/skytotwo/Linux-NetSpeed</a></p>
-<h4 id="简介"><strong>简介：</strong></h4>
-<p>本脚本支持KVM架构的VPS，不支持OpenVZ，kvm机型 Centos 7, Debian 8/9, Ubuntu 16/18均测试通过<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190501112405_926.png" alt="20190501112405_926.png"><br>
-安装命令：</p>
-<pre><code class="language-shell">wget &quot;https://github.com/skytotwo/Linux-NetSpeed/raw/master/tcp.sh&quot; &amp;&amp; chmod +x tcp.sh &amp;&amp; ./tcp.sh
-</code></pre>
-<p>部分如果提示连接不上github。可以先安装</p>
-<pre><code class="language-shell">yum install net-tools -y  或者 apt-get install net-tools -y
-</code></pre>
-<p>如果没有wget，比如搬瓦工vps，可以先安装wget</p>
-<pre><code class="language-shell">yum -y install wget
-</code></pre>
-<p>执行如何提示证书错误的话</p>
-<pre><code class="language-shell">yum -y install ca-certificates
-</code></pre>
-<p>或者</p>
-<pre><code class="language-shell">apt-get -y install ca-certificates
-</code></pre>
-<h4 id="说明"><strong>说明：</strong></h4>
-<ol>
-<li>
-<p>先在[1 - 3]切换内核（第一次显示为bbr内核也要切换一遍），重启<br>
-出现这个选no<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190501112743_808.png" alt="20190501112743_808.png"></p>
-</li>
-<li>
-<p>重启后不用再下载脚本，直接 ./tcp.sh ，在[4 - 8]中选你要开的加速</p>
-</li>
-</ol>
-<pre><code class="language-shell">&quot;1. 安装 BBR/BBR魔改版内核&quot;        对应4,5,6（原版，魔改，暴力魔改）
-&quot;2. 安装 BBRplus版内核 &quot;                对应7（plus）
-&quot;3. 安装 Lotserver(锐速)内核&quot;        对应8（锐速）
-</code></pre>
-<ol start="3">
-<li>开启后再 ./tcp.sh  ， 显示开启成功则启动成功，你也可以自己手动确认</li>
-</ol>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[V2Ray一键安装脚本 自带图形化界面控制面板]]></title>
-        <id>https://skytotwo.github.io//post/v2ray-setup</id>
-        <link href="https://skytotwo.github.io//post/v2ray-setup">
-        </link>
-        <updated>2019-09-01T08:51:21.000Z</updated>
-        <summary type="html"><![CDATA[<p>V2Ray的搭建，首先需要你拥有一台国外VPS服务器.<br>
-VPS服务器购买成功后，我们就可以进行V2Ray的安装了。其实安装过程并不复杂，倒是安装之后的设置过程需要花点功夫，毕竟需要修改一些代码参数。<br>
-不过不用担心，本文介绍的雨落无声的V2Ray一键安装，安装完成后自带图形化控制面板，简单设置之后就可以使用了，对新手用户非常友好。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>V2Ray的搭建，首先需要你拥有一台国外VPS服务器.<br>
-VPS服务器购买成功后，我们就可以进行V2Ray的安装了。其实安装过程并不复杂，倒是安装之后的设置过程需要花点功夫，毕竟需要修改一些代码参数。<br>
-不过不用担心，本文介绍的雨落无声的V2Ray一键安装，安装完成后自带图形化控制面板，简单设置之后就可以使用了，对新手用户非常友好。</p>
-<!-- more --> 
-<h3 id="v2ray一键安装-环境"><strong>V2Ray一键安装 环境</strong></h3>
-<p>服务器系统要求：<br>
-Debian 8<br>
-Debian 9<br>
-Ubuntu 14<br>
-Ubuntu 16<br>
-CentOS 7 (不支持CentOS 6)</p>
-<h3 id="v2ray一键安装脚本"><strong>V2Ray一键安装脚本</strong></h3>
-<p>1.ssh连接vps，输入脚本：</p>
-<pre><code class="language-shell">wget -N --no-check-certificate
-https://raw.githubusercontent.com/skytotwo/V2ray.Fun/master/install.sh &amp;&amp; bash install.sh
-</code></pre>
-<p>如果运行以上命令时，出现找不到wget的英文提示，则表示系统没有安装wget，根据系统不同，选择以下命令安装：</p>
-<pre><code class="language-shell">CentOS：
-yum -y install wget
-Ubuntu/Debian：
-apt-get -y install wget
-</code></pre>
-<p>2.V2Ray安装接近完成时，会提示输入用户名、密码、控制面板端口，可随意设置，如下图：<br>
-访问控制面板需要用这个端口，用户名和密码用于登录控制面板。<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190501115304_856.jpg" alt="20190501115304_856.jpg"><br>
-3.正常来说，V2Ray已经安装成功了，可以尝试在浏览器打开控制面板地址。不过博主在这一步后无法打开V2Ray控制面板，可能是个例，保险起见，再复制以下命令运行：</p>
-<pre><code class="language-shell">pip install Flask-BasicAuth
-</code></pre>
-<p>4.以上命令运行完成后，我们再启动面板。xshell输入以下命令，然后选择1回车。如下图，提示V2ray.fun started，即表示启动成功。</p>
-<pre><code class="language-shell">v2ray
-</code></pre>
-<p><img src="http://picture.totoro.site/images/2019/09/01/20190501115504_299.jpg" alt="20190501115504_299.jpg"><br>
-5.浏览器输入服务器IP+刚才设置的端口，访问V2Ray控制面板，输入用户名和密码登录，登录成功后的界面如下图所示：<br>
-各项连接参数都显示在运行状态菜单。最下面的Vmess链接和二维码图片，都可以用于客户端连接。<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190501115549_657.jpg" alt="20190501115549_657.jpg"></p>
-<h3 id="v2ray控制面板设置"><strong>V2Ray控制面板设置</strong></h3>
-<p>V2Ray.fun控制面板的修改连接菜单中，我们可以修改各项连接参数，如下图所示：</p>
-<ul>
-<li>运行控制：用于控制V2Ray的状态。</li>
-<li>UUID：用于客户端连接使用，默认是自动生成的，可以点击右侧按钮生成一个新的。</li>
-<li>主端口：用于客户端连接的端口，可设置一个新的端口，然后点击右侧的修改端口进行修改。</li>
-<li>加密方式：用于客户端连接的参数，不懂的话，默认即可。</li>
-<li>传输方式：也是客户端连接参数之一，默认即可。</li>
-<li>TLS：不建议开启，默认是关闭的，右侧两个按钮是操作按钮，并非表示当前状态。</li>
-<li>Mux cool：多路复用功能，可提高并发连接性能，默认开启。<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190501115830_535.jpg" alt="20190501115830_535.jpg"></li>
-</ul>
-<hr>
-<p>以上各项参数设置完成后，就可以通过V2Ray客户端连接了。点击上图左侧的运行状态菜单，用V2Ray客户端扫描二维码即可连接，或者输入Vmess链接也可以。</p>
-<h3 id="v2ray控制面板打不开解决办法"><strong>V2Ray控制面板打不开解决办法</strong></h3>
-<p>V2Ray.fun控制面板比较直观好用，但是部分情况下，会出现安装完成后，打不开控制面板的情况。其实前文已经提到过解决办法，这里再重复一次，方便单独出现此问题的朋友。<br>
-xshell连接VPS服务器，分别输入以下命令运行：</p>
-<pre><code class="language-shell">pip install Flask-BasicAuth
-v2ray
-1
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[使用netflix-proxy达成看netflix视频网站的目的]]></title>
-        <id>https://skytotwo.github.io//post/netflix-proxy-setup</id>
-        <link href="https://skytotwo.github.io//post/netflix-proxy-setup">
-        </link>
-        <updated>2019-09-01T08:46:46.000Z</updated>
-        <summary type="html"><![CDATA[<p>服务由ab77大神编写，这里稍作整理，需要注意的是，此服务用的是旧版服务，因为新版对python3.6安装存在问题。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>服务由ab77大神编写，这里稍作整理，需要注意的是，此服务用的是旧版服务，因为新版对python3.6安装存在问题。</p>
- <!-- more --> 
-<h1 id="关于">关于</h1>
-<p><code>netflix proxy</code>是一个智能DNS代理，用于'netflix'、'hulu<code>[[n2]]（footnotes）、'hbo now'等流媒体的解锁。它使用Docker容器部署，并使用'dnsmasq</code>[[n18]]（footnotes）和'sniproxy`[[n1]]（footnotes）提供smartdns服务，它适用于一些被屏蔽的网站，如Pornhub和YouTube。</p>
-<p>需要注意的是，由于容器不能够在ovz平台上安装（除了ovz7），所以建议使用kvm架构的vps安装此dns解锁服务，此服务建议使用debian系统。</p>
-<p>该项目用到了DNS劫持 和 SNI代理。将Netflix的查询请求劫持到中转服务器的IP上，之后通过中转服务器监听443端口的 SNI代理 ，将你的观看请求通过中转服务器处理后发送给Netflix服务器。中转服务器使用SNI代理 ，因此也不会被判断成使用Proxy。</p>
-<h1 id="脚本安装">脚本安装</h1>
-<blockquote>
-<p><code>TL;DR</code></p>
-</blockquote>
-<p>find a Debian or Ubuntu box with root on a clean public IP and run:</p>
-<pre><code>apt-get update\
-  &amp;&amp; apt-get -y install vim dnsutils curl sudo\
-  &amp;&amp; curl -fsSL https://get.docker.com/ | sh || apt-get -y install docker.io\
-  &amp;&amp; mkdir -p ~/netflix-proxy\
-  &amp;&amp; cd ~/netflix-proxy\
-  &amp;&amp; curl -fsSL https://github.com/skytotwo/netflix-proxy/archive/latest.tar.gz | gunzip - | tar x --strip-components=1\
-  &amp;&amp; ./build.sh
-</code></pre>
-<p><a href="https://dashboard.unzoner.com/sub"><img align="left" src="https://api.unzoner.com/api/v1.0/countries/available/flags.png"></a><br><br></p>
-<p>输入之后回车，等待docker的部署，部署完成之后出现下图所示文字：<br>
-<img src="http://picture.totoro.site/images/2019/08/22/QQ20190404-2138362x-.png" alt="QQ20190404-2138362x-.png"></p>
-<p>可以看到生成了一个登陆网址和用户名密码，用记事本保存。接着登录网页：<br>
-<img src="http://picture.totoro.site/images/2019/08/22/QQ20190412-1502162x-.png" alt="QQ20190412-1502162x-.png"></p>
-<p>登陆之后点击「Add IP」，添加需要中转的机器的ip（ipv4/6均可），这样我们就完成了中转的配置。</p>
-<p>剩下的就是需要中转机器修改dns指向这个安装dns中转服务的机器的ip即可。</p>
-<h1 id="支持的服务">支持的服务</h1>
-<p>The following are supported out of the box, however adding additional services is trivial and is done by updating <code>dnsmasq.conf</code> file and running <code>docker restart dnsmasq</code>:</p>
-<ul>
-<li>Netflix</li>
-<li>Hulu<a href="#footnotes">[n2]</a></li>
-<li>HBO Now</li>
-<li>Amazon Instant Video</li>
-<li>Crackle</li>
-<li>Pandora</li>
-<li>Vudu</li>
-<li>blinkbox</li>
-<li>BBC iPlayer<a href="#footnotes">[n5]</a></li>
-<li>NBC Sports and potentially many <a href="https://github.com/skytotwo/netflix-proxy/blob/master/proxy-domains.txt">more</a></li>
-</ul>
-]]></content>
-    </entry>
     <entry>
         <title type="html"><![CDATA[微信支付统一下单失败，返回金额invalid total_fee]]></title>
         <id>https://skytotwo.github.io//post/wechat-invalid-total_fee</id>
@@ -609,1641 +289,6 @@ nameserver xxx.xxx.xxx.xxx
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Python面试系统准备]]></title>
-        <id>https://skytotwo.github.io//post/python-mianshi</id>
-        <link href="https://skytotwo.github.io//post/python-mianshi">
-        </link>
-        <updated>2019-09-01T07:55:25.000Z</updated>
-        <summary type="html"><![CDATA[<p>面试是一门学问，考验的是你的知识储备，临场发挥。对自己心仪的公司面试成功与否很大程度上靠的是对面试准备与否，是否熟悉相应的回答套路等。面试python岗位也是一样。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>面试是一门学问，考验的是你的知识储备，临场发挥。对自己心仪的公司面试成功与否很大程度上靠的是对面试准备与否，是否熟悉相应的回答套路等。面试python岗位也是一样。</p>
-<!-- more --> 
-<h3 id="一-面试流程介绍"><strong>一 面试流程介绍</strong></h3>
-<h4 id="11-python后端职位分析"><strong>1.1 python后端职位分析</strong></h4>
-<p><strong>职位分析：</strong><br>
-<em>招聘信息看什么？</em><br>
-1.岗位职责（业务是否感兴趣）<br>
-2.职位要求（自己是否掌握，查漏补缺）<br>
-3.公司技术栈（公司使用到哪些技术）</p>
-<hr>
-<p><strong>看招聘描述，挖掘信息</strong><br>
-<em>从招聘信息中我们能挖掘到什么？</em><br>
-1.你对公司做的业务是否感兴趣<br>
-2.职位要求中的知识技能是否掌握，面试有多大概率成功<br>
-3.自己还有哪些知识技能需要查漏补缺</p>
-<hr>
-<p><strong>有的放矢，针对性准备</strong><br>
-<em>提升面试成功率</em><br>
-1.针对公司的技术栈和要求编写不同的简历<br>
-2.表现出对职位和公司业务的兴趣<br>
-3.突出自己的技能优势，提升匹配度（技能与公司要求比较符合）</p>
-<hr>
-<h4 id="12-面试流程与环节"><strong>1.2 面试流程与环节</strong></h4>
-<p><strong>后端面试流程</strong><br>
-<em>学生重基础，社招重项目</em><br>
-1.一面问基础<br>
-2.二面问项目<br>
-3.三面问设计（设计后端）</p>
-<hr>
-<p><strong>学生重基础</strong><br>
-<em>项目经验少，基础很重要</em><br>
-1.学历和成绩<br>
-2.大学所学的计算机课程<br>
-3.在校项目。实习经验</p>
-<hr>
-<p><strong>社招重项目</strong><br>
-<em>社招重视项目和设计</em><br>
-1.参与过哪些项目？有没有知名项目<br>
-2.在项目中承担的职责<br>
-3.有没有系统设计经验？</p>
-<hr>
-<p><strong>行为面试</strong><br>
-<em>非技术性问题</em><br>
-1.自我介绍<br>
-2.口头表达能力<br>
-3.沟通交流能力</p>
-<hr>
-<p><strong>HR面试</strong><br>
-<em>到这里拿到offer可能就很大啦</em><br>
-1.薪资待遇（锚定效应，可以提出比期望薪资稍高的待遇）<br>
-2.职业规划<br>
-3.自我介绍，沟通交流等</p>
-<h4 id="13-python后端技术栈"><strong>1.3 python后端技术栈</strong></h4>
-<p><strong>python语言基础</strong><br>
-1.语言特点<br>
-2.语法基础<br>
-3.高级特性</p>
-<hr>
-<p><strong>算法与数据结构</strong><br>
-1.常用算法和数据结构<br>
-2.分析时间，空间复杂度<br>
-3.实现常见数据结构和算法</p>
-<hr>
-<p><strong>编程范式</strong><br>
-1.面向对象编程<br>
-2.常用设计模式<br>
-3.函数式编程</p>
-<hr>
-<p><strong>操作系统</strong><br>
-1.常用的linux命令<br>
-2.进程，线程<br>
-3.内存管理</p>
-<hr>
-<p><strong>网络编程</strong><br>
-1.常用TCP/IP/HTTP协议<br>
-2.socket编程基础<br>
-3.python并发库</p>
-<hr>
-<p><strong>数据库</strong><br>
-1.mysql常考，索引优化<br>
-2.关系型和Nosql的使用场景<br>
-3.redis缓存</p>
-<hr>
-<p><strong>Python web框架</strong><br>
-1.常用框架对比，restful<br>
-2.wsgi原理<br>
-3.web安全问题</p>
-<hr>
-<p><strong>系统设计</strong><br>
-1.设计原则，如何分析<br>
-2.后端系统常用组件（缓存、数据库、消息队列等）<br>
-3.技术选型和实现（短网址、feed流系统）</p>
-<hr>
-<p><strong>技术之外，软实力</strong><br>
-1.学习能力<br>
-2.业务理解能力，沟通交流能力<br>
-3.心态</p>
-<h4 id="14-python初中级工程师技能要求和面试标准"><strong>1.4 python初中级工程师技能要求和面试标准</strong></h4>
-<p><strong>初级工程师</strong><br>
-1.扎实的计算机理论基础<br>
-2.代码规范，风格良好<br>
-3.能在指导下靠谱的完成业务需求</p>
-<hr>
-<p><strong>中级工程师</strong><br>
-1.扎实的计算机基础和丰富的项目经验<br>
-2.能独立设计和完成项目需求<br>
-3.熟悉常用web组件（缓存、消息队列等），具有一定的系统设计能力</p>
-<hr>
-<p><strong>软实力</strong><br>
-1.具有产品意识，技术引导产品<br>
-2.沟通交流能力，团队协作能力<br>
-3.技术领导能力和影响力</p>
-<hr>
-<p><strong>面试造核弹，工作拧螺丝</strong><br>
-1.工作内容和业务紧密相关，需要先了解公司是做什么的<br>
-2.平台决定成长（业务体量），还是要看公司的规模成都<br>
-3.准备面试需要有的放矢，跟职位相匹配才行</p>
-<h4 id="15简历书写与自我介绍"><strong>1.5简历书写与自我介绍</strong></h4>
-<p><strong>表现出个人优势，突出关键信息</strong><br>
-1.基本信息（姓名，学校，学历，联系方式等）<br>
-2.职业技能（编程语言，框架，数据库，开发工具等）<br>
-3.关键项目经验（承担职责，用到了哪些技术）</p>
-<hr>
-<p><strong>简历自我评价</strong><br>
-1.简历自我评价可有可无<br>
-2.最终还是面试官评价<br>
-3.如果要写保证尽量内容简介、态度真诚</p>
-<hr>
-<p><strong>简历加分项</strong><br>
-1.知名项目经验<br>
-2.技术栈比较匹配<br>
-3.开源项目（github、技术博客、linux等）</p>
-<hr>
-<p><strong>简历需要注意的</strong><br>
-1.内容精简，突出重点，一页就好<br>
-2.注意格式，推荐用pdf，避免hr打开格式乱掉<br>
-3.信息真实，不弄虚作假。技能要与岗位相符</p>
-<hr>
-<p><strong>自我介绍说什么</strong><br>
-1.个人信息<br>
-2.掌握的技术，参与过的项目<br>
-3.应聘的岗位，表达对该岗位的看法和兴趣<br>
-举例：<br>
-个人信息：你好我是~~~~~~<br>
-工作项目经历：之前就职于~~~，担任什么，参与过~~~，对<s>比较熟悉<br>
-求职意向：我希望应聘到这个岗位，</s>~~~~</p>
-<hr>
-<p><strong>自我介绍的准备</strong><br>
-1.早准备<br>
-2.准备开场白讲稿，面试前多练习<br>
-3.找一个同伴好友模拟面试，消除紧张心理</p>
-<h4 id="16行为面试常见问题与回答技巧"><strong>1.6行为面试常见问题与回答技巧</strong></h4>
-<p><strong>面试官会根据候选人过去的行为评测其胜任能力</strong><br>
-1.理论依据：行为的连贯性，在旧公司是这样，很可能在新公司也会这样<br>
-2.人在相似的场景时会倾向于重复以往的行为模式<br>
-3.评判人的业务能力，沟通交流能力，语言表达能力，抗压能力等</p>
-<hr>
-<p><strong>行为面试的套路（需要重点注意，一般就是问简历上的项目）</strong><br>
-1.提问方式：说说你曾经~~~<br>
-2.说说你做过的这个项目<br>
-3.说说你碰到过的技术难题？你是如何解决的？有何收获？</p>
-<hr>
-<p><strong>star模型（需要按照这个来准备）<br>
-1.情景（situation）：什么情景下发生的<br>
-2.任务（task）：你是如何明确你的任务的<br>
-3.行动（action）：采取了什么样的行动<br>
-4.结果（result）：结果怎么样？学到了什么？</strong></p>
-<hr>
-<p><strong>常见问题：面试官一般会问，你还有什么要问我的吗？</strong><br>
-1.你可千万别说没了，直接说没了说明你对这个岗位缺乏了解和兴趣<br>
-2.表现出兴趣：问问工作内容（业务），技术栈（用到了什么技术），团队（团队有几个人），项目（这是什么项目，项目在公司的份量等）<br>
-3.问自己的感兴趣的一些技术问题，架构问题</p>
-<hr>
-<p><strong>聊天是个重要的软技能</strong><br>
-1.态度真诚，力求真实，不要弄虚作假<br>
-2.言简意赅，突出重点，省略细枝末节。适当模拟练习<br>
-3.采用STAR模型让回答更有条理</p>
-<h3 id="二-python语言基础考察点"><strong>二、python语言基础考察点</strong></h3>
-<p>####** 2.1 python语言基础常考题**<br>
-<strong>python是静态还是动态类型？是强类型还是弱类型？</strong><br>
-1.动态强类型语言（不少人误认为是弱类型）<br>
-2.动态还是静态指的是编译器还是运行期确定类型<br>
-3.强类型指的是不会发生隐式类型转换<br>
-（python属于动态强类型语言）</p>
-<hr>
-<p><strong>python作为后端语言的优缺点</strong><br>
-1.胶水语言，轮子多，应用广泛<br>
-2.语言灵活，生产力高<br>
-3.（缺点）性能不是很高，代码不是很好维护，python2和3的兼容性问题</p>
-<hr>
-<p><strong>什么是鸭子类型？</strong><br>
-1.关注点在对象的行为，而不是类型（duck typeing）<br>
-2.比如file,StringIO,socket都支持read/write方法，都能操作文件<br>
-3.实现了相同的魔法方法，一定程度上来说，就是一个类型的，如定义了__iter__魔法方法，就可以用for来迭代</p>
-<hr>
-<p><strong>什么是monkey patch（猴子补丁）？ 哪些地方用到了？自己如何实现？</strong><br>
-1.所谓的monkey patch就是运行时替换<br>
-2.比如gevent库需要修改内置的socket<br>
-3.form gevent import monkey; maonkey.patch_socket()<br>
-(也可以自己实现，也就是运行过程中替换原来的部分功能，实现别的功能)</p>
-<hr>
-<p><strong>什么是python的自省（Introspection）？</strong><br>
-1.运行时判断一个对象的类型的能力<br>
-2.python一切皆对象，用type；id；isinstance获取对象类型信息<br>
-3.Inspect模块提供了更多获取对象信息的函数</p>
-<hr>
-<p><strong>列表或者字典生成器</strong><br>
-1.比如[i for i in range(10) if i % 2 == 0] 生成0到10 里能被2整除的数<br>
-2.一种快速生成list/dict/set的方式，用来替代map/filter<br>
-3.（i for i in range(10) if i % 2 == 0）生成的就是生成器</p>
-<h4 id="22-python2和3差异"><strong>2.2 python2和3差异</strong></h4>
-<p><strong>Python3的改进</strong><br>
-1.print变成了函数而不是关键字<br>
-2.编码问题。Python3不再有unicode对象，默认str就是unicode<br>
-3.除法变化。Python3除号返回浮点数。而不像python2的地板除法<br>
-4.优化的super（）直接调用父类的方法<br>
-5.高级解包操作 如：a,b,*rest = range(10)<br>
-6.限定关键字参数，在方法参数特别多的情况下，可以指定参数，一面搞混def test(a, b, *, c){} test(1,2,c=3)<br>
-7.python3重新抛出异常不会丢失原来栈的信息<br>
-8.range，zip，map，dict.values都是返回迭代器</p>
-<hr>
-<p><strong>Python3新增的</strong><br>
-1.yield from链接子生成器<br>
-2.asyncio内置库，async/await原生协程支持异步编程<br>
-3.新的内置库enum,mock,asyncio,ipaddress,concurrent.futures等</p>
-<hr>
-<p><strong>Python3改进的</strong><br>
-1.生成的pyc文件统一放到__pycache__里<br>
-2.一些内置库的修改。urllib，selector等<br>
-3.性能优化等</p>
-<hr>
-<p><strong>熟悉一些兼容2/3的工具</strong><br>
-1.six模块<br>
-2. 2to3等工具转换代码<br>
-3. __future__模块</p>
-<h4 id="23-python函数常考题"><strong>2.3 python函数常考题</strong></h4>
-<p><strong>python如何传参？</strong><br>
-1.是传递值还是传递引用呢？都不是。唯一支持的参数传递是共享传参<br>
-2.call by object（共享对象），就是形参实参都指向同个对象<br>
-3.call by sharing（共享传参），函数形参获得函数实参上各个引用的副本。<br>
-4.python里面传递参数都是通过对象引用来传递的，也就是通过传递对象引用，如果操作的是可变对象，就可以直接在原来对象的基础上修改；如果操作的是不可变对象，那就相当于对对象进行一次复制拷贝，每次都不回修改到原来的对象数据。</p>
-<hr>
-<p>**函数传递中*args，<strong>kwargs含义是什么</strong><br>
-1.用来处理可变参数<br>
-2.*args被打包成tuple<br>
-3.**kwargs被打包成dict（关键字参数要放在最后）</p>
-<hr>
-<p>####** 2.4 python异常机制常考题**<br>
-<strong>什么时候需要捕获异常？</strong><br>
-1.网络请求（超时，连接错误）<br>
-2.资源访问（权限问题，资源不存在）<br>
-3.代码逻辑（越界访问，KeyError）</p>
-<hr>
-<p><strong>如何自定义自己的异常？为什么需要钉子自己的异常？</strong><br>
-1.因为有些业务异常找不到合适的异常来抛。<br>
-2.继承Exception实现自定义的异常，不要继承BaseException<br>
-3.给异常加上一些附加信息<br>
-4.处理一些业务相关的特定异常（raise MyException）</p>
-<pre><code class="language-python">#Eg：
-Class MyException(Exception):
-	Pass
-	Try:
-		Raise MyException(‘MyException’)
-	Except MyException as e:
-		Print(e)
-</code></pre>
-<h4 id="25-python性能剖析与优化gil常考题"><strong>2.5 python性能剖析与优化，GIL常考题</strong></h4>
-<p><strong>什么是GIL？</strong><br>
-1.Cpython解释器的内存管理并不是线程安全的<br>
-2.保护多线程情况下对python对象的访问<br>
-3.Cpython使用简单的锁机制避免多个线程同时执行字节码</p>
-<hr>
-<p><strong>GIL的影响（限制了程序的多喝执行）</strong><br>
-1.同一个时间只能有一个线程执行字节码<br>
-2.CPU密集程序难以利用多核优势，因为多核为了争抢执行，会互相拥挤争抢，导致白白浪费资源<br>
-3.IO期间会释放GIL，所以对IO密集程序影响不大</p>
-<hr>
-<p><strong>如何规避GIL的影响</strong><br>
-1.CPU密集型可以使用多进程+进程池<br>
-2.IO密集可以使用多线程/协程（多进程其实系统开销更大，不一定比多线程效率高）<br>
-3.使用cpython扩展（转化为c语言来执行）</p>
-<hr>
-<p><strong>即便有了GIL还要关注线程安全，非原子操作都要注意</strong><br>
-<em>（什么操作才是原子的？）</em><br>
-1.一个操作如果是一个字节指令可以完成的就是原子的<br>
-2.原子的是可以保证线程安全的，因为不是一步到位的话，中间数据还是可能会被其他线程给污染<br>
-3.可以使用dis操作来分析字节码</p>
-<hr>
-<p><strong>使用各种profile工具（内置或第三方）剖析程序性能（了解）</strong><br>
-1.二八定律，大部分时间耗时在少量代码上<br>
-2.内置的profile/cprofile等工具<br>
-3.使用pyflame（uber开源）的火焰图工具</p>
-<hr>
-<p><strong>服务端性能优化措施，也就是着陆点</strong><br>
-<em>注意：Web应用语言不会成为瓶颈</em><br>
-1.数据结构与算法优化<br>
-2.数据库层：索引优化，慢查询消除，批量操作减少IO，NoSql<br>
-3.网络IO：批量操作，pipeline操作减少IO<br>
-4.缓存：使用内存数据库redis/memcached<br>
-5.异步：asyncio，celery<br>
-6.并发：gevent/多线程</p>
-<h4 id="26-python生成器与协程"><strong>2.6 python生成器与协程</strong></h4>
-<p><strong>什么是生成器（Generator）？</strong><br>
-1.生成器就是可以生成值得函数<br>
-2.当一个函数里有了yield关键字就成了生成器<br>
-3.生成器可以挂起执行并且保持当前执行的状态，也就是说区别于普通函数的return，生成器返回值后，记录了函数执行的状态</p>
-<hr>
-<p><strong>Python2没有原生的协程，只有基于生成器的协程</strong><br>
-1.生成器可以通过yield暂停执行和产出数据<br>
-2.同时支持send()向生成器发送数据throw()向生成器抛出异常，如果生成器函数中yield是在一个等式中，这代表着可以send发送数据过去</p>
-<hr>
-<p><strong>协程的注意点</strong><br>
-1.协程需要使用send(None)或者next(coroutine)来预激(prime)才能启动<br>
-2.在yield处协程会暂停执行<br>
-3.单独的yield会产出值给调用方<br>
-4.可以通过coroutine.send(value)来给协程发送值，发送的值会赋值给yield表达式左边的变量value=yield<br>
-5.协程执行完成后(再继续调用，没有遇到下一个yield语句)会抛出StopIteration异常</p>
-<hr>
-<p><strong>Python3原生协程</strong><br>
-Python3.5引入async/await支持原生协程，结合asyncio<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403215308_653.png" alt="20190403215308_653.png"></p>
-<h4 id="37-python单元测试"><strong>3.7 python单元测试</strong></h4>
-<p><strong>什么是单元测试？</strong><br>
-1.针对程序模块进行正确性检验<br>
-2.一个函数，一个类进行验证<br>
-3.自底向上保证程序正确性，从一个函数一个类最细粒度来写单元测试</p>
-<hr>
-<p><strong>为什么要写单元测试？</strong><br>
-<em>注意：三无代码不可取（无文档，五注释，无单测）</em><br>
-1.保证代码逻辑的正确性<br>
-2.单测影响设计，一般来说容易测试的到吗往往是高内聚低耦合的，容易测试的代码质量更好<br>
-3.回归测试，防止改一处整个服务整个服务不可用</p>
-<hr>
-<p><strong>单元测试相关的库</strong><br>
-1.nose/pytest比较常用<br>
-2.mock模块用来模拟替换网络请求<br>
-3.coverage用来统计测试覆盖率<br>
-如下测试案例：<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403215354_363.png" alt="20190403215354_363.png"></p>
-<h3 id="三-python算法与数据结构考察点"><strong>三。python算法与数据结构考察点</strong></h3>
-<p>####** 3.1 python常用内置算法与数据结构常考题**<br>
-<strong>仔细回想下你用过的哪些内置的算法和数据结构</strong><br>
-1.sorted<br>
-2.dict，list，set，tuple<br>
-具体分类如下图：<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403215420_510.png" alt="20190403215420_510.png"></p>
-<hr>
-<p><strong>collections模块提供了一些内置数据结构的扩展（重要）</strong><br>
-1.namedtuple：元组元素命名方式来定义</p>
-<pre><code class="language-python">Import collections
-Point = collections.namedtuple(‘Point’, ‘x,y’)
-p = Point(1,2)
-print(p.x)
-</code></pre>
-<p>2.deque：实现队列</p>
-<pre><code class="language-python">de collections.deque()
-de.append(1)
-de.appendleft(0)
-de.pop()
-de.popleft()
-</code></pre>
-<p>3.Counter：Counter类的目的是用来跟踪值出现的次数。它是一个无序的容器类型，以字典的键值对形式存储，其中元素作为key，其计数作为value。计数值可以是任意的Interger（包括0和负数）。Counter类和其他语言的bags或multisets很相似。</p>
-<pre><code class="language-python">c = collections.Counter()
-c = collections.Counter(‘abcad’)
-print(c)
-print(c.most_common())
-</code></pre>
-<p>4.OrderedDict：记住字典添加顺序</p>
-<pre><code class="language-python">od = collections.OrderedDict()
-od[‘c’] = ‘c’
-od[‘a’] = ‘a’
-od[‘b’] = ‘b’
-print(list(od.keys()))
-#[‘c’, ‘a’, ‘b’]
-</code></pre>
-<p>5.defaultdict：字典具有默认值</p>
-<pre><code class="language-python">dd = collections.defaultdict(int)
-dd[‘a’]
-#0
-dd[‘b’] += 1
-print(dd)
-#defaultdict(int, {‘a’:0, ‘b’:1})
-</code></pre>
-<hr>
-<p><strong>python中dict的底层结构使用的是哈希表</strong><br>
-1.为了支持快速查找使用了哈希表作为底层结构<br>
-2.哈希表平均查找时间复杂度为O(1)<br>
-3.Cpython解释器使用二次探查解决哈希冲突问题<br>
-<strong>注意后续延展：<br>
-如何解决哈希冲突问题？<br>
-探查法，二次计算查找可用的内存块；链接法，同一个内存块做链表链接<br>
-哈希表如何扩容的？</strong></p>
-<hr>
-<p><strong>python中的list和tuple的异同</strong><br>
-1.都是线性结构，都支持下表访问<br>
-2.都是序列类型，都能进行遍历<br>
-3.list是可变对象，tuple是不可变对象，其保存到饿引用不可变<br>
-4.list没法作为dict的键，tuple可以（可变对象不可hash）</p>
-<hr>
-<p><strong>LRUCache，替换掉最近最少使用的对象（redis应用）</strong><br>
-1.缓存剔除策略，当缓存空间不够用的时候需要一种方式剔除key<br>
-2.常见的有LRU,LFU等<br>
-3.LRU通过使用一个循环双端队列不断把最新访问的key放到表头，这样剔除的时候只需要剔除最远处的key就好了<br>
-实现如下图：<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403215513_205.png" alt="20190403215513_205.png"><br>
-4.利用python内置的dict+collections.OrderedDict实现<br>
-5.dict用来做k/v键值对的缓存<br>
-6.OrderedDict用来实现更新最新最近访问的key<br>
-下面是具体代码实现：</p>
-<pre><code class="language-python">from collections import OrderedDict
-
-
-class LRUCache:
-
-    def __init__(self, capacity=128):
-        self.od = OrderedDict()
-        self.capacity = capacity
-
-    def get(self, key):  # 每次访问更新最新使用的 key
-        if key in self.od:
-            val = self.od[key]
-            self.od.move_to_end(key)
-            return val
-        else:
-            return -1
-
-    def put(self, key, value):  # 更新 k/v
-        if key in self.od:
-            del self.od[key]
-            self.od[key] = value  # 更新 key 到表头
-        else:  # insert
-            self.od[key] = value
-            # 判断当前容量是否已经满了
-            if len(self.od) &gt; self.capacity:
-                self.od.popitem(last=False)
-</code></pre>
-<h2 id="32-python面试常考算法排序查找重中之重1常考排序算法冒泡排序快速排序归并排序堆排序2线性查找二分查找等3能独立实现代码手写能够分析时间空间复杂度">####** 3.2 python面试常考算法**<br>
-<strong>（排序+查找，重中之重）</strong><br>
-1.常考排序算法：冒泡排序，快速排序，归并排序，堆排序<br>
-2.线性查找，二分查找等<br>
-3.能独立实现代码（手写），能够分析时间空间复杂度<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403215550_946.png" alt="20190403215550_946.png"></h2>
-<p><strong>排序算法中的稳定性，什么是排序算法的稳定性？</strong><br>
-1.相同大小的元素在排序之后依然保持相对位置不变，就是稳定的<br>
-2.r[i]=r[j]且r[i]在r[j]之前，排序之后r[i]依然在r[j]之前<br>
-3.稳定性对于排序一个复杂结构，并且需要保持原有排序才有意义</p>
-<hr>
-<p><strong>写出快速排序（步骤，示例）</strong><br>
-1.partiton：选择基准分割数组为两个子数组，小于基准和大于基准的<br>
-2.对两个子数组分别快排<br>
-3.递归合并结果</p>
-<pre><code class="language-python">def quicksort(array):
-    # 递归出口
-    if len(array) &lt; 2:
-        return array
-    else:
-        pivot_index = 0  # 第一个元素作为pivot
-        pivot = array[pivot_index]
-        less_part = [
-            i for i in array[pivot_index+1:] if i &lt;= pivot
-        ]
-        great_part = [
-            i for i in array[pivot_index+1:] if i &gt; pivot
-        ]
-        return quicksort(less_part) + [pivot] + quicksort(great_part)
-
-
-def test_quicksort():
-    import random
-    ll = list(range(10))
-    random.shuffle(ll)
-    print(ll)
-    assert quicksort(ll) == sorted(ll)
-
-test_quicksort()
-
-
-</code></pre>
-<p>写出归并排序，归并两个有序数组<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403215626_102.png" alt="20190403215626_102.png"></p>
-<pre><code class="language-python">def merge_sorted_list(sorted_a, sorted_b):
-    length_a, length_b = len(sorted_a), len(sorted_b)
-    a = b = 0
-    new_sorted_seq = []
-
-    while a &lt; length_a and b &lt; length_b:
-        if sorted_a[a] &lt; sorted_b[b]:
-            new_sorted_seq.append(sorted_a[a])
-            a += 1
-        else:
-            new_sorted_seq.append(sorted_b[b])
-            b += 1
-    if a &lt; length_a:
-        new_sorted_seq.extend(sorted_a[a:])
-    else:
-        new_sorted_seq.extend(sorted_b[b:])
-    return new_sorted_seq
-
-
-def test_merge_sorted_list():
-    a = [1, 2, 5]
-    b = [0, 3, 4, 8]
-    print(merge_sorted_list(a, b))
-
-
-# 分治法三步走。注意递归出口
-
-def mergesort(array):
-    # 递归出口
-    if len(array) &lt;= 1:
-        return array
-    else:
-        mid = int(len(array)/2)
-        left_half = mergesort(array[:mid])
-        right_half = mergesort(array[mid:])
-        return merge_sorted_list(left_half, right_half)
-
-def test_mergesort():
-    import random
-    ll =list(range(10))
-    random.shuffle(ll)
-    print(ll)
-    assert mergesort(ll) == sorted(ll)
-
-test_mergesort()
-
-</code></pre>
-<hr>
-<p>实现堆排序<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403215701_774.png" alt="20190403215701_774.png"></p>
-<p>请写出二分查找<br>
-递归方式实现二分，注意递归出口<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403215743_938.png" alt="20190403215743_938.png"></p>
-<pre><code class="language-python">def binary_search(array, target):  # 二分查找
-    if not array:
-        return -1
-    beg, end = 0, len(array)
-    while beg &lt; end:
-        mid = beg + (end - beg) // 2  # py3
-        if array[mid] == target:
-            return mid
-        elif array[mid] &gt; target:
-            end = mid
-        else:
-            beg = mid + 1
-    return -1
-
-
-def test():
-    &quot;&quot;&quot;
-    如何设计测试用例：(等价类划分)
-    - 正常值功能测试
-    - 边界值（比如最大最小，最左最右值）
-    - 异常值（比如 None，空值，非法值）
-    &quot;&quot;&quot;
-    # 正常值，包含有和无两种结果
-    assert binary_search([0, 1, 2, 3, 4, 5], 1) == 1
-    assert binary_search([0, 1, 2, 3, 4, 5], 6) == -1
-    assert binary_search([0, 1, 2, 3, 4, 5], -1) == -1
-    # 边界值
-    assert binary_search([0, 1, 2, 3, 4, 5], 0) == 0
-    assert binary_search([0, 1, 2, 3, 4, 5], 5) == 5
-    assert binary_search([0], 0) == 0
-
-    # 异常值
-    assert binary_search([], 1) == -1
-
-</code></pre>
-<h4 id="33-python数据结构常考题"><strong>3.3 python数据结构常考题</strong></h4>
-<p><strong>常考题型</strong><br>
-1.常见的数据结构链表，队列，栈，二叉树，堆<br>
-2.使用内置结构实现高级数据结构，比如内置的list/deque<br>
-实现栈<br>
-3.Leetcode或者《剑指offer》上的常见题</p>
-<hr>
-<p><strong>常考数据结构之链表</strong><br>
-<em>（链表有单链表，双链表，循环双端链表）</em><br>
-1.如何使用python来表示链表结构<br>
-2.实现链表常见操作，比如插入节点，反转链表，合并多个链表等<br>
-3.Leetcode联系常见链表题目<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403215824_251.png" alt="20190403215824_251.png"></p>
-<p>如何实现反转链表（单链表倒置）<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403215858_259.png" alt="20190403215858_259.png"></p>
-<pre><code class="language-python"># Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def reverseList(self, head):
-        &quot;&quot;&quot;
-        :type head: ListNode
-        :rtype: ListNode
-        &quot;&quot;&quot;
-        pre = None
-        cur = head
-        while cur:
-            nextnode = cur.next
-            cur.next = pre
-            pre = cur
-            cur = nextnode
-        return pre
-
-</code></pre>
-<p><strong>常见数据结构之队列</strong><br>
-<em>（队列queue是先进先出的结构）</em><br>
-1.如何使用python实现队列？<br>
-2.实现队列的apend和pop操作，如何做到先进先出<br>
-3.使用python的list或者collections.deque实现队列</p>
-<hr>
-<p><img src="http://picture.totoro.site/images/2019/09/01/20190403215938_353.png" alt="20190403215938_353.png"><br>
-实现队列（利用collections.deque）</p>
-<pre><code class="language-python"># 实现队列。使用 deque
-from collections import deque
-
-
-class Queue:
-    def __init__(self):
-        self.items = deque()
-
-    def append(self, val):
-        return self.items.append(val)
-
-    def pop(self):
-        return self.items.popleft()
-
-    def empty(self):
-        return len(self.items) == 0
-
-
-def test_queue():
-    q = Queue()
-    q.append(0)
-    q.append(1)
-    q.append(2)
-    print(q.pop())
-    print(q.pop())
-    print(q.pop())
-
-
-test_queue()
-
-</code></pre>
-<hr>
-<p><strong>常考数据结构之栈</strong><br>
-<em>（栈stack是后进先出结构）</em><br>
-1.如何使用python实现栈？<br>
-2.实现栈的push和pop操作，如何做到后进先出的<br>
-3.同样也可以用python list 或者collections.deque实现栈</p>
-<p>实现一个栈<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403220008_449.png" alt="20190403220008_449.png"><br>
-思考练习题：如何用两个栈实现队列？实现获取最小值的栈MIniStack</p>
-<hr>
-<p><strong>常考数据结构之字典与集合</strong><br>
-<em>（python dict/set底层都是哈希表）</em><br>
-1.哈希表的实现原理，底层其实就是一个数组<br>
-2.根据哈希函数快速定位一个元素，平均查找O(1)<br>
-3.不断加入元素会引起哈希表重新开辟空间，拷贝之前元素到新数组</p>
-<hr>
-<p><strong>哈希表如何解决冲突</strong><br>
-<em>（链接法和开放寻址法）</em><br>
-1.元素key冲突之后使用一个链表填充相同key的元素<br>
-2.开放寻址法是冲突之后根据一种方式（二次探查）寻找下一个可用的槽<br>
-3.cpython使用的是二次探查</p>
-<hr>
-<p><strong>常考数据结构之二叉树</strong><br>
-<em>（先序，中序，后序遍历）</em><br>
-1.先(根)序：先处理根，之后是左子树，然后是右子树<br>
-2.中(根)序：先处理左子树，然后是根，然后是右子树<br>
-3.后(根)序：先处理左子树，然后是右子树，最后是根</p>
-<p><strong>树的遍历方式</strong><br>
-先(根)序遍历：<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403220045_150.png" alt="20190403220045_150.png"><br>
-中序遍历：<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403220105_181.png" alt="20190403220105_181.png"><br>
-后序遍历：<br>
-最后遍历根，上图挪下位置</p>
-<hr>
-<p><strong>常考数据结构之堆</strong><br>
-<em>（堆其实是完全二叉树，有最大堆和最小堆）</em><br>
-1.最大堆：对于每个非叶子节点V，V的值都比它的两个孩子大<br>
-2.最大堆支持每次pop操作获取最大的元素，最小堆获取最小元素<br>
-3.常见问题：用堆来完成topk问题，从海量数字中寻找最大的k个</p>
-<p>使用堆解决TOPK问题<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403220133_599.png" alt="20190403220133_599.png"></p>
-<pre><code class="language-python">import heapq
-
-
-class TopK:
-    &quot;&quot;&quot;获取大量元素 topk 大个元素，固定内存
-    思路：
-    1. 先放入元素前 k 个建立一个最小堆
-    2. 迭代剩余元素：
-        如果当前元素小于堆顶元素，跳过该元素（肯定不是前 k 大）
-        否则替换堆顶元素为当前元素，并重新调整堆
-    &quot;&quot;&quot;
-
-    def __init__(self, iterable, k):
-        self.minheap = []
-        self.capacity = k
-        self.iterable = iterable
-
-    def push(self, val):
-        if len(self.minheap) &gt;= self.capacity:
-            min_val = self.minheap[0]
-            if val &lt; min_val:  # 当然你可以直接 if val &gt; min_val操作，这里我只是显示指出跳过这个元素
-                pass
-            else:
-                heapq.heapreplace(self.minheap, val)  # 返回并且pop堆顶最小值，推入新的 val 值并调整堆
-        else:
-            heapq.heappush(self.minheap, val)  # 前面 k 个元素直接放入minheap
-
-    def get_topk(self):
-        for val in self.iterable:
-            self.push(val)
-        return self.minheap
-
-
-def test():
-    import random
-    i = list(range(1000))  # 这里可以是一个可迭代元素，节省内存
-    random.shuffle(i)
-    print(i)
-    _ = TopK(i, 10)
-    print(_.get_topk())  # [990, 991, 992, 996, 994, 993, 997, 998, 999, 995]
-test()
-
-</code></pre>
-<p>####<strong>3.4 python数据结构常考题之链表</strong><br>
-<strong>链表涉及到指针操作较为复杂，容易出错，经常用作考题</strong><br>
-1.熟悉链表的定义和常见操作<br>
-2.常考题：删除一个链表节点<br>
-3.常考题：合并两个有序链表</p>
-<p>删除一个链表节点<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403220203_664.png" alt="20190403220203_664.png"></p>
-<pre><code class="language-python"># Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-class Solution:
-    def deleteNode(self, node):
-        &quot;&quot;&quot;
-        :type node: ListNode
-        :rtype: void Do not return anything, modify node in-place instead.
-        &quot;&quot;&quot;
-        nextnode = node.next
-        after_next_node = node.next.next
-        node.val = nextnode.val
-        node.next = after_next_node
-
-</code></pre>
-<p>合并两个有序链表<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403220239_147.png" alt="20190403220239_147.png"></p>
-<pre><code class="language-python"># Definition for singly-linked list.
-class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
-
-class Solution:
-    def mergeTwoLists(self, l1, l2):
-        &quot;&quot;&quot;
-        :type l1: ListNode
-        :type l2: ListNode
-        :rtype: ListNode
-        &quot;&quot;&quot;
-        root = ListNode(None)
-        cur = root
-        while l1 and l2:
-            if l1.val &lt; l2.val:
-                node = ListNode(l1.val)
-                l1 = l1.next
-            else:
-                node = ListNode(l2.val)
-                l2 = l2.next
-            cur.next = node
-            cur = node
-        # l1 或者 l2 可能还有剩余元素
-        cur.next = l1 or l2
-        return root.next
-
-</code></pre>
-<p>####** 3.5 python数据结构常考题之二叉树**<br>
-<strong>二叉树涉及到递归和指针操作，常结合递归考察</strong><br>
-1.二叉树的操作很多可以用递归的方式解决，不了解递归会比较吃力<br>
-2.常考题：二叉树的镜像（反转二叉树）<br>
-3.常考题：如何层序遍历二叉树（广度优先）</p>
-<p>实现反转二叉树<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403220308_411.png" alt="20190403220308_411.png"></p>
-<pre><code class="language-python"># Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def invertTree(self, root):
-        &quot;&quot;&quot;
-        :type root: TreeNode
-        :rtype: TreeNode
-        &quot;&quot;&quot;
-        if root:
-            root.left, root.right = root.right, root.left
-            self.invertTree(root.left)
-            self.invertTree(root.right)
-        return root
-
-</code></pre>
-<p>实现层序遍历二叉树<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403220334_351.png" alt="20190403220334_351.png"></p>
-<pre><code class="language-python"># Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def levelOrder(self, root):
-        &quot;&quot;&quot;
-        :type root: TreeNode
-        :rtype: List[List[int]]
-        &quot;&quot;&quot;
-        if not root:  # NOTE: 注意 root 可能为空
-            return []
-        res = []
-        cur_nodes = [root]
-        next_nodes = []
-        res.append([i.val for i in cur_nodes])  # [3]
-        while cur_nodes or next_nodes:
-            for node in cur_nodes:
-                if node.left:
-                    next_nodes.append(node.left)
-                if node.right:
-                    next_nodes.append(node.right)
-            if next_nodes:
-                res.append(
-                    [i.val for i in next_nodes]
-                )
-
-            cur_nodes = next_nodes
-            next_nodes = []
-        return res
-
-</code></pre>
-<h4 id="36-python数据结构常考题之栈与队列"><strong>3.6 python数据结构常考题之栈与队列</strong></h4>
-<p>1.熟练掌握用python的list或者collections.deque实现栈和队列<br>
-2.常考题：用栈实现队列</p>
-<p>使用栈实现队列<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403220400_229.png" alt="20190403220400_229.png"></p>
-<pre><code class="language-python">from collections import deque
-
-class Stack:
-    def __init__(self):
-        self.items = deque()
-
-    def push(self, val):
-        return self.items.append(val)
-
-    def pop(self):
-        return self.items.pop()
-
-    def top(self):  # 返回栈顶值
-        return self.items[-1]
-
-    def empty(self):
-        return len(self.items) == 0
-
-class MyQueue:
-
-    def __init__(self):
-        &quot;&quot;&quot;
-        Initialize your data structure here.
-        &quot;&quot;&quot;
-        self.s1 = Stack()
-        self.s2 = Stack()
-
-    def push(self, x):
-        &quot;&quot;&quot;
-        Push element x to the back of queue.
-        :type x: int
-        :rtype: void
-        &quot;&quot;&quot;
-        self.s1.push(x)
-
-    def pop(self):
-        &quot;&quot;&quot;
-        Removes the element from in front of queue and returns that element.
-        :rtype: int
-        &quot;&quot;&quot;
-        if not self.s2.empty():
-            return self.s2.pop()
-        while not self.s1.empty():
-            val = self.s1.pop()
-            self.s2.push(val)
-        return self.s2.pop()
-
-    def peek(self):
-        &quot;&quot;&quot;
-        Get the front element.
-        :rtype: int
-        &quot;&quot;&quot;
-        if not self.s2.empty():
-            return self.s2.top()
-        while not self.s1.empty():
-            val = self.s1.pop()
-            self.s2.push(val)
-        return self.s2.top()
-
-    def empty(self):
-        &quot;&quot;&quot;
-        Returns whether the queue is empty.
-        :rtype: bool
-        &quot;&quot;&quot;
-        return self.s1.empty() and self.s2.empty()
-
-def test():
-    q = MyQueue()
-    q.push(1)
-    q.push(2)
-    q.push(3)
-    print(q.pop())
-    print(q.pop())
-    print(q.pop())
-
-test()
-
-</code></pre>
-<p>####** 3.7 python数据结构常考题之堆**<br>
-<strong>堆的常考题基本围绕在合并多个有序（数组/链表）</strong><br>
-<em>topk问题</em><br>
-1.理解堆的概念，堆是完全二叉树，有最大堆和最小堆<br>
-2.会使用python内置的heapq模块实现堆的操作<br>
-3.常考题：合并k个有序链表</p>
-<p>合并k个有序链表<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403220425_531.png" alt="20190403220425_531.png"></p>
-<pre><code class="language-python"># Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-from heapq import heapify, heappop
-class Solution:
-    def mergeKLists(self, lists):
-        &quot;&quot;&quot;
-        :type lists: List[ListNode]
-        :rtype: ListNode
-        &quot;&quot;&quot;
-        # 读取所有节点值
-        h = []
-        for node in lists:
-            while node:
-                h.append(node.val)
-                node = node.next
-        # 构造一个最小堆
-        if not h:
-            return None
-        heapify(h)  # 转换成最小堆
-
-        # 构造链表
-        root = ListNode(heappop(h))
-        curnode = root
-        while h:
-            nextnode = ListNode(heappop(h))
-            curnode.next = nextnode
-            curnode = nextnode
-        return root
-
-</code></pre>
-<p>####** 3.8 python字符串常考算法题**<br>
-<strong>了解常用的字符串操作</strong><br>
-1.python内置了很多字符串操作，比如split，upper，replace等<br>
-2.常考题：翻转一个字符串<br>
-3.常考题：判断一个数字是否是回文数</p>
-<p>翻转一个字符串<br>
-（使用的是双端遍历法）<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403220503_587.png" alt="20190403220503_587.png"></p>
-<pre><code class="language-python">class Solution:
-    def reverseString(self, s):
-        &quot;&quot;&quot;
-        :type s: List[str]
-        :rtype: void Do not return anything, modify s in-place instead.
-        &quot;&quot;&quot;
-        beg = 0
-        end = len(s)-1
-        while beg &lt; end:
-            s[beg], s[end] = s[end], s[beg]
-            beg += 1
-            end -= 1
-
-</code></pre>
-<p>判断一个数字是否是回文数（也是双端遍历）<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403220525_534.png" alt="20190403220525_534.png"></p>
-<pre><code class="language-python">class Solution:
-    def isPalindrome(self, x):
-        &quot;&quot;&quot;
-        :type x: int
-        :rtype: bool
-        &quot;&quot;&quot;
-        if x &lt; 0:
-            return False
-        s = str(x)
-        beg, end = 0, len(s)-1
-        while beg &lt; end:
-            if s[beg] == s[end]:
-                beg += 1
-                end -= 1
-            else:
-                return False
-        return True
-
-def test():
-    s = Solution()
-    assert s.isPalindrome(121) is True
-    assert s.isPalindrome(-1) is False
-    assert s.isPalindrome(1) is True
-test()
-
-</code></pre>
-<h3 id="四编程范式考察点"><strong>四.编程范式考察点</strong></h3>
-<p>####** 4.1 面向对象基础及python类常考问题**<br>
-<strong>什么是面向对象（oop）</strong><br>
-1.把对象作为基本单元，把对象抽象成类（Class），包含成员（属性）和方法<br>
-2.数据封装（包含属性和方法），继承（继承父类方法），多态（重写父类方法）<br>
-3.python中使用类来实现面向对象</p>
-<p><strong>python中如何创建类</strong><br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403220557_262.png" alt="20190403220557_262.png"></p>
-<hr>
-<p><strong>组合和继承，优先使用组合而非继承</strong><br>
-1.组合是使用其他的类实例作为自己的一个属性（Has-a的关系）<br>
-2.子类继承父类的属性和方法（Is-a 的关系）<br>
-3.优先使用组合保持代码简单<br>
-使用组合的例子：<br>
-课程源码：inherit_combination.py<br>
-<img src="http://picture.totoro.site/images/2019/09/01/20190403220624_734.png" alt="20190403220624_734.png"></p>
-<hr>
-<p><strong>类变量和实例变量的区别</strong><br>
-1.类变量由所有实例共享<br>
-2.实例变量由实例单独享有，不同实例之间不影响<br>
-3.当我们需要在一个类的不同实例之间共享变量的时候使用类变量</p>
-<hr>
-<p><strong>classmethod/staticmethod的异同</strong><br>
-1.都可以通过Class.method()方式使用<br>
-2.classmethod第一个参数是cls，可以引用类变量<br>
-3.staticmethod使用起来和普通函数一样，只不过放在类里面组织</p>
-<hr>
-<p><strong>什么是元类，使用场景是什么？</strong><br>
-<em>（元类-Meta Class是创建类的类）</em><br>
-1.元类允许我们控制类的生成，比如修改类的属性等<br>
-2.使用type来定义元类<br>
-3.元类最常见的一个使用场景就是ORM框架</p>
-<pre><code class="language-python">class Base:
-    pass
-
-
-class Child(Base):
-    pass
-
-
-# 等价定义 注意Base后要加上逗号否则就不是tuple了
-SameChild = type('Child', (Base,), {})
-
-
-# 加上方法
-class ChildWithMethod(Base):
-    bar = True
-
-    def hello(self):
-        print('hello')
-
-
-def hello(self):
-    print('hello')
-
-# 等价定义
-ChildWithMethod = type(
-    'ChildWithMethod', (Base,), {'bar': True, 'hello': hello}
-)
-
-
-# 元类继承自 type
-class LowercaseMeta(type):
-    &quot;&quot;&quot; 修改类的属性名称为小写的元类 &quot;&quot;&quot;
-    def __new__(mcs, name, bases, attrs):
-        lower_attrs = {}
-        for k, v in attrs.items():
-            if not k.startswith('__'):    # 排除magic method
-                lower_attrs[k.lower()] = v
-            else:
-                lower_attrs[k] = v
-        return type.__new__(mcs, name, bases, lower_attrs)
-
-
-class LowercaseClass(metaclass=LowercaseMeta):  # py3
-    BAR = True
-
-    def HELLO(self):
-        print('hello')
-
-
-print(dir(LowercaseClass))  # 你会发现&quot;BAR&quot;和&quot;HELLO&quot;都变成了小写
-# 用一个类的实例调用hello方法，我们修改了类定义时候的属性名!!!
-LowercaseClass().hello()
-
-</code></pre>
-<h4 id="42-装饰器面试常考问题"><strong>4.2 装饰器面试常考问题</strong></h4>
-<p><strong>什么是装饰器（Decorator）</strong><br>
-1.python中一切皆对象，函数也可以当做参数传递<br>
-2.在不修改原函数的情况下，使用装饰器给该函数添加其他功能，有利于代码重用<br>
-3.装饰器是接受函数作为参数，添加功能后返回一个新函数的函数（类）<br>
-4.python中通过@使用装饰器</p>
-<p>编写一个记录函数耗时的装饰器</p>
-<pre><code class="language-python">import time
-
-
-def log_time(func):  # 接受一个函数作为参数
-    def _log(*args, **kwargs):
-        beg = time.time()
-        res = func(*args, **kwargs)
-        print('ues time:{}'.format(time.time()-beg))
-        return res
-    return _log
-
-
-# @log_time # @装饰器语法糖
-def mysleep():
-    time.sleep(1)
-
-newsleep = log_time(mysleep)
-newsleep()
-
-</code></pre>
-<p>如何使用类编写装饰器，以及给装饰器添加参数？（使用__call__魔法函数）</p>
-<pre><code class="language-python">import time
-
-class LogTime:
-
-    def __init__(self, use_int=False):
-        self.use_int = use_int
-
-    def __call__(self, func):
-        def _log(*args, **kwargs):
-            beg = time.time()
-            res = func(*args, **kwargs)
-            if self.use_int:
-                print('use time: {}'.format(
-                    int(time.time()-beg))
-                )
-            else:
-                print('use time: {}'.format(
-                    time.time()-beg)
-                )
-            return res
-        return _log
-
-
-@LogTime(True)
-def mysleep():
-    time.sleep(1)
-
-
-if __name__ == '__main__':
-    mysleep()
-
-</code></pre>
-<h4 id="43-设计模式创建型模式python应用面试题"><strong>4.3 设计模式：创建型模式python应用面试题</strong></h4>
-<p><strong>常见的创建型设计模式</strong><br>
-1.工厂模式(Factory)：解决对象创建问题（重点）<br>
-2.构造模式(Builder)：控制复杂对象的创建（重点）<br>
-3.原型模式(Prototype):通过原型的克隆创建新的实例<br>
-4.单例模式(Borg/Singleton)：一个类只能有一个实例，只能创建同一个对象（重点）<br>
-5.对象池模式(Pool)：预先分配同一类型的一组实例<br>
-6.惰性计算模式(Lazy Evaluation)：延迟计算(python 的property)</p>
-<hr>
-<p><strong>工厂模式</strong><br>
-<em>什么是工厂模式（Factory）</em><br>
-1.解决对象创建问题<br>
-2.解耦对象的创建和使用<br>
-3。包括工厂方法和抽象工厂</p>
-<hr>
-<p><strong>构造模式</strong><br>
-<em>什么是构造模式（Builder）</em><br>
-1.用来控制复杂对象的构造<br>
-2.创建和表示分离，比如你要买电脑。工厂模式直接给你电脑，但构造模式允许你自定义电脑的配置，组装完成后给你</p>
-<hr>
-<p><strong>原型模式</strong><br>
-<em>什么是原型模式（Prototype）</em><br>
-1.通过克隆原型来创建新的实例<br>
-2.可以使用相同的原型，通过修改部分属性来创建新的实例<br>
-3.用途：对于一些创建实例开销比较大的地方可以使用原型模式</p>
-<hr>
-<p><strong>单例模式</strong><br>
-单例模式是一种常用的软件设计模式。在它的核心结构中只包含一个被称为单例类的特殊类。通过单例模式可以保证系统中一个类只有一个实例而且该实例易于外界访问，从而方便对实例个数的控制并节约系统资源。如果希望在系统中某个类的对象只能存在一个，单例模式是最好的解决方案。<br>
-单例模式的实现有很多方式：<br>
-<strong>new</strong>()在__init__()之前被调用，用于生成实例对象。利用这个方法和类的属性的特点可以实现设计模式的单例模式。单例模式是指创建唯一对象，单例模式设计的类只能实例 （这个绝对常考啊.绝对要记住1~2个方法,当时面试官是让手写的）<br>
-1.使用__new__方法</p>
-<pre><code class="language-python">class Singleton(object):
-    def __new__(cls, *args, **kw):
-        if not hasattr(cls, '_instance'):
-            orig = super(Singleton, cls)
-            cls._instance = orig.__new__(cls, *args, **kw)
-        return cls._instance
-class MyClass(Singleton):
-    a = 1
-</code></pre>
-<p>2.共享属性<br>
-创建实例时把所有实例的__dict__指向同一个字典,这样它们具有相同的属性和方法.</p>
-<pre><code class="language-python">class Borg(object):
-    _state = {}
-    def __new__(cls, *args, **kw):
-        ob = super(Borg, cls).__new__(cls, *args, **kw)
-        ob.__dict__ = cls._state
-        return ob
-class MyClass2(Borg):
-    a = 1
-</code></pre>
-<p>3.装饰器版本</p>
-<pre><code class="language-python">def singleton(cls):
-    instances = {}
-    def getinstance(*args, **kw):
-        if cls not in instances:
-            instances[cls] = cls(*args, **kw)
-        return instances[cls]
-    return getinstance
-@singletonclass 
-MyClass:
-  ...
-</code></pre>
-<p>4.import方法<br>
-作为python的模块是天然的单例模式</p>
-<pre><code class="language-python"># mysingleton.pyclass 
-My_Singleton(object):
-    def foo(self):
-        pass
-
-my_singleton = My_Singleton()
-# to usefrom mysingleton 
-import my_singleton
-my_singleton.foo()
-</code></pre>
-<p>5.共享同一个实例的方法<br>
-源码：</p>
-<pre><code class="language-python"># 一个工厂方法的例子
-class DogToy:
-    def speak(self):
-        print(&quot;wang wang&quot;)
-
-
-class CatToy:
-    def speak(self):
-        print(&quot;miao miao&quot;)
-
-
-def toy_factory(toy_type):
-    if toy_type == 'dog':
-        return DogToy()
-    elif toy_type == 'cat':
-        return CatToy()
-
-
-# 一个构造模式的例子
-class Computer:
-    def __init__(self, serial_number):
-        self.serial = serial_number
-        self.memory = None      # in gigabytes
-        self.hdd = None         # in gigabytes
-        self.gpu = None
-
-    def __str__(self):
-        info = ('Memory: {}GB'.format(self.memory),
-                'Hard Disk: {}GB'.format(self.hdd),
-                'Graphics Card: {}'.format(self.gpu))
-        return '\n'.join(info)
-
-
-class ComputerBuilder:
-    def __init__(self):
-        self.computer = Computer('AG23385193')
-
-    def configure_memory(self, amount):
-        self.computer.memory = amount
-
-    def configure_hdd(self, amount):
-        self.computer.hdd = amount
-
-    def configure_gpu(self, gpu_model):
-        self.computer.gpu = gpu_model
-
-
-class HardwareEngineer:
-    def __init__(self):
-        self.builder = None
-
-    def construct_computer(self, memory, hdd, gpu):
-        self.builder = ComputerBuilder()
-        [step for step in (self.builder.configure_memory(memory),
-                        self.builder.configure_hdd(hdd),
-                        self.builder.configure_gpu(gpu))]
-
-    @property
-    def computer(self):
-        return self.builder.computer
-
-# 使用buidler，可以创建多个builder类实现不同的组装方式
-engineer = HardwareEngineer()
-engineer.construct_computer(hdd=500, memory=8, gpu='GeForce GTX 650 Ti')
-computer = engineer.computer
-print(computer)
-
-
-# 单例模式
-class Singleton:
-    def __new__(cls, *args, **kwargs):
-        if not hasattr(cls, '_instance'):
-            _instance = super().__new__(cls, *args, **kwargs)
-            cls._instance = _instance
-        return cls._instance
-
-
-class MyClass(Singleton):
-    pass
-
-c1 = MyClass()
-c2 = MyClass()
-assert c1 is c2  # 单例的，c1 c2 同一个实例
-
-</code></pre>
-<h4 id="44-设计模式结构型模式python应用面试题"><strong>4.4 设计模式：结构型模式python应用面试题</strong></h4>
-<p><strong>常见结构型设计模式</strong><br>
-1.装饰器模式(Decorator)：无需子类化扩展对象功能 （重要）<br>
-2.代理模式(Proxy)：把一个对象的操作代理到另一个对象（重要）<br>
-3.适配器模式(Adapter)：通过一个间接层适配统一接口（重要）<br>
-4.外观模式(Facade)：简化复杂对象的访问问题<br>
-5.享元模式(Flyweight)：通过对象复用(池)改善资源利用，比如连接池<br>
-6.MVC模式(Model-View-Controller)：解耦展示逻辑和业务逻辑 （重要）</p>
-<hr>
-<p><strong>代理模式</strong><br>
-<em>什么是代理模式（Proxy）</em><br>
-1.把一个对象的操作代理到另一个对象<br>
-2.这里又要提到之前实现的Stack/Queue，把操作代理到deque<br>
-3.通常使用has-a组合关系<br>
-4.可用作校验用途</p>
-<pre><code class="language-python">from collections import deque
-
-class Stack(object):  # 使用组合的例子
-
-    def __init__(self):
-        self._deque = deque()   # has a deque()
-
-    def push(self, value):
-        return self._deque.append(value)
-
-    def pop(self):
-        return self._deque.pop()
-
-    def empty(self):
-        return len(self._deque) == 0
-
-    def __iter__(self):
-        res = []
-        for i in self._deque:
-            res.append(i)
-        for i in reversed(res):
-            yield i
-
-s = Stack()
-s.push(1)
-s.push(2)
-for i in s:
-    print(i)
-
-</code></pre>
-<hr>
-<p><strong>适配器模式</strong><br>
-<em>什么是适配器模式（Adapter）</em><br>
-1.把不同对象的接口适配到同一接口<br>
-2.想象一个多功能充电头，可以给不同的电器充电，充当了适配器<br>
-3.当我们需要给不同的对象统一接口</p>
-<pre><code class="language-python"># 适配器模式的例子
-class Dog(object):
-    def __init__(self):
-        self.name = &quot;Dog&quot;
-
-    def bark(self):
-        return &quot;woof!&quot;
-
-
-class Cat(object):
-    def __init__(self):
-        self.name = &quot;Cat&quot;
-
-    def meow(self):
-        return &quot;meow!&quot;
-
-
-class Adapter:
-    def __init__(self, obj, **adapted_methods):
-        &quot;&quot;&quot;We set the adapted methods in the object's dict&quot;&quot;&quot;
-        self.obj = obj
-        self.__dict__.update(adapted_methods)
-
-    def __getattr__(self, attr):
-        &quot;&quot;&quot;All non-adapted calls are passed to the object&quot;&quot;&quot;
-        return getattr(self.obj, attr)
-
-
-objects = []
-dog = Dog()
-objects.append(Adapter(dog, make_noise=dog.bark))
-cat = Cat()
-objects.append(Adapter(cat, make_noise=cat.meow))
-for obj in objects:
-    print(&quot;A {0} goes {1}&quot;.format(obj.name, obj.make_noise()))
-
-</code></pre>
-<h4 id="45-设计模式行为型模式python应用面试题"><strong>4.5 设计模式：行为型模式python应用面试题</strong></h4>
-<p><strong>常见行为型设计模式</strong><br>
-1.迭代器模式(Iterator)：通过统一的接口迭代对象<br>
-2.观察者模式(Observer)：对象发生改变的时候，观察者执行相应动作（常见订阅模式，事先订阅监听）<br>
-3.策略模式(Strategy)：针对不同规模输入使用不同的策略</p>
-<hr>
-<p><strong>迭代器模式</strong><br>
-<em>迭代器模式(Iterator)</em><br>
-1.python内置对迭代器模式的支持<br>
-2.比如我们可以用for遍历各种Iterable的数据类型<br>
-3.python里可以实现__next__和__iter__实现迭代器</p>
-<hr>
-<p><strong>观察者模式</strong><br>
-1.发布订阅是一种最常用的实现方式<br>
-2.发布订阅用于解耦逻辑<br>
-3.可以通过回调等方式实现，当发生事件时，调用相应的回调函数</p>
-<hr>
-<p><strong>策略模式</strong><br>
-<em>策略模式（Strategy）</em><br>
-1.根据不同的输入采用不同的策略<br>
-2.比如买东西超过10个打八折，超过20个打七折<br>
-3.对外暴露统一的接口，内部采用不同的策略计算</p>
-<pre><code class="language-python"># 发布订阅模式
-
-class Publisher:  # 发布者
-    def __init__(self):
-        self.observers = []  # 观察者
-
-    def add(self, observer):  # 加入观察者
-        if observer not in self.observers:
-            self.observers.append(observer)
-        else:
-            print('Failed to add : {}').format(observer)
-
-    def remove(self, observer):  # 移除观察者
-        try:
-            self.observers.remove(observer)
-        except ValueError:
-            print('Failed to remove : {}').format(observer)
-
-    def notify(self):   # 调用观察者的回调
-        [o.notify_by(self) for o in self.observers]
-
-
-class Formatter(Publisher):  # 继承自发布者
-    def __init__(self, name):
-        super().__init__()
-        self.name = name
-        self._data = 0
-
-    @property
-    def data(self):
-        return self._data
-
-    @data.setter
-    def data(self, new_value):
-        self._data = int(new_value)
-        self.notify()    # data 在被合法赋值以后会执行notify
-
-
-class BinaryFormatter:
-    &quot;&quot;&quot; 订阅者 &quot;&quot;&quot;
-
-    def notify_by(self, publisher):
-        print(&quot;{}: '{}' has now bin data = {}&quot;.format(
-            type(self).__name__,
-            publisher.name,
-            bin(publisher.data))
-        )
-
-def test():
-    df = Formatter('formatter') # 发布者
-    bf = BinaryFormatter()  # 订阅者
-    df.add(bf)  # 添加订阅者
-    df.data = 3  # 设置的时候调用订阅者的notify_by
-
-
-# 策略模式
-
-class Order:
-    def __init__(self, price, discount_strategy=None):
-        self.price = price
-        self.discount_strategy = discount_strategy
-
-    def price_after_discount(self):
-        if self.discount_strategy:
-            discount = self.discount_strategy(self)
-        else:
-            discount = 0
-        return self.price - discount
-
-    def __repr__(self):
-        fmt = &quot;&lt;Price: {}, price after discount: {}&gt;&quot;
-        return fmt.format(
-            self.price, self.price_after_discount()
-        )
-
-
-def ten_percent_discount(order):
-    return order.price * 0.10
-
-
-def on_sale_discount(order):
-    return order.price * 0.25 + 20
-
-
-def main():
-    order0 = Order(100)
-    order1 = Order(100, discount_strategy=ten_percent_discount)
-    order2 = Order(1000, discount_strategy=on_sale_discount)
-    print(order0)
-    print(order1)
-    print(order2)
-
-</code></pre>
-<h4 id="46-python函数式编程常考题"><strong>4.6 python函数式编程常考题</strong></h4>
-<p><strong>python支持部分函数式编程特性</strong><br>
-1.把电脑的运算视作数学上的函数计算（lambda演算）<br>
-2.高阶函数：map/reduce/filter<br>
-3.无副作用，相同的参数调用始终产生同样的结果</p>
-<hr>
-<p><strong>什么是闭包(Closure)？</strong><br>
-1.绑定了外部作用域的变量的函数<br>
-2.即使程序离开外部作用域，如果闭包仍然可见，绑定变量不会被销毁<br>
-3.每次运行外部函数都会重新创建闭包</p>
-<h3 id="五-操作系统考察点"><strong>五 操作系统考察点</strong></h3>
-<p>####** 5.1面试常考linux命令**<br>
-<strong>为什么要学linux？</strong><br>
-<em>（大部分企业应用跑在linux server上）</em><br>
-1.熟练在linux服务器上操作<br>
-2.了解linux工作原理和常用工具<br>
-3.需要了解查看文件，进程，内存相关的一些命令，用来调试和排查</p>
-<hr>
-<p><strong>如何查询linux命令</strong><br>
-1.使用man命令查询用法。但是man手册比较晦涩<br>
-2.使用工具自带的help，比如pip --help<br>
-3.这里介绍一个man的替代工具tldr。pip install tldr</p>
-<hr>
-<p><strong>文件/目录操作命令</strong><br>
-<em>（掌握常见的文件操作工具）</em><br>
-1.chown/chmod/chgrp<br>
-2.ls/rm/cd/cp/mv/touch/rename/ln(软链接和硬链接等)<br>
-3.locate/find/grep 定位查找和搜索</p>
-<hr>
-<p><strong>文件查看</strong><br>
-<em>（文件或者日志查看工具）</em><br>
-1.编辑器 vi/nano<br>
-2.cat/head/tail 查看文件<br>
-3.more/less 交互式查看文件</p>
-<hr>
-<p><strong>进程操作命令</strong><br>
-1.ps 查看进程（ps -ef|grep tomcat）<br>
-2.kill -9 杀死进程<br>
-3.top/htop 监控进程</p>
-<hr>
-<p><strong>内存操作命令</strong><br>
-1.free 查看可用内存<br>
-2.了解每一列的具体含义<br>
-3.排查内存泄露问题</p>
-<hr>
-<p><strong>掌握常见的网络工具</strong><br>
-1.ifconfig 查看网卡信息<br>
-2.lsof/netstat 查看端口信息<br>
-3.ssh/scp远程登录/复制。tcpdump抓包</p>
-<hr>
-<p><strong>掌握常见用户和组的操作</strong><br>
-1.useradd/usermod<br>
-2.groupadd/groupmod</p>
-<h4 id="52-操作系统线程和进程常考面试题"><strong>5.2 操作系统线程和进程常考面试题</strong></h4>
-<p><strong>进程和线程对比</strong><br>
-1.进程是对运行时程序的封装，是系统资源调度和分配的基本单位<br>
-2.线程是进程的子任务，cpu调度和分配的基本单位，实现进程内并发（python同一时间内只能执行一个线程，无法利用多核的优势，所以还是cpu不断切换线程并发执行）<br>
-3.一个进程可以包含多个线程，线程依赖进程存在，并共享进程内存</p>
-<hr>
-<p><strong>python哪些操作是线程安全的？</strong><br>
-1.一个操作可以在多线程环境中安全使用，获取正确的结果<br>
-2.线程安全的操作好比线程是顺序执行的而不是并发执行的，达到线程隔离<br>
-3.非原子性操作的线程容易使得数据变得不安全<br>
-4.一般如果涉及到写操作需要考虑如何让多个线程安全的访问数据</p>
-<hr>
-<p><strong>线程同步的方式</strong><br>
-1.互斥量（锁）：通过互斥机制防止多个线程同时访问公共资源<br>
-2.信号量（Semphare）：控制同一时刻多个线程访问同一个资源的线程数<br>
-3.事件（信号）：通过通知的方式保持线程同步（使用较少）</p>
-<hr>
-<p><strong>进程间通信的方式</strong><br>
-1.管道/匿名管道/有名管道(pipe)<br>
-2.信号(Signal)：比如用户使用Ctrl+c产生SIGINT程序终止信号<br>
-3.消息队列(Message)<br>
-4.共享内存(share memory)<br>
-5.信号量(Semaphore)<br>
-6.套接字(Socket)：最常用的方式</p>
-<hr>
-<p><strong>python中如何使用多线程</strong><br>
-<em>（threading模块）</em><br>
-1.threading.Thread类用来创建线程<br>
-2.start()方法启动线程<br>
-3.可以用join()等待线程结束</p>
-<hr>
-<p><strong>python中如何使用多进程</strong><br>
-<em>（python有GIL，可以使用多进程实现cpu密集程序）</em><br>
-1.multiprocessing多进程模块<br>
-2.multiprocessing.Process类实现多进程<br>
-3.一般用在cpu密集程序里，避免GIL的影响<br>
-课程源码-多进程：multiprocess_test.py</p>
-]]></content>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[python中的单例模式]]></title>
         <id>https://skytotwo.github.io//post/python-singelton</id>
         <link href="https://skytotwo.github.io//post/python-singelton">
@@ -2343,6 +388,685 @@ class MyClass(object):
 <h4 id="小结"><strong>小结</strong></h4>
 <p><strong>Python 的模块是天然的单例模式，这在大部分情况下应该是够用的，当然，我们也可以使用装饰器、元类等方法</strong></p>
 <p>转载至：http://python.jobbole.com/87294/</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[使用openOffice实现word、excel等转pdf功能]]></title>
+        <id>https://skytotwo.github.io//post/openoffice</id>
+        <link href="https://skytotwo.github.io//post/openoffice">
+        </link>
+        <updated>2019-08-26T14:31:25.000Z</updated>
+        <summary type="html"><![CDATA[<p>最近在公司项目中需要实现Excel转pdf的功能，一开始我自己写了工具类来实现转换，实现方式是将目标文件读流，再读出每个sheet，再将sheet数组一个个遍历取当页的数据，读数据的时候又需要每行每行的遍历，再将每个sheet拼接起来成为一个pdf。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>最近在公司项目中需要实现Excel转pdf的功能，一开始我自己写了工具类来实现转换，实现方式是将目标文件读流，再读出每个sheet，再将sheet数组一个个遍历取当页的数据，读数据的时候又需要每行每行的遍历，再将每个sheet拼接起来成为一个pdf。</p>
+<!-- more -->
+<p>本来自己想着简单，确实也实现了功能，但是还是存在很多小问题自己无法控制，比如说对excel的页面布局格式之类的需要严格控制调整，这样弄得很烦，所以想着另找出路。这时候想到了Appache的openOffice。<br>
+openOffice其实是一个服务，可以安装在windows、mac和linux下，用命令启动后，程序调用该端口，就能调用本机安装的office软件或者wps软件进行转格式，原理就是这样的。<br>
+接下来我们来看下怎么使用。</p>
+<hr>
+<h4 id="一下载安装"><strong>一.下载安装</strong></h4>
+<p>这是一个开源程序，下载地址是：<br>
+<a href="https://www.openoffice.org/download/" title="https://www.openoffice.org/download/">https://www.openoffice.org/download/</a><br>
+进入下载页面，多个系统程序包可以选择，如图下：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180916103231_367.png" alt="20180916103231_367.png"><br>
+这里介绍windows系统和linux系统的安装，因为开发环境西药先测试，然后是要部署至生产环境的，因为公司生产环境用的是redhat红帽系统，所以会针对性的介绍下。</p>
+<p><strong>windows</strong><br>
+windows安装其实很简单，就是一步步点下一步就好了，安装完成后，我们需要记住相应的启动命令来启动程序。如下图：<br>
+打开cmd进入openoffice安装目录：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180916103716_95.png" alt="20180916103716_95.png"><br>
+在program文件夹下输入启动命令，soffice.exe -headless -accept=&quot;socket,host=127.0.0.1,port=8100;urp;,然后回车就启动了<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180916103856_647.png" alt="20180916103856_647.png"></p>
+<p><strong>linux</strong><br>
+linux下安装会复杂一点，这里以redhat为例，我们先下载对应的安装包，红帽系统需要选择rpm格式的，我们下载64位的，如下图：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180916104119_512.png" alt="20180916104119_512.png"><br>
+然后安装过程如下：</p>
+<pre><code class="language-shell">一、安装openOffice
+1.使用tar -xzvf xxxx.tar.gz解压缩后，会得到对应的解压文件 /zh-CN
+
+目录。
+2.进入/zh-CN//RPMS/目录
+3.执行　rpm –ivh *rpm（安装所有rpm文件）
+4.进入到desktop-integration目录　cd desktop-integration
+5.执行　rpm -ivh openoffice.org3.2-redhat-menus-3.2-9472.noarch.rpm
+
+这时openOffice己经安装完成，默认会安装在/opt下
+
+二、启动openOffice服务　
+1.进入opt目录：cd /opt
+2.进入openoffice.org3目录：　cd openoffice.org3
+3.进入cd program目录
+4.执行　soffice -headless -accept=&quot;socket,host=127.0.0.1,port=8100;urp;&quot; -nofirststartwizard &amp; 
+
+三、停止openOffice服务
+
+ps -aux | grep oppenoffice 查看是否openoffice服务是否已启动；
+</code></pre>
+<p>至此，openOffice的安装我们已经搞定了，接下来就是程序的编写了</p>
+<h4 id="二转换程序编写"><strong>二.转换程序编写</strong></h4>
+<p>首先我们需要在项目里导入相应的jar包，所需jar包如下：</p>
+<pre><code class="language-java">jodconverter-2.2.2.jar
+ridl-3.2.1.jar
+org.apache.commons.io.jar
+juh.jar
+jurt.jar
+unoil.jar
+slf4j-api-1.7.13.jar
+slf4j-jdk14-1.7.13.jar
+xstream-1.4.1.jar
+
+</code></pre>
+<p>转换的java方法我这边直接拿项目里用到的方法来讲，其实也很简单</p>
+<pre><code class="language-java">import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.ConnectException;
+
+import com.artofsolving.jodconverter.DocumentConverter;
+import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
+import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
+import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
+
+public class Converter {
+	 /** 
+     * 将Office文档转换为PDF. 运行该函数需要用到OpenOffice, OpenOffice下载地址为 
+     * http://www.openoffice.org/ 
+     *  
+     * &lt;pre&gt; 
+     * 方法示例: 
+     * String sourcePath = &quot;F:\\office\\source.doc&quot;; 
+     * String destFile = &quot;F:\\pdf\\dest.pdf&quot;; 
+     * Converter.office2PDF(sourcePath, destFile); 
+     * &lt;/pre&gt; 
+     *  
+     * @param sourceFile 
+     *            源文件, 绝对路径. 可以是Office2003-2007全部格式的文档, Office2010的没测试. 包括.doc, 
+     *            .docx, .xls, .xlsx, .ppt, .pptx等. 示例: F:\\office\\source.doc 
+     * @param destFile 
+     *            目标文件. 绝对路径. 示例: F:\\pdf\\dest.pdf 
+     * @return 操作成功与否的提示信息. 如果返回 -1, 表示找不到源文件, 或url.properties配置错误; 如果返回 0, 
+     *         则表示操作成功; 返回1, 则表示转换失败 
+     */  
+    public static int office2PDF(String sourceFile, String destFile) {  
+        try {  
+            File inputFile = new File(sourceFile);  
+            if (!inputFile.exists()) {  
+                return -1;// 找不到源文件, 则返回-1  
+            }  
+  
+            // 如果目标路径不存在, 则新建该路径  
+            File outputFile = new File(destFile);  
+         
+            //String OpenOffice_HOME = &quot;D:\\Program Files\\OpenOffice.org 4&quot;;//这里是OpenOffice的安装目录, 在我的项目中,为了便于拓展接口,没有直接写成这个样子,但是这样是绝对没问题的  
+            String OpenOffice_HOME = &quot;C:\\Program Files (x86)\\OpenOffice 4&quot;;
+            // 如果从文件中读取的URL地址最后一个字符不是 '\'，则添加'\'  
+            if (OpenOffice_HOME.charAt(OpenOffice_HOME.length() - 1) != '\\') {  
+                OpenOffice_HOME += &quot;\\&quot;;  
+            }  
+            // 启动OpenOffice的服务  
+            String command = OpenOffice_HOME  
+                    + &quot;program\\soffice.exe -headless -accept=\&quot;socket,host=127.0.0.1,port=8100;urp;\&quot;&quot;;
+            //注意：linux系统的服务是已经启动好的，不需要另启动服务，下面这句本地需要，服务器不需要
+            Process pro = Runtime.getRuntime().exec(command);  
+            // connect to an OpenOffice.org instance running on port 8100  
+            OpenOfficeConnection connection = new SocketOpenOfficeConnection(  
+                    &quot;127.0.0.1&quot;, 8100);  
+            connection.connect();  
+  
+            // convert  
+            DocumentConverter converter = new OpenOfficeDocumentConverter(  
+                    connection);  
+            converter.convert(inputFile, outputFile);  
+  
+            // close the connection  
+            connection.disconnect();  
+            //注意：关闭OpenOffice服务的进程 ，下面这句本地需要，服务器不需要
+            pro.destroy();  
+  
+            return 0;  
+        } catch (ConnectException e) {  
+            e.printStackTrace();  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
+  
+        return 1;  
+    }
+}
+</code></pre>
+<p>这里很好理解，就是拿到文件，连接openOffice服务，调用转换方法。</p>
+<p>其实开发和部署还是很顺利的，需要注意的是jar包不能少，不然会报错在服务器上。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Django自定义xadmin插件之导入excel]]></title>
+        <id>https://skytotwo.github.io//post/django-xadmin-excel</id>
+        <link href="https://skytotwo.github.io//post/django-xadmin-excel">
+        </link>
+        <updated>2019-08-26T14:17:13.000Z</updated>
+        <summary type="html"><![CDATA[<p>xadmin的厉害之处在于它允许使用者自定义插件，使用者编写自己需要的插件并注册到xadmin中，以便xadmin实现自己所需要的功能。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>xadmin的厉害之处在于它允许使用者自定义插件，使用者编写自己需要的插件并注册到xadmin中，以便xadmin实现自己所需要的功能。</p>
+<!-- more -->
+<p>xadmin是如何能够实现插件的自定义呢？其实在xadmin使用文档上可以找到答案，如下所示：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180902134855_643.png" alt="20180902134855_643.png"></p>
+<hr>
+<p>这里拿制作excel导入插件为例。最终实现的效果是在xadmin中某类别下能够出现导入excel按钮，并且能够实现excel的导入，如下图所示：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180902135157_751.png" alt="20180902135157_751.png"><br>
+点击导入excel选项：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180902135226_545.png" alt="20180902135226_545.png"></p>
+<p>并且最终实现悬着好excel文件后，点击确认，能够将导入逻辑相应到后台进行处理。</p>
+<h4 id="一编写excel插件"><strong>一.编写excel插件</strong></h4>
+<p>要编写excel插件，首先需要认识xadmin的目录结构，这里建议将xadmin下载至本地并放置在项目中，这样才能编写插件代码，下载地址是：<br>
+<a href="https://github.com/sshwsfc/xadmin" title="点我下载">点我下载</a><br>
+下载后得到的xadmin文件结构如下：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180902135714_712.png" alt="20180902135714_712.png"><br>
+我们需要做的是在plugins模块中编写插件，plugins模块中已经有很多的插件了，如下：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180902135841_910.png" alt="20180902135841_910.png"><br>
+这里已经有许多可以直接用的插件。<br>
+直接在里面新建文件，命名为excel.py代码如下：</p>
+<pre><code class="language-python"># coding:utf-8
+
+import xadmin
+from xadmin.views import BaseAdminPlugin, ListAdminView
+from django.template import loader
+
+
+#excel 导入
+class ListImportExcelPlugin(BaseAdminPlugin):
+    import_excel = False
+
+    def init_request(self, *args, **kwargs):
+        return bool(self.import_excel)#返回bool值，excel显示权限
+
+    def block_top_toolbar(self, context, nodes):
+        nodes.append(loader.render_to_string('xadmin/excel/model_list.top_toolbar.import.html'))
+
+
+xadmin.site.register_plugin(ListImportExcelPlugin, ListAdminView)
+</code></pre>
+<p><strong>解读：</strong></p>
+<ul>
+<li>自定义的ListImportExcelPlugin类需要继承BaseAdminPlugin类，这是固定写法。然后定义的init_request方法，是为了确定xadmin中excel导入按钮的显示权限，这里返回一个bool值，为Ture则为显示，False则不显示，这里顶一个了一个import_excel = False变量，默认值为False，其实可以在model对应adminx类中指定import_excel的值，因为xadmin展示的时候回默认加载这个变量，这样就能达到按钮显示权限了。</li>
+<li>而block_top_toolbar方法则是必须要重写的方法，这方法作用是将选项按钮固定在toolbar上，并直接nodes.append即可，参数是一个html页面，这个就是点击导入excel后出现的弹窗悬着excel页面。</li>
+</ul>
+<p>然后需要将自己编写的excel插件文件注册到xadmin中，直接在plugins模块的init文件中PLUGINS配置文件中添加“excel”即可，注意，excelwei插件的文件名，如下：</p>
+<pre><code class="language-python">PLUGINS = (
+    ...
+	'excel'
+)
+</code></pre>
+<h4 id="二后台逻辑"><strong>二.后台逻辑</strong></h4>
+<p>当选择了excel文件并且点击了确定后，需要将excel文件传至后台接收处理，这里该怎么做呢？<br>
+其实只需要在对应的model关联的adminx类中定义post方法即可，如下：</p>
+<pre><code class="language-python">#用于在课程页面导入excel页面后，对导入的excel做后台逻辑
+    def post(self, request, *args, **kwargs):
+        if 'excel' in request.FILES:
+            pass
+        return super().post(request, args, kwargs) #最后一定要调用父类CourseAdmin的post方法返回
+</code></pre>
+<p>这样就能后将excel传至后台，并且编写我们的解析excel逻辑了，这里需要注意的是，post方法一定要返回父类的post方法，这是固定写法，不然的话会报错，连最起码的xadmin保存都会出错。</p>
+<p>至此，自己编写的导入excel插件就安装成功啦，类似的其他功能实现方式也差不多，都是这个套路~</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Django中xadmin的学习与记录总结]]></title>
+        <id>https://skytotwo.github.io//post/django-xadmin</id>
+        <link href="https://skytotwo.github.io//post/django-xadmin">
+        </link>
+        <updated>2019-08-26T14:15:10.000Z</updated>
+        <summary type="html"><![CDATA[<p>xadmin是Django中admin后台的进阶插件，它包含了admin的基本功能，并在此基础上进行进一步的升级，使得成为一个功能完善的后台管理系统，像瑞士军刀一样拥有各种功能。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>xadmin是Django中admin后台的进阶插件，它包含了admin的基本功能，并在此基础上进行进一步的升级，使得成为一个功能完善的后台管理系统，像瑞士军刀一样拥有各种功能。</p>
+<h2 id="-more-"><!-- more --></h2>
+<h3 id="一xadmin的安装与简单使用"><strong>一.xadmin的安装与简单使用</strong></h3>
+<h4 id="1安装"><strong>1.安装</strong></h4>
+<p>xadmin有两种方式，一种是通过pip的方式安装，如下：</p>
+<pre><code class="language-python">pip install xadmin
+</code></pre>
+<p>但也可以直接进入github下载，xadmin的下载地址是：<br>
+<a href="https://github.com/sshwsfc/xadmin" title="点我进入下载链接">点我进入下载链接</a><br>
+并将其直接放置在项目目录下。<br>
+采用直接下载方式的原因是直接下载的源码包含更多没有发布至pypi上面的新功能，然后有了源码，后面可以直接更改源码，增加自己的功能，这样其实更方便扩展。</p>
+<h4 id="2注册xadmin"><strong>2.注册xadmin</strong></h4>
+<p>在settings.py的INSTALLED_APPS中增加如下：</p>
+<pre><code class="language-python">'xadmin',
+'crispy_forms'
+</code></pre>
+<p>然后把urls中默认admin指向xadmin:</p>
+<pre><code class="language-python">#导入xadmin，替换admin
+import xadmin
+urlpatterns = [
+    url(r'^xadmin/', xadmin.site.urls),
+]
+</code></pre>
+<h4 id="3生成xadmin数据表"><strong>3.生成xadmin数据表</strong></h4>
+<p>点击Tools 菜单下 Run manage.py Task：</p>
+<pre><code class="language-python">makemigrations
+migrate
+</code></pre>
+<h4 id="4注册model"><strong>4.注册model</strong></h4>
+<p>简单的注册一个model看一下效果，如下：</p>
+<pre><code class="language-python">
+from .models import UserInfo
+import xadmin
+ 
+ 
+class UserInfoAdmin(object):
+	list_display = ['user_name', 'user_email', 'user_mobile']  # 默认显示
+    search_fields = ['user_name', 'user_email', 'user_mobile']  # 查询
+    list_filter = ['user_name', 'user_email', 'user_mobile']  # 过滤筛选
+ 
+xadmin.site.register(UserInfo, UserInfoAdmin)
+</code></pre>
+<p>如代码中所示，这里是将model和自定义的admin显示规则绑定注册至xadmin中，list_display、search_fields和list_filter分别表示默认显示的字段、可以查询的字段和可以过滤筛选的字段。</p>
+<p>实际显示效果如下：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180901214106_476.png" alt="20180901214106_476.png"></p>
+<hr>
+<h3 id="二xadmin的进阶功能"><strong>二.xadmin的进阶功能</strong></h3>
+<p><strong>1.一般外键关联数据在xadmin只能通过在列表选择对应外键数据跳转再去编辑，但是想在详情编辑中，可以直接编辑（只能一层嵌套）：</strong></p>
+<pre><code class="language-python">class LessonInline(object):
+    model = Lesson
+    extra = 0
+
+class CourseAdmin(object):
+    list_display = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num','add_time']
+    search_fields = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num']
+    list_filter = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num','add_time']
+    inlines = [LessonInline]
+
+</code></pre>
+<p><strong>2.自定义图标、自定义字段排序、自定义字段不可编辑、编辑页面自定义影藏某字段、下拉选涉及到外检选择的改为搜索选择</strong></p>
+<pre><code class="language-python">class CourseAdmin(object):
+    list_display = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num','add_time']
+    search_fields = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num']
+    list_filter = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num','add_time']
+    model_icon = 'fa fa-book' #自定义图标
+    ordering = ['-click_num'] #显示排序
+    readonly_fields = ['click_num','fav_nums']#后台不可编辑
+    exclude= ['add_time']  #详情不显示add_time 此字段与readonly_fields互斥
+    relfield_style='fk-ajax' #下拉筛选改为搜索
+</code></pre>
+<p><strong>3.一张表在后台注册成两个管理器，以课程为例，课程一张表，后台分为轮播课程、非轮播课程。</strong><br>
+<strong>model代码如下：</strong></p>
+<pre><code class="language-python">class Course(models.Model):
+    name = models.CharField(verbose_name=u'课程名',max_length=50)
+    is_banner = models.BooleanField(verbose_name=u'是否轮播',default=False) #是否为轮播课程
+    add_time = models.DateTimeField(verbose_name=u'添加时间',default=datetime.now)
+
+    class Meta:
+        verbose_name = u'课程'
+        verbose_name_plural = verbose_name
+
+    def __unicode__(self):
+        return self.name
+
+class BannerCourse(Course):
+    '''banner课程'''
+    class Meta:
+        verbose_name = u'轮播课程'
+        verbose_name_plural = verbose_name
+        proxy = True #不会生成表
+
+</code></pre>
+<p>这样定义其实原理是，其中自定义一个model，继承自另一个model，然后关键的是自定义的马哥model，需要在Meta中声明proxy = True，这样就不会生成另一个表，实现两个model公共一个表，而两个model可以在xadmin中注册两个管理器。</p>
+<p><strong>下面是adminx的代码:</strong></p>
+<pre><code class="language-python">class CourseAdmin(object):
+    list_display = ['name','is_banner','add_time']
+    search_fields = ['name','is_banner']
+    list_filter = ['name','is_banner', 'add_time']
+
+    def queryset(self):
+        qs = super().queryset()
+        qs = qs.filter(is_banner=False)
+        return qs
+
+class BannerCourseAdmin(object):
+    list_display = ['name', 'is_banner', 'add_time']
+    search_fields = ['name', 'is_banner']
+    list_filter = ['name', 'is_banner', 'add_time']
+
+    def queryset(self):
+        qs = super().queryset()
+        qs = qs.filter(is_banner=True)
+        return qs
+
+xadmin.site.register(BannerCourse, BannerCourseAdmin)
+xadmin.site.register(Course, CourseAdmin)
+</code></pre>
+<p>其中重要的是queryset方法，该方法的重写，意义在于重写父类的queryset方法，然后过滤出自定义管理器，如直接定义is_banner=True，这样，两个管理器就实现了分别管理不同的数据了。</p>
+<p><strong>4.将model中的方法获取的值，在后台列表字段显示：</strong></p>
+<pre><code class="language-python">#model中代码如下：
+class Course(models.Model):
+    name = models.CharField(verbose_name=u'课程名',max_length=50)
+
+    class Meta:
+        verbose_name = u'课程'
+        verbose_name_plural = verbose_name
+
+    def get_zj_nums(self):
+        '''获取该课程章节'''
+        return  self.lesson_set.all().count()
+    get_zj_nums.short_description = u'章节数'   #指定后台显示列表字段名
+
+    def __unicode__(self):
+        return self.name
+</code></pre>
+<pre><code class="language-python">#admix中代码如下：
+class CourseAdmin(object):
+    list_display = ['name','get_zj_nums']
+    search_fields = ['name']
+    list_filter = ['name']
+</code></pre>
+<p>直接将在model中定义的方法，写在list_display中展示，xadmin会自动判断这是一个方法，并将方法得到的值进行展示。<br>
+注意：如果需要改变该方法的字段名显示，直接方法名.short_description即可，如get_zj_nums.short_description = u'章节数'</p>
+<p><strong>5.在model中定义方法，返回html，在后台以html代码形式显示：</strong></p>
+<pre><code class="language-python">#model中代码：
+class Course(models.Model):
+    name = models.CharField(verbose_name=u'课程名',max_length=50)
+
+    class Meta:
+        verbose_name = u'课程'
+        verbose_name_plural = verbose_name
+
+    def go_to(self):
+        from django.utils.safestring import mark_safe
+        return mark_safe('&lt;a href=&quot;http://www.baidu.com&quot;&gt;百度&lt;/a&gt;')百度&lt;/a&gt;' #如果不使用mark_safe，在后台显示的就是一段文本了
+     go_to.short_description = u'跳转'  # 指定后台显示列表字段名
+
+    def __unicode__(self):
+        return self.name
+
+# admix中代码如下：
+class CourseAdmin(object):
+    list_display = ['name', 'go_to']
+    search_fields = ['name']
+    list_filter = ['name']
+</code></pre>
+<p>这里关键处在于，对返回的链接的处理，这里需要使用django.utils.safestring中的mark_safe方法，因为Django有自己的保护机制，如果不使用mark_safe，在后台显示的就是一段文本了，这里需要使用mark_safe将其正确解读成一个链接。</p>
+<p><strong>6.xadmin集成百度uditor编辑器</strong><br>
+基本步骤：</p>
+<pre><code class="language-shell">github上搜素django ueditor，找到zhangfisher/DjangoUeditor,下载并解压，
+切换命令行到解压后的目录执行python setup.py install（如果是虚拟环境开发，进入虚拟环境在进入对应目录）
+将 DjangoUeditor 放入到settings.py中的INSTALLED_APPS
+</code></pre>
+<p>配置urls.py如下：</p>
+<pre><code class="language-python">urlpatterns = [
+    ...
+    url(r'^ueditor/', include('DjangoUeditor.urls')),
+]
+</code></pre>
+<p>比如给课程加富文本编辑器，去Course的model中引入代码：</p>
+<pre><code class="language-python">from DjangoUeditor.models import UEditorField
+</code></pre>
+<p>对需要添加ueditor字段的修改：</p>
+<pre><code class="language-python">detail = UEditorField(u'课程详情', width=600, height=300, imagePath=&quot;course/ueditor/&quot;, filePath=&quot;course/ueditor/&quot;, upload_settings={&quot;imageMaxSize&quot;: 1204000},default='')
+#imagePath：图片上传路径，跟平时写的model中的路径是一样的
+#filePath:富文本中文件的路径，跟平时写的model中的路径是一样的
+</code></pre>
+<p>给xadmin写插件集成ueditor，在xadmin/plugin下新建ueditor.py(名字随意.py),代码如下：</p>
+<pre><code class="language-python">```python
+import xadmin
+from xadmin.views import BaseAdminPlugin,CreateAdminView,UpdateAdminView
+from DjangoUeditor.models import UEditorField
+from DjangoUeditor.widgets import UEditorWidget
+from django.conf import settings
+
+class XadminUEditorWidget(UEditorWidget):
+    def __init__(self,**kwargs):
+        self.ueditor_options = kwargs
+        self.Media.js = None
+        super(XadminUEditorWidget,self).__init__(kwargs)
+
+class UeditorPlugin(BaseAdminPlugin):
+    def get_field_style(self,attrs,db_field,style,**kwargs):
+        if style == 'ueditor': #这个字段与adminx中的style_fields = {'detail':'ueditor'} 字段对应
+            if isinstance(db_field,UEditorField):
+                widget = db_field.formfield().widget
+                param = {}
+                param.update(widget.ueditor_settings)
+                param.update(widget.attrs)
+                return {'widget':XadminUEditorWidget(**param)}
+            return attrs
+
+	def block_extrahead(self,context,nodes):
+        js = '&lt;script type=&quot;text/javascript&quot; src=&quot;%s&quot;&gt;&lt;/script&gt;' % (settings.STATIC_URL + &quot;ueditor/ueditor.config.js&quot;)
+        js += '&lt;script type=&quot;text/javascript&quot; src=&quot;%s&quot;&gt;&lt;/script&gt;' % (settings.STATIC_URL + &quot;ueditor/ueditor.all.min.js&quot;)
+            nodes.append(js)
+
+xadmin.site.register_plugin(UeditorPlugin,UpdateAdminView)
+xadmin.site.register_plugin(UeditorPlugin,CreateAdminView)
+</code></pre>
+<pre><code>在课程的adminx中CourseAdmin加入代码如下：
+```python
+class CourseAdmin(object):
+    ....
+    style_fields = {'detail':'ueditor'}
+</code></pre>
+<p>修改urls中的上传路由：</p>
+<pre><code class="language-python">#富文本相关url(用于上传文件等)
+    url(r'^ueditor/', include('DjangoUeditor.urls')),
+</code></pre>
+<p>前端展示，全是转义后的html，关闭django模板转义：</p>
+<pre><code class="language-python">{% autoescape off%}
+   {{ course.detail }}
+{% endautoescape %}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[使用jquery实现页面右下角弹窗提醒]]></title>
+        <id>https://skytotwo.github.io//post/jquery-pop-window</id>
+        <link href="https://skytotwo.github.io//post/jquery-pop-window">
+        </link>
+        <updated>2019-08-26T14:09:12.000Z</updated>
+        <summary type="html"><![CDATA[<p>项目有需要实现类似QQ右下角弹窗提醒的需求，项目要求的其实复杂点，不单单是弹窗，还涉及到定时弹窗、指定页面弹窗、对指定的用户弹窗，以及点击事件等等，需要写的控制也比较多。这里只是简单记录下html页面通过jquery实现弹窗功能。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>项目有需要实现类似QQ右下角弹窗提醒的需求，项目要求的其实复杂点，不单单是弹窗，还涉及到定时弹窗、指定页面弹窗、对指定的用户弹窗，以及点击事件等等，需要写的控制也比较多。这里只是简单记录下html页面通过jquery实现弹窗功能。</p>
+<h2 id="-more-"><!-- more --></h2>
+<p>html页面：</p>
+<pre><code class="language-html">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+&lt;title&gt;消息提醒&lt;/title&gt;
+&lt;script src=&quot;jquery-1.8.3.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;notice_pop.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+	 #content{
+
+		display: flex; /**/
+		justify-content: center; /*水平居中*/
+		align-items: Center; /*垂直居中*/
+		margin-top:30px;
+	 }
+	 #bottom{
+
+		display: flex; /**/
+		justify-content: center; /*水平居中*/
+		align-items: Center; /*垂直居中*/
+		margin-top:80px;
+     }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+ 
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>这里主要是引入了jquery和自己编写的js代码，其中还有css样式，用弹性盒子来调整弹框内容样式等。比较简单。</p>
+<p>notice_pop.js：</p>
+<pre><code class="language-javascript">function pop_init(title,content) {
+	//取当前浏览器窗口大小
+	var windowWidth=$(document).width();
+	var windowHeight=$(document).height();
+	//弹窗的大小
+	var weight=280;
+	var height=200;
+	$(&quot;body&quot;).append(
+	&quot;&lt;div id='pop_div'style='display:none;position:absolute;border:1px solid #e0e0e0;z-index:99;width:&quot;+weight+&quot;px;height:&quot;+height+&quot;px;top:&quot;+(windowHeight-height-10)+&quot;px;left:&quot;+(windowWidth-weight-10)+&quot;px'&gt;&quot;+
+		&quot;&lt;div style='line-height:32px;background:#f6f0f3;border-bottom:1px solid #e0e0e0;font-size:14px;padding:0 0 0 10px;'&gt;&quot; +
+			&quot;&lt;div style='float:left;'&gt;&lt;b&gt;&quot;+title+&quot;&lt;/b&gt;&lt;/div&gt;&lt;div style='float:right;cursor:pointer;'&gt;&lt;b onclick='pop_close()'&gt;关闭&lt;/b&gt;&lt;/div&gt;&quot; +
+			&quot;&lt;div style='clear:both'&gt;&lt;/div&gt;&quot;+
+		&quot;&lt;/div&gt;&quot; +
+		&quot;&lt;div&gt;&quot; +
+			&quot;&lt;div id='content'&gt;&quot;+
+				 content+
+			&quot;&lt;/div&gt;&quot;+
+			&quot;&lt;div id='bottom'&gt;&quot;+
+				 &quot;&lt;button id='btn1' type='button' onClick='onButtonClick()'&gt;确定&lt;/button&gt;&quot; +
+			&quot;&lt;/div&gt;&quot;+
+		&quot;&lt;/div&gt;&quot;+
+	&quot;&lt;/div&gt;&quot;
+	);
+}
+
+//右上角关闭
+function pop_close(){
+	$('#pop_div').fadeOut(800);
+	/*关闭后的跳转页面逻辑*/
+}
+
+//点击确定
+function onButtonClick(){
+	$('#pop_div').fadeOut(800);
+	/*关闭后的跳转页面逻辑*/
+}
+$(document).ready(function(){
+	pop_init(&quot;公告信息&quot;,&quot;提醒来啦~~~&quot;);
+	$('#pop_div').fadeIn(800);
+});
+</code></pre>
+<p>其实效果很简单，就是定义弹窗方法，和一些事件。看下面演示图：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180828115408_650.gif" alt="20180828115408_650.gif"></p>
+<p>具体这个demo可以抽象成一个小工具来用，也可以通过setInterval来定时，通过ajax与后台交互，这个都行。其实还有纯后台的工具类方法，那是使用JDialog包来实现的，这里不作过多描述。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Nginx采用https协议反向代理tomcat容器项目]]></title>
+        <id>https://skytotwo.github.io//post/nginx-ssl</id>
+        <link href="https://skytotwo.github.io//post/nginx-ssl">
+        </link>
+        <updated>2019-08-26T14:03:24.000Z</updated>
+        <summary type="html"><![CDATA[<p>之前一直只是使用http协议给项目通信，但是由于谷歌大力推行https，https相比http来说也有着很多优点，比如说通信加密，抓包是抓不到具体通信信息的，而且在传统的http协议下，浏览器访问并发数有限，比如谷歌浏览器默认是开启6个信道并发访问，而https则不一样，它采用了信道复用，传输效率大大提升。这也是现今业内推荐的通信协议。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>之前一直只是使用http协议给项目通信，但是由于谷歌大力推行https，https相比http来说也有着很多优点，比如说通信加密，抓包是抓不到具体通信信息的，而且在传统的http协议下，浏览器访问并发数有限，比如谷歌浏览器默认是开启6个信道并发访问，而https则不一样，它采用了信道复用，传输效率大大提升。这也是现今业内推荐的通信协议。</p>
+<!-- more --> 
+<p>这里带来nginx采用https协议反向代理tomcat容器教程，因为自己的博客应用是java编写，部署在tomcat中，通过nginx反向代理，这次就顺便换成https吧。</p>
+<p>首先https是需要ssl证书的，ssl证书通俗来讲就是一种公认的凭证，ssl证书通过在客户端浏览器和Web服务器之间建立一条ssl安全通道，证书讲道理是客户端和服务端双向的，但是现今主流的浏览器都集成了证书，也就是说，我们只需要在服务端部署ssl证书就行了。<br>
+ssl证书其实可以自己制作，也可以在知名的证书机构注册购买，两者的区分是自己制作的浏览器可能不认可，毕竟自己制作的公信力不够。</p>
+<hr>
+<h4 id="1证书制作或购买"><strong>1.证书制作或购买</strong></h4>
+<p>证书制作一般是使用openssl，可以在服务端中直接生成证书，具体不做概述。<br>
+这里推荐在知名机构中注册购买，如腾讯云的TrustAsia TLS RSA CA就能免费注册一年期的证书，还是很美丽的。<br>
+腾讯云的产品列表有ssl证书申请入口，注册选择TrustAsia TLS RSA CA免费的，过程很简单，注册完成后，还需要解析验证才能通过，其实过程也很简单，只需要在绑定的域名解析中，增加一条给定的解析信息，待600秒后机构扫描到解析成功，这个证书也就通过啦。<br>
+通过后如图显示：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180825230140_385.png" alt="20180825230140_385.png"></p>
+<p>现在我们就有了自己的证书啦。</p>
+<hr>
+<h4 id="2部署证书nginx端"><strong>2.部署证书（nginx端）</strong></h4>
+<p>直接点击下载，下载证书到本机，下载后的文件如下：<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180825230533_600.png" alt="20180825230533_600.png"><br>
+因为我们需要部署nginx，所以需要nginx文件夹里的证书。<br>
+<img src="http://picture.totoro.site/images/2019/08/26/20180825230421_338.png" alt="20180825230421_338.png"></p>
+<p>这里面分别是<br>
+SSL证书文件：1_www.domain.com_bundle.crt 和<br>
+私钥文件 ：2_www.domain.com.key<br>
+这便是核心的东西，<strong>将两个文件拷贝至nginx的配置文件文件夹中</strong>，接下来就是部署至nginx中了。</p>
+<p>接下来就是nginx的配置了，证书主要是配置在nginx配置文件nginx.conf中。配置文件是在conf文件夹内，配置如下：</p>
+<pre><code class="language-shell">   server { #此配置段将HTTP请求全部重定向为HTTPS请求
+        listen 80;
+        server_name www.listenlife.cn listenlife.cn;
+        rewrite ^(.*) https://$server_name$1 permanent;
+    }
+    server {
+        listen       443 ssl; #由80改成443
+        #listen       [::]:80 default_server;
+         #listen       [::]:443 ssl http2 www.listenlife.cn;
+        server_name  www.listenlife.cn;
+        
+		#ssl证书配置开始
+        ssl on;
+        ssl_certificate 1_www.listenlife.cn_bundle.crt;
+        ssl_certificate_key 2_www.listenlife.cn.key;
+        ssl_session_timeout 5m;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2; #按照这个协议配置
+        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;#按照这个套件配置
+        ssl_prefer_server_ciphers on;
+		#ssl证书配置结束
+		
+        #rewrite ^(.*) https://$host$1 permanent; #http自动跳转https
+        # Load configuration files for the default server block.
+        include /etc/nginx/default.d/*.conf;
+
+        location /{
+		    proxy_pass http://127.0.0.1:8080;
+		    proxy_set_header Host $host;
+            proxy_set_header X-Real-Ip $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection &quot;upgrade&quot;;
+        
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+   
+        error_page 404 /404.html;
+            location = /40x.html {
+        }
+
+        error_page 500 502 503 504 /50x.html;
+            location = /50x.html {
+        }
+    }
+</code></pre>
+<p><strong>要注意三点：</strong><br>
+一是端口需要由80改成443，这是ssl的固定端口，<strong>而且还需要注意的是安全组需要开放443入站规则</strong>；二是配置在server中配置以下：</p>
+<pre><code class="language-shell">ssl on;
+ssl_certificate 1_www.listenlife.cn_bundle.crt;
+ssl_certificate_key 2_www.listenlife.cn.key;
+ssl_session_timeout 5m;
+ssl_protocols TLSv1 TLSv1.1 TLSv1.2; #按照这个协议配置
+ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;#按照这个套件配置
+ssl_prefer_server_ciphers on;
+</code></pre>
+<p>然后再项目location中还需要配置以下：</p>
+<pre><code class="language-shell">proxy_set_header X-Real-Ip $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header Upgrade $http_upgrade;
+proxy_set_header Connection &quot;upgrade&quot;;
+proxy_set_header X-Forwarded-Proto $scheme;
+</code></pre>
+<p>最后是配置中的第一个server，目的在于将HTTP请求全部重定向为HTTPS请求。这样输入http也能跳转至https。</p>
+<hr>
+<h4 id="3tomcat端配置"><strong>3.tomcat端配置</strong></h4>
+<p>还需要在tomcat的server.xml文件中做两处配置：<br>
+增加：</p>
+<pre><code class="language-xml">&lt;Connector port=&quot;8443&quot; protocol=&quot;HTTP/1.1&quot; SSLEnabled=&quot;true&quot;
+        maxThreads=&quot;150&quot; scheme=&quot;https&quot; secure=&quot;true&quot;
+        keystoreFile=&quot;conf/www.listenlife.cn.jks&quot;
+        keystorePass=&quot;xxxxxxx&quot;
+        clientAuth=&quot;false&quot; sslProtocol=&quot;TLS&quot; /&gt;
+</code></pre>
+<p>此处的keystoreFile和keystorePass来自于之前证书文件中的tomcat文件夹，如下：<br>
+<img src="/attached/image/20180825/20180825233655_925.png" alt=""><br>
+将keystoreFile拷贝至tomcat的conf目录下，然后引入，此处的keystorePass里只需要填写keystorePass.txt中的字符即可。</p>
+<p><strong>注意此处的8443端口是来自于8080端口的跳转：</strong></p>
+<pre><code class="language-xml">&lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;
+               connectionTimeout=&quot;20000&quot;
+               redirectPort=&quot;8443&quot; /&gt;
+</code></pre>
+<p>需要对应。</p>
+<p>然后需要配置一处，在末尾HOST节点中加入：</p>
+<pre><code class="language-xml">&lt;Valve className=&quot;org.apache.catalina.valves.RemoteIpValve&quot;  
+            remoteIpHeader=&quot;X-Forwarded-For&quot;  
+            protocolHeader=&quot;X-Forwarded-Proto&quot;  
+            protocolHeaderHttpsValue=&quot;https&quot;/&gt;
+</code></pre>
+<hr>
+<p><strong>4.结语</strong><br>
+重启项目，重启nginx，访问项目-&gt;<br>
+<img src="/attached/image/20180825/20180825234424_578.png" alt=""><br>
+然后就是喜闻乐见的https和浏览器标识的“安全”啦。</p>
 ]]></content>
     </entry>
 </feed>

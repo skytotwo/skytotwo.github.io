@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>python中的单例模式 | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1567325946391">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1567325946391" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="http://picture.totoro.site/" class="site-nav">
+            图床
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">python中的单例模式</h2>
+            <div class="post-date">2019-09-01</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/09/01/15611C91523020-1S31.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <p>单例模式（Singleton Pattern）是一种常用的软件设计模式，该模式的主要目的是确保某一个类只有一个实例存在。当你希望在整个系统中，某个类只能出现一个实例时，单例对象就能派上用场。</p>
+<!-- more -->
+<h3 id="单例模式">单例模式</h3>
+<p>比如，某个服务器程序的配置信息存放在一个文件中，客户端通过一个 AppConfig 的类来读取配置文件的信息。如果在程序运行期间，有很多地方都需要使用配置文件的内容，也就是说，很多地方都需要创建 AppConfig 对象的实例，这就导致系统中存在多个 AppConfig 的实例对象，而这样会严重浪费内存资源，尤其是在配置文件内容很多的情况下。事实上，类似 AppConfig 这样的类，我们希望在程序运行期间只存在一个实例对象。</p>
+<p>在 Python 中，我们可以用多种方法来实现单例模式：</p>
+<ul>
+<li>使用模块</li>
+<li>使用 <strong>new</strong></li>
+<li>使用装饰器（decorator）</li>
+<li>使用元类（metaclass）</li>
+</ul>
+<h4 id="使用模块"><strong>使用模块</strong></h4>
+<p>其实，Python 的模块就是天然的单例模式，因为模块在第一次导入时，会生成 .pyc 文件，当第二次导入时，就会直接加载 .pyc 文件，而不会再次执行模块代码。因此，我们只需把相关的函数和数据定义在一个模块中，就可以获得一个单例对象了。如果我们真的想要一个单例类，可以考虑这样做：</p>
+<pre><code class="language-python"># mysingleton.py
+class My_Singleton(object):
+    def foo(self):
+        pass
+
+my_singleton = My_Singleton()
+</code></pre>
+<p>将上面的代码保存在文件 mysingleton.py 中，然后这样使用：</p>
+<pre><code class="language-python">from mysingleton import my_singleton
+
+my_singleton.foo()
+</code></pre>
+<h4 id="使用-new"><strong>使用 <strong>new</strong></strong></h4>
+<p>为了使类只能出现一个实例，我们可以使用 <strong>new</strong> 来控制实例的创建过程，代码如下：</p>
+<pre><code class="language-python">class Singleton(object):
+    _instance = None
+    def __new__(cls, *args, **kw):
+        if not cls._instance:
+            cls._instance = super(Singleton, cls).__new__(cls, *args, **kw)  
+        return cls._instance  
+
+class MyClass(Singleton):  
+    a = 1
+</code></pre>
+<p>在上面的代码中，我们将类的实例和一个类变量 _instance 关联起来，如果 cls._instance 为 None 则创建实例，否则直接返回 cls._instance。</p>
+<p>执行情况如下：</p>
+<pre><code class="language-python">&gt;&gt;&gt; one = MyClass()
+&gt;&gt;&gt; two = MyClass()
+&gt;&gt;&gt; one == two
+True
+&gt;&gt;&gt; one is two
+True
+&gt;&gt;&gt; id(one), id(two)
+(4303862608, 4303862608)
+</code></pre>
+<h4 id="使用装饰器"><strong>使用装饰器</strong></h4>
+<p>我们知道，装饰器（decorator）可以动态地修改一个类或函数的功能。这里，我们也可以使用装饰器来装饰某个类，使其只能生成一个实例，代码如下：</p>
+<pre><code class="language-python">from functools import wraps
+
+def singleton(cls):
+    instances = {}
+    @wraps(cls)
+    def getinstance(*args, **kw):
+        if cls not in instances:
+            instances[cls] = cls(*args, **kw)
+        return instances[cls]
+    return getinstance
+
+@singleton
+class MyClass(object):
+    a = 1
+</code></pre>
+<p>在上面，我们定义了一个装饰器 singleton，它返回了一个内部函数 getinstance，该函数会判断某个类是否在字典 instances 中，如果不存在，则会将 cls 作为 key，cls(*args, **kw) 作为 value 存到 instances 中，否则，直接返回 instances[cls]。</p>
+<h4 id="使用-metaclass"><strong>使用 metaclass</strong></h4>
+<p>元类（metaclass）可以控制类的创建过程，它主要做三件事：</p>
+<ol>
+<li>拦截类的创建</li>
+<li>修改类的定义</li>
+<li>返回修改后的类<br>
+使用元类实现单例模式的代码如下：</li>
+</ol>
+<pre><code class="language-python">class Singleton(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+# Python2
+class MyClass(object):
+    __metaclass__ = Singleton
+
+# Python3
+# class MyClass(metaclass=Singleton):
+#    pass
+</code></pre>
+<h4 id="小结"><strong>小结</strong></h4>
+<p><strong>Python 的模块是天然的单例模式，这在大部分情况下应该是够用的，当然，我们也可以使用装饰器、元类等方法</strong></p>
+<p>转载至：http://python.jobbole.com/87294/</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="tag">
+                    python
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/ss-and-ssr">
+                  <h3 class="post-title">
+                    搭建SS/SSR服务
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

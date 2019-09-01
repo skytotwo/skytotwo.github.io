@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Python面试系统准备 | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1567325946391">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1567325946391" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="http://picture.totoro.site/" class="site-nav">
+            图床
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Python面试系统准备</h2>
+            <div class="post-date">2019-09-01</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/09/01/1552035471632.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <p>面试是一门学问，考验的是你的知识储备，临场发挥。对自己心仪的公司面试成功与否很大程度上靠的是对面试准备与否，是否熟悉相应的回答套路等。面试python岗位也是一样。</p>
+<!-- more --> 
+<h3 id="一-面试流程介绍"><strong>一 面试流程介绍</strong></h3>
+<h4 id="11-python后端职位分析"><strong>1.1 python后端职位分析</strong></h4>
+<p><strong>职位分析：</strong><br>
+<em>招聘信息看什么？</em><br>
+1.岗位职责（业务是否感兴趣）<br>
+2.职位要求（自己是否掌握，查漏补缺）<br>
+3.公司技术栈（公司使用到哪些技术）</p>
+<hr>
+<p><strong>看招聘描述，挖掘信息</strong><br>
+<em>从招聘信息中我们能挖掘到什么？</em><br>
+1.你对公司做的业务是否感兴趣<br>
+2.职位要求中的知识技能是否掌握，面试有多大概率成功<br>
+3.自己还有哪些知识技能需要查漏补缺</p>
+<hr>
+<p><strong>有的放矢，针对性准备</strong><br>
+<em>提升面试成功率</em><br>
+1.针对公司的技术栈和要求编写不同的简历<br>
+2.表现出对职位和公司业务的兴趣<br>
+3.突出自己的技能优势，提升匹配度（技能与公司要求比较符合）</p>
+<hr>
+<h4 id="12-面试流程与环节"><strong>1.2 面试流程与环节</strong></h4>
+<p><strong>后端面试流程</strong><br>
+<em>学生重基础，社招重项目</em><br>
+1.一面问基础<br>
+2.二面问项目<br>
+3.三面问设计（设计后端）</p>
+<hr>
+<p><strong>学生重基础</strong><br>
+<em>项目经验少，基础很重要</em><br>
+1.学历和成绩<br>
+2.大学所学的计算机课程<br>
+3.在校项目。实习经验</p>
+<hr>
+<p><strong>社招重项目</strong><br>
+<em>社招重视项目和设计</em><br>
+1.参与过哪些项目？有没有知名项目<br>
+2.在项目中承担的职责<br>
+3.有没有系统设计经验？</p>
+<hr>
+<p><strong>行为面试</strong><br>
+<em>非技术性问题</em><br>
+1.自我介绍<br>
+2.口头表达能力<br>
+3.沟通交流能力</p>
+<hr>
+<p><strong>HR面试</strong><br>
+<em>到这里拿到offer可能就很大啦</em><br>
+1.薪资待遇（锚定效应，可以提出比期望薪资稍高的待遇）<br>
+2.职业规划<br>
+3.自我介绍，沟通交流等</p>
+<h4 id="13-python后端技术栈"><strong>1.3 python后端技术栈</strong></h4>
+<p><strong>python语言基础</strong><br>
+1.语言特点<br>
+2.语法基础<br>
+3.高级特性</p>
+<hr>
+<p><strong>算法与数据结构</strong><br>
+1.常用算法和数据结构<br>
+2.分析时间，空间复杂度<br>
+3.实现常见数据结构和算法</p>
+<hr>
+<p><strong>编程范式</strong><br>
+1.面向对象编程<br>
+2.常用设计模式<br>
+3.函数式编程</p>
+<hr>
+<p><strong>操作系统</strong><br>
+1.常用的linux命令<br>
+2.进程，线程<br>
+3.内存管理</p>
+<hr>
+<p><strong>网络编程</strong><br>
+1.常用TCP/IP/HTTP协议<br>
+2.socket编程基础<br>
+3.python并发库</p>
+<hr>
+<p><strong>数据库</strong><br>
+1.mysql常考，索引优化<br>
+2.关系型和Nosql的使用场景<br>
+3.redis缓存</p>
+<hr>
+<p><strong>Python web框架</strong><br>
+1.常用框架对比，restful<br>
+2.wsgi原理<br>
+3.web安全问题</p>
+<hr>
+<p><strong>系统设计</strong><br>
+1.设计原则，如何分析<br>
+2.后端系统常用组件（缓存、数据库、消息队列等）<br>
+3.技术选型和实现（短网址、feed流系统）</p>
+<hr>
+<p><strong>技术之外，软实力</strong><br>
+1.学习能力<br>
+2.业务理解能力，沟通交流能力<br>
+3.心态</p>
+<h4 id="14-python初中级工程师技能要求和面试标准"><strong>1.4 python初中级工程师技能要求和面试标准</strong></h4>
+<p><strong>初级工程师</strong><br>
+1.扎实的计算机理论基础<br>
+2.代码规范，风格良好<br>
+3.能在指导下靠谱的完成业务需求</p>
+<hr>
+<p><strong>中级工程师</strong><br>
+1.扎实的计算机基础和丰富的项目经验<br>
+2.能独立设计和完成项目需求<br>
+3.熟悉常用web组件（缓存、消息队列等），具有一定的系统设计能力</p>
+<hr>
+<p><strong>软实力</strong><br>
+1.具有产品意识，技术引导产品<br>
+2.沟通交流能力，团队协作能力<br>
+3.技术领导能力和影响力</p>
+<hr>
+<p><strong>面试造核弹，工作拧螺丝</strong><br>
+1.工作内容和业务紧密相关，需要先了解公司是做什么的<br>
+2.平台决定成长（业务体量），还是要看公司的规模成都<br>
+3.准备面试需要有的放矢，跟职位相匹配才行</p>
+<h4 id="15简历书写与自我介绍"><strong>1.5简历书写与自我介绍</strong></h4>
+<p><strong>表现出个人优势，突出关键信息</strong><br>
+1.基本信息（姓名，学校，学历，联系方式等）<br>
+2.职业技能（编程语言，框架，数据库，开发工具等）<br>
+3.关键项目经验（承担职责，用到了哪些技术）</p>
+<hr>
+<p><strong>简历自我评价</strong><br>
+1.简历自我评价可有可无<br>
+2.最终还是面试官评价<br>
+3.如果要写保证尽量内容简介、态度真诚</p>
+<hr>
+<p><strong>简历加分项</strong><br>
+1.知名项目经验<br>
+2.技术栈比较匹配<br>
+3.开源项目（github、技术博客、linux等）</p>
+<hr>
+<p><strong>简历需要注意的</strong><br>
+1.内容精简，突出重点，一页就好<br>
+2.注意格式，推荐用pdf，避免hr打开格式乱掉<br>
+3.信息真实，不弄虚作假。技能要与岗位相符</p>
+<hr>
+<p><strong>自我介绍说什么</strong><br>
+1.个人信息<br>
+2.掌握的技术，参与过的项目<br>
+3.应聘的岗位，表达对该岗位的看法和兴趣<br>
+举例：<br>
+个人信息：你好我是~~~~~~<br>
+工作项目经历：之前就职于~~~，担任什么，参与过~~~，对<s>比较熟悉<br>
+求职意向：我希望应聘到这个岗位，</s>~~~~</p>
+<hr>
+<p><strong>自我介绍的准备</strong><br>
+1.早准备<br>
+2.准备开场白讲稿，面试前多练习<br>
+3.找一个同伴好友模拟面试，消除紧张心理</p>
+<h4 id="16行为面试常见问题与回答技巧"><strong>1.6行为面试常见问题与回答技巧</strong></h4>
+<p><strong>面试官会根据候选人过去的行为评测其胜任能力</strong><br>
+1.理论依据：行为的连贯性，在旧公司是这样，很可能在新公司也会这样<br>
+2.人在相似的场景时会倾向于重复以往的行为模式<br>
+3.评判人的业务能力，沟通交流能力，语言表达能力，抗压能力等</p>
+<hr>
+<p><strong>行为面试的套路（需要重点注意，一般就是问简历上的项目）</strong><br>
+1.提问方式：说说你曾经~~~<br>
+2.说说你做过的这个项目<br>
+3.说说你碰到过的技术难题？你是如何解决的？有何收获？</p>
+<hr>
+<p><strong>star模型（需要按照这个来准备）<br>
+1.情景（situation）：什么情景下发生的<br>
+2.任务（task）：你是如何明确你的任务的<br>
+3.行动（action）：采取了什么样的行动<br>
+4.结果（result）：结果怎么样？学到了什么？</strong></p>
+<hr>
+<p><strong>常见问题：面试官一般会问，你还有什么要问我的吗？</strong><br>
+1.你可千万别说没了，直接说没了说明你对这个岗位缺乏了解和兴趣<br>
+2.表现出兴趣：问问工作内容（业务），技术栈（用到了什么技术），团队（团队有几个人），项目（这是什么项目，项目在公司的份量等）<br>
+3.问自己的感兴趣的一些技术问题，架构问题</p>
+<hr>
+<p><strong>聊天是个重要的软技能</strong><br>
+1.态度真诚，力求真实，不要弄虚作假<br>
+2.言简意赅，突出重点，省略细枝末节。适当模拟练习<br>
+3.采用STAR模型让回答更有条理</p>
+<h3 id="二-python语言基础考察点"><strong>二、python语言基础考察点</strong></h3>
+<p>####** 2.1 python语言基础常考题**<br>
+<strong>python是静态还是动态类型？是强类型还是弱类型？</strong><br>
+1.动态强类型语言（不少人误认为是弱类型）<br>
+2.动态还是静态指的是编译器还是运行期确定类型<br>
+3.强类型指的是不会发生隐式类型转换<br>
+（python属于动态强类型语言）</p>
+<hr>
+<p><strong>python作为后端语言的优缺点</strong><br>
+1.胶水语言，轮子多，应用广泛<br>
+2.语言灵活，生产力高<br>
+3.（缺点）性能不是很高，代码不是很好维护，python2和3的兼容性问题</p>
+<hr>
+<p><strong>什么是鸭子类型？</strong><br>
+1.关注点在对象的行为，而不是类型（duck typeing）<br>
+2.比如file,StringIO,socket都支持read/write方法，都能操作文件<br>
+3.实现了相同的魔法方法，一定程度上来说，就是一个类型的，如定义了__iter__魔法方法，就可以用for来迭代</p>
+<hr>
+<p><strong>什么是monkey patch（猴子补丁）？ 哪些地方用到了？自己如何实现？</strong><br>
+1.所谓的monkey patch就是运行时替换<br>
+2.比如gevent库需要修改内置的socket<br>
+3.form gevent import monkey; maonkey.patch_socket()<br>
+(也可以自己实现，也就是运行过程中替换原来的部分功能，实现别的功能)</p>
+<hr>
+<p><strong>什么是python的自省（Introspection）？</strong><br>
+1.运行时判断一个对象的类型的能力<br>
+2.python一切皆对象，用type；id；isinstance获取对象类型信息<br>
+3.Inspect模块提供了更多获取对象信息的函数</p>
+<hr>
+<p><strong>列表或者字典生成器</strong><br>
+1.比如[i for i in range(10) if i % 2 == 0] 生成0到10 里能被2整除的数<br>
+2.一种快速生成list/dict/set的方式，用来替代map/filter<br>
+3.（i for i in range(10) if i % 2 == 0）生成的就是生成器</p>
+<h4 id="22-python2和3差异"><strong>2.2 python2和3差异</strong></h4>
+<p><strong>Python3的改进</strong><br>
+1.print变成了函数而不是关键字<br>
+2.编码问题。Python3不再有unicode对象，默认str就是unicode<br>
+3.除法变化。Python3除号返回浮点数。而不像python2的地板除法<br>
+4.优化的super（）直接调用父类的方法<br>
+5.高级解包操作 如：a,b,*rest = range(10)<br>
+6.限定关键字参数，在方法参数特别多的情况下，可以指定参数，一面搞混def test(a, b, *, c){} test(1,2,c=3)<br>
+7.python3重新抛出异常不会丢失原来栈的信息<br>
+8.range，zip，map，dict.values都是返回迭代器</p>
+<hr>
+<p><strong>Python3新增的</strong><br>
+1.yield from链接子生成器<br>
+2.asyncio内置库，async/await原生协程支持异步编程<br>
+3.新的内置库enum,mock,asyncio,ipaddress,concurrent.futures等</p>
+<hr>
+<p><strong>Python3改进的</strong><br>
+1.生成的pyc文件统一放到__pycache__里<br>
+2.一些内置库的修改。urllib，selector等<br>
+3.性能优化等</p>
+<hr>
+<p><strong>熟悉一些兼容2/3的工具</strong><br>
+1.six模块<br>
+2. 2to3等工具转换代码<br>
+3. __future__模块</p>
+<h4 id="23-python函数常考题"><strong>2.3 python函数常考题</strong></h4>
+<p><strong>python如何传参？</strong><br>
+1.是传递值还是传递引用呢？都不是。唯一支持的参数传递是共享传参<br>
+2.call by object（共享对象），就是形参实参都指向同个对象<br>
+3.call by sharing（共享传参），函数形参获得函数实参上各个引用的副本。<br>
+4.python里面传递参数都是通过对象引用来传递的，也就是通过传递对象引用，如果操作的是可变对象，就可以直接在原来对象的基础上修改；如果操作的是不可变对象，那就相当于对对象进行一次复制拷贝，每次都不回修改到原来的对象数据。</p>
+<hr>
+<p>**函数传递中*args，<strong>kwargs含义是什么</strong><br>
+1.用来处理可变参数<br>
+2.*args被打包成tuple<br>
+3.**kwargs被打包成dict（关键字参数要放在最后）</p>
+<hr>
+<p>####** 2.4 python异常机制常考题**<br>
+<strong>什么时候需要捕获异常？</strong><br>
+1.网络请求（超时，连接错误）<br>
+2.资源访问（权限问题，资源不存在）<br>
+3.代码逻辑（越界访问，KeyError）</p>
+<hr>
+<p><strong>如何自定义自己的异常？为什么需要钉子自己的异常？</strong><br>
+1.因为有些业务异常找不到合适的异常来抛。<br>
+2.继承Exception实现自定义的异常，不要继承BaseException<br>
+3.给异常加上一些附加信息<br>
+4.处理一些业务相关的特定异常（raise MyException）</p>
+<pre><code class="language-python">#Eg：
+Class MyException(Exception):
+	Pass
+	Try:
+		Raise MyException(‘MyException’)
+	Except MyException as e:
+		Print(e)
+</code></pre>
+<h4 id="25-python性能剖析与优化gil常考题"><strong>2.5 python性能剖析与优化，GIL常考题</strong></h4>
+<p><strong>什么是GIL？</strong><br>
+1.Cpython解释器的内存管理并不是线程安全的<br>
+2.保护多线程情况下对python对象的访问<br>
+3.Cpython使用简单的锁机制避免多个线程同时执行字节码</p>
+<hr>
+<p><strong>GIL的影响（限制了程序的多喝执行）</strong><br>
+1.同一个时间只能有一个线程执行字节码<br>
+2.CPU密集程序难以利用多核优势，因为多核为了争抢执行，会互相拥挤争抢，导致白白浪费资源<br>
+3.IO期间会释放GIL，所以对IO密集程序影响不大</p>
+<hr>
+<p><strong>如何规避GIL的影响</strong><br>
+1.CPU密集型可以使用多进程+进程池<br>
+2.IO密集可以使用多线程/协程（多进程其实系统开销更大，不一定比多线程效率高）<br>
+3.使用cpython扩展（转化为c语言来执行）</p>
+<hr>
+<p><strong>即便有了GIL还要关注线程安全，非原子操作都要注意</strong><br>
+<em>（什么操作才是原子的？）</em><br>
+1.一个操作如果是一个字节指令可以完成的就是原子的<br>
+2.原子的是可以保证线程安全的，因为不是一步到位的话，中间数据还是可能会被其他线程给污染<br>
+3.可以使用dis操作来分析字节码</p>
+<hr>
+<p><strong>使用各种profile工具（内置或第三方）剖析程序性能（了解）</strong><br>
+1.二八定律，大部分时间耗时在少量代码上<br>
+2.内置的profile/cprofile等工具<br>
+3.使用pyflame（uber开源）的火焰图工具</p>
+<hr>
+<p><strong>服务端性能优化措施，也就是着陆点</strong><br>
+<em>注意：Web应用语言不会成为瓶颈</em><br>
+1.数据结构与算法优化<br>
+2.数据库层：索引优化，慢查询消除，批量操作减少IO，NoSql<br>
+3.网络IO：批量操作，pipeline操作减少IO<br>
+4.缓存：使用内存数据库redis/memcached<br>
+5.异步：asyncio，celery<br>
+6.并发：gevent/多线程</p>
+<h4 id="26-python生成器与协程"><strong>2.6 python生成器与协程</strong></h4>
+<p><strong>什么是生成器（Generator）？</strong><br>
+1.生成器就是可以生成值得函数<br>
+2.当一个函数里有了yield关键字就成了生成器<br>
+3.生成器可以挂起执行并且保持当前执行的状态，也就是说区别于普通函数的return，生成器返回值后，记录了函数执行的状态</p>
+<hr>
+<p><strong>Python2没有原生的协程，只有基于生成器的协程</strong><br>
+1.生成器可以通过yield暂停执行和产出数据<br>
+2.同时支持send()向生成器发送数据throw()向生成器抛出异常，如果生成器函数中yield是在一个等式中，这代表着可以send发送数据过去</p>
+<hr>
+<p><strong>协程的注意点</strong><br>
+1.协程需要使用send(None)或者next(coroutine)来预激(prime)才能启动<br>
+2.在yield处协程会暂停执行<br>
+3.单独的yield会产出值给调用方<br>
+4.可以通过coroutine.send(value)来给协程发送值，发送的值会赋值给yield表达式左边的变量value=yield<br>
+5.协程执行完成后(再继续调用，没有遇到下一个yield语句)会抛出StopIteration异常</p>
+<hr>
+<p><strong>Python3原生协程</strong><br>
+Python3.5引入async/await支持原生协程，结合asyncio<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403215308_653.png" alt="20190403215308_653.png"></p>
+<h4 id="37-python单元测试"><strong>3.7 python单元测试</strong></h4>
+<p><strong>什么是单元测试？</strong><br>
+1.针对程序模块进行正确性检验<br>
+2.一个函数，一个类进行验证<br>
+3.自底向上保证程序正确性，从一个函数一个类最细粒度来写单元测试</p>
+<hr>
+<p><strong>为什么要写单元测试？</strong><br>
+<em>注意：三无代码不可取（无文档，五注释，无单测）</em><br>
+1.保证代码逻辑的正确性<br>
+2.单测影响设计，一般来说容易测试的到吗往往是高内聚低耦合的，容易测试的代码质量更好<br>
+3.回归测试，防止改一处整个服务整个服务不可用</p>
+<hr>
+<p><strong>单元测试相关的库</strong><br>
+1.nose/pytest比较常用<br>
+2.mock模块用来模拟替换网络请求<br>
+3.coverage用来统计测试覆盖率<br>
+如下测试案例：<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403215354_363.png" alt="20190403215354_363.png"></p>
+<h3 id="三-python算法与数据结构考察点"><strong>三。python算法与数据结构考察点</strong></h3>
+<p>####** 3.1 python常用内置算法与数据结构常考题**<br>
+<strong>仔细回想下你用过的哪些内置的算法和数据结构</strong><br>
+1.sorted<br>
+2.dict，list，set，tuple<br>
+具体分类如下图：<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403215420_510.png" alt="20190403215420_510.png"></p>
+<hr>
+<p><strong>collections模块提供了一些内置数据结构的扩展（重要）</strong><br>
+1.namedtuple：元组元素命名方式来定义</p>
+<pre><code class="language-python">Import collections
+Point = collections.namedtuple(‘Point’, ‘x,y’)
+p = Point(1,2)
+print(p.x)
+</code></pre>
+<p>2.deque：实现队列</p>
+<pre><code class="language-python">de collections.deque()
+de.append(1)
+de.appendleft(0)
+de.pop()
+de.popleft()
+</code></pre>
+<p>3.Counter：Counter类的目的是用来跟踪值出现的次数。它是一个无序的容器类型，以字典的键值对形式存储，其中元素作为key，其计数作为value。计数值可以是任意的Interger（包括0和负数）。Counter类和其他语言的bags或multisets很相似。</p>
+<pre><code class="language-python">c = collections.Counter()
+c = collections.Counter(‘abcad’)
+print(c)
+print(c.most_common())
+</code></pre>
+<p>4.OrderedDict：记住字典添加顺序</p>
+<pre><code class="language-python">od = collections.OrderedDict()
+od[‘c’] = ‘c’
+od[‘a’] = ‘a’
+od[‘b’] = ‘b’
+print(list(od.keys()))
+#[‘c’, ‘a’, ‘b’]
+</code></pre>
+<p>5.defaultdict：字典具有默认值</p>
+<pre><code class="language-python">dd = collections.defaultdict(int)
+dd[‘a’]
+#0
+dd[‘b’] += 1
+print(dd)
+#defaultdict(int, {‘a’:0, ‘b’:1})
+</code></pre>
+<hr>
+<p><strong>python中dict的底层结构使用的是哈希表</strong><br>
+1.为了支持快速查找使用了哈希表作为底层结构<br>
+2.哈希表平均查找时间复杂度为O(1)<br>
+3.Cpython解释器使用二次探查解决哈希冲突问题<br>
+<strong>注意后续延展：<br>
+如何解决哈希冲突问题？<br>
+探查法，二次计算查找可用的内存块；链接法，同一个内存块做链表链接<br>
+哈希表如何扩容的？</strong></p>
+<hr>
+<p><strong>python中的list和tuple的异同</strong><br>
+1.都是线性结构，都支持下表访问<br>
+2.都是序列类型，都能进行遍历<br>
+3.list是可变对象，tuple是不可变对象，其保存到饿引用不可变<br>
+4.list没法作为dict的键，tuple可以（可变对象不可hash）</p>
+<hr>
+<p><strong>LRUCache，替换掉最近最少使用的对象（redis应用）</strong><br>
+1.缓存剔除策略，当缓存空间不够用的时候需要一种方式剔除key<br>
+2.常见的有LRU,LFU等<br>
+3.LRU通过使用一个循环双端队列不断把最新访问的key放到表头，这样剔除的时候只需要剔除最远处的key就好了<br>
+实现如下图：<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403215513_205.png" alt="20190403215513_205.png"><br>
+4.利用python内置的dict+collections.OrderedDict实现<br>
+5.dict用来做k/v键值对的缓存<br>
+6.OrderedDict用来实现更新最新最近访问的key<br>
+下面是具体代码实现：</p>
+<pre><code class="language-python">from collections import OrderedDict
+
+
+class LRUCache:
+
+    def __init__(self, capacity=128):
+        self.od = OrderedDict()
+        self.capacity = capacity
+
+    def get(self, key):  # 每次访问更新最新使用的 key
+        if key in self.od:
+            val = self.od[key]
+            self.od.move_to_end(key)
+            return val
+        else:
+            return -1
+
+    def put(self, key, value):  # 更新 k/v
+        if key in self.od:
+            del self.od[key]
+            self.od[key] = value  # 更新 key 到表头
+        else:  # insert
+            self.od[key] = value
+            # 判断当前容量是否已经满了
+            if len(self.od) &gt; self.capacity:
+                self.od.popitem(last=False)
+</code></pre>
+<h2 id="32-python面试常考算法排序查找重中之重1常考排序算法冒泡排序快速排序归并排序堆排序2线性查找二分查找等3能独立实现代码手写能够分析时间空间复杂度">####** 3.2 python面试常考算法**<br>
+<strong>（排序+查找，重中之重）</strong><br>
+1.常考排序算法：冒泡排序，快速排序，归并排序，堆排序<br>
+2.线性查找，二分查找等<br>
+3.能独立实现代码（手写），能够分析时间空间复杂度<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403215550_946.png" alt="20190403215550_946.png"></h2>
+<p><strong>排序算法中的稳定性，什么是排序算法的稳定性？</strong><br>
+1.相同大小的元素在排序之后依然保持相对位置不变，就是稳定的<br>
+2.r[i]=r[j]且r[i]在r[j]之前，排序之后r[i]依然在r[j]之前<br>
+3.稳定性对于排序一个复杂结构，并且需要保持原有排序才有意义</p>
+<hr>
+<p><strong>写出快速排序（步骤，示例）</strong><br>
+1.partiton：选择基准分割数组为两个子数组，小于基准和大于基准的<br>
+2.对两个子数组分别快排<br>
+3.递归合并结果</p>
+<pre><code class="language-python">def quicksort(array):
+    # 递归出口
+    if len(array) &lt; 2:
+        return array
+    else:
+        pivot_index = 0  # 第一个元素作为pivot
+        pivot = array[pivot_index]
+        less_part = [
+            i for i in array[pivot_index+1:] if i &lt;= pivot
+        ]
+        great_part = [
+            i for i in array[pivot_index+1:] if i &gt; pivot
+        ]
+        return quicksort(less_part) + [pivot] + quicksort(great_part)
+
+
+def test_quicksort():
+    import random
+    ll = list(range(10))
+    random.shuffle(ll)
+    print(ll)
+    assert quicksort(ll) == sorted(ll)
+
+test_quicksort()
+
+
+</code></pre>
+<p>写出归并排序，归并两个有序数组<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403215626_102.png" alt="20190403215626_102.png"></p>
+<pre><code class="language-python">def merge_sorted_list(sorted_a, sorted_b):
+    length_a, length_b = len(sorted_a), len(sorted_b)
+    a = b = 0
+    new_sorted_seq = []
+
+    while a &lt; length_a and b &lt; length_b:
+        if sorted_a[a] &lt; sorted_b[b]:
+            new_sorted_seq.append(sorted_a[a])
+            a += 1
+        else:
+            new_sorted_seq.append(sorted_b[b])
+            b += 1
+    if a &lt; length_a:
+        new_sorted_seq.extend(sorted_a[a:])
+    else:
+        new_sorted_seq.extend(sorted_b[b:])
+    return new_sorted_seq
+
+
+def test_merge_sorted_list():
+    a = [1, 2, 5]
+    b = [0, 3, 4, 8]
+    print(merge_sorted_list(a, b))
+
+
+# 分治法三步走。注意递归出口
+
+def mergesort(array):
+    # 递归出口
+    if len(array) &lt;= 1:
+        return array
+    else:
+        mid = int(len(array)/2)
+        left_half = mergesort(array[:mid])
+        right_half = mergesort(array[mid:])
+        return merge_sorted_list(left_half, right_half)
+
+def test_mergesort():
+    import random
+    ll =list(range(10))
+    random.shuffle(ll)
+    print(ll)
+    assert mergesort(ll) == sorted(ll)
+
+test_mergesort()
+
+</code></pre>
+<hr>
+<p>实现堆排序<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403215701_774.png" alt="20190403215701_774.png"></p>
+<p>请写出二分查找<br>
+递归方式实现二分，注意递归出口<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403215743_938.png" alt="20190403215743_938.png"></p>
+<pre><code class="language-python">def binary_search(array, target):  # 二分查找
+    if not array:
+        return -1
+    beg, end = 0, len(array)
+    while beg &lt; end:
+        mid = beg + (end - beg) // 2  # py3
+        if array[mid] == target:
+            return mid
+        elif array[mid] &gt; target:
+            end = mid
+        else:
+            beg = mid + 1
+    return -1
+
+
+def test():
+    &quot;&quot;&quot;
+    如何设计测试用例：(等价类划分)
+    - 正常值功能测试
+    - 边界值（比如最大最小，最左最右值）
+    - 异常值（比如 None，空值，非法值）
+    &quot;&quot;&quot;
+    # 正常值，包含有和无两种结果
+    assert binary_search([0, 1, 2, 3, 4, 5], 1) == 1
+    assert binary_search([0, 1, 2, 3, 4, 5], 6) == -1
+    assert binary_search([0, 1, 2, 3, 4, 5], -1) == -1
+    # 边界值
+    assert binary_search([0, 1, 2, 3, 4, 5], 0) == 0
+    assert binary_search([0, 1, 2, 3, 4, 5], 5) == 5
+    assert binary_search([0], 0) == 0
+
+    # 异常值
+    assert binary_search([], 1) == -1
+
+</code></pre>
+<h4 id="33-python数据结构常考题"><strong>3.3 python数据结构常考题</strong></h4>
+<p><strong>常考题型</strong><br>
+1.常见的数据结构链表，队列，栈，二叉树，堆<br>
+2.使用内置结构实现高级数据结构，比如内置的list/deque<br>
+实现栈<br>
+3.Leetcode或者《剑指offer》上的常见题</p>
+<hr>
+<p><strong>常考数据结构之链表</strong><br>
+<em>（链表有单链表，双链表，循环双端链表）</em><br>
+1.如何使用python来表示链表结构<br>
+2.实现链表常见操作，比如插入节点，反转链表，合并多个链表等<br>
+3.Leetcode联系常见链表题目<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403215824_251.png" alt="20190403215824_251.png"></p>
+<p>如何实现反转链表（单链表倒置）<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403215858_259.png" alt="20190403215858_259.png"></p>
+<pre><code class="language-python"># Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def reverseList(self, head):
+        &quot;&quot;&quot;
+        :type head: ListNode
+        :rtype: ListNode
+        &quot;&quot;&quot;
+        pre = None
+        cur = head
+        while cur:
+            nextnode = cur.next
+            cur.next = pre
+            pre = cur
+            cur = nextnode
+        return pre
+
+</code></pre>
+<p><strong>常见数据结构之队列</strong><br>
+<em>（队列queue是先进先出的结构）</em><br>
+1.如何使用python实现队列？<br>
+2.实现队列的apend和pop操作，如何做到先进先出<br>
+3.使用python的list或者collections.deque实现队列</p>
+<hr>
+<p><img src="http://picture.totoro.site/images/2019/09/01/20190403215938_353.png" alt="20190403215938_353.png"><br>
+实现队列（利用collections.deque）</p>
+<pre><code class="language-python"># 实现队列。使用 deque
+from collections import deque
+
+
+class Queue:
+    def __init__(self):
+        self.items = deque()
+
+    def append(self, val):
+        return self.items.append(val)
+
+    def pop(self):
+        return self.items.popleft()
+
+    def empty(self):
+        return len(self.items) == 0
+
+
+def test_queue():
+    q = Queue()
+    q.append(0)
+    q.append(1)
+    q.append(2)
+    print(q.pop())
+    print(q.pop())
+    print(q.pop())
+
+
+test_queue()
+
+</code></pre>
+<hr>
+<p><strong>常考数据结构之栈</strong><br>
+<em>（栈stack是后进先出结构）</em><br>
+1.如何使用python实现栈？<br>
+2.实现栈的push和pop操作，如何做到后进先出的<br>
+3.同样也可以用python list 或者collections.deque实现栈</p>
+<p>实现一个栈<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403220008_449.png" alt="20190403220008_449.png"><br>
+思考练习题：如何用两个栈实现队列？实现获取最小值的栈MIniStack</p>
+<hr>
+<p><strong>常考数据结构之字典与集合</strong><br>
+<em>（python dict/set底层都是哈希表）</em><br>
+1.哈希表的实现原理，底层其实就是一个数组<br>
+2.根据哈希函数快速定位一个元素，平均查找O(1)<br>
+3.不断加入元素会引起哈希表重新开辟空间，拷贝之前元素到新数组</p>
+<hr>
+<p><strong>哈希表如何解决冲突</strong><br>
+<em>（链接法和开放寻址法）</em><br>
+1.元素key冲突之后使用一个链表填充相同key的元素<br>
+2.开放寻址法是冲突之后根据一种方式（二次探查）寻找下一个可用的槽<br>
+3.cpython使用的是二次探查</p>
+<hr>
+<p><strong>常考数据结构之二叉树</strong><br>
+<em>（先序，中序，后序遍历）</em><br>
+1.先(根)序：先处理根，之后是左子树，然后是右子树<br>
+2.中(根)序：先处理左子树，然后是根，然后是右子树<br>
+3.后(根)序：先处理左子树，然后是右子树，最后是根</p>
+<p><strong>树的遍历方式</strong><br>
+先(根)序遍历：<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403220045_150.png" alt="20190403220045_150.png"><br>
+中序遍历：<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403220105_181.png" alt="20190403220105_181.png"><br>
+后序遍历：<br>
+最后遍历根，上图挪下位置</p>
+<hr>
+<p><strong>常考数据结构之堆</strong><br>
+<em>（堆其实是完全二叉树，有最大堆和最小堆）</em><br>
+1.最大堆：对于每个非叶子节点V，V的值都比它的两个孩子大<br>
+2.最大堆支持每次pop操作获取最大的元素，最小堆获取最小元素<br>
+3.常见问题：用堆来完成topk问题，从海量数字中寻找最大的k个</p>
+<p>使用堆解决TOPK问题<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403220133_599.png" alt="20190403220133_599.png"></p>
+<pre><code class="language-python">import heapq
+
+
+class TopK:
+    &quot;&quot;&quot;获取大量元素 topk 大个元素，固定内存
+    思路：
+    1. 先放入元素前 k 个建立一个最小堆
+    2. 迭代剩余元素：
+        如果当前元素小于堆顶元素，跳过该元素（肯定不是前 k 大）
+        否则替换堆顶元素为当前元素，并重新调整堆
+    &quot;&quot;&quot;
+
+    def __init__(self, iterable, k):
+        self.minheap = []
+        self.capacity = k
+        self.iterable = iterable
+
+    def push(self, val):
+        if len(self.minheap) &gt;= self.capacity:
+            min_val = self.minheap[0]
+            if val &lt; min_val:  # 当然你可以直接 if val &gt; min_val操作，这里我只是显示指出跳过这个元素
+                pass
+            else:
+                heapq.heapreplace(self.minheap, val)  # 返回并且pop堆顶最小值，推入新的 val 值并调整堆
+        else:
+            heapq.heappush(self.minheap, val)  # 前面 k 个元素直接放入minheap
+
+    def get_topk(self):
+        for val in self.iterable:
+            self.push(val)
+        return self.minheap
+
+
+def test():
+    import random
+    i = list(range(1000))  # 这里可以是一个可迭代元素，节省内存
+    random.shuffle(i)
+    print(i)
+    _ = TopK(i, 10)
+    print(_.get_topk())  # [990, 991, 992, 996, 994, 993, 997, 998, 999, 995]
+test()
+
+</code></pre>
+<p>####<strong>3.4 python数据结构常考题之链表</strong><br>
+<strong>链表涉及到指针操作较为复杂，容易出错，经常用作考题</strong><br>
+1.熟悉链表的定义和常见操作<br>
+2.常考题：删除一个链表节点<br>
+3.常考题：合并两个有序链表</p>
+<p>删除一个链表节点<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403220203_664.png" alt="20190403220203_664.png"></p>
+<pre><code class="language-python"># Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def deleteNode(self, node):
+        &quot;&quot;&quot;
+        :type node: ListNode
+        :rtype: void Do not return anything, modify node in-place instead.
+        &quot;&quot;&quot;
+        nextnode = node.next
+        after_next_node = node.next.next
+        node.val = nextnode.val
+        node.next = after_next_node
+
+</code></pre>
+<p>合并两个有序链表<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403220239_147.png" alt="20190403220239_147.png"></p>
+<pre><code class="language-python"># Definition for singly-linked list.
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+class Solution:
+    def mergeTwoLists(self, l1, l2):
+        &quot;&quot;&quot;
+        :type l1: ListNode
+        :type l2: ListNode
+        :rtype: ListNode
+        &quot;&quot;&quot;
+        root = ListNode(None)
+        cur = root
+        while l1 and l2:
+            if l1.val &lt; l2.val:
+                node = ListNode(l1.val)
+                l1 = l1.next
+            else:
+                node = ListNode(l2.val)
+                l2 = l2.next
+            cur.next = node
+            cur = node
+        # l1 或者 l2 可能还有剩余元素
+        cur.next = l1 or l2
+        return root.next
+
+</code></pre>
+<p>####** 3.5 python数据结构常考题之二叉树**<br>
+<strong>二叉树涉及到递归和指针操作，常结合递归考察</strong><br>
+1.二叉树的操作很多可以用递归的方式解决，不了解递归会比较吃力<br>
+2.常考题：二叉树的镜像（反转二叉树）<br>
+3.常考题：如何层序遍历二叉树（广度优先）</p>
+<p>实现反转二叉树<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403220308_411.png" alt="20190403220308_411.png"></p>
+<pre><code class="language-python"># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def invertTree(self, root):
+        &quot;&quot;&quot;
+        :type root: TreeNode
+        :rtype: TreeNode
+        &quot;&quot;&quot;
+        if root:
+            root.left, root.right = root.right, root.left
+            self.invertTree(root.left)
+            self.invertTree(root.right)
+        return root
+
+</code></pre>
+<p>实现层序遍历二叉树<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403220334_351.png" alt="20190403220334_351.png"></p>
+<pre><code class="language-python"># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def levelOrder(self, root):
+        &quot;&quot;&quot;
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        &quot;&quot;&quot;
+        if not root:  # NOTE: 注意 root 可能为空
+            return []
+        res = []
+        cur_nodes = [root]
+        next_nodes = []
+        res.append([i.val for i in cur_nodes])  # [3]
+        while cur_nodes or next_nodes:
+            for node in cur_nodes:
+                if node.left:
+                    next_nodes.append(node.left)
+                if node.right:
+                    next_nodes.append(node.right)
+            if next_nodes:
+                res.append(
+                    [i.val for i in next_nodes]
+                )
+
+            cur_nodes = next_nodes
+            next_nodes = []
+        return res
+
+</code></pre>
+<h4 id="36-python数据结构常考题之栈与队列"><strong>3.6 python数据结构常考题之栈与队列</strong></h4>
+<p>1.熟练掌握用python的list或者collections.deque实现栈和队列<br>
+2.常考题：用栈实现队列</p>
+<p>使用栈实现队列<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403220400_229.png" alt="20190403220400_229.png"></p>
+<pre><code class="language-python">from collections import deque
+
+class Stack:
+    def __init__(self):
+        self.items = deque()
+
+    def push(self, val):
+        return self.items.append(val)
+
+    def pop(self):
+        return self.items.pop()
+
+    def top(self):  # 返回栈顶值
+        return self.items[-1]
+
+    def empty(self):
+        return len(self.items) == 0
+
+class MyQueue:
+
+    def __init__(self):
+        &quot;&quot;&quot;
+        Initialize your data structure here.
+        &quot;&quot;&quot;
+        self.s1 = Stack()
+        self.s2 = Stack()
+
+    def push(self, x):
+        &quot;&quot;&quot;
+        Push element x to the back of queue.
+        :type x: int
+        :rtype: void
+        &quot;&quot;&quot;
+        self.s1.push(x)
+
+    def pop(self):
+        &quot;&quot;&quot;
+        Removes the element from in front of queue and returns that element.
+        :rtype: int
+        &quot;&quot;&quot;
+        if not self.s2.empty():
+            return self.s2.pop()
+        while not self.s1.empty():
+            val = self.s1.pop()
+            self.s2.push(val)
+        return self.s2.pop()
+
+    def peek(self):
+        &quot;&quot;&quot;
+        Get the front element.
+        :rtype: int
+        &quot;&quot;&quot;
+        if not self.s2.empty():
+            return self.s2.top()
+        while not self.s1.empty():
+            val = self.s1.pop()
+            self.s2.push(val)
+        return self.s2.top()
+
+    def empty(self):
+        &quot;&quot;&quot;
+        Returns whether the queue is empty.
+        :rtype: bool
+        &quot;&quot;&quot;
+        return self.s1.empty() and self.s2.empty()
+
+def test():
+    q = MyQueue()
+    q.push(1)
+    q.push(2)
+    q.push(3)
+    print(q.pop())
+    print(q.pop())
+    print(q.pop())
+
+test()
+
+</code></pre>
+<p>####** 3.7 python数据结构常考题之堆**<br>
+<strong>堆的常考题基本围绕在合并多个有序（数组/链表）</strong><br>
+<em>topk问题</em><br>
+1.理解堆的概念，堆是完全二叉树，有最大堆和最小堆<br>
+2.会使用python内置的heapq模块实现堆的操作<br>
+3.常考题：合并k个有序链表</p>
+<p>合并k个有序链表<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403220425_531.png" alt="20190403220425_531.png"></p>
+<pre><code class="language-python"># Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+from heapq import heapify, heappop
+class Solution:
+    def mergeKLists(self, lists):
+        &quot;&quot;&quot;
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        &quot;&quot;&quot;
+        # 读取所有节点值
+        h = []
+        for node in lists:
+            while node:
+                h.append(node.val)
+                node = node.next
+        # 构造一个最小堆
+        if not h:
+            return None
+        heapify(h)  # 转换成最小堆
+
+        # 构造链表
+        root = ListNode(heappop(h))
+        curnode = root
+        while h:
+            nextnode = ListNode(heappop(h))
+            curnode.next = nextnode
+            curnode = nextnode
+        return root
+
+</code></pre>
+<p>####** 3.8 python字符串常考算法题**<br>
+<strong>了解常用的字符串操作</strong><br>
+1.python内置了很多字符串操作，比如split，upper，replace等<br>
+2.常考题：翻转一个字符串<br>
+3.常考题：判断一个数字是否是回文数</p>
+<p>翻转一个字符串<br>
+（使用的是双端遍历法）<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403220503_587.png" alt="20190403220503_587.png"></p>
+<pre><code class="language-python">class Solution:
+    def reverseString(self, s):
+        &quot;&quot;&quot;
+        :type s: List[str]
+        :rtype: void Do not return anything, modify s in-place instead.
+        &quot;&quot;&quot;
+        beg = 0
+        end = len(s)-1
+        while beg &lt; end:
+            s[beg], s[end] = s[end], s[beg]
+            beg += 1
+            end -= 1
+
+</code></pre>
+<p>判断一个数字是否是回文数（也是双端遍历）<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403220525_534.png" alt="20190403220525_534.png"></p>
+<pre><code class="language-python">class Solution:
+    def isPalindrome(self, x):
+        &quot;&quot;&quot;
+        :type x: int
+        :rtype: bool
+        &quot;&quot;&quot;
+        if x &lt; 0:
+            return False
+        s = str(x)
+        beg, end = 0, len(s)-1
+        while beg &lt; end:
+            if s[beg] == s[end]:
+                beg += 1
+                end -= 1
+            else:
+                return False
+        return True
+
+def test():
+    s = Solution()
+    assert s.isPalindrome(121) is True
+    assert s.isPalindrome(-1) is False
+    assert s.isPalindrome(1) is True
+test()
+
+</code></pre>
+<h3 id="四编程范式考察点"><strong>四.编程范式考察点</strong></h3>
+<p>####** 4.1 面向对象基础及python类常考问题**<br>
+<strong>什么是面向对象（oop）</strong><br>
+1.把对象作为基本单元，把对象抽象成类（Class），包含成员（属性）和方法<br>
+2.数据封装（包含属性和方法），继承（继承父类方法），多态（重写父类方法）<br>
+3.python中使用类来实现面向对象</p>
+<p><strong>python中如何创建类</strong><br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403220557_262.png" alt="20190403220557_262.png"></p>
+<hr>
+<p><strong>组合和继承，优先使用组合而非继承</strong><br>
+1.组合是使用其他的类实例作为自己的一个属性（Has-a的关系）<br>
+2.子类继承父类的属性和方法（Is-a 的关系）<br>
+3.优先使用组合保持代码简单<br>
+使用组合的例子：<br>
+课程源码：inherit_combination.py<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190403220624_734.png" alt="20190403220624_734.png"></p>
+<hr>
+<p><strong>类变量和实例变量的区别</strong><br>
+1.类变量由所有实例共享<br>
+2.实例变量由实例单独享有，不同实例之间不影响<br>
+3.当我们需要在一个类的不同实例之间共享变量的时候使用类变量</p>
+<hr>
+<p><strong>classmethod/staticmethod的异同</strong><br>
+1.都可以通过Class.method()方式使用<br>
+2.classmethod第一个参数是cls，可以引用类变量<br>
+3.staticmethod使用起来和普通函数一样，只不过放在类里面组织</p>
+<hr>
+<p><strong>什么是元类，使用场景是什么？</strong><br>
+<em>（元类-Meta Class是创建类的类）</em><br>
+1.元类允许我们控制类的生成，比如修改类的属性等<br>
+2.使用type来定义元类<br>
+3.元类最常见的一个使用场景就是ORM框架</p>
+<pre><code class="language-python">class Base:
+    pass
+
+
+class Child(Base):
+    pass
+
+
+# 等价定义 注意Base后要加上逗号否则就不是tuple了
+SameChild = type('Child', (Base,), {})
+
+
+# 加上方法
+class ChildWithMethod(Base):
+    bar = True
+
+    def hello(self):
+        print('hello')
+
+
+def hello(self):
+    print('hello')
+
+# 等价定义
+ChildWithMethod = type(
+    'ChildWithMethod', (Base,), {'bar': True, 'hello': hello}
+)
+
+
+# 元类继承自 type
+class LowercaseMeta(type):
+    &quot;&quot;&quot; 修改类的属性名称为小写的元类 &quot;&quot;&quot;
+    def __new__(mcs, name, bases, attrs):
+        lower_attrs = {}
+        for k, v in attrs.items():
+            if not k.startswith('__'):    # 排除magic method
+                lower_attrs[k.lower()] = v
+            else:
+                lower_attrs[k] = v
+        return type.__new__(mcs, name, bases, lower_attrs)
+
+
+class LowercaseClass(metaclass=LowercaseMeta):  # py3
+    BAR = True
+
+    def HELLO(self):
+        print('hello')
+
+
+print(dir(LowercaseClass))  # 你会发现&quot;BAR&quot;和&quot;HELLO&quot;都变成了小写
+# 用一个类的实例调用hello方法，我们修改了类定义时候的属性名!!!
+LowercaseClass().hello()
+
+</code></pre>
+<h4 id="42-装饰器面试常考问题"><strong>4.2 装饰器面试常考问题</strong></h4>
+<p><strong>什么是装饰器（Decorator）</strong><br>
+1.python中一切皆对象，函数也可以当做参数传递<br>
+2.在不修改原函数的情况下，使用装饰器给该函数添加其他功能，有利于代码重用<br>
+3.装饰器是接受函数作为参数，添加功能后返回一个新函数的函数（类）<br>
+4.python中通过@使用装饰器</p>
+<p>编写一个记录函数耗时的装饰器</p>
+<pre><code class="language-python">import time
+
+
+def log_time(func):  # 接受一个函数作为参数
+    def _log(*args, **kwargs):
+        beg = time.time()
+        res = func(*args, **kwargs)
+        print('ues time:{}'.format(time.time()-beg))
+        return res
+    return _log
+
+
+# @log_time # @装饰器语法糖
+def mysleep():
+    time.sleep(1)
+
+newsleep = log_time(mysleep)
+newsleep()
+
+</code></pre>
+<p>如何使用类编写装饰器，以及给装饰器添加参数？（使用__call__魔法函数）</p>
+<pre><code class="language-python">import time
+
+class LogTime:
+
+    def __init__(self, use_int=False):
+        self.use_int = use_int
+
+    def __call__(self, func):
+        def _log(*args, **kwargs):
+            beg = time.time()
+            res = func(*args, **kwargs)
+            if self.use_int:
+                print('use time: {}'.format(
+                    int(time.time()-beg))
+                )
+            else:
+                print('use time: {}'.format(
+                    time.time()-beg)
+                )
+            return res
+        return _log
+
+
+@LogTime(True)
+def mysleep():
+    time.sleep(1)
+
+
+if __name__ == '__main__':
+    mysleep()
+
+</code></pre>
+<h4 id="43-设计模式创建型模式python应用面试题"><strong>4.3 设计模式：创建型模式python应用面试题</strong></h4>
+<p><strong>常见的创建型设计模式</strong><br>
+1.工厂模式(Factory)：解决对象创建问题（重点）<br>
+2.构造模式(Builder)：控制复杂对象的创建（重点）<br>
+3.原型模式(Prototype):通过原型的克隆创建新的实例<br>
+4.单例模式(Borg/Singleton)：一个类只能有一个实例，只能创建同一个对象（重点）<br>
+5.对象池模式(Pool)：预先分配同一类型的一组实例<br>
+6.惰性计算模式(Lazy Evaluation)：延迟计算(python 的property)</p>
+<hr>
+<p><strong>工厂模式</strong><br>
+<em>什么是工厂模式（Factory）</em><br>
+1.解决对象创建问题<br>
+2.解耦对象的创建和使用<br>
+3。包括工厂方法和抽象工厂</p>
+<hr>
+<p><strong>构造模式</strong><br>
+<em>什么是构造模式（Builder）</em><br>
+1.用来控制复杂对象的构造<br>
+2.创建和表示分离，比如你要买电脑。工厂模式直接给你电脑，但构造模式允许你自定义电脑的配置，组装完成后给你</p>
+<hr>
+<p><strong>原型模式</strong><br>
+<em>什么是原型模式（Prototype）</em><br>
+1.通过克隆原型来创建新的实例<br>
+2.可以使用相同的原型，通过修改部分属性来创建新的实例<br>
+3.用途：对于一些创建实例开销比较大的地方可以使用原型模式</p>
+<hr>
+<p><strong>单例模式</strong><br>
+单例模式是一种常用的软件设计模式。在它的核心结构中只包含一个被称为单例类的特殊类。通过单例模式可以保证系统中一个类只有一个实例而且该实例易于外界访问，从而方便对实例个数的控制并节约系统资源。如果希望在系统中某个类的对象只能存在一个，单例模式是最好的解决方案。<br>
+单例模式的实现有很多方式：<br>
+<strong>new</strong>()在__init__()之前被调用，用于生成实例对象。利用这个方法和类的属性的特点可以实现设计模式的单例模式。单例模式是指创建唯一对象，单例模式设计的类只能实例 （这个绝对常考啊.绝对要记住1~2个方法,当时面试官是让手写的）<br>
+1.使用__new__方法</p>
+<pre><code class="language-python">class Singleton(object):
+    def __new__(cls, *args, **kw):
+        if not hasattr(cls, '_instance'):
+            orig = super(Singleton, cls)
+            cls._instance = orig.__new__(cls, *args, **kw)
+        return cls._instance
+class MyClass(Singleton):
+    a = 1
+</code></pre>
+<p>2.共享属性<br>
+创建实例时把所有实例的__dict__指向同一个字典,这样它们具有相同的属性和方法.</p>
+<pre><code class="language-python">class Borg(object):
+    _state = {}
+    def __new__(cls, *args, **kw):
+        ob = super(Borg, cls).__new__(cls, *args, **kw)
+        ob.__dict__ = cls._state
+        return ob
+class MyClass2(Borg):
+    a = 1
+</code></pre>
+<p>3.装饰器版本</p>
+<pre><code class="language-python">def singleton(cls):
+    instances = {}
+    def getinstance(*args, **kw):
+        if cls not in instances:
+            instances[cls] = cls(*args, **kw)
+        return instances[cls]
+    return getinstance
+@singletonclass 
+MyClass:
+  ...
+</code></pre>
+<p>4.import方法<br>
+作为python的模块是天然的单例模式</p>
+<pre><code class="language-python"># mysingleton.pyclass 
+My_Singleton(object):
+    def foo(self):
+        pass
+
+my_singleton = My_Singleton()
+# to usefrom mysingleton 
+import my_singleton
+my_singleton.foo()
+</code></pre>
+<p>5.共享同一个实例的方法<br>
+源码：</p>
+<pre><code class="language-python"># 一个工厂方法的例子
+class DogToy:
+    def speak(self):
+        print(&quot;wang wang&quot;)
+
+
+class CatToy:
+    def speak(self):
+        print(&quot;miao miao&quot;)
+
+
+def toy_factory(toy_type):
+    if toy_type == 'dog':
+        return DogToy()
+    elif toy_type == 'cat':
+        return CatToy()
+
+
+# 一个构造模式的例子
+class Computer:
+    def __init__(self, serial_number):
+        self.serial = serial_number
+        self.memory = None      # in gigabytes
+        self.hdd = None         # in gigabytes
+        self.gpu = None
+
+    def __str__(self):
+        info = ('Memory: {}GB'.format(self.memory),
+                'Hard Disk: {}GB'.format(self.hdd),
+                'Graphics Card: {}'.format(self.gpu))
+        return '\n'.join(info)
+
+
+class ComputerBuilder:
+    def __init__(self):
+        self.computer = Computer('AG23385193')
+
+    def configure_memory(self, amount):
+        self.computer.memory = amount
+
+    def configure_hdd(self, amount):
+        self.computer.hdd = amount
+
+    def configure_gpu(self, gpu_model):
+        self.computer.gpu = gpu_model
+
+
+class HardwareEngineer:
+    def __init__(self):
+        self.builder = None
+
+    def construct_computer(self, memory, hdd, gpu):
+        self.builder = ComputerBuilder()
+        [step for step in (self.builder.configure_memory(memory),
+                        self.builder.configure_hdd(hdd),
+                        self.builder.configure_gpu(gpu))]
+
+    @property
+    def computer(self):
+        return self.builder.computer
+
+# 使用buidler，可以创建多个builder类实现不同的组装方式
+engineer = HardwareEngineer()
+engineer.construct_computer(hdd=500, memory=8, gpu='GeForce GTX 650 Ti')
+computer = engineer.computer
+print(computer)
+
+
+# 单例模式
+class Singleton:
+    def __new__(cls, *args, **kwargs):
+        if not hasattr(cls, '_instance'):
+            _instance = super().__new__(cls, *args, **kwargs)
+            cls._instance = _instance
+        return cls._instance
+
+
+class MyClass(Singleton):
+    pass
+
+c1 = MyClass()
+c2 = MyClass()
+assert c1 is c2  # 单例的，c1 c2 同一个实例
+
+</code></pre>
+<h4 id="44-设计模式结构型模式python应用面试题"><strong>4.4 设计模式：结构型模式python应用面试题</strong></h4>
+<p><strong>常见结构型设计模式</strong><br>
+1.装饰器模式(Decorator)：无需子类化扩展对象功能 （重要）<br>
+2.代理模式(Proxy)：把一个对象的操作代理到另一个对象（重要）<br>
+3.适配器模式(Adapter)：通过一个间接层适配统一接口（重要）<br>
+4.外观模式(Facade)：简化复杂对象的访问问题<br>
+5.享元模式(Flyweight)：通过对象复用(池)改善资源利用，比如连接池<br>
+6.MVC模式(Model-View-Controller)：解耦展示逻辑和业务逻辑 （重要）</p>
+<hr>
+<p><strong>代理模式</strong><br>
+<em>什么是代理模式（Proxy）</em><br>
+1.把一个对象的操作代理到另一个对象<br>
+2.这里又要提到之前实现的Stack/Queue，把操作代理到deque<br>
+3.通常使用has-a组合关系<br>
+4.可用作校验用途</p>
+<pre><code class="language-python">from collections import deque
+
+class Stack(object):  # 使用组合的例子
+
+    def __init__(self):
+        self._deque = deque()   # has a deque()
+
+    def push(self, value):
+        return self._deque.append(value)
+
+    def pop(self):
+        return self._deque.pop()
+
+    def empty(self):
+        return len(self._deque) == 0
+
+    def __iter__(self):
+        res = []
+        for i in self._deque:
+            res.append(i)
+        for i in reversed(res):
+            yield i
+
+s = Stack()
+s.push(1)
+s.push(2)
+for i in s:
+    print(i)
+
+</code></pre>
+<hr>
+<p><strong>适配器模式</strong><br>
+<em>什么是适配器模式（Adapter）</em><br>
+1.把不同对象的接口适配到同一接口<br>
+2.想象一个多功能充电头，可以给不同的电器充电，充当了适配器<br>
+3.当我们需要给不同的对象统一接口</p>
+<pre><code class="language-python"># 适配器模式的例子
+class Dog(object):
+    def __init__(self):
+        self.name = &quot;Dog&quot;
+
+    def bark(self):
+        return &quot;woof!&quot;
+
+
+class Cat(object):
+    def __init__(self):
+        self.name = &quot;Cat&quot;
+
+    def meow(self):
+        return &quot;meow!&quot;
+
+
+class Adapter:
+    def __init__(self, obj, **adapted_methods):
+        &quot;&quot;&quot;We set the adapted methods in the object's dict&quot;&quot;&quot;
+        self.obj = obj
+        self.__dict__.update(adapted_methods)
+
+    def __getattr__(self, attr):
+        &quot;&quot;&quot;All non-adapted calls are passed to the object&quot;&quot;&quot;
+        return getattr(self.obj, attr)
+
+
+objects = []
+dog = Dog()
+objects.append(Adapter(dog, make_noise=dog.bark))
+cat = Cat()
+objects.append(Adapter(cat, make_noise=cat.meow))
+for obj in objects:
+    print(&quot;A {0} goes {1}&quot;.format(obj.name, obj.make_noise()))
+
+</code></pre>
+<h4 id="45-设计模式行为型模式python应用面试题"><strong>4.5 设计模式：行为型模式python应用面试题</strong></h4>
+<p><strong>常见行为型设计模式</strong><br>
+1.迭代器模式(Iterator)：通过统一的接口迭代对象<br>
+2.观察者模式(Observer)：对象发生改变的时候，观察者执行相应动作（常见订阅模式，事先订阅监听）<br>
+3.策略模式(Strategy)：针对不同规模输入使用不同的策略</p>
+<hr>
+<p><strong>迭代器模式</strong><br>
+<em>迭代器模式(Iterator)</em><br>
+1.python内置对迭代器模式的支持<br>
+2.比如我们可以用for遍历各种Iterable的数据类型<br>
+3.python里可以实现__next__和__iter__实现迭代器</p>
+<hr>
+<p><strong>观察者模式</strong><br>
+1.发布订阅是一种最常用的实现方式<br>
+2.发布订阅用于解耦逻辑<br>
+3.可以通过回调等方式实现，当发生事件时，调用相应的回调函数</p>
+<hr>
+<p><strong>策略模式</strong><br>
+<em>策略模式（Strategy）</em><br>
+1.根据不同的输入采用不同的策略<br>
+2.比如买东西超过10个打八折，超过20个打七折<br>
+3.对外暴露统一的接口，内部采用不同的策略计算</p>
+<pre><code class="language-python"># 发布订阅模式
+
+class Publisher:  # 发布者
+    def __init__(self):
+        self.observers = []  # 观察者
+
+    def add(self, observer):  # 加入观察者
+        if observer not in self.observers:
+            self.observers.append(observer)
+        else:
+            print('Failed to add : {}').format(observer)
+
+    def remove(self, observer):  # 移除观察者
+        try:
+            self.observers.remove(observer)
+        except ValueError:
+            print('Failed to remove : {}').format(observer)
+
+    def notify(self):   # 调用观察者的回调
+        [o.notify_by(self) for o in self.observers]
+
+
+class Formatter(Publisher):  # 继承自发布者
+    def __init__(self, name):
+        super().__init__()
+        self.name = name
+        self._data = 0
+
+    @property
+    def data(self):
+        return self._data
+
+    @data.setter
+    def data(self, new_value):
+        self._data = int(new_value)
+        self.notify()    # data 在被合法赋值以后会执行notify
+
+
+class BinaryFormatter:
+    &quot;&quot;&quot; 订阅者 &quot;&quot;&quot;
+
+    def notify_by(self, publisher):
+        print(&quot;{}: '{}' has now bin data = {}&quot;.format(
+            type(self).__name__,
+            publisher.name,
+            bin(publisher.data))
+        )
+
+def test():
+    df = Formatter('formatter') # 发布者
+    bf = BinaryFormatter()  # 订阅者
+    df.add(bf)  # 添加订阅者
+    df.data = 3  # 设置的时候调用订阅者的notify_by
+
+
+# 策略模式
+
+class Order:
+    def __init__(self, price, discount_strategy=None):
+        self.price = price
+        self.discount_strategy = discount_strategy
+
+    def price_after_discount(self):
+        if self.discount_strategy:
+            discount = self.discount_strategy(self)
+        else:
+            discount = 0
+        return self.price - discount
+
+    def __repr__(self):
+        fmt = &quot;&lt;Price: {}, price after discount: {}&gt;&quot;
+        return fmt.format(
+            self.price, self.price_after_discount()
+        )
+
+
+def ten_percent_discount(order):
+    return order.price * 0.10
+
+
+def on_sale_discount(order):
+    return order.price * 0.25 + 20
+
+
+def main():
+    order0 = Order(100)
+    order1 = Order(100, discount_strategy=ten_percent_discount)
+    order2 = Order(1000, discount_strategy=on_sale_discount)
+    print(order0)
+    print(order1)
+    print(order2)
+
+</code></pre>
+<h4 id="46-python函数式编程常考题"><strong>4.6 python函数式编程常考题</strong></h4>
+<p><strong>python支持部分函数式编程特性</strong><br>
+1.把电脑的运算视作数学上的函数计算（lambda演算）<br>
+2.高阶函数：map/reduce/filter<br>
+3.无副作用，相同的参数调用始终产生同样的结果</p>
+<hr>
+<p><strong>什么是闭包(Closure)？</strong><br>
+1.绑定了外部作用域的变量的函数<br>
+2.即使程序离开外部作用域，如果闭包仍然可见，绑定变量不会被销毁<br>
+3.每次运行外部函数都会重新创建闭包</p>
+<h3 id="五-操作系统考察点"><strong>五 操作系统考察点</strong></h3>
+<p>####** 5.1面试常考linux命令**<br>
+<strong>为什么要学linux？</strong><br>
+<em>（大部分企业应用跑在linux server上）</em><br>
+1.熟练在linux服务器上操作<br>
+2.了解linux工作原理和常用工具<br>
+3.需要了解查看文件，进程，内存相关的一些命令，用来调试和排查</p>
+<hr>
+<p><strong>如何查询linux命令</strong><br>
+1.使用man命令查询用法。但是man手册比较晦涩<br>
+2.使用工具自带的help，比如pip --help<br>
+3.这里介绍一个man的替代工具tldr。pip install tldr</p>
+<hr>
+<p><strong>文件/目录操作命令</strong><br>
+<em>（掌握常见的文件操作工具）</em><br>
+1.chown/chmod/chgrp<br>
+2.ls/rm/cd/cp/mv/touch/rename/ln(软链接和硬链接等)<br>
+3.locate/find/grep 定位查找和搜索</p>
+<hr>
+<p><strong>文件查看</strong><br>
+<em>（文件或者日志查看工具）</em><br>
+1.编辑器 vi/nano<br>
+2.cat/head/tail 查看文件<br>
+3.more/less 交互式查看文件</p>
+<hr>
+<p><strong>进程操作命令</strong><br>
+1.ps 查看进程（ps -ef|grep tomcat）<br>
+2.kill -9 杀死进程<br>
+3.top/htop 监控进程</p>
+<hr>
+<p><strong>内存操作命令</strong><br>
+1.free 查看可用内存<br>
+2.了解每一列的具体含义<br>
+3.排查内存泄露问题</p>
+<hr>
+<p><strong>掌握常见的网络工具</strong><br>
+1.ifconfig 查看网卡信息<br>
+2.lsof/netstat 查看端口信息<br>
+3.ssh/scp远程登录/复制。tcpdump抓包</p>
+<hr>
+<p><strong>掌握常见用户和组的操作</strong><br>
+1.useradd/usermod<br>
+2.groupadd/groupmod</p>
+<h4 id="52-操作系统线程和进程常考面试题"><strong>5.2 操作系统线程和进程常考面试题</strong></h4>
+<p><strong>进程和线程对比</strong><br>
+1.进程是对运行时程序的封装，是系统资源调度和分配的基本单位<br>
+2.线程是进程的子任务，cpu调度和分配的基本单位，实现进程内并发（python同一时间内只能执行一个线程，无法利用多核的优势，所以还是cpu不断切换线程并发执行）<br>
+3.一个进程可以包含多个线程，线程依赖进程存在，并共享进程内存</p>
+<hr>
+<p><strong>python哪些操作是线程安全的？</strong><br>
+1.一个操作可以在多线程环境中安全使用，获取正确的结果<br>
+2.线程安全的操作好比线程是顺序执行的而不是并发执行的，达到线程隔离<br>
+3.非原子性操作的线程容易使得数据变得不安全<br>
+4.一般如果涉及到写操作需要考虑如何让多个线程安全的访问数据</p>
+<hr>
+<p><strong>线程同步的方式</strong><br>
+1.互斥量（锁）：通过互斥机制防止多个线程同时访问公共资源<br>
+2.信号量（Semphare）：控制同一时刻多个线程访问同一个资源的线程数<br>
+3.事件（信号）：通过通知的方式保持线程同步（使用较少）</p>
+<hr>
+<p><strong>进程间通信的方式</strong><br>
+1.管道/匿名管道/有名管道(pipe)<br>
+2.信号(Signal)：比如用户使用Ctrl+c产生SIGINT程序终止信号<br>
+3.消息队列(Message)<br>
+4.共享内存(share memory)<br>
+5.信号量(Semaphore)<br>
+6.套接字(Socket)：最常用的方式</p>
+<hr>
+<p><strong>python中如何使用多线程</strong><br>
+<em>（threading模块）</em><br>
+1.threading.Thread类用来创建线程<br>
+2.start()方法启动线程<br>
+3.可以用join()等待线程结束</p>
+<hr>
+<p><strong>python中如何使用多进程</strong><br>
+<em>（python有GIL，可以使用多进程实现cpu密集程序）</em><br>
+1.multiprocessing多进程模块<br>
+2.multiprocessing.Process类实现多进程<br>
+3.一般用在cpu密集程序里，避免GIL的影响<br>
+课程源码-多进程：multiprocess_test.py</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="tag">
+                    python
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/python-singelton">
+                  <h3 class="post-title">
+                    python中的单例模式
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

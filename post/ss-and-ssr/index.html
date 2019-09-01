@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8" >
 
-<title>搭建SS/SS-libev服务 | Totoro の Home</title>
+<title>搭建SS/SS-Libev服务 | Totoro の Home</title>
 <meta name="description" content="空杯心态，每天进步">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1567344083538">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1567345782006">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://skytotwo.github.io/">
-        <img src="https://skytotwo.github.io//images/avatar.png?v=1567344083538" class="site-logo">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1567345782006" class="site-logo">
         <h1 class="site-title">Totoro の Home</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -104,7 +104,7 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">搭建SS/SS-libev服务</h2>
+            <h2 class="post-title">搭建SS/SS-Libev服务</h2>
             <div class="post-date">2019-08-26</div>
             
               <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/SSR-Teach-Logo.jpg')">
@@ -143,8 +143,17 @@ docker搭建是相当便捷的，首先需要在linux主机上安装docker并启
 docker run -e PASSWORD=&lt;password&gt; -p&lt;server-port&gt;:8388 -p&lt;server-port&gt;:8388/udp -d shadowsocks/shadowsocks-libev
 </code></pre>
 <p>第二行的参数由自己指定，docker虽然方便，但是相应的简单操作docker命令还是要会的。</p>
-<p><strong>2.使用脚本搭建</strong><br>
-这里找到一个脚本，操作也是简单的，默认安装的也是最新的shadowsocks-libev，适合不会用docker的人使用，具体命令如下：</p>
+<p><strong>2.使用脚本搭建</strong></p>
+<p><em><strong>脚本一</strong></em><br>
+输入三行代码：</p>
+<pre><code class="language-shell">wget --no-check-certificate -O shadowsocks-libev.sh
+https://raw.githubusercontent.com/skytotwo/shadowsocks_install/master/shadowsocks-libev.sh
+chmod +x shadowsocks-libev.sh
+./shadowsocks-libev.sh 2&gt;&amp;1 | tee shadowsocks-libev.log
+</code></pre>
+<p>这是单纯的shadowsocks-libev安装，获取的是最新版，然后不含插件等。很轻便舒适。</p>
+<p><em><strong>脚本二</strong></em><br>
+这里找到一个脚本，操作也是简单的，默认安装的也是最新的shadowsocks-libev，包含很多插件可以选择，适合需要很多插件选择的人使用，具体命令如下：</p>
 <pre><code class="language-shell">wget -N --no-check-certificate -c -t3 -T60 -O ss-plugins.sh https://raw.githubusercontent.com/skytotwo/Shell/master/ss-plugins.sh
 chmod +x ss-plugins.sh
 ./ss-plugins.sh

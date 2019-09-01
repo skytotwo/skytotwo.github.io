@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-09-01T08:55:21.307Z</updated>
+    <updated>2019-09-01T09:02:53.241Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,56 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[超级一键加速脚本，bbr 原版/魔改/plus/锐速 四合一]]></title>
+        <id>https://skytotwo.github.io//post/bbr-setup</id>
+        <link href="https://skytotwo.github.io//post/bbr-setup">
+        </link>
+        <updated>2019-09-01T08:58:10.000Z</updated>
+        <summary type="html"><![CDATA[<p>很多时候，我们为了给VPS加速，会选择不同的方式，比如BBR、锐速等，但单独BBR目前就有普通版、魔改版和plus版，加上锐速，无疑需要很多的脚本，这样在安装上也非常的不方便，而最近，loc论坛的网友又发挥了超人的实力，整出了一个集合BBR、BBR魔改、BBR plus、锐速四合一的脚本，给我们安装提供了极大的方便。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>很多时候，我们为了给VPS加速，会选择不同的方式，比如BBR、锐速等，但单独BBR目前就有普通版、魔改版和plus版，加上锐速，无疑需要很多的脚本，这样在安装上也非常的不方便，而最近，loc论坛的网友又发挥了超人的实力，整出了一个集合BBR、BBR魔改、BBR plus、锐速四合一的脚本，给我们安装提供了极大的方便。</p>
+<!-- more --> 
+<p>项目地址：<br>
+<a href="https://github.com/skytotwo/Linux-NetSpeed" title="https://github.com/skytotwo/Linux-NetSpeed">https://github.com/cx9208/Linux-NetSpeed</a></p>
+<h4 id="简介"><strong>简介：</strong></h4>
+<p>本脚本支持KVM架构的VPS，不支持OpenVZ，kvm机型 Centos 7, Debian 8/9, Ubuntu 16/18均测试通过<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190501112405_926.png" alt="20190501112405_926.png"><br>
+安装命令：</p>
+<pre><code class="language-shell">wget &quot;https://github.com/skytotwo/Linux-NetSpeed/raw/master/tcp.sh&quot; &amp;&amp; chmod +x tcp.sh &amp;&amp; ./tcp.sh
+</code></pre>
+<p>部分如果提示连接不上github。可以先安装</p>
+<pre><code class="language-shell">yum install net-tools -y  或者 apt-get install net-tools -y
+</code></pre>
+<p>如果没有wget，比如搬瓦工vps，可以先安装wget</p>
+<pre><code class="language-shell">yum -y install wget
+</code></pre>
+<p>执行如何提示证书错误的话</p>
+<pre><code class="language-shell">yum -y install ca-certificates
+</code></pre>
+<p>或者</p>
+<pre><code class="language-shell">apt-get -y install ca-certificates
+</code></pre>
+<h4 id="说明"><strong>说明：</strong></h4>
+<ol>
+<li>
+<p>先在[1 - 3]切换内核（第一次显示为bbr内核也要切换一遍），重启<br>
+出现这个选no<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190501112743_808.png" alt="20190501112743_808.png"></p>
+</li>
+<li>
+<p>重启后不用再下载脚本，直接 ./tcp.sh ，在[4 - 8]中选你要开的加速</p>
+</li>
+</ol>
+<pre><code class="language-shell">&quot;1. 安装 BBR/BBR魔改版内核&quot;        对应4,5,6（原版，魔改，暴力魔改）
+&quot;2. 安装 BBRplus版内核 &quot;                对应7（plus）
+&quot;3. 安装 Lotserver(锐速)内核&quot;        对应8（锐速）
+</code></pre>
+<ol start="3">
+<li>开启后再 ./tcp.sh  ， 显示开启成功则启动成功，你也可以自己手动确认</li>
+</ol>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[V2Ray一键安装脚本 自带图形化界面控制面板]]></title>
         <id>https://skytotwo.github.io//post/v2ray-setup</id>
@@ -2319,153 +2369,6 @@ SS：<br>
 选择SSR配置，然后填写服务器ip，端口，加密方式，密码，协议，混淆，额外需要填写混淆参数，这是为了免流，联通大王卡的混淆参数是：mmbiz.qpic.cn  测试可以免流。注意免流的话需要开启全局代理。</p>
 <h4 id="七-免流科普"><strong>七、免流科普：</strong></h4>
 <p>大概介绍一下，一些移动运营商存在一些特定的免流优惠，比如手机流量登录运营商客户端免流量。前期是简单的通过网址来判断是否符合免流条件。SSR安装在手机上后，上网时手机流量经SSR转发到上网地址，通过在SSR内加入免流网址的混淆参数后，让运营商判断失误，达到免流的目的。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[使用openOffice实现word、excel等转pdf功能]]></title>
-        <id>https://skytotwo.github.io//post/openoffice</id>
-        <link href="https://skytotwo.github.io//post/openoffice">
-        </link>
-        <updated>2019-08-26T14:31:25.000Z</updated>
-        <summary type="html"><![CDATA[<p>最近在公司项目中需要实现Excel转pdf的功能，一开始我自己写了工具类来实现转换，实现方式是将目标文件读流，再读出每个sheet，再将sheet数组一个个遍历取当页的数据，读数据的时候又需要每行每行的遍历，再将每个sheet拼接起来成为一个pdf。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>最近在公司项目中需要实现Excel转pdf的功能，一开始我自己写了工具类来实现转换，实现方式是将目标文件读流，再读出每个sheet，再将sheet数组一个个遍历取当页的数据，读数据的时候又需要每行每行的遍历，再将每个sheet拼接起来成为一个pdf。</p>
-<!-- more -->
-<p>本来自己想着简单，确实也实现了功能，但是还是存在很多小问题自己无法控制，比如说对excel的页面布局格式之类的需要严格控制调整，这样弄得很烦，所以想着另找出路。这时候想到了Appache的openOffice。<br>
-openOffice其实是一个服务，可以安装在windows、mac和linux下，用命令启动后，程序调用该端口，就能调用本机安装的office软件或者wps软件进行转格式，原理就是这样的。<br>
-接下来我们来看下怎么使用。</p>
-<hr>
-<h4 id="一下载安装"><strong>一.下载安装</strong></h4>
-<p>这是一个开源程序，下载地址是：<br>
-<a href="https://www.openoffice.org/download/" title="https://www.openoffice.org/download/">https://www.openoffice.org/download/</a><br>
-进入下载页面，多个系统程序包可以选择，如图下：<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180916103231_367.png" alt="20180916103231_367.png"><br>
-这里介绍windows系统和linux系统的安装，因为开发环境西药先测试，然后是要部署至生产环境的，因为公司生产环境用的是redhat红帽系统，所以会针对性的介绍下。</p>
-<p><strong>windows</strong><br>
-windows安装其实很简单，就是一步步点下一步就好了，安装完成后，我们需要记住相应的启动命令来启动程序。如下图：<br>
-打开cmd进入openoffice安装目录：<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180916103716_95.png" alt="20180916103716_95.png"><br>
-在program文件夹下输入启动命令，soffice.exe -headless -accept=&quot;socket,host=127.0.0.1,port=8100;urp;,然后回车就启动了<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180916103856_647.png" alt="20180916103856_647.png"></p>
-<p><strong>linux</strong><br>
-linux下安装会复杂一点，这里以redhat为例，我们先下载对应的安装包，红帽系统需要选择rpm格式的，我们下载64位的，如下图：<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180916104119_512.png" alt="20180916104119_512.png"><br>
-然后安装过程如下：</p>
-<pre><code class="language-shell">一、安装openOffice
-1.使用tar -xzvf xxxx.tar.gz解压缩后，会得到对应的解压文件 /zh-CN
-
-目录。
-2.进入/zh-CN//RPMS/目录
-3.执行　rpm –ivh *rpm（安装所有rpm文件）
-4.进入到desktop-integration目录　cd desktop-integration
-5.执行　rpm -ivh openoffice.org3.2-redhat-menus-3.2-9472.noarch.rpm
-
-这时openOffice己经安装完成，默认会安装在/opt下
-
-二、启动openOffice服务　
-1.进入opt目录：cd /opt
-2.进入openoffice.org3目录：　cd openoffice.org3
-3.进入cd program目录
-4.执行　soffice -headless -accept=&quot;socket,host=127.0.0.1,port=8100;urp;&quot; -nofirststartwizard &amp; 
-
-三、停止openOffice服务
-
-ps -aux | grep oppenoffice 查看是否openoffice服务是否已启动；
-</code></pre>
-<p>至此，openOffice的安装我们已经搞定了，接下来就是程序的编写了</p>
-<h4 id="二转换程序编写"><strong>二.转换程序编写</strong></h4>
-<p>首先我们需要在项目里导入相应的jar包，所需jar包如下：</p>
-<pre><code class="language-java">jodconverter-2.2.2.jar
-ridl-3.2.1.jar
-org.apache.commons.io.jar
-juh.jar
-jurt.jar
-unoil.jar
-slf4j-api-1.7.13.jar
-slf4j-jdk14-1.7.13.jar
-xstream-1.4.1.jar
-
-</code></pre>
-<p>转换的java方法我这边直接拿项目里用到的方法来讲，其实也很简单</p>
-<pre><code class="language-java">import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.ConnectException;
-
-import com.artofsolving.jodconverter.DocumentConverter;
-import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
-import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
-import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
-
-public class Converter {
-	 /** 
-     * 将Office文档转换为PDF. 运行该函数需要用到OpenOffice, OpenOffice下载地址为 
-     * http://www.openoffice.org/ 
-     *  
-     * &lt;pre&gt; 
-     * 方法示例: 
-     * String sourcePath = &quot;F:\\office\\source.doc&quot;; 
-     * String destFile = &quot;F:\\pdf\\dest.pdf&quot;; 
-     * Converter.office2PDF(sourcePath, destFile); 
-     * &lt;/pre&gt; 
-     *  
-     * @param sourceFile 
-     *            源文件, 绝对路径. 可以是Office2003-2007全部格式的文档, Office2010的没测试. 包括.doc, 
-     *            .docx, .xls, .xlsx, .ppt, .pptx等. 示例: F:\\office\\source.doc 
-     * @param destFile 
-     *            目标文件. 绝对路径. 示例: F:\\pdf\\dest.pdf 
-     * @return 操作成功与否的提示信息. 如果返回 -1, 表示找不到源文件, 或url.properties配置错误; 如果返回 0, 
-     *         则表示操作成功; 返回1, 则表示转换失败 
-     */  
-    public static int office2PDF(String sourceFile, String destFile) {  
-        try {  
-            File inputFile = new File(sourceFile);  
-            if (!inputFile.exists()) {  
-                return -1;// 找不到源文件, 则返回-1  
-            }  
-  
-            // 如果目标路径不存在, 则新建该路径  
-            File outputFile = new File(destFile);  
-         
-            //String OpenOffice_HOME = &quot;D:\\Program Files\\OpenOffice.org 4&quot;;//这里是OpenOffice的安装目录, 在我的项目中,为了便于拓展接口,没有直接写成这个样子,但是这样是绝对没问题的  
-            String OpenOffice_HOME = &quot;C:\\Program Files (x86)\\OpenOffice 4&quot;;
-            // 如果从文件中读取的URL地址最后一个字符不是 '\'，则添加'\'  
-            if (OpenOffice_HOME.charAt(OpenOffice_HOME.length() - 1) != '\\') {  
-                OpenOffice_HOME += &quot;\\&quot;;  
-            }  
-            // 启动OpenOffice的服务  
-            String command = OpenOffice_HOME  
-                    + &quot;program\\soffice.exe -headless -accept=\&quot;socket,host=127.0.0.1,port=8100;urp;\&quot;&quot;;
-            //注意：linux系统的服务是已经启动好的，不需要另启动服务，下面这句本地需要，服务器不需要
-            Process pro = Runtime.getRuntime().exec(command);  
-            // connect to an OpenOffice.org instance running on port 8100  
-            OpenOfficeConnection connection = new SocketOpenOfficeConnection(  
-                    &quot;127.0.0.1&quot;, 8100);  
-            connection.connect();  
-  
-            // convert  
-            DocumentConverter converter = new OpenOfficeDocumentConverter(  
-                    connection);  
-            converter.convert(inputFile, outputFile);  
-  
-            // close the connection  
-            connection.disconnect();  
-            //注意：关闭OpenOffice服务的进程 ，下面这句本地需要，服务器不需要
-            pro.destroy();  
-  
-            return 0;  
-        } catch (ConnectException e) {  
-            e.printStackTrace();  
-        } catch (IOException e) {  
-            e.printStackTrace();  
-        }  
-  
-        return 1;  
-    }
-}
-</code></pre>
-<p>这里很好理解，就是拿到文件，连接openOffice服务，调用转换方法。</p>
-<p>其实开发和部署还是很顺利的，需要注意的是jar包不能少，不然会报错在服务器上。</p>
 ]]></content>
     </entry>
 </feed>

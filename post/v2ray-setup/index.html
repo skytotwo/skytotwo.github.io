@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>V2Ray一键安装脚本 自带图形化界面控制面板 | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1567328116765">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1567328116765" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="http://picture.totoro.site/" class="site-nav">
+            图床
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">V2Ray一键安装脚本 自带图形化界面控制面板</h2>
+            <div class="post-date">2019-09-01</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/09/01/20190501114259_841.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>V2Ray的搭建，首先需要你拥有一台国外VPS服务器.<br>
+VPS服务器购买成功后，我们就可以进行V2Ray的安装了。其实安装过程并不复杂，倒是安装之后的设置过程需要花点功夫，毕竟需要修改一些代码参数。<br>
+不过不用担心，本文介绍的雨落无声的V2Ray一键安装，安装完成后自带图形化控制面板，简单设置之后就可以使用了，对新手用户非常友好。</p>
+<!-- more --> 
+<h3 id="v2ray一键安装-环境"><strong>V2Ray一键安装 环境</strong></h3>
+<p>服务器系统要求：<br>
+Debian 8<br>
+Debian 9<br>
+Ubuntu 14<br>
+Ubuntu 16<br>
+CentOS 7 (不支持CentOS 6)</p>
+<h3 id="v2ray一键安装脚本"><strong>V2Ray一键安装脚本</strong></h3>
+<p>1.ssh连接vps，输入脚本：</p>
+<pre><code class="language-shell">wget -N --no-check-certificate
+https://raw.githubusercontent.com/skytotwo/V2ray.Fun/master/install.sh &amp;&amp; bash install.sh
+</code></pre>
+<p>如果运行以上命令时，出现找不到wget的英文提示，则表示系统没有安装wget，根据系统不同，选择以下命令安装：</p>
+<pre><code class="language-shell">CentOS：
+yum -y install wget
+Ubuntu/Debian：
+apt-get -y install wget
+</code></pre>
+<p>2.V2Ray安装接近完成时，会提示输入用户名、密码、控制面板端口，可随意设置，如下图：<br>
+访问控制面板需要用这个端口，用户名和密码用于登录控制面板。<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190501115304_856.jpg" alt="20190501115304_856.jpg"><br>
+3.正常来说，V2Ray已经安装成功了，可以尝试在浏览器打开控制面板地址。不过博主在这一步后无法打开V2Ray控制面板，可能是个例，保险起见，再复制以下命令运行：</p>
+<pre><code class="language-shell">pip install Flask-BasicAuth
+</code></pre>
+<p>4.以上命令运行完成后，我们再启动面板。xshell输入以下命令，然后选择1回车。如下图，提示V2ray.fun started，即表示启动成功。</p>
+<pre><code class="language-shell">v2ray
+</code></pre>
+<p><img src="http://picture.totoro.site/images/2019/09/01/20190501115504_299.jpg" alt="20190501115504_299.jpg"><br>
+5.浏览器输入服务器IP+刚才设置的端口，访问V2Ray控制面板，输入用户名和密码登录，登录成功后的界面如下图所示：<br>
+各项连接参数都显示在运行状态菜单。最下面的Vmess链接和二维码图片，都可以用于客户端连接。<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190501115549_657.jpg" alt="20190501115549_657.jpg"></p>
+<h3 id="v2ray控制面板设置"><strong>V2Ray控制面板设置</strong></h3>
+<p>V2Ray.fun控制面板的修改连接菜单中，我们可以修改各项连接参数，如下图所示：</p>
+<ul>
+<li>运行控制：用于控制V2Ray的状态。</li>
+<li>UUID：用于客户端连接使用，默认是自动生成的，可以点击右侧按钮生成一个新的。</li>
+<li>主端口：用于客户端连接的端口，可设置一个新的端口，然后点击右侧的修改端口进行修改。</li>
+<li>加密方式：用于客户端连接的参数，不懂的话，默认即可。</li>
+<li>传输方式：也是客户端连接参数之一，默认即可。</li>
+<li>TLS：不建议开启，默认是关闭的，右侧两个按钮是操作按钮，并非表示当前状态。</li>
+<li>Mux cool：多路复用功能，可提高并发连接性能，默认开启。<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190501115830_535.jpg" alt="20190501115830_535.jpg"></li>
+</ul>
+<hr>
+<p>以上各项参数设置完成后，就可以通过V2Ray客户端连接了。点击上图左侧的运行状态菜单，用V2Ray客户端扫描二维码即可连接，或者输入Vmess链接也可以。</p>
+<h3 id="v2ray控制面板打不开解决办法"><strong>V2Ray控制面板打不开解决办法</strong></h3>
+<p>V2Ray.fun控制面板比较直观好用，但是部分情况下，会出现安装完成后，打不开控制面板的情况。其实前文已经提到过解决办法，这里再重复一次，方便单独出现此问题的朋友。<br>
+xshell连接VPS服务器，分别输入以下命令运行：</p>
+<pre><code class="language-shell">pip install Flask-BasicAuth
+v2ray
+1
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/wRl1VpbGG" class="tag">
+                    vps
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/netflix-proxy-setup">
+                  <h3 class="post-title">
+                    使用netflix-proxy达成看netflix视频网站的目的
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-10-26T02:09:03.142Z</updated>
+    <updated>2019-10-26T02:23:41.607Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,34 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[Dropbox使用mklink同步任意文件夹]]></title>
+        <id>https://skytotwo.github.io//post/dropbox-mklink</id>
+        <link href="https://skytotwo.github.io//post/dropbox-mklink">
+        </link>
+        <updated>2019-10-26T02:18:21.000Z</updated>
+        <summary type="html"><![CDATA[<p>Dropbox 是个非常好的网络服务，我也不知道该怎么形容它。它像是一个网盘，而又不全是，它更像是帮你备份本地数据的一个软件。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Dropbox 是个非常好的网络服务，我也不知道该怎么形容它。它像是一个网盘，而又不全是，它更像是帮你备份本地数据的一个软件。</p>
+<!-- more -->
+<p>总的来说，这个软件是 Windows/Mac/Linux 通用的，可以和你的资源管理器无缝接合（连文件夹图标都是随系统变化的），如果按照默认设置的话，它会在你的电脑里生成一个 My Dropbox 文件夹，这是一个普通的本地文件夹，但它的神奇之处就是在后台的 Dropbox 程序会一直监视着这个文件夹，当你对这个文件夹做了改动的时候，它会实时同步到网络上，并且有 MD5 识别，这意味着如果你在文件夹里放了一个300多M的OS镜像，很有可能只要1秒钟的时间，这个镜像就被同步上去了——因为Dropbox计算了你的文件的MD5值，发现服务器上早就有相同的文件了，所以瞬间就同步完成了。</p>
+<p>这个服务有什么实际作用呢？我觉得它还是非常适合上班族的。在单位里一台电脑，在家里一台电脑，很多上班族都是通过U盘或电子邮件什么的来同步数据的吧？搞不好下班前忘了同步，回家还要懊恼一阵子。有了 Dropbox 就不是问题了。你管你写你的论文、做你的报表，写完保存就行了，然后关机。到了家里打开电脑，一进入系统，你会发现你在单位里写的东西已经躺在硬盘里了，完全不需要你动脑筋。</p>
+<p>要是别人的电脑上没装Dropbox怎么办呢？直接访问它的官方网站www.dropbox.com，然后登录就可以了，你将看到一模一样的目录，支持单文件下载和整个文件夹打包下载，非常方便。</p>
+<p>在网页上，你可以看到你在几台电脑上登录过 Dropbox，你给那些电脑起的名字是什么，电脑的操作是什么，你当然也可以选择Unlink这些电脑。</p>
+<p>Dropbox 还有两个值得称道的功能，一个是版本控制，还有一个是共享。</p>
+<p>版本控制是指你对文件做的每一次修改都会被记录下来。比如你今天写了一份文档，后来修改过并保存了，但是你不想这份修改，想回到过去，那很简单，你到 Dropbox 的网站上就可以看到你的文件以前的版本了，点恢复，Dropbox 的进程就会把你原来的版本下载到你的硬盘里，太贴心了。当然，对于一些误删除的文件，也可以用这种方法恢复。</p>
+<p>共享功能也是很不错的，这是支持外链的共享，可以把文件的直接链接发给你的好友让他们下载。不过需要注意的是，Dropbox 不希望你把这个链接大肆传播，它只是希望你把这个链接给有限的几个人下载。如果你违背这一条，把 Dropbox 当下载站的话，你的账户会被封掉……（不过如果是初犯，找客服说一下，人家还是会原谅你的）</p>
+<p>下面说说 mklink 命令。</p>
+<p>Dropbox 好是好，可是它只能同步 My Dropbox 这一个文件夹，这一点比较不爽。我想同步我硬盘里的一些工具软件和照片，难道要把它们都复制到 My Dropbox 目录下面吗？似乎的确是这样的。但是我还是试验出了变通的方法。</p>
+<p>用到的命令是 mklink。这是 Windows Vista及以上的系统里自带的一个命令，适用于 NTFS 文件系统，可以用来创建 symbolic link，经过我的试验，这个 symbolic link 对于一般的程序是来说它就等于原文件夹，只有人类和Windows内部才能分辨出这是一个 symbolic link 而不是”真身”。</p>
+<p>怎么创建呢？我下面说一下我的实例。</p>
+<p>我在 D 分区下有一个叫 Tools 的文件夹，我的 My Dropbox 文件夹也在 D 分区根目录下，我想把 Tools 同步上去，可是不想把整个文件夹复制进去。那可以在 cmd 里输入这样的命令：</p>
+<pre><code class="language-shell"> mklink /d &quot;d:\my dropbox\Tools&quot; d:\tools 。
+</code></pre>
+<p>这样就在 My Dropbox 目录下创建了一个 symbolic link，Dropbox 是分辨不出 symbolic link 与真正的文件夹之间的区别的，于是它以为你对文件夹有改动了，就开始同步你的内容了，过一会儿，你就发现你的 Tools 已经同步上去了，而实际上，你的硬盘里 Tools 文件夹根本就没有挪动地方。</p>
+<p>我还用这个命令把我U盘里的Software文件夹也同步上去了： mklink /d &quot;d:\my dropbox\Software&quot; j:\software 。同步完后就算U盘拔掉也没事。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[用自签名SSL证书配合 CloudFlare 免费SSL构建全站HTTPS加密]]></title>
         <id>https://skytotwo.github.io//post/diy-ssl-cloudflare</id>
@@ -185,6 +213,208 @@ init.d发行版：# service nginx restart</p>
 <p>6.测试</p>
 <pre><code class="language-shell">docker run hello-world
 </code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[VPS主机性能和速度测试方法，各种测试工具]]></title>
+        <id>https://skytotwo.github.io//post/vps-test</id>
+        <link href="https://skytotwo.github.io//post/vps-test">
+        </link>
+        <updated>2019-09-01T09:03:37.000Z</updated>
+        <summary type="html"><![CDATA[<p>这年头VPS主机太多了，好多“二手”VPS开始横行其道，让人真假莫辨，想要购买某一个VPS主机，一般是先要看看这家的VPS主机的评测数据。之前分享VPS主机时都会给出VPS的性能与速度测试报告，这次我就来专门整理一下相关的测试工具。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>这年头VPS主机太多了，好多“二手”VPS开始横行其道，让人真假莫辨，想要购买某一个VPS主机，一般是先要看看这家的VPS主机的评测数据。之前分享VPS主机时都会给出VPS的性能与速度测试报告，这次我就来专门整理一下相关的测试工具。</p>
+ <!-- more --> 
+<p>一来给自己做一个备忘录，以后测试VPS就不用满大街地找百度要命令了，二来给没有用过的朋友一点帮助，这些工具都是好多站长朋友通用的，自己购买的VPS主机到底值不值这个价格，用这几个工具一测试便知，而且操作简单，只需要几个命令即可完成。</p>
+<p>需要提醒的是，关于IO读写速度的测试，根据以往的经验，像谷歌云服务器、亚马逊服务器等，IO读写速度都比较低，而SSD在IO方面表现出色。另外，国外的VPS主机的速度很大程度上取决于线路的好坏，并且晚上和白天的测试速度会差别比较大。VPS主机性能和速度测试方法。</p>
+<h3 id="常用检测脚本汇总"><strong>常用检测脚本汇总</strong></h3>
+<p>为方便使用，我在这里汇总一下用于VPS各类检测的脚本，有关脚本的详细使用及说明可参阅下文的内容。</p>
+<p>1、一键测试服务器到国内的速度脚本Superspeed.sh ：</p>
+<pre><code class="language-shell">wget https://raw.githubusercontent.com/oooldking/script/master/superspeed.sh
+chmod +x superspeed.sh
+./superspeed.sh
+</code></pre>
+<p>2、一键检测VPS的CPU、内存、负载、IO读写、机房带宽等脚本：bench.sh</p>
+<pre><code class="language-shell">命令1：
+wget -qO- bench.sh | bash
+或者
+curl -Lso- bench.sh | bash
+
+命令2：
+wget -qO- 86.re/bench.sh | bash
+或者
+curl -so- 86.re/bench.sh | bash
+</code></pre>
+<p>备注：<br>
+bench.sh 既是脚本名，同时又是域名。如果以上失效，请使用以下地址下载再执行脚本：<br>
+下载地址：<br>
+https://github.com/teddysun/across/blob/master/bench.sh<br>
+3、可以看作bench.sh强化版：SuperBench.sh</p>
+<p>新增 Virt 检测服务器类型参数。常见 openvz，kvm，独服都能检测出来。同时整合上面的Superspeed.sh一键测试服务器到国内的速度脚本：</p>
+<pre><code class="language-shell">wget -qO- https://raw.githubusercontent.com/oooldking/script/master/superbench.sh | bash
+</code></pre>
+<p>或者</p>
+<pre><code class="language-shell">curl -Lso- https://raw.githubusercontent.com/oooldking/script/master/superbench.sh | bash
+</code></pre>
+<p>4、一键带宽检测工具：speedtest-cli</p>
+<p>安装命令：</p>
+<pre><code class="language-shell">sudo apt-get update
+apt-get install python-pip
+sudo pip install speedtest-cli
+
+#CentOS
+yum update
+yum -y install epel-release
+yum install python-pip
+pip install speedtest-cli
+使用方法：
+
+speedtest-cli
+#后面也可以接以下参数：
+-h, --help show this help message and exit 
+--share 分享你的网速，该命令会在speedtest网站上生成网速测试结果的图片。 
+--simple Suppress verbose output, only show basic information 
+--list 根据距离显示speedtest.net的测试服务器列表。 
+--server=SERVER 指定列表中id的服务器来做测试。 
+--mini=MINI URL of the Speedtest Mini server 
+--source=SOURCE Source ip address to bind to 
+--version Show the version number and exit
+</code></pre>
+<p>5、VPS性能综合跑分工具：unixbench</p>
+<p>命令如下：</p>
+<pre><code class="language-shell">wget --no-check-certificate https://github.com/teddysun/across/raw/master/unixbench.sh
+chmod +x unixbench.sh
+./unixbench.sh
+</code></pre>
+<p>6、一键测试回程Ping值工具：mPing</p>
+<pre><code class="language-shell">wget https://raw.githubusercontent.com/helloxz/mping/master/mping.sh
+bash mping.sh
+</code></pre>
+<p>7、Serverreview-benchmark综合评测工具</p>
+<p>这是一个老外写的VPS主机综合评测工具，主要评测的项目有VPS主机磁盘IO、内存读写、CPU性能以及Benchmark性能，还有美国、欧洲、亚洲等不同节点的下载速度。主页：https://github.com/sayem314/serverreview-benchmark</p>
+<p>脚本使用使用方法</p>
+<pre><code class="language-shell">#简略版
+yum install curl -y
+curl -LsO git.io/bench.sh; chmod +x bench.sh &amp;&amp; ./bench.sh -a share
+#完整版
+yum install curl -y
+curl -LsO git.io/bench.sh; chmod +x bench.sh &amp;&amp; ./bench.sh -a share 
+</code></pre>
+<p>8、Speedtest一键包 可用于检测VPS网速带宽 vps测速<br>
+使用如下命令获取最新版本：</p>
+<pre><code class="language-shell">wget https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
+赋权：
+
+chmod +x speedtest.py
+使用如下命令来运行测试脚本：
+
+./speedtest.py
+</code></pre>
+<h3 id="一-vps速度测试工具"><strong>一、VPS速度测试工具</strong></h3>
+<p>在线测试工具。使用在线测试工具，可以方便得到服务器的响应时间，这一招对于国外的VPS特别有效果。以下是搜集整理的实用在线网站速度测试工具网站：</p>
+<p>http://ping.chinaz.com/</p>
+<p>http://www.ipip.net/ping.php</p>
+<p>https://www.17ce.com/</p>
+<p>http://www.webkaka.com/</p>
+<p>http://ce.cloud.360.cn/</p>
+<p>这几个在线测速工具各有各的优缺点，推荐使用ipip.net测试服务器IP和路由追踪，用17ce.com测试网页加载速度，用ping.chinaz.com用国内不同地方的Ping值。<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190501113404_937.gif" alt="20190501113404_937.gif"></p>
+<p>本地测试软件。这里推荐使用WinMTR，这是一款方便易用的路由跟踪工具。该软件可以帮助用户直接查看各个节点的响应时间及丢包率，非常适合windows下客户做路由追踪及PING进行测试。</p>
+<p>下载地址：https://www.ucblog.net/wzfou/WinMTR-CN-IP.zip</p>
+<p>项目主页：https://github.com/oott123/WinMTR</p>
+<p>带地图版：https://cdn.ipip.net/17mon/besttrace.exe</p>
+<p>启用WinMTR，点击可以更新IP地址。</p>
+<figure data-type="image" tabindex="1"><img src="http://picture.totoro.site/images/2019/09/01/20190501113458_204.gif" alt="20190501113458_204.gif"></figure>
+<p>输入你想要追踪的域名或者服务器IP，接着你就可以看到数据包经过的节点还有丢包等情况，同时支持导出文本。<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190501113525_361.gif" alt="20190501113525_361.gif"><br>
+相关的参数说明如下：</p>
+<pre><code class="language-shell">Hostname：到目的服务器要经过的每个主机IP或名称
+Nr：经过节点的数量；以上图百度为例子：一共要经过10个节点，其中第一个是出口的路由器
+Loss%：ping 数据包回复失败的百分比；藉此判断，那个节点（线路）出现故障，是服务器所在机房还是国际路由干路
+Sent：已传送的数据包数量
+Recv：成功接收的数据包数量
+Best：回应时间的最小值
+Avrg：平均回应时间
+Worst：回应时间的最大值
+Last：最后一个数据包的回应时间
+</code></pre>
+<h3 id="二-vps性能测试工具"><strong>二、VPS性能测试工具</strong></h3>
+<p>手动命令测试磁盘IO：</p>
+<pre><code class="language-shell">dd if=/dev/zero of=test bs=64k count=4k oflag=dsync 
+</code></pre>
+<p>手动命令测试VPS网络：</p>
+<pre><code class="language-shell">wget http://cachefly.cachefly.net/100mb.test
+</code></pre>
+<p>一键检测脚本。这里有一个一键检测VPS的CPU、内存、负载、IO读写、机房带宽等。</p>
+<pre><code class="language-shell">命令1：
+wget -qO- bench.sh | bash
+或者
+curl -Lso- bench.sh | bash
+
+命令2：
+wget -qO- 86.re/bench.sh | bash
+或者
+curl -so- 86.re/bench.sh | bash
+</code></pre>
+<p>备注：<br>
+bench.sh 既是脚本名，同时又是域名。如果以上失效，请使用以下地址下载再执行脚本：<br>
+下载地址：<br>
+https://github.com/teddysun/across/blob/master/bench.sh</p>
+<p>VPS性能综合跑分工具。UnixBench是一个类unix系（Unix，BSD，Linux）统下的性能测试工具，一个开源工具，被广泛用与测试linux系统主机的性能。Unixbench的主要测试项目有：系统调用、读写、进程、图形化测试、2D、3D、管道、运算、C库等系统基准性能提供测试数据。命令如下：</p>
+<pre><code class="language-shell">wget --no-check-certificate https://github.com/teddysun/across/raw/master/unixbench.sh
+chmod +x unixbench.sh
+./unixbench.sh
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[超级一键加速脚本，bbr 原版/魔改/plus/锐速 四合一]]></title>
+        <id>https://skytotwo.github.io//post/bbr-setup</id>
+        <link href="https://skytotwo.github.io//post/bbr-setup">
+        </link>
+        <updated>2019-09-01T08:58:10.000Z</updated>
+        <summary type="html"><![CDATA[<p>很多时候，我们为了给VPS加速，会选择不同的方式，比如BBR、锐速等，但单独BBR目前就有普通版、魔改版和plus版，加上锐速，无疑需要很多的脚本，这样在安装上也非常的不方便，而最近，loc论坛的网友又发挥了超人的实力，整出了一个集合BBR、BBR魔改、BBR plus、锐速四合一的脚本，给我们安装提供了极大的方便。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>很多时候，我们为了给VPS加速，会选择不同的方式，比如BBR、锐速等，但单独BBR目前就有普通版、魔改版和plus版，加上锐速，无疑需要很多的脚本，这样在安装上也非常的不方便，而最近，loc论坛的网友又发挥了超人的实力，整出了一个集合BBR、BBR魔改、BBR plus、锐速四合一的脚本，给我们安装提供了极大的方便。</p>
+<!-- more --> 
+<p>项目地址：<br>
+<a href="https://github.com/skytotwo/Linux-NetSpeed" title="https://github.com/skytotwo/Linux-NetSpeed">https://github.com/skytotwo/Linux-NetSpeed</a></p>
+<h4 id="简介"><strong>简介：</strong></h4>
+<p>本脚本支持KVM架构的VPS，不支持OpenVZ，kvm机型 Centos 7, Debian 8/9, Ubuntu 16/18均测试通过<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190501112405_926.png" alt="20190501112405_926.png"><br>
+安装命令：</p>
+<pre><code class="language-shell">wget &quot;https://github.com/skytotwo/Linux-NetSpeed/raw/master/tcp.sh&quot; &amp;&amp; chmod +x tcp.sh &amp;&amp; ./tcp.sh
+</code></pre>
+<p>部分如果提示连接不上github。可以先安装</p>
+<pre><code class="language-shell">yum install net-tools -y  或者 apt-get install net-tools -y
+</code></pre>
+<p>如果没有wget，比如搬瓦工vps，可以先安装wget</p>
+<pre><code class="language-shell">yum -y install wget
+</code></pre>
+<p>执行如何提示证书错误的话</p>
+<pre><code class="language-shell">yum -y install ca-certificates
+</code></pre>
+<p>或者</p>
+<pre><code class="language-shell">apt-get -y install ca-certificates
+</code></pre>
+<h4 id="说明"><strong>说明：</strong></h4>
+<ol>
+<li>
+<p>先在[1 - 3]切换内核（第一次显示为bbr内核也要切换一遍），重启<br>
+出现这个选no<br>
+<img src="http://picture.totoro.site/images/2019/09/01/20190501112743_808.png" alt="20190501112743_808.png"></p>
+</li>
+<li>
+<p>重启后不用再下载脚本，直接 ./tcp.sh ，在[4 - 8]中选你要开的加速</p>
+</li>
+</ol>
+<pre><code class="language-shell">&quot;1. 安装 BBR/BBR魔改版内核&quot;        对应4,5,6（原版，魔改，暴力魔改）
+&quot;2. 安装 BBRplus版内核 &quot;                对应7（plus）
+&quot;3. 安装 Lotserver(锐速)内核&quot;        对应8（锐速）
+</code></pre>
+<ol start="3">
+<li>开启后再 ./tcp.sh  ， 显示开启成功则启动成功，你也可以自己手动确认</li>
+</ol>
 ]]></content>
     </entry>
     <entry>
@@ -565,469 +795,6 @@ class MyClass(object):
 <h4 id="小结"><strong>小结</strong></h4>
 <p><strong>Python 的模块是天然的单例模式，这在大部分情况下应该是够用的，当然，我们也可以使用装饰器、元类等方法</strong></p>
 <p>转载至：http://python.jobbole.com/87294/</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[使用openOffice实现word、excel等转pdf功能]]></title>
-        <id>https://skytotwo.github.io//post/openoffice</id>
-        <link href="https://skytotwo.github.io//post/openoffice">
-        </link>
-        <updated>2019-08-26T14:31:25.000Z</updated>
-        <summary type="html"><![CDATA[<p>最近在公司项目中需要实现Excel转pdf的功能，一开始我自己写了工具类来实现转换，实现方式是将目标文件读流，再读出每个sheet，再将sheet数组一个个遍历取当页的数据，读数据的时候又需要每行每行的遍历，再将每个sheet拼接起来成为一个pdf。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>最近在公司项目中需要实现Excel转pdf的功能，一开始我自己写了工具类来实现转换，实现方式是将目标文件读流，再读出每个sheet，再将sheet数组一个个遍历取当页的数据，读数据的时候又需要每行每行的遍历，再将每个sheet拼接起来成为一个pdf。</p>
-<!-- more -->
-<p>本来自己想着简单，确实也实现了功能，但是还是存在很多小问题自己无法控制，比如说对excel的页面布局格式之类的需要严格控制调整，这样弄得很烦，所以想着另找出路。这时候想到了Appache的openOffice。<br>
-openOffice其实是一个服务，可以安装在windows、mac和linux下，用命令启动后，程序调用该端口，就能调用本机安装的office软件或者wps软件进行转格式，原理就是这样的。<br>
-接下来我们来看下怎么使用。</p>
-<hr>
-<h4 id="一下载安装"><strong>一.下载安装</strong></h4>
-<p>这是一个开源程序，下载地址是：<br>
-<a href="https://www.openoffice.org/download/" title="https://www.openoffice.org/download/">https://www.openoffice.org/download/</a><br>
-进入下载页面，多个系统程序包可以选择，如图下：<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180916103231_367.png" alt="20180916103231_367.png"><br>
-这里介绍windows系统和linux系统的安装，因为开发环境西药先测试，然后是要部署至生产环境的，因为公司生产环境用的是redhat红帽系统，所以会针对性的介绍下。</p>
-<p><strong>windows</strong><br>
-windows安装其实很简单，就是一步步点下一步就好了，安装完成后，我们需要记住相应的启动命令来启动程序。如下图：<br>
-打开cmd进入openoffice安装目录：<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180916103716_95.png" alt="20180916103716_95.png"><br>
-在program文件夹下输入启动命令，soffice.exe -headless -accept=&quot;socket,host=127.0.0.1,port=8100;urp;,然后回车就启动了<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180916103856_647.png" alt="20180916103856_647.png"></p>
-<p><strong>linux</strong><br>
-linux下安装会复杂一点，这里以redhat为例，我们先下载对应的安装包，红帽系统需要选择rpm格式的，我们下载64位的，如下图：<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180916104119_512.png" alt="20180916104119_512.png"><br>
-然后安装过程如下：</p>
-<pre><code class="language-shell">一、安装openOffice
-1.使用tar -xzvf xxxx.tar.gz解压缩后，会得到对应的解压文件 /zh-CN
-
-目录。
-2.进入/zh-CN//RPMS/目录
-3.执行　rpm –ivh *rpm（安装所有rpm文件）
-4.进入到desktop-integration目录　cd desktop-integration
-5.执行　rpm -ivh openoffice.org3.2-redhat-menus-3.2-9472.noarch.rpm
-
-这时openOffice己经安装完成，默认会安装在/opt下
-
-二、启动openOffice服务　
-1.进入opt目录：cd /opt
-2.进入openoffice.org3目录：　cd openoffice.org3
-3.进入cd program目录
-4.执行　soffice -headless -accept=&quot;socket,host=127.0.0.1,port=8100;urp;&quot; -nofirststartwizard &amp; 
-
-三、停止openOffice服务
-
-ps -aux | grep oppenoffice 查看是否openoffice服务是否已启动；
-</code></pre>
-<p>至此，openOffice的安装我们已经搞定了，接下来就是程序的编写了</p>
-<h4 id="二转换程序编写"><strong>二.转换程序编写</strong></h4>
-<p>首先我们需要在项目里导入相应的jar包，所需jar包如下：</p>
-<pre><code class="language-java">jodconverter-2.2.2.jar
-ridl-3.2.1.jar
-org.apache.commons.io.jar
-juh.jar
-jurt.jar
-unoil.jar
-slf4j-api-1.7.13.jar
-slf4j-jdk14-1.7.13.jar
-xstream-1.4.1.jar
-
-</code></pre>
-<p>转换的java方法我这边直接拿项目里用到的方法来讲，其实也很简单</p>
-<pre><code class="language-java">import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.ConnectException;
-
-import com.artofsolving.jodconverter.DocumentConverter;
-import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
-import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
-import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
-
-public class Converter {
-	 /** 
-     * 将Office文档转换为PDF. 运行该函数需要用到OpenOffice, OpenOffice下载地址为 
-     * http://www.openoffice.org/ 
-     *  
-     * &lt;pre&gt; 
-     * 方法示例: 
-     * String sourcePath = &quot;F:\\office\\source.doc&quot;; 
-     * String destFile = &quot;F:\\pdf\\dest.pdf&quot;; 
-     * Converter.office2PDF(sourcePath, destFile); 
-     * &lt;/pre&gt; 
-     *  
-     * @param sourceFile 
-     *            源文件, 绝对路径. 可以是Office2003-2007全部格式的文档, Office2010的没测试. 包括.doc, 
-     *            .docx, .xls, .xlsx, .ppt, .pptx等. 示例: F:\\office\\source.doc 
-     * @param destFile 
-     *            目标文件. 绝对路径. 示例: F:\\pdf\\dest.pdf 
-     * @return 操作成功与否的提示信息. 如果返回 -1, 表示找不到源文件, 或url.properties配置错误; 如果返回 0, 
-     *         则表示操作成功; 返回1, 则表示转换失败 
-     */  
-    public static int office2PDF(String sourceFile, String destFile) {  
-        try {  
-            File inputFile = new File(sourceFile);  
-            if (!inputFile.exists()) {  
-                return -1;// 找不到源文件, 则返回-1  
-            }  
-  
-            // 如果目标路径不存在, 则新建该路径  
-            File outputFile = new File(destFile);  
-         
-            //String OpenOffice_HOME = &quot;D:\\Program Files\\OpenOffice.org 4&quot;;//这里是OpenOffice的安装目录, 在我的项目中,为了便于拓展接口,没有直接写成这个样子,但是这样是绝对没问题的  
-            String OpenOffice_HOME = &quot;C:\\Program Files (x86)\\OpenOffice 4&quot;;
-            // 如果从文件中读取的URL地址最后一个字符不是 '\'，则添加'\'  
-            if (OpenOffice_HOME.charAt(OpenOffice_HOME.length() - 1) != '\\') {  
-                OpenOffice_HOME += &quot;\\&quot;;  
-            }  
-            // 启动OpenOffice的服务  
-            String command = OpenOffice_HOME  
-                    + &quot;program\\soffice.exe -headless -accept=\&quot;socket,host=127.0.0.1,port=8100;urp;\&quot;&quot;;
-            //注意：linux系统的服务是已经启动好的，不需要另启动服务，下面这句本地需要，服务器不需要
-            Process pro = Runtime.getRuntime().exec(command);  
-            // connect to an OpenOffice.org instance running on port 8100  
-            OpenOfficeConnection connection = new SocketOpenOfficeConnection(  
-                    &quot;127.0.0.1&quot;, 8100);  
-            connection.connect();  
-  
-            // convert  
-            DocumentConverter converter = new OpenOfficeDocumentConverter(  
-                    connection);  
-            converter.convert(inputFile, outputFile);  
-  
-            // close the connection  
-            connection.disconnect();  
-            //注意：关闭OpenOffice服务的进程 ，下面这句本地需要，服务器不需要
-            pro.destroy();  
-  
-            return 0;  
-        } catch (ConnectException e) {  
-            e.printStackTrace();  
-        } catch (IOException e) {  
-            e.printStackTrace();  
-        }  
-  
-        return 1;  
-    }
-}
-</code></pre>
-<p>这里很好理解，就是拿到文件，连接openOffice服务，调用转换方法。</p>
-<p>其实开发和部署还是很顺利的，需要注意的是jar包不能少，不然会报错在服务器上。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Django自定义xadmin插件之导入excel]]></title>
-        <id>https://skytotwo.github.io//post/django-xadmin-excel</id>
-        <link href="https://skytotwo.github.io//post/django-xadmin-excel">
-        </link>
-        <updated>2019-08-26T14:17:13.000Z</updated>
-        <summary type="html"><![CDATA[<p>xadmin的厉害之处在于它允许使用者自定义插件，使用者编写自己需要的插件并注册到xadmin中，以便xadmin实现自己所需要的功能。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>xadmin的厉害之处在于它允许使用者自定义插件，使用者编写自己需要的插件并注册到xadmin中，以便xadmin实现自己所需要的功能。</p>
-<!-- more -->
-<p>xadmin是如何能够实现插件的自定义呢？其实在xadmin使用文档上可以找到答案，如下所示：<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180902134855_643.png" alt="20180902134855_643.png"></p>
-<hr>
-<p>这里拿制作excel导入插件为例。最终实现的效果是在xadmin中某类别下能够出现导入excel按钮，并且能够实现excel的导入，如下图所示：<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180902135157_751.png" alt="20180902135157_751.png"><br>
-点击导入excel选项：<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180902135226_545.png" alt="20180902135226_545.png"></p>
-<p>并且最终实现悬着好excel文件后，点击确认，能够将导入逻辑相应到后台进行处理。</p>
-<h4 id="一编写excel插件"><strong>一.编写excel插件</strong></h4>
-<p>要编写excel插件，首先需要认识xadmin的目录结构，这里建议将xadmin下载至本地并放置在项目中，这样才能编写插件代码，下载地址是：<br>
-<a href="https://github.com/sshwsfc/xadmin" title="点我下载">点我下载</a><br>
-下载后得到的xadmin文件结构如下：<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180902135714_712.png" alt="20180902135714_712.png"><br>
-我们需要做的是在plugins模块中编写插件，plugins模块中已经有很多的插件了，如下：<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180902135841_910.png" alt="20180902135841_910.png"><br>
-这里已经有许多可以直接用的插件。<br>
-直接在里面新建文件，命名为excel.py代码如下：</p>
-<pre><code class="language-python"># coding:utf-8
-
-import xadmin
-from xadmin.views import BaseAdminPlugin, ListAdminView
-from django.template import loader
-
-
-#excel 导入
-class ListImportExcelPlugin(BaseAdminPlugin):
-    import_excel = False
-
-    def init_request(self, *args, **kwargs):
-        return bool(self.import_excel)#返回bool值，excel显示权限
-
-    def block_top_toolbar(self, context, nodes):
-        nodes.append(loader.render_to_string('xadmin/excel/model_list.top_toolbar.import.html'))
-
-
-xadmin.site.register_plugin(ListImportExcelPlugin, ListAdminView)
-</code></pre>
-<p><strong>解读：</strong></p>
-<ul>
-<li>自定义的ListImportExcelPlugin类需要继承BaseAdminPlugin类，这是固定写法。然后定义的init_request方法，是为了确定xadmin中excel导入按钮的显示权限，这里返回一个bool值，为Ture则为显示，False则不显示，这里顶一个了一个import_excel = False变量，默认值为False，其实可以在model对应adminx类中指定import_excel的值，因为xadmin展示的时候回默认加载这个变量，这样就能达到按钮显示权限了。</li>
-<li>而block_top_toolbar方法则是必须要重写的方法，这方法作用是将选项按钮固定在toolbar上，并直接nodes.append即可，参数是一个html页面，这个就是点击导入excel后出现的弹窗悬着excel页面。</li>
-</ul>
-<p>然后需要将自己编写的excel插件文件注册到xadmin中，直接在plugins模块的init文件中PLUGINS配置文件中添加“excel”即可，注意，excelwei插件的文件名，如下：</p>
-<pre><code class="language-python">PLUGINS = (
-    ...
-	'excel'
-)
-</code></pre>
-<h4 id="二后台逻辑"><strong>二.后台逻辑</strong></h4>
-<p>当选择了excel文件并且点击了确定后，需要将excel文件传至后台接收处理，这里该怎么做呢？<br>
-其实只需要在对应的model关联的adminx类中定义post方法即可，如下：</p>
-<pre><code class="language-python">#用于在课程页面导入excel页面后，对导入的excel做后台逻辑
-    def post(self, request, *args, **kwargs):
-        if 'excel' in request.FILES:
-            pass
-        return super().post(request, args, kwargs) #最后一定要调用父类CourseAdmin的post方法返回
-</code></pre>
-<p>这样就能后将excel传至后台，并且编写我们的解析excel逻辑了，这里需要注意的是，post方法一定要返回父类的post方法，这是固定写法，不然的话会报错，连最起码的xadmin保存都会出错。</p>
-<p>至此，自己编写的导入excel插件就安装成功啦，类似的其他功能实现方式也差不多，都是这个套路~</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Django中xadmin的学习与记录总结]]></title>
-        <id>https://skytotwo.github.io//post/django-xadmin</id>
-        <link href="https://skytotwo.github.io//post/django-xadmin">
-        </link>
-        <updated>2019-08-26T14:15:10.000Z</updated>
-        <summary type="html"><![CDATA[<p>xadmin是Django中admin后台的进阶插件，它包含了admin的基本功能，并在此基础上进行进一步的升级，使得成为一个功能完善的后台管理系统，像瑞士军刀一样拥有各种功能。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>xadmin是Django中admin后台的进阶插件，它包含了admin的基本功能，并在此基础上进行进一步的升级，使得成为一个功能完善的后台管理系统，像瑞士军刀一样拥有各种功能。</p>
-<h2 id="-more-"><!-- more --></h2>
-<h3 id="一xadmin的安装与简单使用"><strong>一.xadmin的安装与简单使用</strong></h3>
-<h4 id="1安装"><strong>1.安装</strong></h4>
-<p>xadmin有两种方式，一种是通过pip的方式安装，如下：</p>
-<pre><code class="language-python">pip install xadmin
-</code></pre>
-<p>但也可以直接进入github下载，xadmin的下载地址是：<br>
-<a href="https://github.com/sshwsfc/xadmin" title="点我进入下载链接">点我进入下载链接</a><br>
-并将其直接放置在项目目录下。<br>
-采用直接下载方式的原因是直接下载的源码包含更多没有发布至pypi上面的新功能，然后有了源码，后面可以直接更改源码，增加自己的功能，这样其实更方便扩展。</p>
-<h4 id="2注册xadmin"><strong>2.注册xadmin</strong></h4>
-<p>在settings.py的INSTALLED_APPS中增加如下：</p>
-<pre><code class="language-python">'xadmin',
-'crispy_forms'
-</code></pre>
-<p>然后把urls中默认admin指向xadmin:</p>
-<pre><code class="language-python">#导入xadmin，替换admin
-import xadmin
-urlpatterns = [
-    url(r'^xadmin/', xadmin.site.urls),
-]
-</code></pre>
-<h4 id="3生成xadmin数据表"><strong>3.生成xadmin数据表</strong></h4>
-<p>点击Tools 菜单下 Run manage.py Task：</p>
-<pre><code class="language-python">makemigrations
-migrate
-</code></pre>
-<h4 id="4注册model"><strong>4.注册model</strong></h4>
-<p>简单的注册一个model看一下效果，如下：</p>
-<pre><code class="language-python">
-from .models import UserInfo
-import xadmin
- 
- 
-class UserInfoAdmin(object):
-	list_display = ['user_name', 'user_email', 'user_mobile']  # 默认显示
-    search_fields = ['user_name', 'user_email', 'user_mobile']  # 查询
-    list_filter = ['user_name', 'user_email', 'user_mobile']  # 过滤筛选
- 
-xadmin.site.register(UserInfo, UserInfoAdmin)
-</code></pre>
-<p>如代码中所示，这里是将model和自定义的admin显示规则绑定注册至xadmin中，list_display、search_fields和list_filter分别表示默认显示的字段、可以查询的字段和可以过滤筛选的字段。</p>
-<p>实际显示效果如下：<br>
-<img src="http://picture.totoro.site/images/2019/08/26/20180901214106_476.png" alt="20180901214106_476.png"></p>
-<hr>
-<h3 id="二xadmin的进阶功能"><strong>二.xadmin的进阶功能</strong></h3>
-<p><strong>1.一般外键关联数据在xadmin只能通过在列表选择对应外键数据跳转再去编辑，但是想在详情编辑中，可以直接编辑（只能一层嵌套）：</strong></p>
-<pre><code class="language-python">class LessonInline(object):
-    model = Lesson
-    extra = 0
-
-class CourseAdmin(object):
-    list_display = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num','add_time']
-    search_fields = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num']
-    list_filter = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num','add_time']
-    inlines = [LessonInline]
-
-</code></pre>
-<p><strong>2.自定义图标、自定义字段排序、自定义字段不可编辑、编辑页面自定义影藏某字段、下拉选涉及到外检选择的改为搜索选择</strong></p>
-<pre><code class="language-python">class CourseAdmin(object):
-    list_display = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num','add_time']
-    search_fields = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num']
-    list_filter = ['name','desc','detail','degree','learn_times','students','fav_nums','image','click_num','add_time']
-    model_icon = 'fa fa-book' #自定义图标
-    ordering = ['-click_num'] #显示排序
-    readonly_fields = ['click_num','fav_nums']#后台不可编辑
-    exclude= ['add_time']  #详情不显示add_time 此字段与readonly_fields互斥
-    relfield_style='fk-ajax' #下拉筛选改为搜索
-</code></pre>
-<p><strong>3.一张表在后台注册成两个管理器，以课程为例，课程一张表，后台分为轮播课程、非轮播课程。</strong><br>
-<strong>model代码如下：</strong></p>
-<pre><code class="language-python">class Course(models.Model):
-    name = models.CharField(verbose_name=u'课程名',max_length=50)
-    is_banner = models.BooleanField(verbose_name=u'是否轮播',default=False) #是否为轮播课程
-    add_time = models.DateTimeField(verbose_name=u'添加时间',default=datetime.now)
-
-    class Meta:
-        verbose_name = u'课程'
-        verbose_name_plural = verbose_name
-
-    def __unicode__(self):
-        return self.name
-
-class BannerCourse(Course):
-    '''banner课程'''
-    class Meta:
-        verbose_name = u'轮播课程'
-        verbose_name_plural = verbose_name
-        proxy = True #不会生成表
-
-</code></pre>
-<p>这样定义其实原理是，其中自定义一个model，继承自另一个model，然后关键的是自定义的马哥model，需要在Meta中声明proxy = True，这样就不会生成另一个表，实现两个model公共一个表，而两个model可以在xadmin中注册两个管理器。</p>
-<p><strong>下面是adminx的代码:</strong></p>
-<pre><code class="language-python">class CourseAdmin(object):
-    list_display = ['name','is_banner','add_time']
-    search_fields = ['name','is_banner']
-    list_filter = ['name','is_banner', 'add_time']
-
-    def queryset(self):
-        qs = super().queryset()
-        qs = qs.filter(is_banner=False)
-        return qs
-
-class BannerCourseAdmin(object):
-    list_display = ['name', 'is_banner', 'add_time']
-    search_fields = ['name', 'is_banner']
-    list_filter = ['name', 'is_banner', 'add_time']
-
-    def queryset(self):
-        qs = super().queryset()
-        qs = qs.filter(is_banner=True)
-        return qs
-
-xadmin.site.register(BannerCourse, BannerCourseAdmin)
-xadmin.site.register(Course, CourseAdmin)
-</code></pre>
-<p>其中重要的是queryset方法，该方法的重写，意义在于重写父类的queryset方法，然后过滤出自定义管理器，如直接定义is_banner=True，这样，两个管理器就实现了分别管理不同的数据了。</p>
-<p><strong>4.将model中的方法获取的值，在后台列表字段显示：</strong></p>
-<pre><code class="language-python">#model中代码如下：
-class Course(models.Model):
-    name = models.CharField(verbose_name=u'课程名',max_length=50)
-
-    class Meta:
-        verbose_name = u'课程'
-        verbose_name_plural = verbose_name
-
-    def get_zj_nums(self):
-        '''获取该课程章节'''
-        return  self.lesson_set.all().count()
-    get_zj_nums.short_description = u'章节数'   #指定后台显示列表字段名
-
-    def __unicode__(self):
-        return self.name
-</code></pre>
-<pre><code class="language-python">#admix中代码如下：
-class CourseAdmin(object):
-    list_display = ['name','get_zj_nums']
-    search_fields = ['name']
-    list_filter = ['name']
-</code></pre>
-<p>直接将在model中定义的方法，写在list_display中展示，xadmin会自动判断这是一个方法，并将方法得到的值进行展示。<br>
-注意：如果需要改变该方法的字段名显示，直接方法名.short_description即可，如get_zj_nums.short_description = u'章节数'</p>
-<p><strong>5.在model中定义方法，返回html，在后台以html代码形式显示：</strong></p>
-<pre><code class="language-python">#model中代码：
-class Course(models.Model):
-    name = models.CharField(verbose_name=u'课程名',max_length=50)
-
-    class Meta:
-        verbose_name = u'课程'
-        verbose_name_plural = verbose_name
-
-    def go_to(self):
-        from django.utils.safestring import mark_safe
-        return mark_safe('&lt;a href=&quot;http://www.baidu.com&quot;&gt;百度&lt;/a&gt;')百度&lt;/a&gt;' #如果不使用mark_safe，在后台显示的就是一段文本了
-     go_to.short_description = u'跳转'  # 指定后台显示列表字段名
-
-    def __unicode__(self):
-        return self.name
-
-# admix中代码如下：
-class CourseAdmin(object):
-    list_display = ['name', 'go_to']
-    search_fields = ['name']
-    list_filter = ['name']
-</code></pre>
-<p>这里关键处在于，对返回的链接的处理，这里需要使用django.utils.safestring中的mark_safe方法，因为Django有自己的保护机制，如果不使用mark_safe，在后台显示的就是一段文本了，这里需要使用mark_safe将其正确解读成一个链接。</p>
-<p><strong>6.xadmin集成百度uditor编辑器</strong><br>
-基本步骤：</p>
-<pre><code class="language-shell">github上搜素django ueditor，找到zhangfisher/DjangoUeditor,下载并解压，
-切换命令行到解压后的目录执行python setup.py install（如果是虚拟环境开发，进入虚拟环境在进入对应目录）
-将 DjangoUeditor 放入到settings.py中的INSTALLED_APPS
-</code></pre>
-<p>配置urls.py如下：</p>
-<pre><code class="language-python">urlpatterns = [
-    ...
-    url(r'^ueditor/', include('DjangoUeditor.urls')),
-]
-</code></pre>
-<p>比如给课程加富文本编辑器，去Course的model中引入代码：</p>
-<pre><code class="language-python">from DjangoUeditor.models import UEditorField
-</code></pre>
-<p>对需要添加ueditor字段的修改：</p>
-<pre><code class="language-python">detail = UEditorField(u'课程详情', width=600, height=300, imagePath=&quot;course/ueditor/&quot;, filePath=&quot;course/ueditor/&quot;, upload_settings={&quot;imageMaxSize&quot;: 1204000},default='')
-#imagePath：图片上传路径，跟平时写的model中的路径是一样的
-#filePath:富文本中文件的路径，跟平时写的model中的路径是一样的
-</code></pre>
-<p>给xadmin写插件集成ueditor，在xadmin/plugin下新建ueditor.py(名字随意.py),代码如下：</p>
-<pre><code class="language-python">```python
-import xadmin
-from xadmin.views import BaseAdminPlugin,CreateAdminView,UpdateAdminView
-from DjangoUeditor.models import UEditorField
-from DjangoUeditor.widgets import UEditorWidget
-from django.conf import settings
-
-class XadminUEditorWidget(UEditorWidget):
-    def __init__(self,**kwargs):
-        self.ueditor_options = kwargs
-        self.Media.js = None
-        super(XadminUEditorWidget,self).__init__(kwargs)
-
-class UeditorPlugin(BaseAdminPlugin):
-    def get_field_style(self,attrs,db_field,style,**kwargs):
-        if style == 'ueditor': #这个字段与adminx中的style_fields = {'detail':'ueditor'} 字段对应
-            if isinstance(db_field,UEditorField):
-                widget = db_field.formfield().widget
-                param = {}
-                param.update(widget.ueditor_settings)
-                param.update(widget.attrs)
-                return {'widget':XadminUEditorWidget(**param)}
-            return attrs
-
-	def block_extrahead(self,context,nodes):
-        js = '&lt;script type=&quot;text/javascript&quot; src=&quot;%s&quot;&gt;&lt;/script&gt;' % (settings.STATIC_URL + &quot;ueditor/ueditor.config.js&quot;)
-        js += '&lt;script type=&quot;text/javascript&quot; src=&quot;%s&quot;&gt;&lt;/script&gt;' % (settings.STATIC_URL + &quot;ueditor/ueditor.all.min.js&quot;)
-            nodes.append(js)
-
-xadmin.site.register_plugin(UeditorPlugin,UpdateAdminView)
-xadmin.site.register_plugin(UeditorPlugin,CreateAdminView)
-</code></pre>
-<pre><code>在课程的adminx中CourseAdmin加入代码如下：
-```python
-class CourseAdmin(object):
-    ....
-    style_fields = {'detail':'ueditor'}
-</code></pre>
-<p>修改urls中的上传路由：</p>
-<pre><code class="language-python">#富文本相关url(用于上传文件等)
-    url(r'^ueditor/', include('DjangoUeditor.urls')),
-</code></pre>
-<p>前端展示，全是转义后的html，关闭django模板转义：</p>
-<pre><code class="language-python">{% autoescape off%}
-   {{ course.detail }}
-{% endautoescape %}
-</code></pre>
 ]]></content>
     </entry>
 </feed>

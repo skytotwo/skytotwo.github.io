@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1567390755733">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572055493224">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://skytotwo.github.io/">
-        <img src="https://skytotwo.github.io//images/avatar.png?v=1567390755733" class="site-logo">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1572055493224" class="site-logo">
         <h1 class="site-title">Totoro の Home</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -186,7 +186,7 @@ if __name__ == '__main__':
     main()
 </code></pre>
 <p>下图就是测试结果</p>
-<p><img src="http://picture.totoro.site/images/2019/08/12/20180412144339_144.jpg" alt="20180412144339_144.jpg"></p>
+<figure data-type="image" tabindex="1"><img src="http://picture.totoro.site/images/2019/08/12/20180412144339_144.jpg" alt="20180412144339_144.jpg"></figure>
 <p>可以看到python在多线程的情况下居然比单线程整整慢了45%。按照之前的分析，即使是有GIL全局锁的存在，串行化的多线程也应该和单线程有一样的效率才对。那么怎么会有这么糟糕的结果呢？</p>
 <p>让我们通过GIL的实现原理来分析这其中的原因。</p>
 <h3 id="当前gil设计的缺陷"><strong>当前GIL设计的缺陷</strong></h3>
@@ -204,7 +204,7 @@ if __name__ == '__main__':
 <p>PS：当然这种实现方式是原始而丑陋的，Python的每个版本中也在逐渐改进GIL和线程调度之间的互动关系。例如先尝试持有GIL在做线程上下文切换，在IO等待时释放GIL等尝试。但是无法改变的是GIL的存在使得操作系统线程调度的这个本来就昂贵的操作变得更奢侈了。<br>
 关于GIL影响的扩展阅读</p>
 <p>为了直观的理解GIL对于多线程带来的性能影响，这里直接借用的一张测试结果图（见下图）。图中表示的是两个线程在双核CPU上得执行情况。两个线程均为CPU密集型运算线程。绿色部分表示该线程在运行，且在执行有用的计算，红色部分为线程被调度唤醒，但是无法获取GIL导致无法进行有效运算等待的时间。</p>
-<p><a href="http://picture.totoro.site/image/DZ53"><img src="http://picture.totoro.site/images/2019/08/12/20180412144426_872.jpg" alt="20180412144426_872.jpg"></a></p>
+<figure data-type="image" tabindex="2"><a href="http://picture.totoro.site/image/DZ53"><img src="http://picture.totoro.site/images/2019/08/12/20180412144426_872.jpg" alt="20180412144426_872.jpg"></a></figure>
 <p>由图可见，GIL的存在导致多线程无法很好的立即多核CPU的并发处理能力。</p>
 <p>那么Python的IO密集型线程能否从多线程中受益呢？我们来看下面这张测试结果。颜色代表的含义和上图一致。白色部分表示IO线程处于等待。可见，当IO线程收到数据包引起终端切换后，仍然由于一个CPU密集型线程的存在，导致无法获取GIL锁，从而进行无尽的循环等待。</p>
 <p><img src="http://picture.totoro.site/images/2019/08/12/20180412144444_600.jpg" alt="20180412144444_600.jpg"><br>

@@ -1,78 +1,117 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" >
+
 <title>go语言与python并发（协程）的异同 | Totoro の Home</title>
-<meta name="description" content="空杯心态，每天进步" />
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572484891992">
-<link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572485140864">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
-
 <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="go语言与python并发（协程）的异同 | Totoro の Home - Atom Feed" href="https://skytotwo.github.io//atom.xml">
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
 
 
   </head>
   <body>
-    <div class="site-nav has-cover">
-      <div class="head">
-  <div class="inner">
-    <a class="site-name" href="https://skytotwo.github.io/">
-        <span>Totoro の Home</span>
-    </a>
-    <label class="burger" for="burger"></label>
-    <input id="burger" type="checkbox">
-    <button class="burger">
-      <div>
-        <span></span>
-        <span></span>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1572485140864" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
       </div>
-    </button>
-    <nav class="info_nav">
+    </div>
+    <div>
       
         
-          <a href="/">首页</a>
-        
-      
-        
-          <a href="/archives">归档</a>
-        
-      
-        
-          <a href="/tags">标签</a>
+          <a href="/" class="site-nav">
+            首页
+          </a>
         
       
         
-          <a href="/post/about">关于</a>
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
         
       
         
-          <a href="http://picture.totoro.site/">图床</a>
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
         
       
-    </nav>
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="http://picture.totoro.site/" class="site-nav">
+            图床
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
   </div>
 </div>
-    </div>
-    <article role="main" class="hentry has-cover">
-      
-        <div class="entry-cover js-cover" data-src="http://picture.totoro.site/images/2019/08/26/7403ae9274d4dc81d567836a10cea287.jpg" data-width="900" data-height="423" style="background-image:url(http://picture.totoro.site/images/2019/08/26/7403ae9274d4dc81d567836a10cea287.jpg); height: 80vw;">
-          <h1 class="post-title">go语言与python并发（协程）的异同</h1>
-        </div>
-      
-      <h1 class="entry-title" itemprop="headline">go语言与python并发（协程）的异同</h1>
-      <div class="entry-meta">
-        <time class="updated" datetime="2019-08-26 21:57:10">2019-08-26</time>
-        <span class="author vcard">
-          3 min read
-        </span>
-      </div>
-      <div class="post-content yue">
-        <p><strong>go语言和python都是时下火热的语言，两者在各自领域有自己的优势。它们都支持并发，这里对此做相应比较和区分。</strong></p>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">go语言与python并发（协程）的异同</h2>
+            <div class="post-date">2019-08-26</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/7403ae9274d4dc81d567836a10cea287.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <p><strong>go语言和python都是时下火热的语言，两者在各自领域有自己的优势。它们都支持并发，这里对此做相应比较和区分。</strong></p>
 <h2 id="-more-"><!-- more --></h2>
 <h4 id="go语言"><strong>go语言：</strong></h4>
 <p>go语言是原生支持并发，这个是天生骄傲的，go语言的并发和python一样都是依靠协程，协程相当于函数层面的相继顺序调用，是一种区别于线程的非抢占式的任务调度。<br>
@@ -90,109 +129,87 @@ python为了将语义变得更加明确，就引入了async和await关键词用�
 <h4 id="对比总结"><strong>对比总结：</strong></h4>
 <p>其实就并发而言我是比较喜欢go语言的，毕竟对使用者比较友好嘛，但是对语言来说，我喜欢Python没道理，哈哈。</p>
 
-      </div>
-      <div class="entry-block">
-        <div class="entry-tags">
-          
-            <a href="https://skytotwo.github.io//tag/QdOfncYO8">
-              go
-            </a>
-          
-            <a href="https://skytotwo.github.io//tag/5VYNLEty2">
-              python
-            </a>
-          
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/QdOfncYO8" class="tag">
+                    go
+                  </a>
+                
+                  <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="tag">
+                    python
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/go-channel">
+                  <h3 class="post-title">
+                    go语言channel概要记录
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
         </div>
       </div>
-    </article>
-    
-      <section class="post-section prev-post">
-        <div class="inner">
-          <h3>前一篇</h3>
-          <a href="https://skytotwo.github.io//post/centos7-nginx-uswgi-django">
-            <strong>Centos7 nginx + uswgi 部署Django应用</strong>
-          </a>
-        </div>
-      </section>
-    
-    
-      <section class="post-section prev-post">
-        <div class="inner">
-          <h3>后一篇</h3>
-          <a href="https://skytotwo.github.io//post/go-channel">
-            <strong>go语言channel概要记录</strong>
-          </a>
-        </div>
-      </section>
-    
-
-    
-      
-        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-<div id="gitalk-container"></div>
-
-<script>
-
-  var gitalk = new Gitalk({
-    clientID: 'c92214c141dbb1e37da6',
-    clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
-    repo: 'skytotwo.github.io',
-    owner: 'skytotwo',
-    admin: ['skytotwo'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  })
-
-  gitalk.render('gitalk-container')
-
-</script>
-
-      
-
-      
-    
-
-    <footer class="footer">
-  <div class="main">
-    <a href="https://skytotwo.github.io/">
-      <img class="avatar" src="https://skytotwo.github.io//images/avatar.png?v=1572484891992" alt="Totoro の Home">
-    </a>
-    <div class="footer__social">
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
     </div>
-    <p class="footer__sosumi">
-      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a>
-    </p>
-    <a class="footer-rss" href="https://skytotwo.github.io//atom.xml">RSS</a>
-  </div>
-</footer>
 
-<script src="https://skytotwo.github.io//media/prism.js"></script>
-<script>
-  Prism.highlightAll()
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
 </script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
 
   </body>
 </html>

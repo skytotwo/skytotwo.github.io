@@ -1,241 +1,349 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Totoro の Home</title>
-<meta name="description" content="空杯心态，每天进步" />
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572484891992">
-<link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
+    <meta charset="utf-8" >
+
+<title>python | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572485140864">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
-
 <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="Totoro の Home - Atom Feed" href="https://skytotwo.github.io//atom.xml">
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
 
 
   </head>
   <body>
-    <div class="head">
-  <div class="inner">
-    <a class="site-name" href="https://skytotwo.github.io/">
-        <span>Totoro の Home</span>
-    </a>
-    <label class="burger" for="burger"></label>
-    <input id="burger" type="checkbox">
-    <button class="burger">
-      <div>
-        <span></span>
-        <span></span>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1572485140864" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
       </div>
-    </button>
-    <nav class="info_nav">
+    </div>
+    <div>
       
         
-          <a href="/">首页</a>
-        
-      
-        
-          <a href="/archives">归档</a>
-        
-      
-        
-          <a href="/tags">标签</a>
+          <a href="/" class="site-nav">
+            首页
+          </a>
         
       
         
-          <a href="/post/about">关于</a>
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
         
       
         
-          <a href="http://picture.totoro.site/">图床</a>
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
         
       
-    </nav>
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="http://picture.totoro.site/" class="site-nav">
+            图床
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
   </div>
 </div>
-    <div class="info _site">
-      <div class="inner">
-        <div class="info_main">
-          <h1 class="info_title"><i class="remixicon-price-tag-3-line"></i> python</h1>
-        </div>
-      </div>
-    </div>
-    <div class="main">
-      <div class="inner">
-        <div class="items">
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <h2 class="current-tag">标签: python</h2>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://skytotwo.github.io//post/wechat-invalid-total_fee">
+                  <h2 class="post-title">微信支付统一下单失败，返回金额invalid total_fee</h2>
+                </a>
+                <div class="post-date">
+                  2019-09-01
+                </div>
+                <div class="post-abstract">
+                  <p>这里是因为微信支付金额是以分为单位的，而支付宝是以元为单位的，这是两者的区别。在下单部分，需要将金额做一下处理，将元转化成分，下面是python的实现：</p>
+
+                </div>
+              </div>
+              
+                <a class="right" href="https://skytotwo.github.io//post/wechat-invalid-total_fee">
+                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/09/01/1467640281194160.jpg')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://skytotwo.github.io//post/python-singelton">
+                  <h2 class="post-title">python中的单例模式</h2>
+                </a>
+                <div class="post-date">
+                  2019-09-01
+                </div>
+                <div class="post-abstract">
+                  <p>单例模式（Singleton Pattern）是一种常用的软件设计模式，该模式的主要目的是确保某一个类只有一个实例存在。当你希望在整个系统中，某个类只能出现一个实例时，单例对象就能派上用场。</p>
+
+                </div>
+              </div>
+              
+                <a class="right" href="https://skytotwo.github.io//post/python-singelton">
+                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/09/01/15611C91523020-1S31.jpg')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://skytotwo.github.io//post/centos7-nginx-uswgi-django">
+                  <h2 class="post-title">Centos7 nginx + uswgi 部署Django应用</h2>
+                </a>
+                <div class="post-date">
+                  2019-08-26
+                </div>
+                <div class="post-abstract">
+                  <p>前些天写了flask应用的部署，今天来讲讲Django的部署吧，毕竟Django部署坑确实多，写篇教程记录下具体步骤要点和踩过得坑。</p>
+
+                </div>
+              </div>
+              
+                <a class="right" href="https://skytotwo.github.io//post/centos7-nginx-uswgi-django">
+                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/v2-9bc6cfcdb7b946a728ccfe26f4eb5c01_1200x500.jpg')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://skytotwo.github.io//post/go-python-decorator">
+                  <h2 class="post-title">go语言与python并发（协程）的异同</h2>
+                </a>
+                <div class="post-date">
+                  2019-08-26
+                </div>
+                <div class="post-abstract">
+                  <p><strong>go语言和python都是时下火热的语言，两者在各自领域有自己的优势。它们都支持并发，这里对此做相应比较和区分。</strong></p>
+
+                </div>
+              </div>
+              
+                <a class="right" href="https://skytotwo.github.io//post/go-python-decorator">
+                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/7403ae9274d4dc81d567836a10cea287.jpg')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://skytotwo.github.io//post/python-docktype">
+                  <h2 class="post-title">对python鸭子类型的理解</h2>
+                </a>
+                <div class="post-date">
+                  2019-08-26
+                </div>
+                <div class="post-abstract">
+                  <p><strong>首先Python不支持多态，也不用支持多态，python是一种多态语言，崇尚鸭子类型。</strong> 以下是维基百科中对鸭子类型得论述：</p>
+
+                </div>
+              </div>
+              
+                <a class="right" href="https://skytotwo.github.io//post/python-docktype">
+                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/1312420-20180119152921787-633807356.png')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://skytotwo.github.io//post/python-iter&amp;decorator">
+                  <h2 class="post-title">Python可迭代对象，迭代器，生成器的区别</h2>
+                </a>
+                <div class="post-date">
+                  2019-08-26
+                </div>
+                <div class="post-abstract">
+                  <p>三者简要关系图</p>
+
+                </div>
+              </div>
+              
+                <a class="right" href="https://skytotwo.github.io//post/python-iter&amp;decorator">
+                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/9f1bbdf6-688d-11e9-ae9d-00163e060d4e.png')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://skytotwo.github.io//post/python-copy">
+                  <h2 class="post-title">谈谈python中的深拷贝和浅拷贝</h2>
+                </a>
+                <div class="post-date">
+                  2019-08-26
+                </div>
+                <div class="post-abstract">
+                  <p>原文链接：谈谈python中的深拷贝和浅拷贝<a href="https://www.jianshu.com/p/efa9dd51f5cc">https://www.jianshu.com/p/efa9dd51f5cc</a></p>
+<p>最近面试被问到python中深拷贝和浅拷贝的知识<br>
+这里进行下总结，以便今后复习<br>
+python中的深拷贝和浅拷贝和java里面的概念是一样的，所谓浅拷贝就是对引用的拷贝，所谓深拷贝就是对对象的资源的拷贝。</p>
+
+                </div>
+              </div>
+              
+                <a class="right" href="https://skytotwo.github.io//post/python-copy">
+                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/images1.png')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://skytotwo.github.io//post/python-with-context">
+                  <h2 class="post-title">Python的with上下文要点</h2>
+                </a>
+                <div class="post-date">
+                  2019-08-26
+                </div>
+                <div class="post-abstract">
+                  <p>python的的with上下文其实可以自己实现，只要该对象实现了__enter__和__exit__方法，就实现了一个with上下文，可以用with来处理该对象，如下：</p>
+
+                </div>
+              </div>
+              
+                <a class="right" href="https://skytotwo.github.io//post/python-with-context">
+                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/t1gluj65w1.jpg')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://skytotwo.github.io//post/flask-content">
+                  <h2 class="post-title">详解flask上下文与出入栈</h2>
+                </a>
+                <div class="post-date">
+                  2019-08-26
+                </div>
+                <div class="post-abstract">
+                  <p>在flask中，上下文算是核心中的核心了，其作用于请求的访问处理，多线程隔离的实现等。</p>
+
+                </div>
+              </div>
+              
+                <a class="right" href="https://skytotwo.github.io//post/flask-content">
+                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/20180506181132_533.jpg')">
+                  </div>
+                </a>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://skytotwo.github.io//post/centos7-flask-env">
+                  <h2 class="post-title">Centos7 环境下部署flask网站步骤</h2>
+                </a>
+                <div class="post-date">
+                  2019-08-26
+                </div>
+                <div class="post-abstract">
+                  <p>自己之前做了一个flask项目，完成后部署在腾讯云，过程由踩一点坑，这里记录下过程。在部署之前，需要先配置centos7环境，具体链接为：<br>
+<a href="https://totoro.site/post/centos7-python-env/" title="centos7 环境配置">centos7 环境配置</a></p>
+
+                </div>
+              </div>
+              
+                <a class="right" href="https://skytotwo.github.io//post/centos7-flask-env">
+                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/flask-python.png')">
+                  </div>
+                </a>
+              
+            </article>
+          
+
+          <div class="pagination-container">
   
-    <div class="item Article">
-      
-        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/09/01/1467640281194160.jpg" href="https://skytotwo.github.io//post/wechat-invalid-total_fee" style="background-image:url('http://picture.totoro.site/images/2019/09/01/1467640281194160.jpg');"></a>
-      
-      <a class="item-main" href="https://skytotwo.github.io//post/wechat-invalid-total_fee">
-        <div class="item-meta">
-          <time datetime="2019-09-01 16:41:55">2019-09-01</time>
-        </div>
-        <h2>微信支付统一下单失败，返回金额invalid total_fee</h2>
-      </a>
-    </div>
   
-    <div class="item Article">
-      
-        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/09/01/15611C91523020-1S31.jpg" href="https://skytotwo.github.io//post/python-singelton" style="background-image:url('http://picture.totoro.site/images/2019/09/01/15611C91523020-1S31.jpg');"></a>
-      
-      <a class="item-main" href="https://skytotwo.github.io//post/python-singelton">
-        <div class="item-meta">
-          <time datetime="2019-09-01 15:50:50">2019-09-01</time>
-        </div>
-        <h2>python中的单例模式</h2>
-      </a>
-    </div>
-  
-    <div class="item Article">
-      
-        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/26/v2-9bc6cfcdb7b946a728ccfe26f4eb5c01_1200x500.jpg" href="https://skytotwo.github.io//post/centos7-nginx-uswgi-django" style="background-image:url('http://picture.totoro.site/images/2019/08/26/v2-9bc6cfcdb7b946a728ccfe26f4eb5c01_1200x500.jpg');"></a>
-      
-      <a class="item-main" href="https://skytotwo.github.io//post/centos7-nginx-uswgi-django">
-        <div class="item-meta">
-          <time datetime="2019-08-26 22:00:23">2019-08-26</time>
-        </div>
-        <h2>Centos7 nginx + uswgi 部署Django应用</h2>
-      </a>
-    </div>
-  
-    <div class="item Article">
-      
-        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/26/7403ae9274d4dc81d567836a10cea287.jpg" href="https://skytotwo.github.io//post/go-python-decorator" style="background-image:url('http://picture.totoro.site/images/2019/08/26/7403ae9274d4dc81d567836a10cea287.jpg');"></a>
-      
-      <a class="item-main" href="https://skytotwo.github.io//post/go-python-decorator">
-        <div class="item-meta">
-          <time datetime="2019-08-26 21:57:10">2019-08-26</time>
-        </div>
-        <h2>go语言与python并发（协程）的异同</h2>
-      </a>
-    </div>
-  
-    <div class="item Article">
-      
-        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/26/1312420-20180119152921787-633807356.png" href="https://skytotwo.github.io//post/python-docktype" style="background-image:url('http://picture.totoro.site/images/2019/08/26/1312420-20180119152921787-633807356.png');"></a>
-      
-      <a class="item-main" href="https://skytotwo.github.io//post/python-docktype">
-        <div class="item-meta">
-          <time datetime="2019-08-26 21:41:10">2019-08-26</time>
-        </div>
-        <h2>对python鸭子类型的理解</h2>
-      </a>
-    </div>
-  
-    <div class="item Article">
-      
-        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/26/9f1bbdf6-688d-11e9-ae9d-00163e060d4e.png" href="https://skytotwo.github.io//post/python-iter&amp;decorator" style="background-image:url('http://picture.totoro.site/images/2019/08/26/9f1bbdf6-688d-11e9-ae9d-00163e060d4e.png');"></a>
-      
-      <a class="item-main" href="https://skytotwo.github.io//post/python-iter&amp;decorator">
-        <div class="item-meta">
-          <time datetime="2019-08-26 21:23:20">2019-08-26</time>
-        </div>
-        <h2>Python可迭代对象，迭代器，生成器的区别</h2>
-      </a>
-    </div>
-  
-    <div class="item Article">
-      
-        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/26/images1.png" href="https://skytotwo.github.io//post/python-copy" style="background-image:url('http://picture.totoro.site/images/2019/08/26/images1.png');"></a>
-      
-      <a class="item-main" href="https://skytotwo.github.io//post/python-copy">
-        <div class="item-meta">
-          <time datetime="2019-08-26 16:19:53">2019-08-26</time>
-        </div>
-        <h2>谈谈python中的深拷贝和浅拷贝</h2>
-      </a>
-    </div>
-  
-    <div class="item Article">
-      
-        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/26/t1gluj65w1.jpg" href="https://skytotwo.github.io//post/python-with-context" style="background-image:url('http://picture.totoro.site/images/2019/08/26/t1gluj65w1.jpg');"></a>
-      
-      <a class="item-main" href="https://skytotwo.github.io//post/python-with-context">
-        <div class="item-meta">
-          <time datetime="2019-08-26 16:09:49">2019-08-26</time>
-        </div>
-        <h2>Python的with上下文要点</h2>
-      </a>
-    </div>
-  
-    <div class="item Article">
-      
-        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/26/20180506181132_533.jpg" href="https://skytotwo.github.io//post/flask-content" style="background-image:url('http://picture.totoro.site/images/2019/08/26/20180506181132_533.jpg');"></a>
-      
-      <a class="item-main" href="https://skytotwo.github.io//post/flask-content">
-        <div class="item-meta">
-          <time datetime="2019-08-26 16:04:10">2019-08-26</time>
-        </div>
-        <h2>详解flask上下文与出入栈</h2>
-      </a>
-    </div>
-  
-    <div class="item Article">
-      
-        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/26/flask-python.png" href="https://skytotwo.github.io//post/centos7-flask-env" style="background-image:url('http://picture.totoro.site/images/2019/08/26/flask-python.png');"></a>
-      
-      <a class="item-main" href="https://skytotwo.github.io//post/centos7-flask-env">
-        <div class="item-meta">
-          <time datetime="2019-08-26 15:53:41">2019-08-26</time>
-        </div>
-        <h2>Centos7 环境下部署flask网站步骤</h2>
-      </a>
-    </div>
+    <a href="https://skytotwo.github.io//tag/5VYNLEty2//page/2/" class="next">下一页 <i class="icon-arrow-ios-forward-outline"></i></a>
   
 </div>
 
-        <div class="navigation">
-  
-  
-    <a href="https://skytotwo.github.io//tag/5VYNLEty2//page/2/">下一页 <i class="remixicon-arrow-right-line"></i></a>
-  
-</div>
+        </div>
       </div>
     </div>
-    <footer class="footer">
-  <div class="main">
-    <a href="https://skytotwo.github.io/">
-      <img class="avatar" src="https://skytotwo.github.io//images/avatar.png?v=1572484891992" alt="Totoro の Home">
-    </a>
-    <div class="footer__social">
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    </div>
-    <p class="footer__sosumi">
-      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a>
-    </p>
-    <a class="footer-rss" href="https://skytotwo.github.io//atom.xml">RSS</a>
-  </div>
-</footer>
 
-<script src="https://skytotwo.github.io//media/prism.js"></script>
-<script>
-  Prism.highlightAll()
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
 </script>
+
+
+
 
   </body>
 </html>

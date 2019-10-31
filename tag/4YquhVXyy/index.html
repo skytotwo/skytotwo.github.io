@@ -1,108 +1,78 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Totoro の Home</title>
-<meta name="description" content="空杯心态，每天进步" />
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572484891992">
-<link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
+    <meta charset="utf-8" >
+
+<title>daily | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572485140864">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
-
 <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="Totoro の Home - Atom Feed" href="https://skytotwo.github.io//atom.xml">
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
 
 
   </head>
   <body>
-    <div class="head">
-  <div class="inner">
-    <a class="site-name" href="https://skytotwo.github.io/">
-        <span>Totoro の Home</span>
-    </a>
-    <label class="burger" for="burger"></label>
-    <input id="burger" type="checkbox">
-    <button class="burger">
-      <div>
-        <span></span>
-        <span></span>
-      </div>
-    </button>
-    <nav class="info_nav">
-      
-        
-          <a href="/">首页</a>
-        
-      
-        
-          <a href="/archives">归档</a>
-        
-      
-        
-          <a href="/tags">标签</a>
-        
-      
-        
-          <a href="/post/about">关于</a>
-        
-      
-        
-          <a href="http://picture.totoro.site/">图床</a>
-        
-      
-    </nav>
-  </div>
-</div>
-    <div class="info _site">
-      <div class="inner">
-        <div class="info_main">
-          <h1 class="info_title"><i class="remixicon-price-tag-3-line"></i> daily</h1>
-        </div>
-      </div>
-    </div>
-    <div class="main">
-      <div class="inner">
-        <div class="items">
-  
-    <div class="item Article">
-      
-        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/09/01/landing-medium.jpg" href="https://skytotwo.github.io//post/chevereto-setup" style="background-image:url('http://picture.totoro.site/images/2019/09/01/landing-medium.jpg');"></a>
-      
-      <a class="item-main" href="https://skytotwo.github.io//post/chevereto-setup">
-        <div class="item-meta">
-          <time datetime="2019-09-01 16:27:49">2019-09-01</time>
-        </div>
-        <h2>一款强大好用的个人图床：chevereto安装教程</h2>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1572485140864" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
       </a>
-    </div>
-  
-</div>
-
-        <div class="navigation">
-  
-  
-</div>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
       </div>
     </div>
-    <footer class="footer">
-  <div class="main">
-    <a href="https://skytotwo.github.io/">
-      <img class="avatar" src="https://skytotwo.github.io//images/avatar.png?v=1572484891992" alt="Totoro の Home">
-    </a>
-    <div class="footer__social">
+    <div>
       
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
         
       
         
-      
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
         
       
         
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
       
         
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="http://picture.totoro.site/" class="site-nav">
+            图床
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
       
         
       
@@ -115,17 +85,70 @@
         
       
     </div>
-    <p class="footer__sosumi">
-      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a>
-    </p>
-    <a class="footer-rss" href="https://skytotwo.github.io//atom.xml">RSS</a>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
   </div>
-</footer>
+</div>
 
-<script src="https://skytotwo.github.io//media/prism.js"></script>
-<script>
-  Prism.highlightAll()
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <h2 class="current-tag">标签: daily</h2>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://skytotwo.github.io//post/chevereto-setup">
+                  <h2 class="post-title">一款强大好用的个人图床：chevereto安装教程</h2>
+                </a>
+                <div class="post-date">
+                  2019-09-01
+                </div>
+                <div class="post-abstract">
+                  <p>说明：chevereto是目前最好的图床之一了。功能也非常强大。其免费版和收费版的区别，在于收费版多了硬盘扩展，社交分享功能和技术支持。硬盘扩展指的是你可以通过sftp等方式把上传的文件储存在其他服务器上。所以个人觉得，这个免费版已经足够使用了。而且chevereto的安装也非常简单，并且支持中文。网上很多教程都写得不是很清楚，这里就发个详细安装教程吧。</p>
+
+                </div>
+              </div>
+              
+                <a class="right" href="https://skytotwo.github.io//post/chevereto-setup">
+                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/09/01/landing-medium.jpg')">
+                  </div>
+                </a>
+              
+            </article>
+          
+
+          <div class="pagination-container">
+  
+  
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
 </script>
+
+
+
 
   </body>
 </html>

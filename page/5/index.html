@@ -1,348 +1,325 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" >
+      <head>
+        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+        <meta charset="utf-8">
+        <meta name="referrer" content="never">
+        <title>Totoro の Home</title>
+        <link rel="stylesheet" href="https://cdn.staticfile.org/KaTeX/0.11.1/katex.min.css">
+        <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+          <script src="https://skytotwo.github.io//media/scripts/mdui.min.js"></script>
+        <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
+        <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Ma+Shan+Zheng&display=swap" rel="stylesheet">
+        <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+        <script src="https://skytotwo.github.io//media/scripts/script.js"></script>
+        <script >hljs.initHighlightingOnLoad();</script>
+        
 
-<title>Totoro の Home</title>
-<meta name="description" content="空杯心态，每天进步">
+    </head>
+    <body class="mdui-theme-primary-purple mdui-theme-accent-purple">
+        <header class=" mdui-m-b-3 header">
+                          <button class="mdui-btn daohang mdui-btn-icon mdui-btn-dense mdui-color-theme-500 mdui-ripple yinying mdui-m-t-1 mdui-m-l-1" mdui-menu="{target: '#demo-attr-cascade'}"><i class="mdui-icon material-icons">&#xe5d2;</i></button>
+                <ul class="mdui-menu " id="demo-attr-cascade">
+                
+                        <li class="mdui-menu-item">
+                          <a href="/" class="mdui-ripple">首页</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="/archives" class="mdui-ripple">归档</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="/tags" class="mdui-ripple">标签</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="/post/about" class="mdui-ripple">关于</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="http://picture.totoro.site/" class="mdui-ripple">图床</a>
+                        </li>
+                
+                      </ul>
+                      <div class="mdui-text-center">
+                      <div class="mdui-typo-display-4 mdui-m-b-3 index-title">Totoro の Home</div>
+                      <div class="mdui-typo-headline">空杯心态，每天进步</div>
+                      </div>
 
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572325053771">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
-
-
-  </head>
-  <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://skytotwo.github.io/">
-        <img src="https://skytotwo.github.io//images/avatar.png?v=1572325053771" class="site-logo">
-        <h1 class="site-title">Totoro の Home</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
-      
-        
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
-      
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
-        
-      
-        
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
-        
-      
-        
-          <a href="/post/about" class="site-nav">
-            关于
-          </a>
-        
-      
-        
-          <a href="http://picture.totoro.site/" class="site-nav">
-            图床
-          </a>
-        
-      
-    </div>
-  </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    </div>
-    <div class="site-description">
-      空杯心态，每天进步
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
-  </div>
-</div>
-
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/iter-generator">
-                  <h2 class="post-title">完全理解 Python 迭代对象、迭代器、生成器</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>本文源自RQ作者的一篇博文，原文是Iterables vs. Iterators vs. Generators。<br>
+        </header >
+        <div class="mdui-container">
+                <div class="mdui-row">
+                        <div class="mdui-col-md-6 mdui-col-offset-md-3 ">
+                                                     
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/iter-generator" class="index-list-title">完全理解 Python 迭代对象、迭代器、生成器</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>本文源自RQ作者的一篇博文，原文是Iterables vs. Iterators vs. Generators。<br>
 在了解Python的数据结构时，容器(container)、可迭代对象(iterable)、迭代器(iterator)、生成器(generator)、列表/集合/字典推导式(list,set,dict comprehension)众多概念参杂在一起，难免让初学者一头雾水，我将用一篇文章试图将这些概念以及它们之间的关系捋清楚。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/iter-generator">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/20180411145647_562.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/python-generators">
-                  <h2 class="post-title">Python 生成器原理详解</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>原文出处： MichaelDiBernardo   译文出处：你逗比<br>
-这篇文章是对 500 Lines or Less 一书中高效爬虫一章的部分翻译，原文在此 -&gt; How Python Generators Work。建议结合《流畅的 Python》食用。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/python-generators">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/20180828113140573.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/wechat-pay-java">
-                  <h2 class="post-title">微信小程序支付  带java后端</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>话不多说，直接开撸。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/wechat-pay-java">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/b3465065ae1ebd2d.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/css-centered">
-                  <h2 class="post-title">css图片居中(水平居中和垂直居中)</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>css图片居中分css图片水平居中和垂直居中两种情况，有时候还需要图片同时水平垂直居中，下面分几种居中情况分别介绍:</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/css-centered">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/1_OFsc0SD55jhi8cjo7aCA4w.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/wechat-learning-2">
-                  <h2 class="post-title">微信小程序学习记要（下）</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>之前记录了微信小程序学习的上集，这次记录下下部分，内容不多，但是我觉得这些点还是需要关注下。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/wechat-learning-2">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/dba4tns3gj.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/linux-vi">
-                  <h2 class="post-title">linux下终端常用命令和vi命令修改文件及保存的使用方法</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>这次分享的还是linux下的常用命令，以及在linux下使用vi操作，修改文件等具体方法，很多人第一次接触vi命令，会有点懵，但熟练后会发现其实很简单。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/linux-vi">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/055942njnmcte0ktbqctfk.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/mac-android-env">
-                  <h2 class="post-title">Mac下android_sdk配置环境变量</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>之前用mac做过安卓开发，然后安卓sdk的配置环境变量上遇到过坑，这里记录一下。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/mac-android-env">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/android-studio-mac-670x335.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/linux-command">
-                  <h2 class="post-title">Linux常用命令简记</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>linux下的命令繁多，熟悉相关命令对工作可以提高便利性，下面列举了一些常用的命令。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/linux-command">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/images.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/java-get-url">
-                  <h2 class="post-title">java获取当前路径的几种方法</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>java开发过程中经常需要获取当前路径，而java也有相应的内置函数来对此提供支持，下面来介绍一下。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/java-get-url">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/java-2327538_960_720.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/java-regex">
-                  <h2 class="post-title">利用java正则表达式来解析并获取指定的字符串</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-05
-                </div>
-                <div class="post-abstract">
-                  <p><strong>Java的正则表达式不仅可以用来匹配验证字符串是否符合标准类型，还可以用来解析字符串，获取自己想要得到的数据。在java.util.regex包下提供了系列的类来对字符串进行匹配。</strong></p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/java-regex">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/05/587633180001ba6404170225.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-
-          <div class="pagination-container">
-  
-    <a href="https://skytotwo.github.io//page/4/" class="prev"><i class="icon-arrow-ios-back-outline"></i> 上一页</a>
-  
-  
-    <a href="https://skytotwo.github.io//page/6/" class="next">下一页 <i class="icon-arrow-ios-forward-outline"></i></a>
-  
 </div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/08/12/20180411145647_562.png)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="index-list-biaoqian mdui-float-left yinying">python</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/iter-generator" class="index-list-biaoqian mdui-float-right yinying">2019-08-12</a>
+                                              
 
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/python-generators" class="index-list-title">Python 生成器原理详解</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>原文出处： MichaelDiBernardo   译文出处：你逗比<br>
+这篇文章是对 500 Lines or Less 一书中高效爬虫一章的部分翻译，原文在此 -&gt; How Python Generators Work。建议结合《流畅的 Python》食用。</p>
+</div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/08/12/20180828113140573.png)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="index-list-biaoqian mdui-float-left yinying">python</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/python-generators" class="index-list-biaoqian mdui-float-right yinying">2019-08-12</a>
+                                              
+
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/wechat-pay-java" class="index-list-title">微信小程序支付  带java后端</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>话不多说，直接开撸。</p>
+</div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/08/12/b3465065ae1ebd2d.jpg)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/Eqaw7RxRY" class="index-list-biaoqian mdui-float-left yinying">小程序</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/wechat-pay-java" class="index-list-biaoqian mdui-float-right yinying">2019-08-12</a>
+                                              
+
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/css-centered" class="index-list-title">css图片居中(水平居中和垂直居中)</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>css图片居中分css图片水平居中和垂直居中两种情况，有时候还需要图片同时水平垂直居中，下面分几种居中情况分别介绍:</p>
+</div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/08/12/1_OFsc0SD55jhi8cjo7aCA4w.jpg)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/cRz-_tW8O" class="index-list-biaoqian mdui-float-left yinying">前端</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/css-centered" class="index-list-biaoqian mdui-float-right yinying">2019-08-12</a>
+                                              
+
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/wechat-learning-2" class="index-list-title">微信小程序学习记要（下）</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>之前记录了微信小程序学习的上集，这次记录下下部分，内容不多，但是我觉得这些点还是需要关注下。</p>
+</div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/08/12/dba4tns3gj.png)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/Eqaw7RxRY" class="index-list-biaoqian mdui-float-left yinying">小程序</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/wechat-learning-2" class="index-list-biaoqian mdui-float-right yinying">2019-08-12</a>
+                                              
+
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/linux-vi" class="index-list-title">linux下终端常用命令和vi命令修改文件及保存的使用方法</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>这次分享的还是linux下的常用命令，以及在linux下使用vi操作，修改文件等具体方法，很多人第一次接触vi命令，会有点懵，但熟练后会发现其实很简单。</p>
+</div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/08/12/055942njnmcte0ktbqctfk.png)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/OM99oRtav" class="index-list-biaoqian mdui-float-left yinying">linux</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/linux-vi" class="index-list-biaoqian mdui-float-right yinying">2019-08-12</a>
+                                              
+
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/mac-android-env" class="index-list-title">Mac下android_sdk配置环境变量</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>之前用mac做过安卓开发，然后安卓sdk的配置环境变量上遇到过坑，这里记录一下。</p>
+</div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/08/12/android-studio-mac-670x335.jpg)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/1ZdSBThOB" class="index-list-biaoqian mdui-float-left yinying">mac</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/mac-android-env" class="index-list-biaoqian mdui-float-right yinying">2019-08-12</a>
+                                              
+
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/linux-command" class="index-list-title">Linux常用命令简记</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>linux下的命令繁多，熟悉相关命令对工作可以提高便利性，下面列举了一些常用的命令。</p>
+</div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/08/12/images.png)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/OM99oRtav" class="index-list-biaoqian mdui-float-left yinying">linux</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/linux-command" class="index-list-biaoqian mdui-float-right yinying">2019-08-12</a>
+                                              
+
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/java-get-url" class="index-list-title">java获取当前路径的几种方法</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>java开发过程中经常需要获取当前路径，而java也有相应的内置函数来对此提供支持，下面来介绍一下。</p>
+</div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/08/12/java-2327538_960_720.png)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/wpLYFim1c" class="index-list-biaoqian mdui-float-left yinying">java</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/java-get-url" class="index-list-biaoqian mdui-float-right yinying">2019-08-12</a>
+                                              
+
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/java-regex" class="index-list-title">利用java正则表达式来解析并获取指定的字符串</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p><strong>Java的正则表达式不仅可以用来匹配验证字符串是否符合标准类型，还可以用来解析字符串，获取自己想要得到的数据。在java.util.regex包下提供了系列的类来对字符串进行匹配。</strong></p>
+</div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/08/05/587633180001ba6404170225.jpg)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/wpLYFim1c" class="index-list-biaoqian mdui-float-left yinying">java</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/java-regex" class="index-list-biaoqian mdui-float-right yinying">2019-08-05</a>
+                                              
+
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                                                   <nav class="mdui-m-y-3">
+                         
+                          <button class="mdui-btn mdui-color-theme-500 yinying mdui-btn-icon mdui-float-left"><a href="https://skytotwo.github.io//page/4/"><i class="mdui-icon mdui-text-color-white material-icons">&#xe5c4;</i></a></button>
+                         
+                         
+                          <button class="mdui-btn mdui-color-theme-500 yinying mdui-btn-icon mdui-float-right"><a href="https://skytotwo.github.io//page/6/"><i class="mdui-icon mdui-text-color-white material-icons">&#xe5c8;</i></a></button>
+                          
+                         </nav>
+
+                        </div>
+                 </div>
+          
         </div>
-      </div>
-    </div>
-
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-
-<script type="application/javascript">
-
-AOS.init();
-
-hljs.initHighlightingOnLoad()
-
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
-
-</script>
-
-
-
-
-  </body>
+        <footer class="footer mdui-m-t-5 mdui-text-center">
+               <nav class="social-links">
+                      <ul>
+                      
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                      </ul>
+                    </nav>
+                  <div class="copyright">
+                      <p>Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a></p>
+                  </div>
+              </footer>
+    </body>
 </html>

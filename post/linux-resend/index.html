@@ -1,117 +1,56 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" >
-
-<title>关于服务器端口转发的两种常见方法 | Totoro の Home</title>
-<meta name="description" content="空杯心态，每天进步">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572325053771">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
-
-
-  
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
-  
-
-  
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
-
-
-  </head>
-  <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://skytotwo.github.io/">
-        <img src="https://skytotwo.github.io//images/avatar.png?v=1572325053771" class="site-logo">
-        <h1 class="site-title">Totoro の Home</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
-      
+      <head>
+        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+        <meta charset="utf-8">
+        <meta name="referrer" content="never">
+        <title>关于服务器端口转发的两种常见方法 | Totoro の Home</title>
+        <link rel="stylesheet" href="https://cdn.staticfile.org/KaTeX/0.11.1/katex.min.css">
+        <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+          <script src="https://skytotwo.github.io//media/scripts/mdui.min.js"></script>
+        <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
+        <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Ma+Shan+Zheng&display=swap" rel="stylesheet">
+        <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+        <script src="https://skytotwo.github.io//media/scripts/script.js"></script>
+        <script >hljs.initHighlightingOnLoad();</script>
         
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
-      
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
-        
-      
-        
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
-        
-      
-        
-          <a href="/post/about" class="site-nav">
-            关于
-          </a>
-        
-      
-        
-          <a href="http://picture.totoro.site/" class="site-nav">
-            图床
-          </a>
-        
-      
-    </div>
-  </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    </div>
-    <div class="site-description">
-      空杯心态，每天进步
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
-  </div>
-</div>
 
+    </head>
+    <body class="mdui-theme-primary-purple mdui-theme-accent-purple">
+        <header class="index-img mdui-m-b-3"  style="background-image: url(http://picture.totoro.site/images/2019/09/01/20190730225536_90659.png);" >
+                          <button class="mdui-btn  mdui-btn-icon mdui-btn-dense mdui-color-theme-500 mdui-ripple yinying mdui-m-t-1 mdui-m-l-1" mdui-menu="{target: '#demo-attr-cascade'}"><i class="mdui-icon material-icons">&#xe5d2;</i></button>
+                <ul class="mdui-menu" id="demo-attr-cascade">
+                
+                        <li class="mdui-menu-item">
+                          <a href="/" class="mdui-ripple">首页</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="/archives" class="mdui-ripple">归档</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="/tags" class="mdui-ripple">标签</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="/post/about" class="mdui-ripple">关于</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="http://picture.totoro.site/" class="mdui-ripple">图床</a>
+                        </li>
+                
+                      </ul>
 
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">关于服务器端口转发的两种常见方法</h2>
-            <div class="post-date">2019-09-01</div>
-            
-              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/09/01/20190730225536_90659.png')">
-              </div>
-            
-            <div class="post-content">
-              <p>很多时候，访问国外服务器时，网络质量是很影响体验的，当我们有一台普通线路的国外服务器，日常使用没有太大要求其实也能满足自身需要，但是如果想要让体验更佳，那就可以尝试使用服务器端口转发。</p>
+        </header>
+        <div class="mdui-container post">
+                <div class="mdui-row">
+                        <div class="mdui-col-md-8 mdui-col-offset-md-2 ">
+                         <article class="mdui-shadow-10 mdui-p-a-2 post-list">
+                           <div class="mdui-typo-display-1 mdui-m-b-3">关于服务器端口转发的两种常见方法</div>
+                           <a  class="index-list-biaoqian ">2019-09-01</a>
+                           <div class="mdui-typo mdui-m-t-3 post-neirong"><p>很多时候，访问国外服务器时，网络质量是很影响体验的，当我们有一台普通线路的国外服务器，日常使用没有太大要求其实也能满足自身需要，但是如果想要让体验更佳，那就可以尝试使用服务器端口转发。</p>
  <!-- more -->
 <p>端口转发的原理是用一台国内的服务器来做跳转，利用国内服务器优质的线路，使得访问国外服务器速度更快更稳定。常见的转发有rinetd、Haproxy、iptables、socat，前面2种只能转发TCP，后面TCP/UDP都可以转发，这里介绍iptables、socat，下面来看看两种转发方式。</p>
 <h3 id="一-socat转发"><strong>一、socat转发</strong></h3>
@@ -245,88 +184,139 @@ service iptables save
 </code></pre>
 <h3 id="三-iptables和socat的优劣"><strong>三、iptables和socat的优劣</strong></h3>
 <p>实际体验中iptables会好一点，socat当转发数多了就会炸，推荐使用iptables转发。</p>
+</div>
+                              <div class="mdui-divider mdui-m-t-3"></div>
+                              <div class="mdui-row-xs-2 mdui-m-t-2">
+  <div class="mdui-col"> <div class="mdui-text-left"><a href="https://skytotwo.github.io//post/wechat-invalid-total_fee">微信支付统一下单失败，返回金额invalid total_fee</a></div></div>
+ <div class="mdui-col"><div class="mdui-text-right "><a href="https://skytotwo.github.io//post/chevereto-setup">一款强大好用的个人图床：chevereto安装教程</a></div> </div>
+                                </div>
+                                <div class="mdui-divider mdui-m-t-2"></div>
+   
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
-            </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://skytotwo.github.io//tag/wRl1VpbGG" class="tag">
-                    vps
-                  </a>
-                
-                  <a href="https://skytotwo.github.io//tag/OM99oRtav" class="tag">
-                    linux
-                  </a>
-                
-              </div>
-            
-            
-              <div class="next-post">
-                <div class="next">下一篇</div>
-                <a href="https://skytotwo.github.io//post/chevereto-setup">
-                  <h3 class="post-title">
-                    一款强大好用的个人图床：chevereto安装教程
-                  </h3>
-                </a>
-              </div>
-            
+<div id="gitalk-container"></div>
 
-            
-              
-                <div id="gitalk-container" data-aos="fade-in"></div>
-              
+<script>
 
-              
-            
+  var gitalk = new Gitalk({
+    clientID: 'c92214c141dbb1e37da6',
+    clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+    repo: 'skytotwo.github.io',
+    owner: 'skytotwo',
+    admin: ['skytotwo'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
 
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-
-<script type="application/javascript">
-
-AOS.init();
-
-hljs.initHighlightingOnLoad()
-
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+  gitalk.render('gitalk-container')
 
 </script>
 
+          
 
+          
+        
+ <script src="https://skytotwo.github.io//media/scripts/Valine.min.js"></script>
+ <div class="comment"></div>
 
-  
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-    <script>
-
-      var gitalk = new Gitalk({
-        clientID: 'c92214c141dbb1e37da6',
-        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
-        repo: 'skytotwo.github.io',
-        owner: 'skytotwo',
-        admin: ['skytotwo'],
-        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-        distractionFreeMode: false  // Facebook-like distraction free mode
-      })
-
-      gitalk.render('gitalk-container')
-
-    </script>
-  
-
-  
+<script>
+      new Valine({
+            el: '.comment',
 
 
 
+            path: window.location.pathname,
+            pageSize: 30,
+            avatar:'mm', 
+       })
 
-  </body>
+    </script> 
+<script>
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+           if ($(window.location.hash).length) {
+              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 1000);
+              clearInterval(checkExist);
+           }
+        }, 100);
+    }
+</script>
+                         </article>
+                 <div class="toc-container mdui-float-right">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E4%B8%80-socat%E8%BD%AC%E5%8F%91"><strong>一、socat转发</strong></a></li>
+<li><a href="#%E4%BA%8C-iptables%E8%BD%AC%E5%8F%91"><strong>二、iptables转发</strong></a>
+<ul>
+<li><a href="#21%E4%B8%80%E9%94%AE%E8%84%9A%E6%9C%AC"><strong>2.1一键脚本</strong></a></li>
+<li><a href="#22%E6%89%8B%E5%8A%A8%E6%B7%BB%E5%8A%A0"><strong>2.2手动添加</strong></a></li>
+</ul>
+</li>
+<li><a href="#%E4%B8%89-iptables%E5%92%8Csocat%E7%9A%84%E4%BC%98%E5%8A%A3"><strong>三、iptables和socat的优劣</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+
+                        </div>
+                 </div>
+          
+        </div>
+        <script data-no-instant>
+    (function ($) {
+        $.extend({
+            adamsOverload: function () {
+                $.viewImage({
+                    'target'  : '.post-neirong img',
+                    'exclude' : '.vsmile-icons img , .song-links-item img',
+                    'delay'   : 300
+                });
+            }
+        });
+    })(jQuery);
+    jQuery.adamsOverload();
+</script>
+        <footer class="footer mdui-m-t-5 mdui-text-center">
+               <nav class="social-links">
+                      <ul>
+                      
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                      </ul>
+                    </nav>
+                  <div class="copyright">
+                      <p>Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a></p>
+                  </div>
+              </footer>
+    </body>
 </html>

@@ -1,221 +1,191 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" >
+      <head>
+        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+        <meta charset="utf-8">
+        <meta name="referrer" content="never">
+        <title>Totoro の Home</title>
+        <link rel="stylesheet" href="https://cdn.staticfile.org/KaTeX/0.11.1/katex.min.css">
+        <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+          <script src="https://skytotwo.github.io//media/scripts/mdui.min.js"></script>
+        <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
+        <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Ma+Shan+Zheng&display=swap" rel="stylesheet">
+        <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+        <script src="https://skytotwo.github.io//media/scripts/script.js"></script>
+        <script >hljs.initHighlightingOnLoad();</script>
+        
 
-<title>前端 | Totoro の Home</title>
-<meta name="description" content="空杯心态，每天进步">
+    </head>
+    <body class="mdui-theme-primary-purple mdui-theme-accent-purple">
+        <header class="header mdui-m-b-3">
+                          <button class="mdui-btn daohang mdui-btn-icon mdui-btn-dense mdui-color-theme-500 mdui-ripple yinying mdui-m-t-1 mdui-m-l-1" mdui-menu="{target: '#demo-attr-cascade'}"><i class="mdui-icon material-icons">&#xe5d2;</i></button>
+                <ul class="mdui-menu " id="demo-attr-cascade">
+                
+                        <li class="mdui-menu-item">
+                          <a href="/" class="mdui-ripple">首页</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="/archives" class="mdui-ripple">归档</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="/tags" class="mdui-ripple">标签</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="/post/about" class="mdui-ripple">关于</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="http://picture.totoro.site/" class="mdui-ripple">图床</a>
+                        </li>
+                
+                      </ul>
+                      <div class="mdui-text-center">
+                      <div class="mdui-typo-display-4 mdui-m-b-3 index-title">Totoro の Home</div>
+                      <div class="mdui-typo-headline">空杯心态，每天进步</div>
+                      </div>
 
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572325053771">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
-
-
-  </head>
-  <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://skytotwo.github.io/">
-        <img src="https://skytotwo.github.io//images/avatar.png?v=1572325053771" class="site-logo">
-        <h1 class="site-title">Totoro の Home</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
-      
-        
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
-      
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
-        
-      
-        
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
-        
-      
-        
-          <a href="/post/about" class="site-nav">
-            关于
-          </a>
-        
-      
-        
-          <a href="http://picture.totoro.site/" class="site-nav">
-            图床
-          </a>
-        
-      
-    </div>
-  </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    </div>
-    <div class="site-description">
-      空杯心态，每天进步
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
-  </div>
+        </header>
+        <div class="mdui-container">
+                <div class="mdui-row">
+                        <div class="mdui-col-md-6 mdui-col-offset-md-3 ">
+                                                     
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/jquery-pop-window" class="index-list-title">使用jquery实现页面右下角弹窗提醒</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>项目有需要实现类似QQ右下角弹窗提醒的需求，项目要求的其实复杂点，不单单是弹窗，还涉及到定时弹窗、指定页面弹窗、对指定的用户弹窗，以及点击事件等等，需要写的控制也比较多。这里只是简单记录下html页面通过jquery实现弹窗功能。</p>
 </div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/08/26/jquery-logo-blue.png)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/cRz-_tW8O" class="index-list-biaoqian mdui-float-left yinying">前端</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/jquery-pop-window" class="index-list-biaoqian mdui-float-right yinying">2019-08-26</a>
+                                              
 
+                                            </div>
+                                          </div>
 
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: 前端</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/jquery-pop-window">
-                  <h2 class="post-title">使用jquery实现页面右下角弹窗提醒</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-26
-                </div>
-                <div class="post-abstract">
-                  <p>项目有需要实现类似QQ右下角弹窗提醒的需求，项目要求的其实复杂点，不单单是弹窗，还涉及到定时弹窗、指定页面弹窗、对指定的用户弹窗，以及点击事件等等，需要写的控制也比较多。这里只是简单记录下html页面通过jquery实现弹窗功能。</p>
+                            </article>
 
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/jquery-pop-window">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/jquery-logo-blue.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/single&amp;mutipage">
-                  <h2 class="post-title">单页面应用程序和多页面应用程序（网站）的区别</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-26
-                </div>
-                <div class="post-abstract">
-                  <p>单页面和双页面应用的区别：</p>
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/single&amp;mutipage" class="index-list-title">单页面应用程序和多页面应用程序（网站）的区别</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>单页面和双页面应用的区别：</p>
 <ul>
 <li>1、单页面应用程序的数据渲染是在客户端进行的；而多页面应用程序的数据渲染则是在服务端进行的。</li>
 <li>2、单页面应用程序的数据请求等是在js中通过ajax完成的；多页面应用程序则是在服务端试图函数中完成的。</li>
 </ul>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/single&amp;mutipage">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/WX20190826-1616522x.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/css-centered">
-                  <h2 class="post-title">css图片居中(水平居中和垂直居中)</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>css图片居中分css图片水平居中和垂直居中两种情况，有时候还需要图片同时水平垂直居中，下面分几种居中情况分别介绍:</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/css-centered">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/1_OFsc0SD55jhi8cjo7aCA4w.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/jsp-word-config">
-                  <h2 class="post-title">jsp实现导出word文档</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-05
-                </div>
-                <div class="post-abstract">
-                  <p>java中除了使用常规的库来实现到处word，excel外，可以在jsp里配置实现导出效果，实际上效果是一致的，这里记录下相关的配置。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/jsp-word-config">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/05/1498118952954198.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-
-          <div class="pagination-container">
-  
-  
 </div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/08/26/WX20190826-1616522x.png)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/cRz-_tW8O" class="index-list-biaoqian mdui-float-left yinying">前端</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/single&amp;mutipage" class="index-list-biaoqian mdui-float-right yinying">2019-08-26</a>
+                                              
 
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/css-centered" class="index-list-title">css图片居中(水平居中和垂直居中)</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>css图片居中分css图片水平居中和垂直居中两种情况，有时候还需要图片同时水平垂直居中，下面分几种居中情况分别介绍:</p>
+</div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/08/12/1_OFsc0SD55jhi8cjo7aCA4w.jpg)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/cRz-_tW8O" class="index-list-biaoqian mdui-float-left yinying">前端</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/css-centered" class="index-list-biaoqian mdui-float-right yinying">2019-08-12</a>
+                                              
+
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/jsp-word-config" class="index-list-title">jsp实现导出word文档</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>java中除了使用常规的库来实现到处word，excel外，可以在jsp里配置实现导出效果，实际上效果是一致的，这里记录下相关的配置。</p>
+</div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/08/05/1498118952954198.jpg)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/cRz-_tW8O" class="index-list-biaoqian mdui-float-left yinying">前端</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/jsp-word-config" class="index-list-biaoqian mdui-float-right yinying">2019-08-05</a>
+                                              
+
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                                                   <nav class="mdui-m-y-3">
+                         
+                         
+                         </nav>
+
+                        </div>
+                 </div>
+          
         </div>
-      </div>
-    </div>
-
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-
-<script type="application/javascript">
-
-AOS.init();
-
-hljs.initHighlightingOnLoad()
-
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
-
-</script>
-
-
-
-
-  </body>
+        <footer class="footer mdui-m-t-5 mdui-text-center">
+               <nav class="social-links">
+                      <ul>
+                      
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                      </ul>
+                    </nav>
+                  <div class="copyright">
+                      <p>Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a></p>
+                  </div>
+              </footer>
+    </body>
 </html>

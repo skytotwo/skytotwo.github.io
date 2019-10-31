@@ -1,344 +1,327 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" >
+      <head>
+        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+        <meta charset="utf-8">
+        <meta name="referrer" content="never">
+        <title>Totoro の Home</title>
+        <link rel="stylesheet" href="https://cdn.staticfile.org/KaTeX/0.11.1/katex.min.css">
+        <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+          <script src="https://skytotwo.github.io//media/scripts/mdui.min.js"></script>
+        <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
+        <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Ma+Shan+Zheng&display=swap" rel="stylesheet">
+        <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+        <script src="https://skytotwo.github.io//media/scripts/script.js"></script>
+        <script >hljs.initHighlightingOnLoad();</script>
+        
 
-<title>Totoro の Home</title>
-<meta name="description" content="空杯心态，每天进步">
+    </head>
+    <body class="mdui-theme-primary-purple mdui-theme-accent-purple">
+        <header class=" mdui-m-b-3 header">
+                          <button class="mdui-btn daohang mdui-btn-icon mdui-btn-dense mdui-color-theme-500 mdui-ripple yinying mdui-m-t-1 mdui-m-l-1" mdui-menu="{target: '#demo-attr-cascade'}"><i class="mdui-icon material-icons">&#xe5d2;</i></button>
+                <ul class="mdui-menu " id="demo-attr-cascade">
+                
+                        <li class="mdui-menu-item">
+                          <a href="/" class="mdui-ripple">首页</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="/archives" class="mdui-ripple">归档</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="/tags" class="mdui-ripple">标签</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="/post/about" class="mdui-ripple">关于</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="http://picture.totoro.site/" class="mdui-ripple">图床</a>
+                        </li>
+                
+                      </ul>
+                      <div class="mdui-text-center">
+                      <div class="mdui-typo-display-4 mdui-m-b-3 index-title">Totoro の Home</div>
+                      <div class="mdui-typo-headline">空杯心态，每天进步</div>
+                      </div>
 
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572325053771">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
-
-
-  </head>
-  <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://skytotwo.github.io/">
-        <img src="https://skytotwo.github.io//images/avatar.png?v=1572325053771" class="site-logo">
-        <h1 class="site-title">Totoro の Home</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
-      
-        
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
-      
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
-        
-      
-        
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
-        
-      
-        
-          <a href="/post/about" class="site-nav">
-            关于
-          </a>
-        
-      
-        
-          <a href="http://picture.totoro.site/" class="site-nav">
-            图床
-          </a>
-        
-      
-    </div>
-  </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    </div>
-    <div class="site-description">
-      空杯心态，每天进步
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
-  </div>
+        </header >
+        <div class="mdui-container">
+                <div class="mdui-row">
+                        <div class="mdui-col-md-6 mdui-col-offset-md-3 ">
+                                                     
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/dropbox-mklink" class="index-list-title">Dropbox使用mklink同步任意文件夹</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>Dropbox 是个非常好的网络服务，我也不知道该怎么形容它。它像是一个网盘，而又不全是，它更像是帮你备份本地数据的一个软件。</p>
 </div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(https://picture.totoro.site/images/2019/10/26/Dropbox.png)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/9LkTOZXW3" class="index-list-biaoqian mdui-float-left yinying">实用教程</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/dropbox-mklink" class="index-list-biaoqian mdui-float-right yinying">2019-10-26</a>
+                                              
 
+                                            </div>
+                                          </div>
 
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/dropbox-mklink">
-                  <h2 class="post-title">Dropbox使用mklink同步任意文件夹</h2>
-                </a>
-                <div class="post-date">
-                  2019-10-26
-                </div>
-                <div class="post-abstract">
-                  <p>Dropbox 是个非常好的网络服务，我也不知道该怎么形容它。它像是一个网盘，而又不全是，它更像是帮你备份本地数据的一个软件。</p>
+                            </article>
 
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/dropbox-mklink">
-                  <div class="feature-container" style="background-image: url('https://picture.totoro.site/images/2019/10/26/Dropbox.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/diy-ssl-cloudflare">
-                  <h2 class="post-title">用自签名SSL证书配合 CloudFlare 免费SSL构建全站HTTPS加密</h2>
-                </a>
-                <div class="post-date">
-                  2019-10-26
-                </div>
-                <div class="post-abstract">
-                  <p>CloudFlare有免费的SSL证书，如果仅仅是在CloudFlare后台中开启它的话，并不能做到全站加密，只能开启Flexible模式，而不是Full模式。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/diy-ssl-cloudflare">
-                  <div class="feature-container" style="background-image: url('https://picture.totoro.site/images/2019/10/26/Certificado-SSL-Qual-a-importancia-para-o-meu-site.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/linux-docker-setup">
-                  <h2 class="post-title">Linux各发行版安装docker教程</h2>
-                </a>
-                <div class="post-date">
-                  2019-09-02
-                </div>
-                <div class="post-abstract">
-                  <p>docker是当下十分流行的容器，因为其部署简单而使用广泛，不同的linux发行版安装docker的步骤操作是不一样的。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/linux-docker-setup">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/09/02/differences-between-a-dockerfile-docker-image-and-docker-container-001320c81dd8d2989df10d0bec36341fd6a94b043f6f9de1c26ee79eaf16e566.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/vps-test">
-                  <h2 class="post-title">VPS主机性能和速度测试方法，各种测试工具</h2>
-                </a>
-                <div class="post-date">
-                  2019-09-01
-                </div>
-                <div class="post-abstract">
-                  <p>这年头VPS主机太多了，好多“二手”VPS开始横行其道，让人真假莫辨，想要购买某一个VPS主机，一般是先要看看这家的VPS主机的评测数据。之前分享VPS主机时都会给出VPS的性能与速度测试报告，这次我就来专门整理一下相关的测试工具。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/vps-test">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/09/01/0a584c1895eb561dd4f932d707b65073.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/bbr-setup">
-                  <h2 class="post-title">超级一键加速脚本，bbr 原版/魔改/plus/锐速 四合一</h2>
-                </a>
-                <div class="post-date">
-                  2019-09-01
-                </div>
-                <div class="post-abstract">
-                  <p>很多时候，我们为了给VPS加速，会选择不同的方式，比如BBR、锐速等，但单独BBR目前就有普通版、魔改版和plus版，加上锐速，无疑需要很多的脚本，这样在安装上也非常的不方便，而最近，loc论坛的网友又发挥了超人的实力，整出了一个集合BBR、BBR魔改、BBR plus、锐速四合一的脚本，给我们安装提供了极大的方便。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/bbr-setup">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/09/01/maxresdefault.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/wechat-invalid-total_fee">
-                  <h2 class="post-title">微信支付统一下单失败，返回金额invalid total_fee</h2>
-                </a>
-                <div class="post-date">
-                  2019-09-01
-                </div>
-                <div class="post-abstract">
-                  <p>这里是因为微信支付金额是以分为单位的，而支付宝是以元为单位的，这是两者的区别。在下单部分，需要将金额做一下处理，将元转化成分，下面是python的实现：</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/wechat-invalid-total_fee">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/09/01/1467640281194160.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/linux-resend">
-                  <h2 class="post-title">关于服务器端口转发的两种常见方法</h2>
-                </a>
-                <div class="post-date">
-                  2019-09-01
-                </div>
-                <div class="post-abstract">
-                  <p>很多时候，访问国外服务器时，网络质量是很影响体验的，当我们有一台普通线路的国外服务器，日常使用没有太大要求其实也能满足自身需要，但是如果想要让体验更佳，那就可以尝试使用服务器端口转发。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/linux-resend">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/09/01/20190730225536_90659.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/chevereto-setup">
-                  <h2 class="post-title">一款强大好用的个人图床：chevereto安装教程</h2>
-                </a>
-                <div class="post-date">
-                  2019-09-01
-                </div>
-                <div class="post-abstract">
-                  <p>说明：chevereto是目前最好的图床之一了。功能也非常强大。其免费版和收费版的区别，在于收费版多了硬盘扩展，社交分享功能和技术支持。硬盘扩展指的是你可以通过sftp等方式把上传的文件储存在其他服务器上。所以个人觉得，这个免费版已经足够使用了。而且chevereto的安装也非常简单，并且支持中文。网上很多教程都写得不是很清楚，这里就发个详细安装教程吧。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/chevereto-setup">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/09/01/landing-medium.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/centos-resolvconf-dns">
-                  <h2 class="post-title">CentOS重启后resolv.conf被重置的解决方案</h2>
-                </a>
-                <div class="post-date">
-                  2019-09-01
-                </div>
-                <div class="post-abstract">
-                  <p>近期在修改一台CentOS服务器的dns时发现只要重启服务器DNS就会被强制还原，解决方案如下：</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/centos-resolvconf-dns">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/09/01/dns.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/python-singelton">
-                  <h2 class="post-title">python中的单例模式</h2>
-                </a>
-                <div class="post-date">
-                  2019-09-01
-                </div>
-                <div class="post-abstract">
-                  <p>单例模式（Singleton Pattern）是一种常用的软件设计模式，该模式的主要目的是确保某一个类只有一个实例存在。当你希望在整个系统中，某个类只能出现一个实例时，单例对象就能派上用场。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/python-singelton">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/09/01/15611C91523020-1S31.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-
-          <div class="pagination-container">
-  
-  
-    <a href="https://skytotwo.github.io//page/2/" class="next">下一页 <i class="icon-arrow-ios-forward-outline"></i></a>
-  
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/diy-ssl-cloudflare" class="index-list-title">用自签名SSL证书配合 CloudFlare 免费SSL构建全站HTTPS加密</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>CloudFlare有免费的SSL证书，如果仅仅是在CloudFlare后台中开启它的话，并不能做到全站加密，只能开启Flexible模式，而不是Full模式。</p>
 </div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(https://picture.totoro.site/images/2019/10/26/Certificado-SSL-Qual-a-importancia-para-o-meu-site.png)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/OM99oRtav" class="index-list-biaoqian mdui-float-left yinying">linux</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/diy-ssl-cloudflare" class="index-list-biaoqian mdui-float-right yinying">2019-10-26</a>
+                                              
 
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/linux-docker-setup" class="index-list-title">Linux各发行版安装docker教程</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>docker是当下十分流行的容器，因为其部署简单而使用广泛，不同的linux发行版安装docker的步骤操作是不一样的。</p>
+</div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/09/02/differences-between-a-dockerfile-docker-image-and-docker-container-001320c81dd8d2989df10d0bec36341fd6a94b043f6f9de1c26ee79eaf16e566.jpg)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/R4I_bHt7N" class="index-list-biaoqian mdui-float-left yinying">docker</a>
+                                               
+                                              <a href="https://skytotwo.github.io//tag/OM99oRtav" class="index-list-biaoqian mdui-float-left yinying">linux</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/linux-docker-setup" class="index-list-biaoqian mdui-float-right yinying">2019-09-02</a>
+                                              
+
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/vps-test" class="index-list-title">VPS主机性能和速度测试方法，各种测试工具</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>这年头VPS主机太多了，好多“二手”VPS开始横行其道，让人真假莫辨，想要购买某一个VPS主机，一般是先要看看这家的VPS主机的评测数据。之前分享VPS主机时都会给出VPS的性能与速度测试报告，这次我就来专门整理一下相关的测试工具。</p>
+</div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/09/01/0a584c1895eb561dd4f932d707b65073.png)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/wRl1VpbGG" class="index-list-biaoqian mdui-float-left yinying">vps</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/vps-test" class="index-list-biaoqian mdui-float-right yinying">2019-09-01</a>
+                                              
+
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/bbr-setup" class="index-list-title">超级一键加速脚本，bbr 原版/魔改/plus/锐速 四合一</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>很多时候，我们为了给VPS加速，会选择不同的方式，比如BBR、锐速等，但单独BBR目前就有普通版、魔改版和plus版，加上锐速，无疑需要很多的脚本，这样在安装上也非常的不方便，而最近，loc论坛的网友又发挥了超人的实力，整出了一个集合BBR、BBR魔改、BBR plus、锐速四合一的脚本，给我们安装提供了极大的方便。</p>
+</div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/09/01/maxresdefault.jpg)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/wRl1VpbGG" class="index-list-biaoqian mdui-float-left yinying">vps</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/bbr-setup" class="index-list-biaoqian mdui-float-right yinying">2019-09-01</a>
+                                              
+
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/wechat-invalid-total_fee" class="index-list-title">微信支付统一下单失败，返回金额invalid total_fee</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>这里是因为微信支付金额是以分为单位的，而支付宝是以元为单位的，这是两者的区别。在下单部分，需要将金额做一下处理，将元转化成分，下面是python的实现：</p>
+</div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/09/01/1467640281194160.jpg)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="index-list-biaoqian mdui-float-left yinying">python</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/wechat-invalid-total_fee" class="index-list-biaoqian mdui-float-right yinying">2019-09-01</a>
+                                              
+
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/linux-resend" class="index-list-title">关于服务器端口转发的两种常见方法</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>很多时候，访问国外服务器时，网络质量是很影响体验的，当我们有一台普通线路的国外服务器，日常使用没有太大要求其实也能满足自身需要，但是如果想要让体验更佳，那就可以尝试使用服务器端口转发。</p>
+</div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/09/01/20190730225536_90659.png)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/wRl1VpbGG" class="index-list-biaoqian mdui-float-left yinying">vps</a>
+                                               
+                                              <a href="https://skytotwo.github.io//tag/OM99oRtav" class="index-list-biaoqian mdui-float-left yinying">linux</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/linux-resend" class="index-list-biaoqian mdui-float-right yinying">2019-09-01</a>
+                                              
+
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/chevereto-setup" class="index-list-title">一款强大好用的个人图床：chevereto安装教程</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>说明：chevereto是目前最好的图床之一了。功能也非常强大。其免费版和收费版的区别，在于收费版多了硬盘扩展，社交分享功能和技术支持。硬盘扩展指的是你可以通过sftp等方式把上传的文件储存在其他服务器上。所以个人觉得，这个免费版已经足够使用了。而且chevereto的安装也非常简单，并且支持中文。网上很多教程都写得不是很清楚，这里就发个详细安装教程吧。</p>
+</div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/09/01/landing-medium.jpg)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/4YquhVXyy" class="index-list-biaoqian mdui-float-left yinying">daily</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/chevereto-setup" class="index-list-biaoqian mdui-float-right yinying">2019-09-01</a>
+                                              
+
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/centos-resolvconf-dns" class="index-list-title">CentOS重启后resolv.conf被重置的解决方案</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>近期在修改一台CentOS服务器的dns时发现只要重启服务器DNS就会被强制还原，解决方案如下：</p>
+</div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/09/01/dns.jpg)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/wRl1VpbGG" class="index-list-biaoqian mdui-float-left yinying">vps</a>
+                                               
+                                              <a href="https://skytotwo.github.io//tag/OM99oRtav" class="index-list-biaoqian mdui-float-left yinying">linux</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/centos-resolvconf-dns" class="index-list-biaoqian mdui-float-right yinying">2019-09-01</a>
+                                              
+
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                            <article class="mdui-m-t-4 index-list mdui-shadow-15 mdui-hoverable mdui-p-a-2 q">
+                                    <div class="mdui-row">
+                                            <div class="mdui-col-xs-12 ">
+                                              <div class="mdui-row mdui-m-b-2">
+                                                <div class="mdui-col-xs-12 mdui-col-sm-8">
+                                                    <div class="mdui-typo-headline mdui-m-b-2"><a href="https://skytotwo.github.io//post/python-singelton" class="index-list-title">python中的单例模式</a></div>
+                                                    <div class="mdui-typo-body-2 index-list-neirong"><p>单例模式（Singleton Pattern）是一种常用的软件设计模式，该模式的主要目的是确保某一个类只有一个实例存在。当你希望在整个系统中，某个类只能出现一个实例时，单例对象就能派上用场。</p>
+</div>
+                                                </div>
+                                                <div class="mdui-col-xs-12 mdui-col-sm-4 "><div class="index-list-img mdui-shadow-8" style="background-image:url(http://picture.totoro.site/images/2019/09/01/15611C91523020-1S31.jpg)"></div></div>
+                                              </div>
+                                              
+                                              <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="index-list-biaoqian mdui-float-left yinying">python</a>
+                                               
+                                              <a href="https://skytotwo.github.io//post/python-singelton" class="index-list-biaoqian mdui-float-right yinying">2019-09-01</a>
+                                              
+
+                                            </div>
+                                          </div>
+
+                            </article>
+
+                                                   <nav class="mdui-m-y-3">
+                         
+                         
+                          <button class="mdui-btn mdui-color-theme-500 yinying mdui-btn-icon mdui-float-right"><a href="https://skytotwo.github.io//page/2/"><i class="mdui-icon mdui-text-color-white material-icons">&#xe5c8;</i></a></button>
+                          
+                         </nav>
+
+                        </div>
+                 </div>
+          
         </div>
-      </div>
-    </div>
-
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-
-<script type="application/javascript">
-
-AOS.init();
-
-hljs.initHighlightingOnLoad()
-
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
-
-</script>
-
-
-
-
-  </body>
+        <footer class="footer mdui-m-t-5 mdui-text-center">
+               <nav class="social-links">
+                      <ul>
+                      
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                      </ul>
+                    </nav>
+                  <div class="copyright">
+                      <p>Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a></p>
+                  </div>
+              </footer>
+    </body>
 </html>

@@ -1,163 +1,285 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" >
+      <head>
+        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+        <meta charset="utf-8">
+        <meta name="referrer" content="never">
+        <title>Totoro の Home</title>
+        <link rel="stylesheet" href="https://cdn.staticfile.org/KaTeX/0.11.1/katex.min.css">
+        <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+          <script src="https://skytotwo.github.io//media/scripts/mdui.min.js"></script>
+        <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
+        <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Ma+Shan+Zheng&display=swap" rel="stylesheet">
+        <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+        <script src="https://skytotwo.github.io//media/scripts/script.js"></script>
+        <script >hljs.initHighlightingOnLoad();</script>
+        
 
-<title>标签列表 | Totoro の Home</title>
-<meta name="description" content="空杯心态，每天进步">
+    </head>
+    <body class="mdui-theme-primary-purple mdui-theme-accent-purple">
+        <header class="header mdui-m-b-3">
+                          <button class="mdui-btn daohang mdui-btn-icon mdui-btn-dense mdui-color-theme-500 mdui-ripple yinying mdui-m-t-1 mdui-m-l-1" mdui-menu="{target: '#demo-attr-cascade'}"><i class="mdui-icon material-icons">&#xe5d2;</i></button>
+                <ul class="mdui-menu " id="demo-attr-cascade">
+                
+                        <li class="mdui-menu-item">
+                          <a href="/" class="mdui-ripple">首页</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="/archives" class="mdui-ripple">归档</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="/tags" class="mdui-ripple">标签</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="/post/about" class="mdui-ripple">关于</a>
+                        </li>
+                
+                        <li class="mdui-menu-item">
+                          <a href="http://picture.totoro.site/" class="mdui-ripple">图床</a>
+                        </li>
+                
+                      </ul>
+                      <div class="mdui-text-center">
+                      <div class="mdui-typo-display-4 mdui-m-b-3 index-title">Totoro の Home</div>
+                      <div class="mdui-typo-headline">空杯心态，每天进步</div>
+                      </div>
 
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        </header>
+        <div class="mdui-container">
+                <div class="mdui-row">
+                        <div class="mdui-col-md-10 mdui-col-offset-md-1 ">
+ 
+                            <div class="mdui-row-md-3 mdui-row-xs-1">
 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572325053771">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+                                    <div class="mdui-col mdui-p-a-1">
+                                       <article class="archives-list mdui-shadow-15  mdui-hoverable mdui-color-white ">
+                                           <a href="https://skytotwo.github.io//tag/9LkTOZXW3">
+                                           <div class="mdui-p-a-2">
+                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title mdui-m-b-3">实用教程</div>
+                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">共有1篇文章</div>
+                                           </div>
+                                        </a>
+                                       </article> 
+                                    </div>
 
+                                    <div class="mdui-col mdui-p-a-1">
+                                       <article class="archives-list mdui-shadow-15  mdui-hoverable mdui-color-white ">
+                                           <a href="https://skytotwo.github.io//tag/OM99oRtav">
+                                           <div class="mdui-p-a-2">
+                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title mdui-m-b-3">linux</div>
+                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">共有11篇文章</div>
+                                           </div>
+                                        </a>
+                                       </article> 
+                                    </div>
 
+                                    <div class="mdui-col mdui-p-a-1">
+                                       <article class="archives-list mdui-shadow-15  mdui-hoverable mdui-color-white ">
+                                           <a href="https://skytotwo.github.io//tag/R4I_bHt7N">
+                                           <div class="mdui-p-a-2">
+                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title mdui-m-b-3">docker</div>
+                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">共有1篇文章</div>
+                                           </div>
+                                        </a>
+                                       </article> 
+                                    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+                                    <div class="mdui-col mdui-p-a-1">
+                                       <article class="archives-list mdui-shadow-15  mdui-hoverable mdui-color-white ">
+                                           <a href="https://skytotwo.github.io//tag/wRl1VpbGG">
+                                           <div class="mdui-p-a-2">
+                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title mdui-m-b-3">vps</div>
+                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">共有4篇文章</div>
+                                           </div>
+                                        </a>
+                                       </article> 
+                                    </div>
 
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+                                    <div class="mdui-col mdui-p-a-1">
+                                       <article class="archives-list mdui-shadow-15  mdui-hoverable mdui-color-white ">
+                                           <a href="https://skytotwo.github.io//tag/5VYNLEty2">
+                                           <div class="mdui-p-a-2">
+                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title mdui-m-b-3">python</div>
+                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">共有17篇文章</div>
+                                           </div>
+                                        </a>
+                                       </article> 
+                                    </div>
 
+                                    <div class="mdui-col mdui-p-a-1">
+                                       <article class="archives-list mdui-shadow-15  mdui-hoverable mdui-color-white ">
+                                           <a href="https://skytotwo.github.io//tag/4YquhVXyy">
+                                           <div class="mdui-p-a-2">
+                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title mdui-m-b-3">daily</div>
+                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">共有1篇文章</div>
+                                           </div>
+                                        </a>
+                                       </article> 
+                                    </div>
 
+                                    <div class="mdui-col mdui-p-a-1">
+                                       <article class="archives-list mdui-shadow-15  mdui-hoverable mdui-color-white ">
+                                           <a href="https://skytotwo.github.io//tag/wpLYFim1c">
+                                           <div class="mdui-p-a-2">
+                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title mdui-m-b-3">java</div>
+                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">共有6篇文章</div>
+                                           </div>
+                                        </a>
+                                       </article> 
+                                    </div>
 
-  </head>
-  <body>
-    <div id="app" class="main">
+                                    <div class="mdui-col mdui-p-a-1">
+                                       <article class="archives-list mdui-shadow-15  mdui-hoverable mdui-color-white ">
+                                           <a href="https://skytotwo.github.io//tag/Iv9ahsKWG">
+                                           <div class="mdui-p-a-2">
+                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title mdui-m-b-3">Django</div>
+                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">共有6篇文章</div>
+                                           </div>
+                                        </a>
+                                       </article> 
+                                    </div>
 
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://skytotwo.github.io/">
-        <img src="https://skytotwo.github.io//images/avatar.png?v=1572325053771" class="site-logo">
-        <h1 class="site-title">Totoro の Home</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
-      
-        
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
-      
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
-        
-      
-        
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
-        
-      
-        
-          <a href="/post/about" class="site-nav">
-            关于
-          </a>
-        
-      
-        
-          <a href="http://picture.totoro.site/" class="site-nav">
-            图床
-          </a>
-        
-      
-    </div>
-  </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    </div>
-    <div class="site-description">
-      空杯心态，每天进步
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
-  </div>
-</div>
+                                    <div class="mdui-col mdui-p-a-1">
+                                       <article class="archives-list mdui-shadow-15  mdui-hoverable mdui-color-white ">
+                                           <a href="https://skytotwo.github.io//tag/cRz-_tW8O">
+                                           <div class="mdui-p-a-2">
+                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title mdui-m-b-3">前端</div>
+                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">共有4篇文章</div>
+                                           </div>
+                                        </a>
+                                       </article> 
+                                    </div>
 
+                                    <div class="mdui-col mdui-p-a-1">
+                                       <article class="archives-list mdui-shadow-15  mdui-hoverable mdui-color-white ">
+                                           <a href="https://skytotwo.github.io//tag/QdOfncYO8">
+                                           <div class="mdui-p-a-2">
+                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title mdui-m-b-3">go</div>
+                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">共有3篇文章</div>
+                                           </div>
+                                        </a>
+                                       </article> 
+                                    </div>
 
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <h2 class="tag-list-title">标签列表</h2>
-          <div class="tags-container">
-            
-              <a class="tag" href="https://skytotwo.github.io//tag/9LkTOZXW3">实用教程</a>
-            
-              <a class="tag" href="https://skytotwo.github.io//tag/OM99oRtav">linux</a>
-            
-              <a class="tag" href="https://skytotwo.github.io//tag/R4I_bHt7N">docker</a>
-            
-              <a class="tag" href="https://skytotwo.github.io//tag/wRl1VpbGG">vps</a>
-            
-              <a class="tag" href="https://skytotwo.github.io//tag/5VYNLEty2">python</a>
-            
-              <a class="tag" href="https://skytotwo.github.io//tag/4YquhVXyy">daily</a>
-            
-              <a class="tag" href="https://skytotwo.github.io//tag/wpLYFim1c">java</a>
-            
-              <a class="tag" href="https://skytotwo.github.io//tag/Iv9ahsKWG">Django</a>
-            
-              <a class="tag" href="https://skytotwo.github.io//tag/cRz-_tW8O">前端</a>
-            
-              <a class="tag" href="https://skytotwo.github.io//tag/QdOfncYO8">go</a>
-            
-              <a class="tag" href="https://skytotwo.github.io//tag/WllsaKoVz">flask</a>
-            
-              <a class="tag" href="https://skytotwo.github.io//tag/1ZdSBThOB">mac</a>
-            
-              <a class="tag" href="https://skytotwo.github.io//tag/ek3qBGSgi">数据库</a>
-            
-              <a class="tag" href="https://skytotwo.github.io//tag/Eqaw7RxRY">小程序</a>
-            
-              <a class="tag" href="https://skytotwo.github.io//tag/gt6_3qBRa">js</a>
-            
-              <a class="tag" href="https://skytotwo.github.io//tag/OqRFuPzSv">爬虫</a>
-            
-              <a class="tag" href="https://skytotwo.github.io//tag/9jQhQpY25">asyncio</a>
-            
-          </div>
+                                    <div class="mdui-col mdui-p-a-1">
+                                       <article class="archives-list mdui-shadow-15  mdui-hoverable mdui-color-white ">
+                                           <a href="https://skytotwo.github.io//tag/WllsaKoVz">
+                                           <div class="mdui-p-a-2">
+                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title mdui-m-b-3">flask</div>
+                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">共有8篇文章</div>
+                                           </div>
+                                        </a>
+                                       </article> 
+                                    </div>
+
+                                    <div class="mdui-col mdui-p-a-1">
+                                       <article class="archives-list mdui-shadow-15  mdui-hoverable mdui-color-white ">
+                                           <a href="https://skytotwo.github.io//tag/1ZdSBThOB">
+                                           <div class="mdui-p-a-2">
+                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title mdui-m-b-3">mac</div>
+                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">共有2篇文章</div>
+                                           </div>
+                                        </a>
+                                       </article> 
+                                    </div>
+
+                                    <div class="mdui-col mdui-p-a-1">
+                                       <article class="archives-list mdui-shadow-15  mdui-hoverable mdui-color-white ">
+                                           <a href="https://skytotwo.github.io//tag/ek3qBGSgi">
+                                           <div class="mdui-p-a-2">
+                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title mdui-m-b-3">数据库</div>
+                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">共有1篇文章</div>
+                                           </div>
+                                        </a>
+                                       </article> 
+                                    </div>
+
+                                    <div class="mdui-col mdui-p-a-1">
+                                       <article class="archives-list mdui-shadow-15  mdui-hoverable mdui-color-white ">
+                                           <a href="https://skytotwo.github.io//tag/Eqaw7RxRY">
+                                           <div class="mdui-p-a-2">
+                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title mdui-m-b-3">小程序</div>
+                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">共有3篇文章</div>
+                                           </div>
+                                        </a>
+                                       </article> 
+                                    </div>
+
+                                    <div class="mdui-col mdui-p-a-1">
+                                       <article class="archives-list mdui-shadow-15  mdui-hoverable mdui-color-white ">
+                                           <a href="https://skytotwo.github.io//tag/gt6_3qBRa">
+                                           <div class="mdui-p-a-2">
+                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title mdui-m-b-3">js</div>
+                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">共有2篇文章</div>
+                                           </div>
+                                        </a>
+                                       </article> 
+                                    </div>
+
+                                    <div class="mdui-col mdui-p-a-1">
+                                       <article class="archives-list mdui-shadow-15  mdui-hoverable mdui-color-white ">
+                                           <a href="https://skytotwo.github.io//tag/OqRFuPzSv">
+                                           <div class="mdui-p-a-2">
+                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title mdui-m-b-3">爬虫</div>
+                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">共有1篇文章</div>
+                                           </div>
+                                        </a>
+                                       </article> 
+                                    </div>
+
+                                    <div class="mdui-col mdui-p-a-1">
+                                       <article class="archives-list mdui-shadow-15  mdui-hoverable mdui-color-white ">
+                                           <a href="https://skytotwo.github.io//tag/9jQhQpY25">
+                                           <div class="mdui-p-a-2">
+                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title mdui-m-b-3">asyncio</div>
+                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">共有1篇文章</div>
+                                           </div>
+                                        </a>
+                                       </article> 
+                                    </div>
+
+                                  </div>
+                         
+                        </div>
+                 </div>
+          
         </div>
-      </div>
-    </div>
-
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-
-<script type="application/javascript">
-
-AOS.init();
-
-hljs.initHighlightingOnLoad()
-
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
-
-</script>
-
-
-
-
-  </body>
+        <footer class="footer mdui-m-t-5 mdui-text-center">
+               <nav class="social-links">
+                      <ul>
+                      
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                            
+                           
+                      </ul>
+                    </nav>
+                  <div class="copyright">
+                      <p>Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a></p>
+                  </div>
+              </footer>
+    </body>
 </html>

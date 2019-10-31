@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-10-31T01:25:44.657Z</updated>
+    <updated>2019-10-31T09:00:43.998Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -10,6 +10,34 @@
     <logo>https://skytotwo.github.io//images/avatar.png</logo>
     <icon>https://skytotwo.github.io//favicon.ico</icon>
     <rights>All rights reserved 2019, Totoro の Home</rights>
+    <entry>
+        <title type="html"><![CDATA[腾讯云开发者专属云服务器购买详解：1核4G2M带宽、398元/3年]]></title>
+        <id>https://skytotwo.github.io//post/tencent-dev</id>
+        <link href="https://skytotwo.github.io//post/tencent-dev">
+        </link>
+        <updated>2019-10-31T08:18:01.000Z</updated>
+        <summary type="html"><![CDATA[<p>国内网络巨头腾讯公司旗下的腾讯云计算服务目前有个活动可能被当前各大商家的2019年双11促销活动给埋没了，其实本文当中要给大家介绍的腾讯云“云+开发者”专属云服务器促销力度还非常大，1核4G、2M带宽、398元/3年。虽然参与此次活动有一定的小门槛，需要新用户、而且需要完成一点点小任务，但是基本上都可以撸到，要求不是特比高，有兴趣撸的可以仔细看看此文章。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>国内网络巨头腾讯公司旗下的腾讯云计算服务目前有个活动可能被当前各大商家的2019年双11促销活动给埋没了，其实本文当中要给大家介绍的腾讯云“云+开发者”专属云服务器促销力度还非常大，1核4G、2M带宽、398元/3年。虽然参与此次活动有一定的小门槛，需要新用户、而且需要完成一点点小任务，但是基本上都可以撸到，要求不是特比高，有兴趣撸的可以仔细看看此文章。</p>
+<!-- more -->
+<h3 id="一-腾讯云活动页面"><strong>一、腾讯云活动页面</strong></h3>
+<p><a href="http://cloud.tencent.com/act/developer?sk=32a71e6b7067f20e3e6319eb09d25792">点击这里直达腾讯云“云+开发者”活动页面</a></p>
+<h3 id="二-活动详情及参与"><strong>二、活动详情及参与</strong></h3>
+<p>1、腾讯云开发者专属云服务器购买资格认证。首先找到如下图位置，点击红框内的“开始认证”进行答题，一共五道题目。大家通过百度搜答案吧，难度不到，比之前阿里云的30道题目还要视频认证的那个活动容易多了。不过需要注意的是必须是新用户才能采用购买“开发者专属云服务器”，老用户即使认证了也没有用。<strong>但是这里有个取巧的地方，一个身份证可以认证3个账户，也就是说老用户可以用身份证再认证一个新账号，这个就成了新用户了，可以参与这个活动，但是不能认证超过3个账户哦！</strong></p>
+<figure data-type="image" tabindex="1"><img src="https://picture.totoro.site/images/2019/10/31/QQ20191031165326.png" alt="QQ20191031165326.png"></figure>
+<p>完成认证后找到下图“开发者专属云服务器”配置介绍的图片位置，点击“立即购买”先购入云服务器。</p>
+<p>2、然后给大家介绍下开发者专属云服务器配置怎么样。如下图一个可以看得更直观。默认配置是1核2G内存、1Mbps带宽的上海节点云服务器，购买后可以参加免费提升2G内存、免费提升1M带宽、免费续费一年的活动，同时需要需要域名还可以以23元的价格购入一个.com域名。价格相对比较便宜的国内云服务器产品了，等于1核4G内存、2M带宽的腾讯云服务器只需398元/3年，个人建议大家不要选择购买1年,购买2年后想办法免费续费一年更划算。</p>
+<figure data-type="image" tabindex="2"><img src="https://picture.totoro.site/images/2019/10/31/11111.png" alt="11111.png"></figure>
+<p>3、云服务器购买后，我们就开始做任务了。任务一个一个来，首先是“免费领取2G内存”。完成四个中的一个任务即可免费领取2G内存。</p>
+<figure data-type="image" tabindex="3"><img src="https://picture.totoro.site/images/2019/10/31/QQ20191031165116.png" alt="QQ20191031165116.png"></figure>
+<p>大家选择一个相对比较容易的任务进行即可。并且是有教程的。点击任务进去，查看“实验手册”即可。</p>
+<figure data-type="image" tabindex="4"><img src="https://picture.totoro.site/images/2019/10/31/QQ20191031165840.png" alt="QQ20191031165840.png"></figure>
+<p>4、接下来完成“Web业务验证任务”。在购买的云服务器上安装个WEB环境并绑定域名，然后填写域名验证即可。装web环境其实可以在腾讯开发者实验室找个静态页面的实验，nginx加个html就好，找个域名解析一下就行。</p>
+<figure data-type="image" tabindex="5"><img src="https://picture.totoro.site/images/2019/10/31/QQ20191031165130.png" alt="QQ20191031165130.png"></figure>
+<p>5、最后是免费续费最高1年时长。这个稍微有点难度，需要用自己的链接邀请好友购买，最少购买10天的时间，一共邀请四个人才能领取1年的续费时间。这个大家获取自己的邀请链接可以到一些主机论坛发布，招募参与者。</p>
+<figure data-type="image" tabindex="6"><img src="https://picture.totoro.site/images/2019/10/31/QQ20191031165139.png" alt="QQ20191031165139.png"></figure>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Dropbox使用mklink同步任意文件夹]]></title>
         <id>https://skytotwo.github.io//post/dropbox-mklink</id>
@@ -693,108 +721,6 @@ nameserver xxx.xxx.xxx.xxx
 <pre><code class="language-shell">service network restart
 </code></pre>
 <p>按照上面任意一种方案修改DNS设置之后都不会出现重启服务器DNS设置复原的情况，适用于dhcp启动的机器。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[python中的单例模式]]></title>
-        <id>https://skytotwo.github.io//post/python-singelton</id>
-        <link href="https://skytotwo.github.io//post/python-singelton">
-        </link>
-        <updated>2019-09-01T07:50:50.000Z</updated>
-        <summary type="html"><![CDATA[<p>单例模式（Singleton Pattern）是一种常用的软件设计模式，该模式的主要目的是确保某一个类只有一个实例存在。当你希望在整个系统中，某个类只能出现一个实例时，单例对象就能派上用场。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>单例模式（Singleton Pattern）是一种常用的软件设计模式，该模式的主要目的是确保某一个类只有一个实例存在。当你希望在整个系统中，某个类只能出现一个实例时，单例对象就能派上用场。</p>
-<!-- more -->
-<h3 id="单例模式">单例模式</h3>
-<p>比如，某个服务器程序的配置信息存放在一个文件中，客户端通过一个 AppConfig 的类来读取配置文件的信息。如果在程序运行期间，有很多地方都需要使用配置文件的内容，也就是说，很多地方都需要创建 AppConfig 对象的实例，这就导致系统中存在多个 AppConfig 的实例对象，而这样会严重浪费内存资源，尤其是在配置文件内容很多的情况下。事实上，类似 AppConfig 这样的类，我们希望在程序运行期间只存在一个实例对象。</p>
-<p>在 Python 中，我们可以用多种方法来实现单例模式：</p>
-<ul>
-<li>使用模块</li>
-<li>使用 <strong>new</strong></li>
-<li>使用装饰器（decorator）</li>
-<li>使用元类（metaclass）</li>
-</ul>
-<h4 id="使用模块"><strong>使用模块</strong></h4>
-<p>其实，Python 的模块就是天然的单例模式，因为模块在第一次导入时，会生成 .pyc 文件，当第二次导入时，就会直接加载 .pyc 文件，而不会再次执行模块代码。因此，我们只需把相关的函数和数据定义在一个模块中，就可以获得一个单例对象了。如果我们真的想要一个单例类，可以考虑这样做：</p>
-<pre><code class="language-python"># mysingleton.py
-class My_Singleton(object):
-    def foo(self):
-        pass
-
-my_singleton = My_Singleton()
-</code></pre>
-<p>将上面的代码保存在文件 mysingleton.py 中，然后这样使用：</p>
-<pre><code class="language-python">from mysingleton import my_singleton
-
-my_singleton.foo()
-</code></pre>
-<h4 id="使用-new"><strong>使用 <strong>new</strong></strong></h4>
-<p>为了使类只能出现一个实例，我们可以使用 <strong>new</strong> 来控制实例的创建过程，代码如下：</p>
-<pre><code class="language-python">class Singleton(object):
-    _instance = None
-    def __new__(cls, *args, **kw):
-        if not cls._instance:
-            cls._instance = super(Singleton, cls).__new__(cls, *args, **kw)  
-        return cls._instance  
-
-class MyClass(Singleton):  
-    a = 1
-</code></pre>
-<p>在上面的代码中，我们将类的实例和一个类变量 _instance 关联起来，如果 cls._instance 为 None 则创建实例，否则直接返回 cls._instance。</p>
-<p>执行情况如下：</p>
-<pre><code class="language-python">&gt;&gt;&gt; one = MyClass()
-&gt;&gt;&gt; two = MyClass()
-&gt;&gt;&gt; one == two
-True
-&gt;&gt;&gt; one is two
-True
-&gt;&gt;&gt; id(one), id(two)
-(4303862608, 4303862608)
-</code></pre>
-<h4 id="使用装饰器"><strong>使用装饰器</strong></h4>
-<p>我们知道，装饰器（decorator）可以动态地修改一个类或函数的功能。这里，我们也可以使用装饰器来装饰某个类，使其只能生成一个实例，代码如下：</p>
-<pre><code class="language-python">from functools import wraps
-
-def singleton(cls):
-    instances = {}
-    @wraps(cls)
-    def getinstance(*args, **kw):
-        if cls not in instances:
-            instances[cls] = cls(*args, **kw)
-        return instances[cls]
-    return getinstance
-
-@singleton
-class MyClass(object):
-    a = 1
-</code></pre>
-<p>在上面，我们定义了一个装饰器 singleton，它返回了一个内部函数 getinstance，该函数会判断某个类是否在字典 instances 中，如果不存在，则会将 cls 作为 key，cls(*args, **kw) 作为 value 存到 instances 中，否则，直接返回 instances[cls]。</p>
-<h4 id="使用-metaclass"><strong>使用 metaclass</strong></h4>
-<p>元类（metaclass）可以控制类的创建过程，它主要做三件事：</p>
-<ol>
-<li>拦截类的创建</li>
-<li>修改类的定义</li>
-<li>返回修改后的类<br>
-使用元类实现单例模式的代码如下：</li>
-</ol>
-<pre><code class="language-python">class Singleton(type):
-    _instances = {}
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
-        return cls._instances[cls]
-
-# Python2
-class MyClass(object):
-    __metaclass__ = Singleton
-
-# Python3
-# class MyClass(metaclass=Singleton):
-#    pass
-</code></pre>
-<h4 id="小结"><strong>小结</strong></h4>
-<p><strong>Python 的模块是天然的单例模式，这在大部分情况下应该是够用的，当然，我们也可以使用装饰器、元类等方法</strong></p>
-<p>转载至：http://python.jobbole.com/87294/</p>
 ]]></content>
     </entry>
 </feed>

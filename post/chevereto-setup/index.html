@@ -1,56 +1,117 @@
+<!DOCTYPE html>
 <html>
-      <head>
-        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
-        <meta charset="utf-8">
-        <meta name="referrer" content="never">
-        <title>一款强大好用的个人图床：chevereto安装教程 | Totoro の Home</title>
-        <link rel="stylesheet" href="https://cdn.staticfile.org/KaTeX/0.11.1/katex.min.css">
-        <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
-          <script src="https://skytotwo.github.io//media/scripts/mdui.min.js"></script>
-        <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
-        <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Ma+Shan+Zheng&display=swap" rel="stylesheet">
-        <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
-        <script src="https://skytotwo.github.io//media/scripts/script.js"></script>
-        <script >hljs.initHighlightingOnLoad();</script>
+  <head>
+    <meta charset="utf-8" >
+
+<title>一款强大好用的个人图床：chevereto安装教程 | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572484293559">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1572484293559" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
         
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="http://picture.totoro.site/" class="site-nav">
+            图床
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
 
-    </head>
-    <body class="mdui-theme-primary-purple mdui-theme-accent-purple">
-        <header class="index-img mdui-m-b-3"  style="background-image: url(http://picture.totoro.site/images/2019/09/01/landing-medium.jpg);" >
-                          <button class="mdui-btn  mdui-btn-icon mdui-btn-dense mdui-color-theme-500 mdui-ripple yinying mdui-m-t-1 mdui-m-l-1" mdui-menu="{target: '#demo-attr-cascade'}"><i class="mdui-icon material-icons">&#xe5d2;</i></button>
-                <ul class="mdui-menu" id="demo-attr-cascade">
-                
-                        <li class="mdui-menu-item">
-                          <a href="/" class="mdui-ripple">首页</a>
-                        </li>
-                
-                        <li class="mdui-menu-item">
-                          <a href="/archives" class="mdui-ripple">归档</a>
-                        </li>
-                
-                        <li class="mdui-menu-item">
-                          <a href="/tags" class="mdui-ripple">标签</a>
-                        </li>
-                
-                        <li class="mdui-menu-item">
-                          <a href="/post/about" class="mdui-ripple">关于</a>
-                        </li>
-                
-                        <li class="mdui-menu-item">
-                          <a href="http://picture.totoro.site/" class="mdui-ripple">图床</a>
-                        </li>
-                
-                      </ul>
 
-        </header>
-        <div class="mdui-container post">
-                <div class="mdui-row">
-                        <div class="mdui-col-md-8 mdui-col-offset-md-2 ">
-                         <article class="mdui-shadow-10 mdui-p-a-2 post-list">
-                           <div class="mdui-typo-display-1 mdui-m-b-3">一款强大好用的个人图床：chevereto安装教程</div>
-                           <a  class="index-list-biaoqian ">2019-09-01</a>
-                           <div class="mdui-typo mdui-m-t-3 post-neirong"><p>说明：chevereto是目前最好的图床之一了。功能也非常强大。其免费版和收费版的区别，在于收费版多了硬盘扩展，社交分享功能和技术支持。硬盘扩展指的是你可以通过sftp等方式把上传的文件储存在其他服务器上。所以个人觉得，这个免费版已经足够使用了。而且chevereto的安装也非常简单，并且支持中文。网上很多教程都写得不是很清楚，这里就发个详细安装教程吧。</p>
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">一款强大好用的个人图床：chevereto安装教程</h2>
+            <div class="post-date">2019-09-01</div>
+            
+              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/09/01/landing-medium.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <p>说明：chevereto是目前最好的图床之一了。功能也非常强大。其免费版和收费版的区别，在于收费版多了硬盘扩展，社交分享功能和技术支持。硬盘扩展指的是你可以通过sftp等方式把上传的文件储存在其他服务器上。所以个人觉得，这个免费版已经足够使用了。而且chevereto的安装也非常简单，并且支持中文。网上很多教程都写得不是很清楚，这里就发个详细安装教程吧。</p>
  <!-- more --> 
 <p>官网：https://chevereto.com/<br>
 DEMO：https://demo.chevereto.com/</p>
@@ -110,140 +171,84 @@ lnmp nginx restart
 然后开始填写数据库信息：<br>
 <img src="http://picture.totoro.site/images/2019/04/18/chevereto03.png" alt="chevereto03.png"></p>
 <p>随后安装成功！</p>
-</div>
-                              <div class="mdui-divider mdui-m-t-3"></div>
-                              <div class="mdui-row-xs-2 mdui-m-t-2">
-  <div class="mdui-col"> <div class="mdui-text-left"><a href="https://skytotwo.github.io//post/linux-resend">关于服务器端口转发的两种常见方法</a></div></div>
- <div class="mdui-col"><div class="mdui-text-right "><a href="https://skytotwo.github.io//post/centos-resolvconf-dns">CentOS重启后resolv.conf被重置的解决方案</a></div> </div>
-                                </div>
-                                <div class="mdui-divider mdui-m-t-2"></div>
-   
-          
-            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
-<div id="gitalk-container"></div>
-
-<script>
-
-  var gitalk = new Gitalk({
-    clientID: 'c92214c141dbb1e37da6',
-    clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
-    repo: 'skytotwo.github.io',
-    owner: 'skytotwo',
-    admin: ['skytotwo'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  })
-
-  gitalk.render('gitalk-container')
-
-</script>
-
-          
-
-          
-        
- <script src="https://skytotwo.github.io//media/scripts/Valine.min.js"></script>
- <div class="comment"></div>
-
-<script>
-      new Valine({
-            el: '.comment',
-
-
-
-            path: window.location.pathname,
-            pageSize: 30,
-            avatar:'mm', 
-       })
-
-    </script> 
-<script>
-    if(window.location.hash){
-        var checkExist = setInterval(function() {
-           if ($(window.location.hash).length) {
-              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 1000);
-              clearInterval(checkExist);
-           }
-        }, 100);
-    }
-</script>
-                         </article>
-                 <div class="toc-container mdui-float-right">
-                <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#%E5%AE%89%E8%A3%85"><strong>安装</strong></a></li>
-<li><a href="#1-%E6%90%AD%E5%BB%BAweb%E7%8E%AF%E5%A2%83"><strong>1、搭建web环境</strong></a></li>
-</ul>
-</li>
-<li><a href="#2-%E4%B8%8A%E4%BC%A0chevereto%E7%A8%8B%E5%BA%8F"><strong>2、上传chevereto程序</strong></a></li>
-<li><a href="#3-%E7%94%9F%E6%88%90chevereto%E5%9B%BE%E5%BA%8A%E6%89%80%E9%9C%80%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93"><strong>3、生成chevereto图床所需的数据库</strong></a></li>
-<li><a href="#4-%E5%BC%80%E5%A7%8B%E5%AE%89%E8%A3%85chevereto"><strong>4、开始安装chevereto</strong></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/4YquhVXyy" class="tag">
+                    daily
+                  </a>
+                
               </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/centos-resolvconf-dns">
+                  <h3 class="post-title">
+                    CentOS重启后resolv.conf被重置的解决方案
+                  </h3>
+                </a>
+              </div>
+            
 
-                        </div>
-                 </div>
-          
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
         </div>
-        <script data-no-instant>
-    (function ($) {
-        $.extend({
-            adamsOverload: function () {
-                $.viewImage({
-                    'target'  : '.post-neirong img',
-                    'exclude' : '.vsmile-icons img , .song-links-item img',
-                    'delay'   : 300
-                });
-            }
-        });
-    })(jQuery);
-    jQuery.adamsOverload();
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
 </script>
-        <footer class="footer mdui-m-t-5 mdui-text-center">
-               <nav class="social-links">
-                      <ul>
-                      
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                      </ul>
-                    </nav>
-                  <div class="copyright">
-                      <p>Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a></p>
-                  </div>
-              </footer>
-    </body>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
 </html>

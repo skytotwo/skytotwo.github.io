@@ -1,56 +1,117 @@
+<!DOCTYPE html>
 <html>
-      <head>
-        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
-        <meta charset="utf-8">
-        <meta name="referrer" content="never">
-        <title>Dropbox使用mklink同步任意文件夹 | Totoro の Home</title>
-        <link rel="stylesheet" href="https://cdn.staticfile.org/KaTeX/0.11.1/katex.min.css">
-        <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
-          <script src="https://skytotwo.github.io//media/scripts/mdui.min.js"></script>
-        <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
-        <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Ma+Shan+Zheng&display=swap" rel="stylesheet">
-        <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
-        <script src="https://skytotwo.github.io//media/scripts/script.js"></script>
-        <script >hljs.initHighlightingOnLoad();</script>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Dropbox使用mklink同步任意文件夹 | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572484293559">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1572484293559" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
         
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="http://picture.totoro.site/" class="site-nav">
+            图床
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
 
-    </head>
-    <body class="mdui-theme-primary-purple mdui-theme-accent-purple">
-        <header class="index-img mdui-m-b-3"  style="background-image: url(https://picture.totoro.site/images/2019/10/26/Dropbox.png);" >
-                          <button class="mdui-btn  mdui-btn-icon mdui-btn-dense mdui-color-theme-500 mdui-ripple yinying mdui-m-t-1 mdui-m-l-1" mdui-menu="{target: '#demo-attr-cascade'}"><i class="mdui-icon material-icons">&#xe5d2;</i></button>
-                <ul class="mdui-menu" id="demo-attr-cascade">
-                
-                        <li class="mdui-menu-item">
-                          <a href="/" class="mdui-ripple">首页</a>
-                        </li>
-                
-                        <li class="mdui-menu-item">
-                          <a href="/archives" class="mdui-ripple">归档</a>
-                        </li>
-                
-                        <li class="mdui-menu-item">
-                          <a href="/tags" class="mdui-ripple">标签</a>
-                        </li>
-                
-                        <li class="mdui-menu-item">
-                          <a href="/post/about" class="mdui-ripple">关于</a>
-                        </li>
-                
-                        <li class="mdui-menu-item">
-                          <a href="http://picture.totoro.site/" class="mdui-ripple">图床</a>
-                        </li>
-                
-                      </ul>
 
-        </header>
-        <div class="mdui-container post">
-                <div class="mdui-row">
-                        <div class="mdui-col-md-8 mdui-col-offset-md-2 ">
-                         <article class="mdui-shadow-10 mdui-p-a-2 post-list">
-                           <div class="mdui-typo-display-1 mdui-m-b-3">Dropbox使用mklink同步任意文件夹</div>
-                           <a  class="index-list-biaoqian ">2019-10-26</a>
-                           <div class="mdui-typo mdui-m-t-3 post-neirong"><p>Dropbox 是个非常好的网络服务，我也不知道该怎么形容它。它像是一个网盘，而又不全是，它更像是帮你备份本地数据的一个软件。</p>
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Dropbox使用mklink同步任意文件夹</h2>
+            <div class="post-date">2019-10-26</div>
+            
+              <div class="feature-container" style="background-image: url('https://picture.totoro.site/images/2019/10/26/Dropbox.png')">
+              </div>
+            
+            <div class="post-content">
+              <p>Dropbox 是个非常好的网络服务，我也不知道该怎么形容它。它像是一个网盘，而又不全是，它更像是帮你备份本地数据的一个软件。</p>
 <!-- more -->
 <p>总的来说，这个软件是 Windows/Mac/Linux 通用的，可以和你的资源管理器无缝接合（连文件夹图标都是随系统变化的），如果按照默认设置的话，它会在你的电脑里生成一个 My Dropbox 文件夹，这是一个普通的本地文件夹，但它的神奇之处就是在后台的 Dropbox 程序会一直监视着这个文件夹，当你对这个文件夹做了改动的时候，它会实时同步到网络上，并且有 MD5 识别，这意味着如果你在文件夹里放了一个300多M的OS镜像，很有可能只要1秒钟的时间，这个镜像就被同步上去了——因为Dropbox计算了你的文件的MD5值，发现服务器上早就有相同的文件了，所以瞬间就同步完成了。</p>
 <p>这个服务有什么实际作用呢？我觉得它还是非常适合上班族的。在单位里一台电脑，在家里一台电脑，很多上班族都是通过U盘或电子邮件什么的来同步数据的吧？搞不好下班前忘了同步，回家还要懊恼一阵子。有了 Dropbox 就不是问题了。你管你写你的论文、做你的报表，写完保存就行了，然后关机。到了家里打开电脑，一进入系统，你会发现你在单位里写的东西已经躺在硬盘里了，完全不需要你动脑筋。</p>
@@ -68,121 +129,84 @@
 </code></pre>
 <p>这样就在 My Dropbox 目录下创建了一个 symbolic link，Dropbox 是分辨不出 symbolic link 与真正的文件夹之间的区别的，于是它以为你对文件夹有改动了，就开始同步你的内容了，过一会儿，你就发现你的 Tools 已经同步上去了，而实际上，你的硬盘里 Tools 文件夹根本就没有挪动地方。</p>
 <p>我还用这个命令把我U盘里的Software文件夹也同步上去了： mklink /d &quot;d:\my dropbox\Software&quot; j:\software 。同步完后就算U盘拔掉也没事。</p>
-</div>
-                              <div class="mdui-divider mdui-m-t-3"></div>
-                              <div class="mdui-row-xs-2 mdui-m-t-2">
-  <div class="mdui-col"> </div>
- <div class="mdui-col"><div class="mdui-text-right "><a href="https://skytotwo.github.io//post/diy-ssl-cloudflare">用自签名SSL证书配合 CloudFlare 免费SSL构建全站HTTPS加密</a></div> </div>
-                                </div>
-                                <div class="mdui-divider mdui-m-t-2"></div>
-   
-          
-            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
-<div id="gitalk-container"></div>
-
-<script>
-
-  var gitalk = new Gitalk({
-    clientID: 'c92214c141dbb1e37da6',
-    clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
-    repo: 'skytotwo.github.io',
-    owner: 'skytotwo',
-    admin: ['skytotwo'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  })
-
-  gitalk.render('gitalk-container')
-
-</script>
-
-          
-
-          
-        
- <script src="https://skytotwo.github.io//media/scripts/Valine.min.js"></script>
- <div class="comment"></div>
-
-<script>
-      new Valine({
-            el: '.comment',
-
-
-
-            path: window.location.pathname,
-            pageSize: 30,
-            avatar:'mm', 
-       })
-
-    </script> 
-<script>
-    if(window.location.hash){
-        var checkExist = setInterval(function() {
-           if ($(window.location.hash).length) {
-              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 1000);
-              clearInterval(checkExist);
-           }
-        }, 100);
-    }
-</script>
-                         </article>
-                 <div class="toc-container mdui-float-right">
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/9LkTOZXW3" class="tag">
+                    实用教程
+                  </a>
                 
               </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/diy-ssl-cloudflare">
+                  <h3 class="post-title">
+                    用自签名SSL证书配合 CloudFlare 免费SSL构建全站HTTPS加密
+                  </h3>
+                </a>
+              </div>
+            
 
-                        </div>
-                 </div>
-          
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
         </div>
-        <script data-no-instant>
-    (function ($) {
-        $.extend({
-            adamsOverload: function () {
-                $.viewImage({
-                    'target'  : '.post-neirong img',
-                    'exclude' : '.vsmile-icons img , .song-links-item img',
-                    'delay'   : 300
-                });
-            }
-        });
-    })(jQuery);
-    jQuery.adamsOverload();
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
 </script>
-        <footer class="footer mdui-m-t-5 mdui-text-center">
-               <nav class="social-links">
-                      <ul>
-                      
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                      </ul>
-                    </nav>
-                  <div class="copyright">
-                      <p>Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a></p>
-                  </div>
-              </footer>
-    </body>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
 </html>

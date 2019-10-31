@@ -1,308 +1,262 @@
+<!DOCTYPE html>
 <html>
-      <head>
-        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
-        <meta charset="utf-8">
-        <meta name="referrer" content="never">
-        <title>Totoro の Home</title>
-        <link rel="stylesheet" href="https://cdn.staticfile.org/KaTeX/0.11.1/katex.min.css">
-        <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
-          <script src="https://skytotwo.github.io//media/scripts/mdui.min.js"></script>
-        <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
-        <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Ma+Shan+Zheng&display=swap" rel="stylesheet">
-        <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
-        <script src="https://skytotwo.github.io//media/scripts/script.js"></script>
-        <script >hljs.initHighlightingOnLoad();</script>
-        
+  <head>
+    <meta charset="utf-8" >
 
-    </head>
-    <body class="mdui-theme-primary-purple mdui-theme-accent-purple">
-        <header class="header mdui-m-b-3">
-                          <button class="mdui-btn daohang mdui-btn-icon mdui-btn-dense mdui-color-theme-500 mdui-ripple yinying mdui-m-t-1 mdui-m-l-1" mdui-menu="{target: '#demo-attr-cascade'}"><i class="mdui-icon material-icons">&#xe5d2;</i></button>
-                <ul class="mdui-menu " id="demo-attr-cascade">
-                
-                        <li class="mdui-menu-item">
-                          <a href="/" class="mdui-ripple">首页</a>
-                        </li>
-                
-                        <li class="mdui-menu-item">
-                          <a href="/archives" class="mdui-ripple">归档</a>
-                        </li>
-                
-                        <li class="mdui-menu-item">
-                          <a href="/tags" class="mdui-ripple">标签</a>
-                        </li>
-                
-                        <li class="mdui-menu-item">
-                          <a href="/post/about" class="mdui-ripple">关于</a>
-                        </li>
-                
-                        <li class="mdui-menu-item">
-                          <a href="http://picture.totoro.site/" class="mdui-ripple">图床</a>
-                        </li>
-                
-                      </ul>
-                      <div class="mdui-text-center">
-                      <div class="mdui-typo-display-4 mdui-m-b-3 index-title">Totoro の Home</div>
-                      <div class="mdui-typo-headline">空杯心态，每天进步</div>
-                      </div>
+<title>文章归档 | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
 
-        </header>
-        <div class="mdui-container">
-                <div class="mdui-row">
-                        <div class="mdui-col-md-10 mdui-col-offset-md-1 ">
- 
-                           
-  
-   
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572484293559">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
 
 
 
-                               <div class="mdui-typo-display-1 mdui-m-b-2 mdui-m-l-1">
-                               <div class="mdui-row"><div class="mdui-col-xs-12">2019</div>
-                               </div>
-                                <div class="mdui-row-md-3 mdui-row-xs-1">
-                               
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1572484293559" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
         
-                                    <div class="mdui-col mdui-p-a-1">
-                                       <article class="archives-list mdui-shadow-15  mdui-hoverable ">
-                                           <a href="https://skytotwo.github.io//post/java-delete-file">
-                                           <div class="archives-img"  style="background-image:url(http://picture.totoro.site/images/2019/08/05/javastudy.png" >
-                                           </div>
-                                           <div class="mdui-p-a-2">
-                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title">java程序实现删除本地文件</div>
-                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">2019-08-05</div>
-                                           </div>
-                                        </a>
-                                       </article> 
-                                    </div>
-                                    
-             
-            
+          <a href="/" class="site-nav">
+            首页
+          </a>
         
-                                    <div class="mdui-col mdui-p-a-1">
-                                       <article class="archives-list mdui-shadow-15  mdui-hoverable ">
-                                           <a href="https://skytotwo.github.io//post/js-cookie-set">
-                                           <div class="archives-img"  style="background-image:url(http://picture.totoro.site/images/2019/08/05/maxresdefault1.jpg" >
-                                           </div>
-                                           <div class="mdui-p-a-2">
-                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title">网页登陆页面设置Cookie</div>
-                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">2019-08-05</div>
-                                           </div>
-                                        </a>
-                                       </article> 
-                                    </div>
-                                    
-             
-            
+      
         
-                                    <div class="mdui-col mdui-p-a-1">
-                                       <article class="archives-list mdui-shadow-15  mdui-hoverable ">
-                                           <a href="https://skytotwo.github.io//post/scrapy-item-loaders">
-                                           <div class="archives-img"  style="background-image:url(http://picture.totoro.site/images/2019/08/05/1324415-20180514145258553-377347092.png" >
-                                           </div>
-                                           <div class="mdui-p-a-2">
-                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title">Scrapy Item Loaders机制详解</div>
-                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">2019-08-05</div>
-                                           </div>
-                                        </a>
-                                       </article> 
-                                    </div>
-                                    
-             
-            
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
         
-                                    <div class="mdui-col mdui-p-a-1">
-                                       <article class="archives-list mdui-shadow-15  mdui-hoverable ">
-                                           <a href="https://skytotwo.github.io//post/python-dict-set">
-                                           <div class="archives-img"  style="background-image:url(http://picture.totoro.site/images/2019/08/05/maxresdefault.jpg" >
-                                           </div>
-                                           <div class="mdui-p-a-2">
-                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title">python中dict和set实现原理</div>
-                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">2019-08-05</div>
-                                           </div>
-                                        </a>
-                                       </article> 
-                                    </div>
-                                    
-             
-            
+      
         
-                                    <div class="mdui-col mdui-p-a-1">
-                                       <article class="archives-list mdui-shadow-15  mdui-hoverable ">
-                                           <a href="https://skytotwo.github.io//post/wechat-miniapp-learning-mark">
-                                           <div class="archives-img"  style="background-image:url(http://picture.totoro.site/images/2019/08/05/030014pyf9sk.jpg" >
-                                           </div>
-                                           <div class="mdui-p-a-2">
-                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title">微信小程序学习记要（上）</div>
-                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">2019-08-05</div>
-                                           </div>
-                                        </a>
-                                       </article> 
-                                    </div>
-                                    
-             
-            
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
         
-                                    <div class="mdui-col mdui-p-a-1">
-                                       <article class="archives-list mdui-shadow-15  mdui-hoverable ">
-                                           <a href="https://skytotwo.github.io//post/upload-or-download-ftp">
-                                           <div class="archives-img"  style="background-image:url(http://picture.totoro.site/images/2019/08/05/440dc86152e38a28987392d773d50a7f.jpg" >
-                                           </div>
-                                           <div class="mdui-p-a-2">
-                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title">附件上传至FTP和从FTP下载的代码</div>
-                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">2019-08-05</div>
-                                           </div>
-                                        </a>
-                                       </article> 
-                                    </div>
-                                    
-             
-            
+      
         
-                                    <div class="mdui-col mdui-p-a-1">
-                                       <article class="archives-list mdui-shadow-15  mdui-hoverable ">
-                                           <a href="https://skytotwo.github.io//post/js-check-browser">
-                                           <div class="archives-img"  style="background-image:url(http://picture.totoro.site/images/2019/08/05/16pic_5257905_b.jpg" >
-                                           </div>
-                                           <div class="mdui-p-a-2">
-                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title">js代码判断浏览器种类</div>
-                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">2019-08-05</div>
-                                           </div>
-                                        </a>
-                                       </article> 
-                                    </div>
-                                    
-             
-            
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
         
-                                    <div class="mdui-col mdui-p-a-1">
-                                       <article class="archives-list mdui-shadow-15  mdui-hoverable ">
-                                           <a href="https://skytotwo.github.io//post/jsp-word-config">
-                                           <div class="archives-img"  style="background-image:url(http://picture.totoro.site/images/2019/08/05/1498118952954198.jpg" >
-                                           </div>
-                                           <div class="mdui-p-a-2">
-                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title">jsp实现导出word文档</div>
-                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">2019-08-05</div>
-                                           </div>
-                                        </a>
-                                       </article> 
-                                    </div>
-                                    
-             
-            
+      
         
-                                    <div class="mdui-col mdui-p-a-1">
-                                       <article class="archives-list mdui-shadow-15  mdui-hoverable ">
-                                           <a href="https://skytotwo.github.io//post/django-csrf">
-                                           <div class="archives-img"  style="background-image:url(http://picture.totoro.site/images/2019/08/05/csrf-cross-site-request-forgery.jpg" >
-                                           </div>
-                                           <div class="mdui-p-a-2">
-                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title">Django中 CSRF 理解 原理 及 使用</div>
-                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">2019-08-05</div>
-                                           </div>
-                                        </a>
-                                       </article> 
-                                    </div>
-                                    
-             
-            
+          <a href="http://picture.totoro.site/" class="site-nav">
+            图床
+          </a>
         
-                                    <div class="mdui-col mdui-p-a-1">
-                                       <article class="archives-list mdui-shadow-15  mdui-hoverable ">
-                                           <a href="https://skytotwo.github.io//post/django-settings-meida-lujing">
-                                           <div class="archives-img"  style="background-image:url(http://picture.totoro.site/images/2019/06/16/1562632_a245_2.jpg" >
-                                           </div>
-                                           <div class="mdui-p-a-2">
-                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title">Django settings.py 的media路径设置</div>
-                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">2019-06-16</div>
-                                           </div>
-                                        </a>
-                                       </article> 
-                                    </div>
-                                    
-             
-            
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
         
-                                    <div class="mdui-col mdui-p-a-1">
-                                       <article class="archives-list mdui-shadow-15  mdui-hoverable ">
-                                           <a href="https://skytotwo.github.io//post/django-drf-disanfang">
-                                           <div class="archives-img"  style="background-image:url(http://picture.totoro.site/images/2019/06/16/djangodrf.png" >
-                                           </div>
-                                           <div class="mdui-p-a-2">
-                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title">django drf实现第三方登录</div>
-                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">2019-06-16</div>
-                                           </div>
-                                        </a>
-                                       </article> 
-                                    </div>
-                                    
-             
-            
+      
         
-                                    <div class="mdui-col mdui-p-a-1">
-                                       <article class="archives-list mdui-shadow-15  mdui-hoverable ">
-                                           <a href="https://skytotwo.github.io//post/asyncio-jian-jie">
-                                           <div class="archives-img"  style="background-image:url(http://picture.totoro.site/images/2019/06/16/asyncio2x.jpg" >
-                                           </div>
-                                           <div class="mdui-p-a-2">
-                                           <div class="mdui-typo-headline mdui-text-truncate index-list-title">asyncio 简介</div>
-                                           <div class="mdui-typo-title mdui-m-t-1 mdui-text-color-blue-grey-200">2019-06-14</div>
-                                           </div>
-                                        </a>
-                                       </article> 
-                                    </div>
-                                    
-             
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          
+
+          <h2 class="archives-title">文章归档</h2>
+          <div class="archives-container">
             
+              <h2 class="year" data-aos="fade-in" data-aos-delay="500">2019</h2>
               
-                                  </div>
-                                    <nav class="mdui-m-y-3">
-                         
-                          <button class="mdui-btn mdui-color-theme-500 yinying mdui-btn-icon mdui-float-left"><a href="https://skytotwo.github.io//archives/"><i class="mdui-icon mdui-text-color-white material-icons">&#xe5c4;</i></a></button>
-                         
-                         
-                         </nav>
-                         
-                        </div>
-                 </div>
+                
+                  <article class="post">
+                    <a href="https://skytotwo.github.io//post/java-delete-file">
+                      <h2 class="post-title">
+                        java程序实现删除本地文件
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://skytotwo.github.io//post/js-cookie-set">
+                      <h2 class="post-title">
+                        网页登陆页面设置Cookie
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://skytotwo.github.io//post/scrapy-item-loaders">
+                      <h2 class="post-title">
+                        Scrapy Item Loaders机制详解
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://skytotwo.github.io//post/python-dict-set">
+                      <h2 class="post-title">
+                        python中dict和set实现原理
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://skytotwo.github.io//post/wechat-miniapp-learning-mark">
+                      <h2 class="post-title">
+                        微信小程序学习记要（上）
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://skytotwo.github.io//post/upload-or-download-ftp">
+                      <h2 class="post-title">
+                        附件上传至FTP和从FTP下载的代码
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://skytotwo.github.io//post/js-check-browser">
+                      <h2 class="post-title">
+                        js代码判断浏览器种类
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://skytotwo.github.io//post/jsp-word-config">
+                      <h2 class="post-title">
+                        jsp实现导出word文档
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://skytotwo.github.io//post/django-csrf">
+                      <h2 class="post-title">
+                        Django中 CSRF 理解 原理 及 使用
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://skytotwo.github.io//post/django-settings-meida-lujing">
+                      <h2 class="post-title">
+                        Django settings.py 的media路径设置
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://skytotwo.github.io//post/django-drf-disanfang">
+                      <h2 class="post-title">
+                        django drf实现第三方登录
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://skytotwo.github.io//post/asyncio-jian-jie">
+                      <h2 class="post-title">
+                        asyncio 简介
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+            
           </div>
-          </div>
+
+          <div class="pagination-container">
+  
+    <a href="https://skytotwo.github.io//archives/" class="prev"><i class="icon-arrow-ios-back-outline"></i> 上一页</a>
+  
+  
+</div>
+
         </div>
-         </div>
-        <footer class="footer mdui-m-t-5 mdui-text-center">
-               <nav class="social-links">
-                      <ul>
-                      
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                            
-                           
-                      </ul>
-                    </nav>
-                  <div class="copyright">
-                      <p>Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a></p>
-                  </div>
-              </footer>
-    </body>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
 </html>

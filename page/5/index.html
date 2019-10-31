@@ -1,348 +1,250 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Totoro の Home</title>
-<meta name="description" content="空杯心态，每天进步">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572484687620">
+<meta name="description" content="空杯心态，每天进步" />
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572484891992">
+<link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
 <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Totoro の Home - Atom Feed" href="https://skytotwo.github.io//atom.xml">
 
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://skytotwo.github.io/">
-        <img src="https://skytotwo.github.io//images/avatar.png?v=1572484687620" class="site-logo">
-        <h1 class="site-title">Totoro の Home</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
+    <div class="">
+      <div class="head">
+  <div class="inner">
+    <a class="site-name" href="https://skytotwo.github.io/">
+        <span>Totoro の Home</span>
+    </a>
+    <label class="burger" for="burger"></label>
+    <input id="burger" type="checkbox">
+    <button class="burger">
+      <div>
+        <span></span>
+        <span></span>
       </div>
-    </div>
-    <div>
+    </button>
+    <nav class="info_nav">
       
         
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
-      
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
+          <a href="/">首页</a>
         
       
         
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
+          <a href="/archives">归档</a>
         
       
         
-          <a href="/post/about" class="site-nav">
-            关于
-          </a>
+          <a href="/tags">标签</a>
         
       
         
-          <a href="http://picture.totoro.site/" class="site-nav">
-            图床
-          </a>
-        
-      
-    </div>
-  </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
-      
+          <a href="/post/about">关于</a>
         
       
         
-      
+          <a href="http://picture.totoro.site/">图床</a>
         
       
-        
-      
-        
-      
-    </div>
-    <div class="site-description">
-      空杯心态，每天进步
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
+    </nav>
   </div>
 </div>
-
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
+    </div>
+    <div class="info _site">
+      <div class="inner">
+        <div class="info_main">
           
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/iter-generator">
-                  <h2 class="post-title">完全理解 Python 迭代对象、迭代器、生成器</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>本文源自RQ作者的一篇博文，原文是Iterables vs. Iterators vs. Generators。<br>
-在了解Python的数据结构时，容器(container)、可迭代对象(iterable)、迭代器(iterator)、生成器(generator)、列表/集合/字典推导式(list,set,dict comprehension)众多概念参杂在一起，难免让初学者一头雾水，我将用一篇文章试图将这些概念以及它们之间的关系捋清楚。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/iter-generator">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/20180411145647_562.png')">
-                  </div>
-                </a>
-              
-            </article>
+            <h1 class="info_title"><i class="remixicon-article-line"></i> 文 章</h1>
           
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/python-generators">
-                  <h2 class="post-title">Python 生成器原理详解</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>原文出处： MichaelDiBernardo   译文出处：你逗比<br>
-这篇文章是对 500 Lines or Less 一书中高效爬虫一章的部分翻译，原文在此 -&gt; How Python Generators Work。建议结合《流畅的 Python》食用。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/python-generators">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/20180828113140573.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/wechat-pay-java">
-                  <h2 class="post-title">微信小程序支付  带java后端</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>话不多说，直接开撸。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/wechat-pay-java">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/b3465065ae1ebd2d.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/css-centered">
-                  <h2 class="post-title">css图片居中(水平居中和垂直居中)</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>css图片居中分css图片水平居中和垂直居中两种情况，有时候还需要图片同时水平垂直居中，下面分几种居中情况分别介绍:</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/css-centered">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/1_OFsc0SD55jhi8cjo7aCA4w.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/wechat-learning-2">
-                  <h2 class="post-title">微信小程序学习记要（下）</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>之前记录了微信小程序学习的上集，这次记录下下部分，内容不多，但是我觉得这些点还是需要关注下。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/wechat-learning-2">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/dba4tns3gj.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/linux-vi">
-                  <h2 class="post-title">linux下终端常用命令和vi命令修改文件及保存的使用方法</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>这次分享的还是linux下的常用命令，以及在linux下使用vi操作，修改文件等具体方法，很多人第一次接触vi命令，会有点懵，但熟练后会发现其实很简单。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/linux-vi">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/055942njnmcte0ktbqctfk.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/mac-android-env">
-                  <h2 class="post-title">Mac下android_sdk配置环境变量</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>之前用mac做过安卓开发，然后安卓sdk的配置环境变量上遇到过坑，这里记录一下。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/mac-android-env">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/android-studio-mac-670x335.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/linux-command">
-                  <h2 class="post-title">Linux常用命令简记</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>linux下的命令繁多，熟悉相关命令对工作可以提高便利性，下面列举了一些常用的命令。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/linux-command">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/images.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/java-get-url">
-                  <h2 class="post-title">java获取当前路径的几种方法</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>java开发过程中经常需要获取当前路径，而java也有相应的内置函数来对此提供支持，下面来介绍一下。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/java-get-url">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/java-2327538_960_720.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/java-regex">
-                  <h2 class="post-title">利用java正则表达式来解析并获取指定的字符串</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-05
-                </div>
-                <div class="post-abstract">
-                  <p><strong>Java的正则表达式不仅可以用来匹配验证字符串是否符合标准类型，还可以用来解析字符串，获取自己想要得到的数据。在java.util.regex包下提供了系列的类来对字符串进行匹配。</strong></p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/java-regex">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/05/587633180001ba6404170225.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-
-          <div class="pagination-container">
-  
-    <a href="https://skytotwo.github.io//page/4/" class="prev"><i class="icon-arrow-ios-back-outline"></i> 上一页</a>
-  
-  
-    <a href="https://skytotwo.github.io//page/6/" class="next">下一页 <i class="icon-arrow-ios-forward-outline"></i></a>
-  
-</div>
-
         </div>
       </div>
     </div>
+    <div class="main">
+      <div class="inner">
+        <div class="items">
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/12/20180411145647_562.png" href="https://skytotwo.github.io//post/iter-generator" style="background-image:url('http://picture.totoro.site/images/2019/08/12/20180411145647_562.png');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/iter-generator">
+        <div class="item-meta">
+          <time datetime="2019-08-12 17:18:58">2019-08-12</time>
+        </div>
+        <h2>完全理解 Python 迭代对象、迭代器、生成器</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/12/20180828113140573.png" href="https://skytotwo.github.io//post/python-generators" style="background-image:url('http://picture.totoro.site/images/2019/08/12/20180828113140573.png');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/python-generators">
+        <div class="item-meta">
+          <time datetime="2019-08-12 17:11:26">2019-08-12</time>
+        </div>
+        <h2>Python 生成器原理详解</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/12/b3465065ae1ebd2d.jpg" href="https://skytotwo.github.io//post/wechat-pay-java" style="background-image:url('http://picture.totoro.site/images/2019/08/12/b3465065ae1ebd2d.jpg');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/wechat-pay-java">
+        <div class="item-meta">
+          <time datetime="2019-08-12 17:07:43">2019-08-12</time>
+        </div>
+        <h2>微信小程序支付  带java后端</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/12/1_OFsc0SD55jhi8cjo7aCA4w.jpg" href="https://skytotwo.github.io//post/css-centered" style="background-image:url('http://picture.totoro.site/images/2019/08/12/1_OFsc0SD55jhi8cjo7aCA4w.jpg');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/css-centered">
+        <div class="item-meta">
+          <time datetime="2019-08-12 17:03:37">2019-08-12</time>
+        </div>
+        <h2>css图片居中(水平居中和垂直居中)</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/12/dba4tns3gj.png" href="https://skytotwo.github.io//post/wechat-learning-2" style="background-image:url('http://picture.totoro.site/images/2019/08/12/dba4tns3gj.png');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/wechat-learning-2">
+        <div class="item-meta">
+          <time datetime="2019-08-12 16:56:33">2019-08-12</time>
+        </div>
+        <h2>微信小程序学习记要（下）</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/12/055942njnmcte0ktbqctfk.png" href="https://skytotwo.github.io//post/linux-vi" style="background-image:url('http://picture.totoro.site/images/2019/08/12/055942njnmcte0ktbqctfk.png');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/linux-vi">
+        <div class="item-meta">
+          <time datetime="2019-08-12 16:51:48">2019-08-12</time>
+        </div>
+        <h2>linux下终端常用命令和vi命令修改文件及保存的使用方法</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/12/android-studio-mac-670x335.jpg" href="https://skytotwo.github.io//post/mac-android-env" style="background-image:url('http://picture.totoro.site/images/2019/08/12/android-studio-mac-670x335.jpg');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/mac-android-env">
+        <div class="item-meta">
+          <time datetime="2019-08-12 16:44:49">2019-08-12</time>
+        </div>
+        <h2>Mac下android_sdk配置环境变量</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/12/images.png" href="https://skytotwo.github.io//post/linux-command" style="background-image:url('http://picture.totoro.site/images/2019/08/12/images.png');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/linux-command">
+        <div class="item-meta">
+          <time datetime="2019-08-12 16:38:43">2019-08-12</time>
+        </div>
+        <h2>Linux常用命令简记</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/12/java-2327538_960_720.png" href="https://skytotwo.github.io//post/java-get-url" style="background-image:url('http://picture.totoro.site/images/2019/08/12/java-2327538_960_720.png');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/java-get-url">
+        <div class="item-meta">
+          <time datetime="2019-08-12 16:31:12">2019-08-12</time>
+        </div>
+        <h2>java获取当前路径的几种方法</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/05/587633180001ba6404170225.jpg" href="https://skytotwo.github.io//post/java-regex" style="background-image:url('http://picture.totoro.site/images/2019/08/05/587633180001ba6404170225.jpg');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/java-regex">
+        <div class="item-meta">
+          <time datetime="2019-08-05 12:27:09">2019-08-05</time>
+        </div>
+        <h2>利用java正则表达式来解析并获取指定的字符串</h2>
+      </a>
+    </div>
+  
+</div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        
+          <div class="navigation">
+  
+    <a href="https://skytotwo.github.io//page/4/"><i class="remixicon-arrow-left-line"></i> 上一页</a>
+  
+  
+    <a href="https://skytotwo.github.io//page/6/">下一页 <i class="remixicon-arrow-right-line"></i></a>
+  
+</div>
+        
+      </div>
+    </div>
 
-<script type="application/javascript">
+    <footer class="footer">
+  <div class="main">
+    <a href="https://skytotwo.github.io/">
+      <img class="avatar" src="https://skytotwo.github.io//images/avatar.png?v=1572484891992" alt="Totoro の Home">
+    </a>
+    <div class="footer__social">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <p class="footer__sosumi">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a>
+    </p>
+    <a class="footer-rss" href="https://skytotwo.github.io//atom.xml">RSS</a>
+  </div>
+</footer>
 
-AOS.init();
-
-hljs.initHighlightingOnLoad()
-
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
-
+<script src="https://skytotwo.github.io//media/prism.js"></script>
+<script>
+  Prism.highlightAll()
 </script>
-
-
-
 
   </body>
 </html>

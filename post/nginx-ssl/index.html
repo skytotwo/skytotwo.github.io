@@ -1,117 +1,78 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Nginx采用https协议反向代理tomcat容器项目 | Totoro の Home</title>
-<meta name="description" content="空杯心态，每天进步">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572484687620">
+<meta name="description" content="空杯心态，每天进步" />
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572484891992">
+<link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
 <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Nginx采用https协议反向代理tomcat容器项目 | Totoro の Home - Atom Feed" href="https://skytotwo.github.io//atom.xml">
 
-
-  
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
-  
-
-  
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://skytotwo.github.io/">
-        <img src="https://skytotwo.github.io//images/avatar.png?v=1572484687620" class="site-logo">
-        <h1 class="site-title">Totoro の Home</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
+    <div class="site-nav has-cover">
+      <div class="head">
+  <div class="inner">
+    <a class="site-name" href="https://skytotwo.github.io/">
+        <span>Totoro の Home</span>
+    </a>
+    <label class="burger" for="burger"></label>
+    <input id="burger" type="checkbox">
+    <button class="burger">
+      <div>
+        <span></span>
+        <span></span>
       </div>
-    </div>
-    <div>
+    </button>
+    <nav class="info_nav">
       
         
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
-      
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
+          <a href="/">首页</a>
         
       
         
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
+          <a href="/archives">归档</a>
         
       
         
-          <a href="/post/about" class="site-nav">
-            关于
-          </a>
+          <a href="/tags">标签</a>
         
       
         
-          <a href="http://picture.totoro.site/" class="site-nav">
-            图床
-          </a>
-        
-      
-    </div>
-  </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
-      
+          <a href="/post/about">关于</a>
         
       
         
-      
+          <a href="http://picture.totoro.site/">图床</a>
         
       
-        
-      
-        
-      
-    </div>
-    <div class="site-description">
-      空杯心态，每天进步
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
+    </nav>
   </div>
 </div>
-
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">Nginx采用https协议反向代理tomcat容器项目</h2>
-            <div class="post-date">2019-08-26</div>
-            
-              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/timg.jpg')">
-              </div>
-            
-            <div class="post-content">
-              <p>之前一直只是使用http协议给项目通信，但是由于谷歌大力推行https，https相比http来说也有着很多优点，比如说通信加密，抓包是抓不到具体通信信息的，而且在传统的http协议下，浏览器访问并发数有限，比如谷歌浏览器默认是开启6个信道并发访问，而https则不一样，它采用了信道复用，传输效率大大提升。这也是现今业内推荐的通信协议。</p>
+    </div>
+    <article role="main" class="hentry has-cover">
+      
+        <div class="entry-cover js-cover" data-src="http://picture.totoro.site/images/2019/08/26/timg.jpg" data-width="900" data-height="423" style="background-image:url(http://picture.totoro.site/images/2019/08/26/timg.jpg); height: 80vw;">
+          <h1 class="post-title">Nginx采用https协议反向代理tomcat容器项目</h1>
+        </div>
+      
+      <h1 class="entry-title" itemprop="headline">Nginx采用https协议反向代理tomcat容器项目</h1>
+      <div class="entry-meta">
+        <time class="updated" datetime="2019-08-26 22:03:24">2019-08-26</time>
+        <span class="author vcard">
+          6 min read
+        </span>
+      </div>
+      <div class="post-content yue">
+        <p>之前一直只是使用http协议给项目通信，但是由于谷歌大力推行https，https相比http来说也有着很多优点，比如说通信加密，抓包是抓不到具体通信信息的，而且在传统的http协议下，浏览器访问并发数有限，比如谷歌浏览器默认是开启6个信道并发访问，而https则不一样，它采用了信道复用，传输效率大大提升。这也是现今业内推荐的通信协议。</p>
 <!-- more --> 
 <p>这里带来nginx采用https协议反向代理tomcat容器教程，因为自己的博客应用是java编写，部署在tomcat中，通过nginx反向代理，这次就顺便换成https吧。</p>
 <p>首先https是需要ssl证书的，ssl证书通俗来讲就是一种公认的凭证，ssl证书通过在客户端浏览器和Web服务器之间建立一条ssl安全通道，证书讲道理是客户端和服务端双向的，但是现今主流的浏览器都集成了证书，也就是说，我们只需要在服务端部署ssl证书就行了。<br>
@@ -230,83 +191,105 @@ proxy_set_header X-Forwarded-Proto $scheme;
 <img src="/attached/image/20180825/20180825234424_578.png" alt=""><br>
 然后就是喜闻乐见的https和浏览器标识的“安全”啦。</p>
 
-            </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://skytotwo.github.io//tag/OM99oRtav" class="tag">
-                    linux
-                  </a>
-                
-              </div>
-            
-            
-              <div class="next-post">
-                <div class="next">下一篇</div>
-                <a href="https://skytotwo.github.io//post/centos7-nginx-uswgi-django">
-                  <h3 class="post-title">
-                    Centos7 nginx + uswgi 部署Django应用
-                  </h3>
-                </a>
-              </div>
-            
-
-            
-              
-                <div id="gitalk-container" data-aos="fade-in"></div>
-              
-
-              
-            
-
-          </div>
-
+      </div>
+      <div class="entry-block">
+        <div class="entry-tags">
+          
+            <a href="https://skytotwo.github.io//tag/OM99oRtav">
+              linux
+            </a>
+          
         </div>
       </div>
-    </div>
+    </article>
+    
+      <section class="post-section prev-post">
+        <div class="inner">
+          <h3>前一篇</h3>
+          <a href="https://skytotwo.github.io//post/jquery-pop-window">
+            <strong>使用jquery实现页面右下角弹窗提醒</strong>
+          </a>
+        </div>
+      </section>
+    
+    
+      <section class="post-section prev-post">
+        <div class="inner">
+          <h3>后一篇</h3>
+          <a href="https://skytotwo.github.io//post/centos7-nginx-uswgi-django">
+            <strong>Centos7 nginx + uswgi 部署Django应用</strong>
+          </a>
+        </div>
+      </section>
+    
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    
+      
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
-<script type="application/javascript">
+<div id="gitalk-container"></div>
 
-AOS.init();
+<script>
 
-hljs.initHighlightingOnLoad()
+  var gitalk = new Gitalk({
+    clientID: 'c92214c141dbb1e37da6',
+    clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+    repo: 'skytotwo.github.io',
+    owner: 'skytotwo',
+    admin: ['skytotwo'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+  gitalk.render('gitalk-container')
 
 </script>
 
+      
 
+      
+    
 
-  
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-    <script>
+    <footer class="footer">
+  <div class="main">
+    <a href="https://skytotwo.github.io/">
+      <img class="avatar" src="https://skytotwo.github.io//images/avatar.png?v=1572484891992" alt="Totoro の Home">
+    </a>
+    <div class="footer__social">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <p class="footer__sosumi">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a>
+    </p>
+    <a class="footer-rss" href="https://skytotwo.github.io//atom.xml">RSS</a>
+  </div>
+</footer>
 
-      var gitalk = new Gitalk({
-        clientID: 'c92214c141dbb1e37da6',
-        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
-        repo: 'skytotwo.github.io',
-        owner: 'skytotwo',
-        admin: ['skytotwo'],
-        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-        distractionFreeMode: false  // Facebook-like distraction free mode
-      })
-
-      gitalk.render('gitalk-container')
-
-    </script>
-  
-
-  
-
-
-
+<script src="https://skytotwo.github.io//media/prism.js"></script>
+<script>
+  Prism.highlightAll()
+</script>
 
   </body>
 </html>

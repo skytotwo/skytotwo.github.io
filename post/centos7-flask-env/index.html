@@ -1,117 +1,78 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Centos7 环境下部署flask网站步骤 | Totoro の Home</title>
-<meta name="description" content="空杯心态，每天进步">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572484687620">
+<meta name="description" content="空杯心态，每天进步" />
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572484891992">
+<link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
 <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Centos7 环境下部署flask网站步骤 | Totoro の Home - Atom Feed" href="https://skytotwo.github.io//atom.xml">
 
-
-  
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
-  
-
-  
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://skytotwo.github.io/">
-        <img src="https://skytotwo.github.io//images/avatar.png?v=1572484687620" class="site-logo">
-        <h1 class="site-title">Totoro の Home</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
+    <div class="site-nav has-cover">
+      <div class="head">
+  <div class="inner">
+    <a class="site-name" href="https://skytotwo.github.io/">
+        <span>Totoro の Home</span>
+    </a>
+    <label class="burger" for="burger"></label>
+    <input id="burger" type="checkbox">
+    <button class="burger">
+      <div>
+        <span></span>
+        <span></span>
       </div>
-    </div>
-    <div>
+    </button>
+    <nav class="info_nav">
       
         
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
-      
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
+          <a href="/">首页</a>
         
       
         
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
+          <a href="/archives">归档</a>
         
       
         
-          <a href="/post/about" class="site-nav">
-            关于
-          </a>
+          <a href="/tags">标签</a>
         
       
         
-          <a href="http://picture.totoro.site/" class="site-nav">
-            图床
-          </a>
-        
-      
-    </div>
-  </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
-      
+          <a href="/post/about">关于</a>
         
       
         
-      
+          <a href="http://picture.totoro.site/">图床</a>
         
       
-        
-      
-        
-      
-    </div>
-    <div class="site-description">
-      空杯心态，每天进步
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
+    </nav>
   </div>
 </div>
-
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">Centos7 环境下部署flask网站步骤</h2>
-            <div class="post-date">2019-08-26</div>
-            
-              <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/flask-python.png')">
-              </div>
-            
-            <div class="post-content">
-              <p>自己之前做了一个flask项目，完成后部署在腾讯云，过程由踩一点坑，这里记录下过程。在部署之前，需要先配置centos7环境，具体链接为：<br>
+    </div>
+    <article role="main" class="hentry has-cover">
+      
+        <div class="entry-cover js-cover" data-src="http://picture.totoro.site/images/2019/08/26/flask-python.png" data-width="900" data-height="423" style="background-image:url(http://picture.totoro.site/images/2019/08/26/flask-python.png); height: 80vw;">
+          <h1 class="post-title">Centos7 环境下部署flask网站步骤</h1>
+        </div>
+      
+      <h1 class="entry-title" itemprop="headline">Centos7 环境下部署flask网站步骤</h1>
+      <div class="entry-meta">
+        <time class="updated" datetime="2019-08-26 15:53:41">2019-08-26</time>
+        <span class="author vcard">
+          3 min read
+        </span>
+      </div>
+      <div class="post-content yue">
+        <p>自己之前做了一个flask项目，完成后部署在腾讯云，过程由踩一点坑，这里记录下过程。在部署之前，需要先配置centos7环境，具体链接为：<br>
 <a href="https://totoro.site/post/centos7-python-env/" title="centos7 环境配置">centos7 环境配置</a></p>
  <!-- more --> 
 <p>1、安装依赖包<br>
@@ -216,91 +177,113 @@ nohup python manage.py runserver -h 127.0.0.1 -p 5004 &amp;
 限制视频速率: limit_rate 1024k;<br>
 刷新nginx nginx -s reload</p>
 
-            </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://skytotwo.github.io//tag/WllsaKoVz" class="tag">
-                    flask
-                  </a>
-                
-                  <a href="https://skytotwo.github.io//tag/OM99oRtav" class="tag">
-                    linux
-                  </a>
-                
-                  <a href="https://skytotwo.github.io//tag/5VYNLEty2" class="tag">
-                    python
-                  </a>
-                
-              </div>
-            
-            
-              <div class="next-post">
-                <div class="next">下一篇</div>
-                <a href="https://skytotwo.github.io//post/centos7-python-env">
-                  <h3 class="post-title">
-                    Centos7 部署python应用相关配置
-                  </h3>
-                </a>
-              </div>
-            
-
-            
-              
-                <div id="gitalk-container" data-aos="fade-in"></div>
-              
-
-              
-            
-
-          </div>
-
+      </div>
+      <div class="entry-block">
+        <div class="entry-tags">
+          
+            <a href="https://skytotwo.github.io//tag/WllsaKoVz">
+              flask
+            </a>
+          
+            <a href="https://skytotwo.github.io//tag/OM99oRtav">
+              linux
+            </a>
+          
+            <a href="https://skytotwo.github.io//tag/5VYNLEty2">
+              python
+            </a>
+          
         </div>
       </div>
-    </div>
+    </article>
+    
+      <section class="post-section prev-post">
+        <div class="inner">
+          <h3>前一篇</h3>
+          <a href="https://skytotwo.github.io//post/centos-nginx">
+            <strong>Centos系统下nginx 相关命令</strong>
+          </a>
+        </div>
+      </section>
+    
+    
+      <section class="post-section prev-post">
+        <div class="inner">
+          <h3>后一篇</h3>
+          <a href="https://skytotwo.github.io//post/centos7-python-env">
+            <strong>Centos7 部署python应用相关配置</strong>
+          </a>
+        </div>
+      </section>
+    
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    
+      
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
-<script type="application/javascript">
+<div id="gitalk-container"></div>
 
-AOS.init();
+<script>
 
-hljs.initHighlightingOnLoad()
+  var gitalk = new Gitalk({
+    clientID: 'c92214c141dbb1e37da6',
+    clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+    repo: 'skytotwo.github.io',
+    owner: 'skytotwo',
+    admin: ['skytotwo'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+  gitalk.render('gitalk-container')
 
 </script>
 
+      
 
+      
+    
 
-  
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-    <script>
+    <footer class="footer">
+  <div class="main">
+    <a href="https://skytotwo.github.io/">
+      <img class="avatar" src="https://skytotwo.github.io//images/avatar.png?v=1572484891992" alt="Totoro の Home">
+    </a>
+    <div class="footer__social">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <p class="footer__sosumi">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a>
+    </p>
+    <a class="footer-rss" href="https://skytotwo.github.io//atom.xml">RSS</a>
+  </div>
+</footer>
 
-      var gitalk = new Gitalk({
-        clientID: 'c92214c141dbb1e37da6',
-        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
-        repo: 'skytotwo.github.io',
-        owner: 'skytotwo',
-        admin: ['skytotwo'],
-        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-        distractionFreeMode: false  // Facebook-like distraction free mode
-      })
-
-      gitalk.render('gitalk-container')
-
-    </script>
-  
-
-  
-
-
-
+<script src="https://skytotwo.github.io//media/prism.js"></script>
+<script>
+  Prism.highlightAll()
+</script>
 
   </body>
 </html>

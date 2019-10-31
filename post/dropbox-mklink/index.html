@@ -1,117 +1,78 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Dropbox使用mklink同步任意文件夹 | Totoro の Home</title>
-<meta name="description" content="空杯心态，每天进步">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572484687620">
+<meta name="description" content="空杯心态，每天进步" />
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572484891992">
+<link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
 <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Dropbox使用mklink同步任意文件夹 | Totoro の Home - Atom Feed" href="https://skytotwo.github.io//atom.xml">
 
-
-  
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
-  
-
-  
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://skytotwo.github.io/">
-        <img src="https://skytotwo.github.io//images/avatar.png?v=1572484687620" class="site-logo">
-        <h1 class="site-title">Totoro の Home</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
+    <div class="site-nav has-cover">
+      <div class="head">
+  <div class="inner">
+    <a class="site-name" href="https://skytotwo.github.io/">
+        <span>Totoro の Home</span>
+    </a>
+    <label class="burger" for="burger"></label>
+    <input id="burger" type="checkbox">
+    <button class="burger">
+      <div>
+        <span></span>
+        <span></span>
       </div>
-    </div>
-    <div>
+    </button>
+    <nav class="info_nav">
       
         
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
-      
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
+          <a href="/">首页</a>
         
       
         
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
+          <a href="/archives">归档</a>
         
       
         
-          <a href="/post/about" class="site-nav">
-            关于
-          </a>
+          <a href="/tags">标签</a>
         
       
         
-          <a href="http://picture.totoro.site/" class="site-nav">
-            图床
-          </a>
-        
-      
-    </div>
-  </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
-      
+          <a href="/post/about">关于</a>
         
       
         
-      
+          <a href="http://picture.totoro.site/">图床</a>
         
       
-        
-      
-        
-      
-    </div>
-    <div class="site-description">
-      空杯心态，每天进步
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
+    </nav>
   </div>
 </div>
-
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">Dropbox使用mklink同步任意文件夹</h2>
-            <div class="post-date">2019-10-26</div>
-            
-              <div class="feature-container" style="background-image: url('https://picture.totoro.site/images/2019/10/26/Dropbox.png')">
-              </div>
-            
-            <div class="post-content">
-              <p>Dropbox 是个非常好的网络服务，我也不知道该怎么形容它。它像是一个网盘，而又不全是，它更像是帮你备份本地数据的一个软件。</p>
+    </div>
+    <article role="main" class="hentry has-cover">
+      
+        <div class="entry-cover js-cover" data-src="https://picture.totoro.site/images/2019/10/26/Dropbox.png" data-width="900" data-height="423" style="background-image:url(https://picture.totoro.site/images/2019/10/26/Dropbox.png); height: 80vw;">
+          <h1 class="post-title">Dropbox使用mklink同步任意文件夹</h1>
+        </div>
+      
+      <h1 class="entry-title" itemprop="headline">Dropbox使用mklink同步任意文件夹</h1>
+      <div class="entry-meta">
+        <time class="updated" datetime="2019-10-26 10:18:21">2019-10-26</time>
+        <span class="author vcard">
+          5 min read
+        </span>
+      </div>
+      <div class="post-content yue">
+        <p>Dropbox 是个非常好的网络服务，我也不知道该怎么形容它。它像是一个网盘，而又不全是，它更像是帮你备份本地数据的一个软件。</p>
 <!-- more -->
 <p>总的来说，这个软件是 Windows/Mac/Linux 通用的，可以和你的资源管理器无缝接合（连文件夹图标都是随系统变化的），如果按照默认设置的话，它会在你的电脑里生成一个 My Dropbox 文件夹，这是一个普通的本地文件夹，但它的神奇之处就是在后台的 Dropbox 程序会一直监视着这个文件夹，当你对这个文件夹做了改动的时候，它会实时同步到网络上，并且有 MD5 识别，这意味着如果你在文件夹里放了一个300多M的OS镜像，很有可能只要1秒钟的时间，这个镜像就被同步上去了——因为Dropbox计算了你的文件的MD5值，发现服务器上早就有相同的文件了，所以瞬间就同步完成了。</p>
 <p>这个服务有什么实际作用呢？我觉得它还是非常适合上班族的。在单位里一台电脑，在家里一台电脑，很多上班族都是通过U盘或电子邮件什么的来同步数据的吧？搞不好下班前忘了同步，回家还要懊恼一阵子。有了 Dropbox 就不是问题了。你管你写你的论文、做你的报表，写完保存就行了，然后关机。到了家里打开电脑，一进入系统，你会发现你在单位里写的东西已经躺在硬盘里了，完全不需要你动脑筋。</p>
@@ -130,83 +91,96 @@
 <p>这样就在 My Dropbox 目录下创建了一个 symbolic link，Dropbox 是分辨不出 symbolic link 与真正的文件夹之间的区别的，于是它以为你对文件夹有改动了，就开始同步你的内容了，过一会儿，你就发现你的 Tools 已经同步上去了，而实际上，你的硬盘里 Tools 文件夹根本就没有挪动地方。</p>
 <p>我还用这个命令把我U盘里的Software文件夹也同步上去了： mklink /d &quot;d:\my dropbox\Software&quot; j:\software 。同步完后就算U盘拔掉也没事。</p>
 
-            </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://skytotwo.github.io//tag/9LkTOZXW3" class="tag">
-                    实用教程
-                  </a>
-                
-              </div>
-            
-            
-              <div class="next-post">
-                <div class="next">下一篇</div>
-                <a href="https://skytotwo.github.io//post/diy-ssl-cloudflare">
-                  <h3 class="post-title">
-                    用自签名SSL证书配合 CloudFlare 免费SSL构建全站HTTPS加密
-                  </h3>
-                </a>
-              </div>
-            
-
-            
-              
-                <div id="gitalk-container" data-aos="fade-in"></div>
-              
-
-              
-            
-
-          </div>
-
+      </div>
+      <div class="entry-block">
+        <div class="entry-tags">
+          
+            <a href="https://skytotwo.github.io//tag/9LkTOZXW3">
+              实用教程
+            </a>
+          
         </div>
       </div>
-    </div>
+    </article>
+    
+    
+      <section class="post-section prev-post">
+        <div class="inner">
+          <h3>后一篇</h3>
+          <a href="https://skytotwo.github.io//post/diy-ssl-cloudflare">
+            <strong>用自签名SSL证书配合 CloudFlare 免费SSL构建全站HTTPS加密</strong>
+          </a>
+        </div>
+      </section>
+    
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    
+      
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
-<script type="application/javascript">
+<div id="gitalk-container"></div>
 
-AOS.init();
+<script>
 
-hljs.initHighlightingOnLoad()
+  var gitalk = new Gitalk({
+    clientID: 'c92214c141dbb1e37da6',
+    clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+    repo: 'skytotwo.github.io',
+    owner: 'skytotwo',
+    admin: ['skytotwo'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+  gitalk.render('gitalk-container')
 
 </script>
 
+      
 
+      
+    
 
-  
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-    <script>
+    <footer class="footer">
+  <div class="main">
+    <a href="https://skytotwo.github.io/">
+      <img class="avatar" src="https://skytotwo.github.io//images/avatar.png?v=1572484891992" alt="Totoro の Home">
+    </a>
+    <div class="footer__social">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <p class="footer__sosumi">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a>
+    </p>
+    <a class="footer-rss" href="https://skytotwo.github.io//atom.xml">RSS</a>
+  </div>
+</footer>
 
-      var gitalk = new Gitalk({
-        clientID: 'c92214c141dbb1e37da6',
-        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
-        repo: 'skytotwo.github.io',
-        owner: 'skytotwo',
-        admin: ['skytotwo'],
-        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-        distractionFreeMode: false  // Facebook-like distraction free mode
-      })
-
-      gitalk.render('gitalk-container')
-
-    </script>
-  
-
-  
-
-
-
+<script src="https://skytotwo.github.io//media/prism.js"></script>
+<script>
+  Prism.highlightAll()
+</script>
 
   </body>
 </html>

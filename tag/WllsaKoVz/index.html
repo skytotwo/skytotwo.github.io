@@ -1,302 +1,215 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
-<title>flask | Totoro の Home</title>
-<meta name="description" content="空杯心态，每天进步">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572484687620">
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步" />
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572484891992">
+<link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
 <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Totoro の Home - Atom Feed" href="https://skytotwo.github.io//atom.xml">
 
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://skytotwo.github.io/">
-        <img src="https://skytotwo.github.io//images/avatar.png?v=1572484687620" class="site-logo">
-        <h1 class="site-title">Totoro の Home</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
+    <div class="head">
+  <div class="inner">
+    <a class="site-name" href="https://skytotwo.github.io/">
+        <span>Totoro の Home</span>
+    </a>
+    <label class="burger" for="burger"></label>
+    <input id="burger" type="checkbox">
+    <button class="burger">
+      <div>
+        <span></span>
+        <span></span>
       </div>
-    </div>
-    <div>
+    </button>
+    <nav class="info_nav">
       
         
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
-      
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
+          <a href="/">首页</a>
         
       
         
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
+          <a href="/archives">归档</a>
         
       
         
-          <a href="/post/about" class="site-nav">
-            关于
-          </a>
+          <a href="/tags">标签</a>
         
       
         
-          <a href="http://picture.totoro.site/" class="site-nav">
-            图床
-          </a>
-        
-      
-    </div>
-  </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
-      
+          <a href="/post/about">关于</a>
         
       
         
-      
+          <a href="http://picture.totoro.site/">图床</a>
         
       
-        
-      
-        
-      
-    </div>
-    <div class="site-description">
-      空杯心态，每天进步
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
+    </nav>
   </div>
 </div>
-
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: flask</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/centos7-nginx-uwsgi-flask">
-                  <h2 class="post-title">centos7 nginx + uwsgi 部署flask应用</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-26
-                </div>
-                <div class="post-abstract">
-                  <p>这里带来的nginx+uwsgi部署方式是考虑到兼顾flask的并发，能给项目带来更好的体验。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/centos7-nginx-uwsgi-flask">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/1_XK2w4moWTE0SczUyLEqbOA.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/flask-jsonencoder">
-                  <h2 class="post-title">Flask中自定义JSONEncoder</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-26
-                </div>
-                <div class="post-abstract">
-                  <p>正在用Flask写个小项目，要实现将自定义类型转化成json格式。Flask一般用jsonify来使接口返回json数据，实现一个Flask内使用的JSONEncoder。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/flask-jsonencoder">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/encode-magic.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/flask-404-decorator">
-                  <h2 class="post-title">flask全局404装饰器（全局以及蓝图）</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-26
-                </div>
-                <div class="post-abstract">
-                  <p>在flask里是可以实现全局事件注册的，利用装饰器来注册相应的事件，比如404错误，数据库错误等，当错误出现就会捕获走对应的逻辑，很方便。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/flask-404-decorator">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/51076213-6bf06200-1663-11e9-900b-c107b6b6024c.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/flask-blueprint">
-                  <h2 class="post-title">关于Flask的蓝图解释一二</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-26
-                </div>
-                <div class="post-abstract">
-                  <p>以下是一个最基本的蓝图示例。在这里，我们将使用蓝图来简单地渲染静态模板:</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/flask-blueprint">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/u769n7m5po.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/flask-url_for">
-                  <h2 class="post-title">Flask中url_for的参数解释</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-26
-                </div>
-                <div class="post-abstract">
-                  <p>url_for函数的作用是：通过给定的endpoint端点和额外参数，结合请求上下文和应用上下文，生成一个url地址并返回。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/flask-url_for">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/hqdefault.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/flask-content">
-                  <h2 class="post-title">详解flask上下文与出入栈</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-26
-                </div>
-                <div class="post-abstract">
-                  <p>在flask中，上下文算是核心中的核心了，其作用于请求的访问处理，多线程隔离的实现等。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/flask-content">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/20180506181132_533.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/centos7-flask-env">
-                  <h2 class="post-title">Centos7 环境下部署flask网站步骤</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-26
-                </div>
-                <div class="post-abstract">
-                  <p>自己之前做了一个flask项目，完成后部署在腾讯云，过程由踩一点坑，这里记录下过程。在部署之前，需要先配置centos7环境，具体链接为：<br>
-<a href="https://totoro.site/post/centos7-python-env/" title="centos7 环境配置">centos7 环境配置</a></p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/centos7-flask-env">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/flask-python.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/sqlalchemy-relationship">
-                  <h2 class="post-title">SqlAlchemy relationship函数 之 backref参数反向引用的理解</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-26
-                </div>
-                <div class="post-abstract">
-                  <p>简单来说, relationship函数是sqlalchemy对关系之间提供的一种便利的调用方式, backref参数则对关系提供反向引用的声明。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/sqlalchemy-relationship">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/Screenshot_2.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-
-          <div class="pagination-container">
-  
-  
-</div>
-
+    <div class="info _site">
+      <div class="inner">
+        <div class="info_main">
+          <h1 class="info_title"><i class="remixicon-price-tag-3-line"></i> flask</h1>
         </div>
       </div>
     </div>
+    <div class="main">
+      <div class="inner">
+        <div class="items">
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/26/1_XK2w4moWTE0SczUyLEqbOA.png" href="https://skytotwo.github.io//post/centos7-nginx-uwsgi-flask" style="background-image:url('http://picture.totoro.site/images/2019/08/26/1_XK2w4moWTE0SczUyLEqbOA.png');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/centos7-nginx-uwsgi-flask">
+        <div class="item-meta">
+          <time datetime="2019-08-26 21:46:03">2019-08-26</time>
+        </div>
+        <h2>centos7 nginx + uwsgi 部署flask应用</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/26/encode-magic.png" href="https://skytotwo.github.io//post/flask-jsonencoder" style="background-image:url('http://picture.totoro.site/images/2019/08/26/encode-magic.png');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/flask-jsonencoder">
+        <div class="item-meta">
+          <time datetime="2019-08-26 21:29:21">2019-08-26</time>
+        </div>
+        <h2>Flask中自定义JSONEncoder</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/26/51076213-6bf06200-1663-11e9-900b-c107b6b6024c.png" href="https://skytotwo.github.io//post/flask-404-decorator" style="background-image:url('http://picture.totoro.site/images/2019/08/26/51076213-6bf06200-1663-11e9-900b-c107b6b6024c.png');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/flask-404-decorator">
+        <div class="item-meta">
+          <time datetime="2019-08-26 16:25:56">2019-08-26</time>
+        </div>
+        <h2>flask全局404装饰器（全局以及蓝图）</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/26/u769n7m5po.jpg" href="https://skytotwo.github.io//post/flask-blueprint" style="background-image:url('http://picture.totoro.site/images/2019/08/26/u769n7m5po.jpg');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/flask-blueprint">
+        <div class="item-meta">
+          <time datetime="2019-08-26 16:23:37">2019-08-26</time>
+        </div>
+        <h2>关于Flask的蓝图解释一二</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/26/hqdefault.jpg" href="https://skytotwo.github.io//post/flask-url_for" style="background-image:url('http://picture.totoro.site/images/2019/08/26/hqdefault.jpg');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/flask-url_for">
+        <div class="item-meta">
+          <time datetime="2019-08-26 16:17:44">2019-08-26</time>
+        </div>
+        <h2>Flask中url_for的参数解释</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/26/20180506181132_533.jpg" href="https://skytotwo.github.io//post/flask-content" style="background-image:url('http://picture.totoro.site/images/2019/08/26/20180506181132_533.jpg');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/flask-content">
+        <div class="item-meta">
+          <time datetime="2019-08-26 16:04:10">2019-08-26</time>
+        </div>
+        <h2>详解flask上下文与出入栈</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/26/flask-python.png" href="https://skytotwo.github.io//post/centos7-flask-env" style="background-image:url('http://picture.totoro.site/images/2019/08/26/flask-python.png');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/centos7-flask-env">
+        <div class="item-meta">
+          <time datetime="2019-08-26 15:53:41">2019-08-26</time>
+        </div>
+        <h2>Centos7 环境下部署flask网站步骤</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/26/Screenshot_2.png" href="https://skytotwo.github.io//post/sqlalchemy-relationship" style="background-image:url('http://picture.totoro.site/images/2019/08/26/Screenshot_2.png');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/sqlalchemy-relationship">
+        <div class="item-meta">
+          <time datetime="2019-08-26 15:29:45">2019-08-26</time>
+        </div>
+        <h2>SqlAlchemy relationship函数 之 backref参数反向引用的理解</h2>
+      </a>
+    </div>
+  
+</div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        <div class="navigation">
+  
+  
+</div>
+      </div>
+    </div>
+    <footer class="footer">
+  <div class="main">
+    <a href="https://skytotwo.github.io/">
+      <img class="avatar" src="https://skytotwo.github.io//images/avatar.png?v=1572484891992" alt="Totoro の Home">
+    </a>
+    <div class="footer__social">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <p class="footer__sosumi">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a>
+    </p>
+    <a class="footer-rss" href="https://skytotwo.github.io//atom.xml">RSS</a>
+  </div>
+</footer>
 
-<script type="application/javascript">
-
-AOS.init();
-
-hljs.initHighlightingOnLoad()
-
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
-
+<script src="https://skytotwo.github.io//media/prism.js"></script>
+<script>
+  Prism.highlightAll()
 </script>
-
-
-
 
   </body>
 </html>

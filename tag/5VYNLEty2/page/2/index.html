@@ -1,284 +1,205 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
-<title>python | Totoro の Home</title>
-<meta name="description" content="空杯心态，每天进步">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572484687620">
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步" />
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1572484891992">
+<link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
 <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Totoro の Home - Atom Feed" href="https://skytotwo.github.io//atom.xml">
 
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://skytotwo.github.io/">
-        <img src="https://skytotwo.github.io//images/avatar.png?v=1572484687620" class="site-logo">
-        <h1 class="site-title">Totoro の Home</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
+    <div class="head">
+  <div class="inner">
+    <a class="site-name" href="https://skytotwo.github.io/">
+        <span>Totoro の Home</span>
+    </a>
+    <label class="burger" for="burger"></label>
+    <input id="burger" type="checkbox">
+    <button class="burger">
+      <div>
+        <span></span>
+        <span></span>
       </div>
-    </div>
-    <div>
+    </button>
+    <nav class="info_nav">
       
         
-          <a href="/" class="site-nav">
-            首页
-          </a>
-        
-      
-        
-          <a href="/archives" class="site-nav">
-            归档
-          </a>
+          <a href="/">首页</a>
         
       
         
-          <a href="/tags" class="site-nav">
-            标签
-          </a>
+          <a href="/archives">归档</a>
         
       
         
-          <a href="/post/about" class="site-nav">
-            关于
-          </a>
+          <a href="/tags">标签</a>
         
       
         
-          <a href="http://picture.totoro.site/" class="site-nav">
-            图床
-          </a>
-        
-      
-    </div>
-  </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
-      
+          <a href="/post/about">关于</a>
         
       
         
-      
+          <a href="http://picture.totoro.site/">图床</a>
         
       
-        
-      
-        
-      
-    </div>
-    <div class="site-description">
-      空杯心态，每天进步
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
-    </div>
+    </nav>
   </div>
 </div>
-
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: python</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/centos7-python-env">
-                  <h2 class="post-title">Centos7 部署python应用相关配置</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-26
-                </div>
-                <div class="post-abstract">
-                  <p>在centos上部署python环境需要的步骤很多，包括nginx，python版本安装，mysql的安装配置，虚拟环境的安装配置等，过程比较繁琐，有许多小细节要注意，以下是相关步骤。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/centos7-python-env">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/Python-696x397.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/python-decorator">
-                  <h2 class="post-title">Python装饰器详解</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-26
-                </div>
-                <div class="post-abstract">
-                  <p>讲 Python 装饰器前，我想先举个例子，以便能更贴切的解释装饰器。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/python-decorator">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/decorator.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/python-collections">
-                  <h2 class="post-title">Collections模块基本介绍</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-26
-                </div>
-                <div class="post-abstract">
-                  <p>我们都知道，Python拥有一些内置的数据类型，比如str, int, list, tuple, dict等， collections模块在这些内置数据类型的基础上，提供了几个额外的数据类型，更便捷的实现了一些功能。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/python-collections">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/26/1493039268469_47.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/python-gil">
-                  <h2 class="post-title">Python中的GIL详解</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>在硬件更新发展的年代，为了利用多核，Python开始支持多线程。而解决多线程之间数据完整性和状态同步的最简单方法自然就是加锁，由此出现了GIL这把大锁，但是这把锁又反而有着很多不好的方面，是什么呢，我们来探讨下。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/python-gil">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/5d2062bd35013670.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/iter-generator">
-                  <h2 class="post-title">完全理解 Python 迭代对象、迭代器、生成器</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>本文源自RQ作者的一篇博文，原文是Iterables vs. Iterators vs. Generators。<br>
-在了解Python的数据结构时，容器(container)、可迭代对象(iterable)、迭代器(iterator)、生成器(generator)、列表/集合/字典推导式(list,set,dict comprehension)众多概念参杂在一起，难免让初学者一头雾水，我将用一篇文章试图将这些概念以及它们之间的关系捋清楚。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/iter-generator">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/20180411145647_562.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/python-generators">
-                  <h2 class="post-title">Python 生成器原理详解</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-12
-                </div>
-                <div class="post-abstract">
-                  <p>原文出处： MichaelDiBernardo   译文出处：你逗比<br>
-这篇文章是对 500 Lines or Less 一书中高效爬虫一章的部分翻译，原文在此 -&gt; How Python Generators Work。建议结合《流畅的 Python》食用。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/python-generators">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/12/20180828113140573.png')">
-                  </div>
-                </a>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://skytotwo.github.io//post/python-dict-set">
-                  <h2 class="post-title">python中dict和set实现原理</h2>
-                </a>
-                <div class="post-date">
-                  2019-08-05
-                </div>
-                <div class="post-abstract">
-                  <p>python的dict和set设计上是很巧妙的，底层是用c语言编写，哈希表实现，这样确保了高效的数据处理。</p>
-
-                </div>
-              </div>
-              
-                <a class="right" href="https://skytotwo.github.io//post/python-dict-set">
-                  <div class="feature-container" style="background-image: url('http://picture.totoro.site/images/2019/08/05/maxresdefault.jpg')">
-                  </div>
-                </a>
-              
-            </article>
-          
-
-          <div class="pagination-container">
-  
-    <a href="https://skytotwo.github.io//tag/5VYNLEty2/" class="prev"><i class="icon-arrow-ios-back-outline"></i> 上一页</a>
-  
-  
-</div>
-
+    <div class="info _site">
+      <div class="inner">
+        <div class="info_main">
+          <h1 class="info_title"><i class="remixicon-price-tag-3-line"></i> python</h1>
         </div>
       </div>
     </div>
+    <div class="main">
+      <div class="inner">
+        <div class="items">
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/26/Python-696x397.jpg" href="https://skytotwo.github.io//post/centos7-python-env" style="background-image:url('http://picture.totoro.site/images/2019/08/26/Python-696x397.jpg');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/centos7-python-env">
+        <div class="item-meta">
+          <time datetime="2019-08-26 15:47:31">2019-08-26</time>
+        </div>
+        <h2>Centos7 部署python应用相关配置</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/26/decorator.jpg" href="https://skytotwo.github.io//post/python-decorator" style="background-image:url('http://picture.totoro.site/images/2019/08/26/decorator.jpg');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/python-decorator">
+        <div class="item-meta">
+          <time datetime="2019-08-26 15:31:47">2019-08-26</time>
+        </div>
+        <h2>Python装饰器详解</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/26/1493039268469_47.png" href="https://skytotwo.github.io//post/python-collections" style="background-image:url('http://picture.totoro.site/images/2019/08/26/1493039268469_47.png');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/python-collections">
+        <div class="item-meta">
+          <time datetime="2019-08-26 15:17:18">2019-08-26</time>
+        </div>
+        <h2>Collections模块基本介绍</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/12/5d2062bd35013670.jpg" href="https://skytotwo.github.io//post/python-gil" style="background-image:url('http://picture.totoro.site/images/2019/08/12/5d2062bd35013670.jpg');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/python-gil">
+        <div class="item-meta">
+          <time datetime="2019-08-12 17:23:49">2019-08-12</time>
+        </div>
+        <h2>Python中的GIL详解</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/12/20180411145647_562.png" href="https://skytotwo.github.io//post/iter-generator" style="background-image:url('http://picture.totoro.site/images/2019/08/12/20180411145647_562.png');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/iter-generator">
+        <div class="item-meta">
+          <time datetime="2019-08-12 17:18:58">2019-08-12</time>
+        </div>
+        <h2>完全理解 Python 迭代对象、迭代器、生成器</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/12/20180828113140573.png" href="https://skytotwo.github.io//post/python-generators" style="background-image:url('http://picture.totoro.site/images/2019/08/12/20180828113140573.png');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/python-generators">
+        <div class="item-meta">
+          <time datetime="2019-08-12 17:11:26">2019-08-12</time>
+        </div>
+        <h2>Python 生成器原理详解</h2>
+      </a>
+    </div>
+  
+    <div class="item Article">
+      
+        <a class="item-image js-cover" data-src="http://picture.totoro.site/images/2019/08/05/maxresdefault.jpg" href="https://skytotwo.github.io//post/python-dict-set" style="background-image:url('http://picture.totoro.site/images/2019/08/05/maxresdefault.jpg');"></a>
+      
+      <a class="item-main" href="https://skytotwo.github.io//post/python-dict-set">
+        <div class="item-meta">
+          <time datetime="2019-08-05 11:55:32">2019-08-05</time>
+        </div>
+        <h2>python中dict和set实现原理</h2>
+      </a>
+    </div>
+  
+</div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        <div class="navigation">
+  
+    <a href="https://skytotwo.github.io//tag/5VYNLEty2/"><i class="remixicon-arrow-left-line"></i> 上一页</a>
+  
+  
+</div>
+      </div>
+    </div>
+    <footer class="footer">
+  <div class="main">
+    <a href="https://skytotwo.github.io/">
+      <img class="avatar" src="https://skytotwo.github.io//images/avatar.png?v=1572484891992" alt="Totoro の Home">
+    </a>
+    <div class="footer__social">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <p class="footer__sosumi">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a>
+    </p>
+    <a class="footer-rss" href="https://skytotwo.github.io//atom.xml">RSS</a>
+  </div>
+</footer>
 
-<script type="application/javascript">
-
-AOS.init();
-
-hljs.initHighlightingOnLoad()
-
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
-
+<script src="https://skytotwo.github.io//media/prism.js"></script>
+<script>
+  Prism.highlightAll()
 </script>
-
-
-
 
   </body>
 </html>

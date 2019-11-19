@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>（原创）编译属于自己的NanoPi-R1s固件 | Totoro の Home</title>
+<meta name="description" content="空杯心态，每天进步">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1574134427437">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://skytotwo.github.io/">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1574134427437" class="site-logo">
+        <h1 class="site-title">Totoro の Home</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="site-nav">
+            关于
+          </a>
+        
+      
+        
+          <a href="http://picture.totoro.site/" class="site-nav">
+            图床
+          </a>
+        
+      
+        
+          <a href="http://cloud.loveting.site/" class="site-nav">
+            网盘
+          </a>
+        
+      
+        
+          <a href="https://poetry.loveting.site/" class="site-nav">
+            诗歌
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      空杯心态，每天进步
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/skytotwo" target="_blank">skytotwo</a> | <a class="rss" href="https://skytotwo.github.io//atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">（原创）编译属于自己的NanoPi-R1s固件</h2>
+            <div class="post-date">2019-11-19</div>
+            
+              <div class="feature-container" style="background-image: url('https://picture.totoro.site/images/2019/11/19/R1S_en_05.jpg')">
+              </div>
+            
+            <div class="post-content">
+              <p>NanoPi-R1s是友善之臂新发布的一款网络路由器硬件，作为NanoPi-R1的升级版，不但在外观上更加的小巧可爱，更有了新的H5芯片版本，其len口也从原来的100M升级成了千M，因为是usb2.0改的网口，速度实测只有300M，但对于一般家庭使用是错错有余的。因为cpu支持AES加密解密，实测安装完openwrt后有线下载速度很理想，无线速度一般。</p>
+<!-- more -->
+<figure data-type="image" tabindex="1"><img src="https://picture.totoro.site/images/2019/11/19/R1S_en_01.jpg" alt="R1S_en_01.jpg"></figure>
+<figure data-type="image" tabindex="2"><img src="https://picture.totoro.site/images/2019/11/19/R1S_en_03.jpg" alt="R1S_en_03.jpg"></figure>
+<figure data-type="image" tabindex="3"><img src="https://picture.totoro.site/images/2019/11/19/R1S_en_04.jpg" alt="R1S_en_04.jpg"></figure>
+<figure data-type="image" tabindex="4"><img src="https://picture.totoro.site/images/2019/11/19/R1S_en_05.jpg" alt="R1S_en_05.jpg"></figure>
+<h3 id="以下是相关配置"><strong>以下是相关配置</strong></h3>
+<p>中央处理器型号：Allwinner H3 / H5<br>
+内核数：四核Cortex-A7 / A53<br>
+记忆内存：512MB DDR3<br>
+存储MicroSD插槽：MicroSD x1，用于外部存储，最大128GB</p>
+<p>以太网：Gbps以太网x1<br>
+USB 2.0至Gbps以太网x1<br>
+Wi-Fi 2.4G：802.11b / g / n，IPX-I连接器</p>
+<p>USB	USB 2.0主机x1：USB Type A<br>
+MicroUSB x1：电源输入（5V / 2A）和从属<br>
+串行调试端口x1：2.54mm间距3针接头连接器（3.3V TTL）</p>
+<p>发光二极管	<br>
+SYS LED（红色）x1<br>
+WAN LED（绿色）x1<br>
+LAN LED（绿色）x1</p>
+<p>其他	工作温度：-20℃至70℃<br>
+功率	直流5V / 2A</p>
+<figure data-type="image" tabindex="5"><img src="https://picture.totoro.site/images/2019/11/19/R1S_en_07.jpg" alt="R1S_en_07.jpg"></figure>
+<figure data-type="image" tabindex="6"><img src="https://picture.totoro.site/images/2019/11/19/R1S_en_08.jpg" alt="R1S_en_08.jpg"></figure>
+<p>NanoPi_R1S-H3维基百科：<a href="http://wiki.friendlyarm.com/wiki/index.php/NanoPi_R1S-H3">http://wiki.friendlyarm.com/wiki/index.php/NanoPi_R1S-H3</a></p>
+<p>NanoPi_R1S-H5维基百科：<a href="http://wiki.friendlyarm.com/wiki/index.php/NanoPi_R1S-H5">http://wiki.friendlyarm.com/wiki/index.php/NanoPi_R1S-H5</a></p>
+<h3 id="软路由"><strong>软路由</strong></h3>
+<p>实际上我买这个是用作软路由使用的，实际使用情况也超出我预期，h5版本比NanoPi-R1强太多了。拿到机器其实就想自己能够编译个属于自己的插件，多番学习后，也确实编译出来了，这里要谢谢帮助过我指点过我的大佬们，谢谢！</p>
+<h3 id="开始准备"><strong>开始准备</strong></h3>
+<h4 id="注意"><strong>注意</strong></h4>
+<ul>
+<li>不要用 root 用户 git 和编译！！！</li>
+<li>国内用户编译前最好准备好梯子</li>
+<li>默认登陆IP 192.168.2.1, 密码 password</li>
+</ul>
+<h4 id="准备linux环境"><strong>准备linux环境</strong></h4>
+<p>需要准备一个干净的Ubuntu，不能用root账户，最好在国外。我用的是阿里云的香港轻量，ubuntu 18.04。</p>
+<p>1、创建用户：jolly为用户名</p>
+<pre><code class="language-shell">sudo useradd -m jolly -d /home/jolly -s /bin/bash
+</code></pre>
+<p>2、为创建的用户设置密码</p>
+<pre><code class="language-shell">sudo passwd jolly
+</code></pre>
+<p>3、修改用户的权限：（ /etc/sudoers文件只有r权限，在改动前需要增加w权限，改动后，再去掉w权限 ）</p>
+<pre><code class="language-shell">#为sudoers增加写入权限
+      sudo chmod +w /etc/sudoers
+      sudo vim /etc/sudoers
+#为用户XXX添加读写权限
+      # User privilege specification 
+      root　ALL=(ALL:ALL) ALL
+      jolly ALL=(ALL:ALL) ALL    // 这一行为新添加的代码
+#将sudoers文件的操作权限改为只读模式
+      sudo chmod -w /etc/sudoers
+</code></pre>
+<h3 id="获取项目源代码"><strong>获取项目源代码</strong></h3>
+<h4 id="安装-repo-工具"><strong>安装 repo 工具</strong></h4>
+<p>首先需要安装 repo 工具：</p>
+<pre><code class="language-shell">#进入到jolly用户文件夹执行
+git clone https://github.com/friendlyarm/repo
+sudo cp repo/repo /usr/bin/
+</code></pre>
+<h4 id="下载源码"><strong>下载源码</strong></h4>
+<ul>
+<li>这里先别着急，因为friendlywrt的代码源是openwrt18.06 但是他没有跟随上游更新，所以这里需要替换为我们已经同步好openwrt上游后的代码。</li>
+</ul>
+<p>具体同步方法不做解说，这里给出几个同步后的仓库地址：<br>
+<a href="https://github.com/skytotwo/friendlywrt">地址一</a><br>
+<a href="https://github.com/camino13/friendlywrt">地址二</a></p>
+<p>接着进入jolly用户文件夹下，具体在/home/jolly/，然后执行如下：</p>
+<pre><code class="language-shell">mkdir friendlywrt-h5
+cd friendlywrt-h5
+repo init -u https://github.com/friendlyarm/friendlywrt_manifests -b master -m h5.xml
+</code></pre>
+<p>这一步后需要注意，要修改上面命令生成的h5.xml文件，将代码指向自己同步后的源码。</p>
+<pre><code class="language-shell">cd .repo/manifests/
+vi h5.xml
+# 然后在&lt;manifest&gt;里加上指向自己仓库的地址&lt;remote name=&quot;self&quot; fetch=&quot;仓库地址&quot; /&gt;
+</code></pre>
+<p>这里提供一个已修改的h5.xml文件，复制即可：</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;manifest&gt;
+ &lt;remote name=&quot;origin&quot;
+         fetch=&quot;.&quot;
+         revision=&quot;refs/heads/master&quot; /&gt;
+ &lt;remote name=&quot;self&quot; fetch=&quot;https://github.com/camino13&quot; /&gt;
+
+ &lt;project path=&quot;kernel&quot; name=&quot;linux&quot; remote=&quot;origin&quot; revision=&quot;refs/heads/sunxi-4.14.y&quot; /&gt;
+ &lt;project path=&quot;u-boot&quot; name=&quot;u-boot&quot; remote=&quot;origin&quot; revision=&quot;refs/heads/sunxi-v2017.x&quot; /&gt;
+
+ &lt;!-- img tools for h5 --&gt;
+ &lt;project path=&quot;scripts/sd-fuse&quot; name=&quot;sd-fuse_h5&quot; remote=&quot;origin&quot; &gt;
+     &lt;linkfile dest=&quot;out&quot; src=&quot;out&quot;/&gt;
+ &lt;/project&gt;
+
+ &lt;!-- friendlyelec device configs --&gt;
+ &lt;project path=&quot;device/friendlyelec&quot; name=&quot;friendlywrt_device_h5&quot; remote=&quot;origin&quot; /&gt;
+ &lt;project path=&quot;configs&quot; name=&quot;friendlywrt_configs&quot; remote=&quot;origin&quot; /&gt;
+
+ &lt;!-- friendlyelec scripts --&gt;
+ &lt;project path=&quot;scripts&quot; name=&quot;friendlywrt_scripts&quot; remote=&quot;origin&quot;&gt;
+     &lt;linkfile dest=&quot;build.sh&quot; src=&quot;build.sh&quot;/&gt;
+ &lt;/project&gt;
+
+ &lt;!-- friendlywrt source code --&gt;
+ &lt;project path=&quot;friendlywrt&quot; name=&quot;friendlywrt&quot; remote=&quot;self&quot; revision=&quot;refs/heads/master-v18.06.1&quot; /&gt;
+
+ &lt;!-- toolchain --&gt;
+ &lt;project path=&quot;toolchain&quot; name=&quot;prebuilts&quot; remote=&quot;origin&quot; revision=&quot;refs/heads/master&quot; /&gt;
+&lt;/manifest&gt;
+
+</code></pre>
+<p>然后就可以执行同步拉取代码到本地了，执行多久需要看机器网速，等待即可：</p>
+<pre><code class="language-shell">repo sync -c  --no-clone-bundle
+</code></pre>
+<figure data-type="image" tabindex="7"><img src="https://picture.totoro.site/images/2019/11/19/QQ20191119110735.png" alt="QQ20191119110735.png"></figure>
+<h3 id="安装必备组件"><strong>安装必备组件</strong></h3>
+<p>执行如下安装必要的编译组件：</p>
+<pre><code class="language-shell">wget -O - https://raw.githubusercontent.com/friendlyarm/build-env-on-ubuntu-bionic/master/install.sh | bash
+</code></pre>
+<h3 id="融合lean的lede固件"><strong>融合LEAN的LEDE固件</strong></h3>
+<p>我们需要的是集成LEAN的固件包插件，进入到friendlywrt-h5文件夹里，执行</p>
+<pre><code class="language-shell">git clone https://github.com/coolsnowwolf/lede
+</code></pre>
+<p>接着将lede包复制到我们的源码里</p>
+<pre><code class="language-shell">cp -r ./lede/package/lean friendlywrt-h5/friendlywrt/package/
+</code></pre>
+<p>然后修改feeds.conf.default文件内容，将/friendlywrt-h5/friendlywrt/feeds.conf.default中的luci内容替换为lean下feeds.conf.default文件luci的对应内容，其他不用动，保存退出。</p>
+<h3 id="编译"><strong>编译</strong></h3>
+<p>编译时建议用单线程编译，这样能避免不必要的依赖错误，用vi修改friendlywrt-h5/scripts/mk-friendlywrt.sh，将make -j$(nproc) V=s 修改为make -j1 V=s</p>
+<h4 id="第一次默认编译"><strong>第一次默认编译</strong></h4>
+<p>然后可以开始编译了，第一次编译不需要配置什么内容，目的是先编译一次，排除错误，第二次编译再勾选需要的插件，编译看机器cpu性能，快则一小时，慢则5,6小时。第二次编译就快很多了。</p>
+<p>进入到friendlywrt-h5/friendlywrt/ ，执行 以下三个命令</p>
+<pre><code class="language-shell">./scripts/feeds update -a 
+./scripts/feeds install -a
+make menuconfig 
+</code></pre>
+<p>这时候会弹出图形化选择界面，直接右方向到save，回车再回车，调整方向键到exit退出图形界面即可，这下便生成了.config编译配置文件，该文件位于friendlywrt下，是隐藏文件，输入ls -al即可查看。<br>
+回到friendlywrt-h5 根目录。执行</p>
+<pre><code class="language-shell">./build.sh nanopi_r1s.mk
+</code></pre>
+<p>如果编译成功，会有一个打包的过程，此时需要你输入管理员密码，输入后方可执行打包动作，最后xxx.img文件位于friendlywrt-h5 根目录中的out中</p>
+<h4 id="第二次编译"><strong>第二次编译</strong></h4>
+<p>到了这里相信你已经成功生成了固件，现在进行二次编译，这里需要做点小操作，<strong>修改include/target.mk 把里面的dnsmasq改成dnsmasq-full</strong>，这步很关键，很多人都是这里出错了。<br>
+接着就回到上面的步骤<br>
+进入到friendlywrt-h5/friendlywrt/ ，执行 以下三个命令</p>
+<pre><code class="language-shell">./scripts/feeds update -a 
+./scripts/feeds install -a
+make menuconfig 
+</code></pre>
+<p>这时会有图形化界面，因为h5版本是arm平台，第一个选项平台就选allwinter a1x。。。这个，然后第二个架构选择A64，第三个具体型号就选择nanopi no2 （H5），因为同样是h5芯片，这个是适用的。<br>
+然后有一个很关键的点，记得我们将dnsmasq改成dnsmasq-full了么，现在需要做点修改配置，进入base system里将dnsmasq取消勾选，勾选dnsmasq-full</p>
+<figure data-type="image" tabindex="8"><img src="https://picture.totoro.site/images/2019/11/19/QQ20191119110835.png" alt="QQ20191119110835.png"></figure>
+<h4 id="选择插件"><strong>选择插件</strong></h4>
+<p>软路由最有用的就是插件了<br>
+进入到luci，可以看到主题还有插件<br>
+<img src="https://picture.totoro.site/images/2019/11/19/2533905169.png" alt="2533905169.png"><br>
+选择自己想要的插件<br>
+<img src="https://picture.totoro.site/images/2019/11/19/99712410.png" alt="99712410.png"></p>
+<ul>
+<li>注意：主题里不要勾选netgear，这个主题存在bug，修改为别的主题后，重启机器会自动跳到这个主题</li>
+</ul>
+<h4 id="这里是所有插件的说明"><strong>这里是所有插件的说明</strong>：</h4>
+<pre><code class="language-shell">选择LuCI 配置：  常用
+-----------------------------------------------------------------------------------------
+L大 选择LuCI 配置：
+LuCI ---&gt; Applications ---&gt; luci-app-accesscontrol  #访问时间控制
+LuCI ---&gt; Applications ---&gt; luci-app-adbyby-plus   #广告屏蔽大师Plus +
+LuCI ---&gt; Applications ---&gt; luci-app-arpbind  #IP/MAC绑定
+LuCI ---&gt; Applications ---&gt; luci-app-autoreboot  #高级重启
+LuCI ---&gt; Applications ---&gt; luci-app-aliddns   #阿里DDNS客户端
+LuCI ---&gt; Applications ---&gt; luci-app-ddns   #动态域名 DNS
+LuCI ---&gt; Applications ---&gt; luci-app-filetransfer  #文件传输
+LuCI ---&gt; Applications ---&gt; luci-app-firewall   #添加防火墙
+LuCI ---&gt; Applications ---&gt; luci-app-frpc   #内网穿透 Frp
+LuCI ---&gt; Applications ---&gt; luci-app-guest-wifi  #WiFi访客网络
+LuCI ---&gt; Applications ---&gt; luci-app-ipsec-virtual**d  #virtual**服务器 IPSec
+LuCI ---&gt; Applications ---&gt; luci-app-mwan   #MWAN负载均衡
+LuCI ---&gt; Applications ---&gt; luci-app-mwan3   #MWAN3分流助手
+LuCI ---&gt; Applications ---&gt; luci-app-nlbwmon   #网络带宽监视器
+LuCI ---&gt; Applications ---&gt; luci-app-p p t p-server  #virtual**服务器 p p t p
+LuCI ---&gt; Applications ---&gt; luci-app-ramfree  #释放内存
+LuCI ---&gt; Applications ---&gt; luci-app-samba   #网络共享(Samba)
+LuCI ---&gt; Applications ---&gt; luci-app-sfe  #Turbo ACC网络加速(开启Fast Path转发加速)
+LuCI ---&gt; Applications ---&gt; luci-app-sqm  #流量智能队列管理(QOS)
+-------------------------------------------------------------------------------------------
+LuCI ---&gt; Applications ---&gt; luci-app-S-S R-plus   #S-S R兲朝上网Plus+
+LuCI ---&gt; Applications ---&gt; luci-app-S-S R-plus ---&gt; Include V2ray  #V2Ray透明代理
+-------------------------------------------------------------------------------------------
+LuCI ---&gt; Applications ---&gt; luci-app-syncdial  #多拨虚拟网卡(原macvlan)
+LuCI ---&gt; Applications ---&gt; luci-app-upnp   #通用即插即用UPnP(端口自动转发)
+LuCI ---&gt; Applications ---&gt; luci-app-v2ray-pro  #V2Ray透明代理
+LuCI ---&gt; Applications ---&gt; luci-app-vlmcsd  #KMS服务器设置
+LuCI ---&gt; Applications ---&gt; luci-app-vsftpd  #FTP服务器
+LuCI ---&gt; Applications ---&gt; luci-app-wifischedule  #WiFi 计划
+LuCI ---&gt; Applications ---&gt; luci-app-wireless-regdb  #WiFi无线
+LuCI ---&gt; Applications ---&gt; luci-app-wol   #WOL网络唤醒
+LuCI ---&gt; Applications ---&gt; luci-app-wrtbwmon  #实时流量监测
+LuCI ---&gt; Applications ---&gt; luci-app-xlnetacc  #迅雷快鸟
+LuCI ---&gt; Applications ---&gt; luci-app-zerotier  #ZeroTier内网穿透
+Extra packages  ---&gt;  ipv6helper  #支持 ipv6
+Utilities  ---&gt;  open-vm-tools  #打开适用于VMware的VM Tools
+
+以下是全部：
+-----------------------------------------------------------------------------------------
+LuCI ---&gt; Applications ---&gt; luci-app-accesscontrol  #访问时间控制
+LuCI ---&gt; Applications ---&gt; luci-app-adblock   #ADB广告过滤
+LuCI ---&gt; Applications ---&gt; luci-app-adbyby-plus  #广告屏蔽大师Plus +
+LuCI ---&gt; Applications ---&gt; luci-app-adbyby   #广告过滤大师（已弃）
+LuCI ---&gt; Applications ---&gt; luci-app-adkill   #广告过滤（已弃）
+LuCI ---&gt; Applications ---&gt; luci-app-advanced-reboot  #Linksys高级重启
+LuCI ---&gt; Applications ---&gt; luci-app-ahcp  #支持AHCPd
+LuCI ---&gt; Applications ---&gt; luci-app-aliddns   #阿里DDNS客户端（已弃，集成ddns）
+LuCI ---&gt; Applications ---&gt; luci-app-amule  #aMule下载工具
+LuCI ---&gt; Applications ---&gt; luci-app-aria2 # Aria2下载工具
+LuCI ---&gt; Applications ---&gt; luci-app-arpbind  #IP/MAC绑定
+LuCI ---&gt; Applications ---&gt; luci-app-asterisk  #支持Asterisk电话服务器
+LuCI ---&gt; Applications ---&gt; luci-app-attendedsysupgrade  #固件更新升级相关
+LuCI ---&gt; Applications ---&gt; luci-app-autoreboot  #支持计划重启
+LuCI ---&gt; Applications ---&gt; luci-app-bcp38  #BCP38网络入口过滤(不确定)
+LuCI ---&gt; Applications ---&gt; luci-app-bird4   #Bird 4(未知)
+LuCI ---&gt; Applications ---&gt; luci-app-bird6   #Bird 6(未知)
+LuCI ---&gt; Applications ---&gt; luci-app-bmx6  #BMX6路由协议
+LuCI ---&gt; Applications ---&gt; luci-app-bmx7  #BMX7路由协议
+LuCI ---&gt; Applications ---&gt; luci-app-caldav  #联系人
+LuCI ---&gt; Applications ---&gt; luci-app-cjdns  #加密IPV6网络相关
+LuCI ---&gt; Applications ---&gt; luci-app-clamav  #ClamAV杀毒软件
+LuCI ---&gt; Applications ---&gt; luci-app-commands   #Shell命令模块
+LuCI ---&gt; Applications ---&gt; luci-app-cshark   #CloudShark捕获工具
+LuCI ---&gt; Applications ---&gt; luci-app-ddns   #动态域名 DNS
+LuCI ---&gt; Applications ---&gt; luci-app-diag-core   #core诊断工具
+LuCI ---&gt; Applications ---&gt; luci-app-dnscrypt-proxy  #DNSCrypt解决DNS污染
+LuCI ---&gt; Applications ---&gt; luci-app-dnscrypt-dnsforwarder  #DNSForwarder防DNS污染
+LuCI ---&gt; Applications ---&gt; luci-app-dnspod  #DNSPod
+LuCI ---&gt; Applications ---&gt; luci-app-dump1090  #民航无线频率(不确定)
+LuCI ---&gt; Applications ---&gt; luci-app-dynapoint  #DynaPoint(未知)
+LuCI ---&gt; Applications ---&gt; luci-app-e2guardian   #Web内容过滤器
+LuCI ---&gt; Applications ---&gt; luci-app-familycloud   #家庭云盘
+LuCI ---&gt; Applications ---&gt; luci-app-filetransfer  #文件传输
+LuCI ---&gt; Applications ---&gt; luci-app-firewall   #添加防火墙
+LuCI ---&gt; Applications ---&gt; luci-app-flowoffload   #Turbo ACC  FLOW转发加速(集成在sfe)
+LuCI ---&gt; Applications ---&gt; luci-app-freifunk-diagnostics   #freifunk组件 诊断(未知)
+LuCI ---&gt; Applications ---&gt; luci-app-freifunk-policyrouting  #freifunk组件 策略路由(未知)
+LuCI ---&gt; Applications ---&gt; luci-app-freifunk-widgets  #freifunk组件 索引(未知)
+LuCI ---&gt; Applications ---&gt; luci-app-frpc   #内网穿透 Frp
+LuCI ---&gt; Applications ---&gt; luci-app-fwknopd  #Firewall Knock Operator服务器
+LuCI ---&gt; Applications ---&gt; luci-app-guest-wifi   #WiFi访客网络
+LuCI ---&gt; Applications ---&gt; luci-app-gfwlist   #GFW域名列表（已弃）
+LuCI ---&gt; Applications ---&gt; luci-app-hd-idle  #硬盘休眠
+LuCI ---&gt; Applications ---&gt; luci-app-hnet  #Homenet Status家庭网络控制协议
+LuCI ---&gt; Applications ---&gt; luci-app-kodexplorer  #KOD可道云私人网盘
+LuCI ---&gt; Applications ---&gt; luci-app-kooldns  #virtual**服务器 ddns替代方案（已弃）
+LuCI ---&gt; Applications ---&gt; luci-app-koolproxy  #KP去广告（已弃）
+LuCI ---&gt; Applications ---&gt; luci-app-lxc   #LXC容器管理
+LuCI ---&gt; Applications ---&gt; luci-app-meshwizard #网络设置向导
+LuCI ---&gt; Applications ---&gt; luci-app-minidlna   #完全兼容DLNA / UPnP-AV客户端的服务器软件
+LuCI ---&gt; Applications ---&gt; luci-app-mjpg-streamer   #兼容Linux-UVC的摄像头程序
+LuCI ---&gt; Applications ---&gt; luci-app-mmc-over-gpio   #添加SD卡操作界面（已弃）
+LuCI ---&gt; Applications ---&gt; luci-app-multiwan   #多拨虚拟网卡（已弃）
+LuCI ---&gt; Applications ---&gt; luci-app-mwan   #MWAN负载均衡
+LuCI ---&gt; Applications ---&gt; luci-app-mwan3   #MWAN3分流助手
+LuCI ---&gt; Applications ---&gt; luci-app-n2n_v2   #N2N内网穿透 N2N v2 virtual**服务
+LuCI ---&gt; Applications ---&gt; luci-app-nft-qos  #QOS流控 Nftables版（已弃）
+LuCI ---&gt; Applications ---&gt; luci-app-ngrokc  #Ngrok 内网穿透（已弃）
+LuCI ---&gt; Applications ---&gt; luci-app-nlbwmon   #网络带宽监视器
+LuCI ---&gt; Applications ---&gt; luci-app-noddos  #NodDOS Clients 阻止DDoS攻击
+LuCI ---&gt; Applications ---&gt; luci-app-ntpc   #NTP时间同步服务器
+LuCI ---&gt; Applications ---&gt; luci-app-ocserv  #OpenConnect virtual**服务
+LuCI ---&gt; Applications ---&gt; luci-app-olsr  #OLSR配置和状态模块
+LuCI ---&gt; Applications ---&gt; luci-app-olsr-services  #OLSR服务器
+LuCI ---&gt; Applications ---&gt; luci-app-olsr-viz   #OLSR可视化
+LuCI ---&gt; Applications ---&gt; luci-app-ocserv   #OpenConnect virtual**服务（已弃）
+LuCI ---&gt; Applications ---&gt; luci-app-openvirtual**  #Openvirtual**客户端
+LuCI ---&gt; Applications ---&gt; luci-app-openvirtual**-server  #易于使用的Openvirtual**服务器 Web-UI
+LuCI ---&gt; Applications ---&gt; luci-app-oscam   #OSCAM服务器（已弃）
+LuCI ---&gt; Applications ---&gt; luci-app-p910nd   #打印服务器模块
+LuCI ---&gt; Applications ---&gt; luci-app-pagekitee   #Pagekite内网穿透客户端
+LuCI ---&gt; Applications ---&gt; luci-app-polipo  #Polipo代理(是一个小型且快速的网页缓存代理)
+LuCI ---&gt; Applications ---&gt; luci-app-pppoe-relay  #PPPoE NAT穿透 点对点协议(PPP)
+LuCI ---&gt; Applications ---&gt; luci-app-p p t p-server  #virtual**服务器 p p t p
+LuCI ---&gt; Applications ---&gt; luci-app-privoxy  #Privoxy网络代理(带过滤无缓存)
+LuCI ---&gt; Applications ---&gt; luci-app-qos   #流量服务质量(QoS)流控
+LuCI ---&gt; Applications ---&gt; luci-app-radicale   #CalDAV/CardDAV同步工具
+LuCI ---&gt; Applications ---&gt; luci-app-ramfree  #释放内存
+LuCI ---&gt; Applications ---&gt; luci-app-rp-pppoe-server  #Roaring Penguin PPPoE Server 服务器
+LuCI ---&gt; Applications ---&gt; luci-app-samba   #网络共享(Samba)
+LuCI ---&gt; Applications ---&gt; luci-app-samba4   #网络共享(Samba4)
+LuCI ---&gt; Applications ---&gt; luci-app-sfe  #Turbo ACC网络加速(开启Fast Path转发加速)
+LuCI ---&gt; Applications ---&gt; luci-app-s-s   #SS兲朝上网（已弃）
+LuCI ---&gt; Applications ---&gt; luci-app-s-s-libes  #SS-libev服务端
+LuCI ---&gt; Applications ---&gt; luci-app-shairplay  #支持AirPlay功能
+LuCI ---&gt; Applications ---&gt; luci-app-siitwizard  #SIIT配置向导  SIIT-Wizzard
+LuCI ---&gt; Applications ---&gt; luci-app-simple-adblock  #简单的广告拦截
+LuCI ---&gt; Applications ---&gt; luci-app-simple-softethervirtual**  #SoftEther virtual**服务器  NAT穿透（已弃）
+LuCI ---&gt; Applications ---&gt; luci-app-splash  #Client-Splash是无线MESH网络的一个热点认证系统
+LuCI ---&gt; Applications ---&gt; luci-app-sqm  #流量智能队列管理(QOS)
+LuCI ---&gt; Applications ---&gt; luci-app-squid   #Squid代理服务器
+-------------------------------------------------------------------------------------------
+LuCI ---&gt; Applications ---&gt; luci-app-S-S R-plus   #S-S R兲朝上网Plus+
+LuCI ---&gt; Applications ---&gt; luci-app-S-S R-plus ---&gt; Include s-s New Versiong  #新SS代理
+LuCI ---&gt; Applications ---&gt; luci-app-S-S R-plus ---&gt; Include V2ray  #V2Ray透明代理
+LuCI ---&gt; Applications ---&gt; luci-app-S-S R-plus ---&gt; Include Kcptun  #Kcptun代理
+LuCI ---&gt; Applications ---&gt; luci-app-S-S R-plus ---&gt; Include s-sR Server  #S-S R客户端
+LuCI ---&gt; Applications ---&gt; luci-app-S-S R-plus ---&gt; Include s-sR Socks and Tunnel  #S-S R代理
+-------------------------------------------------------------------------------------------
+LuCI ---&gt; Applications ---&gt; luci-app-S-S R-pro  #S-S R-Pro
+LuCI ---&gt; Applications ---&gt; luci-app-S-S Rserver-python  #s-sR Python服务器
+LuCI ---&gt; Applications ---&gt; luci-app-statistics  #流量监控工具
+LuCI ---&gt; Applications ---&gt; luci-app-syncdial  #多拨虚拟网卡(原macvlan)
+LuCI ---&gt; Applications ---&gt; luci-app-tinyproxy  #Tinyproxy是 HTTP(S)代理服务器
+LuCI ---&gt; Applications ---&gt; luci-app-transmission   #BT下载工具
+LuCI ---&gt; Applications ---&gt; luci-app-travelmate  #旅行路由器
+LuCI ---&gt; Applications ---&gt; luci-app-ttyd   #网页终端命令行
+LuCI ---&gt; Applications ---&gt; luci-app-udpxy  #udpxy做组播服务器
+LuCI ---&gt; Applications ---&gt; luci-app-uhttpd  #uHTTPd Web服务器
+LuCI ---&gt; Applications ---&gt; luci-app-unblockmusic  #解锁网易云灰色歌曲
+LuCI ---&gt; Applications ---&gt; luci-app-unbound  #Unbound DNS解析器
+LuCI ---&gt; Applications ---&gt; luci-app-upnp   #通用即插即用UPnP(端口自动转发)
+LuCI ---&gt; Applications ---&gt; luci-app-usb-printer   #USB 打印服务器
+LuCI ---&gt; Applications ---&gt; luci-app-v2ray-pro  #V2Ray透明代理（已弃，集成S-S R）
+LuCI ---&gt; Applications ---&gt; luci-app-vlmcsd  #KMS服务器设置
+LuCI ---&gt; Applications ---&gt; luci-app-vnstat   #vnStat网络监控(图表)
+LuCI ---&gt; Applications ---&gt; luci-app-virtual**bypass  #virtual** BypassWebUI  绕过virtual**设置
+LuCI ---&gt; Applications ---&gt; luci-app-vsftpd  #FTP服务器
+LuCI ---&gt; Applications ---&gt; luci-app-watchcat  #断网检测功能与定时重启
+LuCI ---&gt; Applications ---&gt; luci-app-webadmin  #Web管理页面设置
+LuCI ---&gt; Applications ---&gt; luci-app-webshell  #网页命令行终端（已弃）
+LuCI ---&gt; Applications ---&gt; luci-app-wifischedule  #WiFi 计划
+LuCI ---&gt; Applications ---&gt; luci-app-wireguard  #virtual**服务器 WireGuard状态
+LuCI ---&gt; Applications ---&gt; luci-app-wireless-regdb  #WiFi无线
+LuCI ---&gt; Applications ---&gt; luci-app-wol   #WOL网络唤醒
+LuCI ---&gt; Applications ---&gt; luci-app-wrtbwmon  #实时流量监测
+LuCI ---&gt; Applications ---&gt; luci-app-xlnetacc  #迅雷快鸟
+LuCI ---&gt; Applications ---&gt; luci-app-zerotier  #ZeroTier内网穿透
+LuCI ---&gt; Applications ---&gt; luci-i18n-qbittorrent-zh-cn  #BT下载工具(qBittorrent)
+---------------------------------------------------------------------------------------------------
+LuCI ---&gt; Collections ---&gt; luci   #添加luci (web界面管理)
+LuCI ---&gt; Modules ---&gt; Translations ---&gt; Simplified Chinese (zh-cn) #新版本中文语言包位置
+LuCI ---&gt; Themes ---&gt; luci-theme-bootstrap   #默认主题，大家可以自行增减插件
+LuCI ---&gt; Translations ---&gt; luci-i18n-chinese   #添加luci的中文语言包
+---------------------------------------------------------------------------------------------------
+支持 iPv6：
+Extra packages  ---&gt;  ipv6helper  （选定这个后下面几项自动选择了）
+Network  ---&gt;  odhcp6c
+Network  ---&gt;  odhcpd-ipv6only
+LuCI  ---&gt;  Protocols  ---&gt;  luci-proto-ipv6
+LuCI  ---&gt;  Protocols  ---&gt;  luci-proto-ppp
+</code></pre>
+<p>在这里有一些别的选项，比如一些VPN、aria2的web管理等等，根据需要自己进去研究。</p>
+<p>勾选完需要的东西就可以退回第一个界面保存退出，保存按默认的文件名称(.config）保存即可，不需要修改。编译会根据.config的内容编译，想要恢复到初始配置删掉.config文件即可。<br>
+在编译的过程中，要下载一些组件什么的，如果你不翻墙，下载速度会非常慢，甚至下载不下来。</p>
+<p>然后需要记住的一点，就是<strong>少选插件，选择自己需要的就好，因为插件多了，系统容易不稳定，也会拖慢速度</strong></p>
+<ul>
+<li>当然这里也提供悟空（油管搜索 悟空的日常）提供的所有插件ipk，自行挑选需要的安装即可<br>
+<a href="http://cloud.loveting.site/%E8%BD%AF%E8%B7%AF%E7%94%B1%E7%9B%B8%E5%85%B3/NanoPi-R1S%EF%BC%88H5%EF%BC%89/%E6%82%9F%E7%A9%BA%E8%87%AA%E5%88%B6%E5%9B%BA%E4%BB%B6/R1S%E5%87%A0%E4%B9%8E%E5%85%A8%E9%83%A8ipk.zip">点击下载</a></li>
+</ul>
+<p>一样的，保存退出后回到friendlywrt-h5 根目录。执行</p>
+<pre><code class="language-shell"> ./build.sh nanopi_r1s.mk
+</code></pre>
+<p>如果你想让img小一点，你可以在out目录中执行 zip -r xxx.img.zip xxx.img ，压缩后方便下载传输</p>
+<p>PS：本文参考了许多编译资料，还有不少群友帮助，希望文章对别人也有帮助。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://skytotwo.github.io//tag/Ehuta0Wsh" class="tag">
+                    软路由
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://skytotwo.github.io//post/dropbox-mklink">
+                  <h3 class="post-title">
+                    Dropbox使用mklink同步任意文件夹
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'c92214c141dbb1e37da6',
+        clientSecret: '130f41f7ee3f5c06aa16d6392286c307d1e9b99c',
+        repo: 'skytotwo.github.io',
+        owner: 'skytotwo',
+        admin: ['skytotwo'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

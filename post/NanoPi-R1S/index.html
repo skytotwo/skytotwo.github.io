@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1574155446284">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1574155702718">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://skytotwo.github.io/">
-        <img src="https://skytotwo.github.io//images/avatar.png?v=1574155446284" class="site-logo">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1574155702718" class="site-logo">
         <h1 class="site-title">Totoro の Home</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -221,9 +221,11 @@ repo init -u https://github.com/friendlyarm/friendlywrt_manifests -b master -m h
 <p>这一步后需要注意，要修改上面命令生成的h5.xml文件，将代码指向自己同步后的源码。</p>
 <pre><code class="language-shell">cd .repo/manifests/
 vi h5.xml
-# 然后在&lt;manifest&gt;里加上指向自己仓库的地址&lt;remote name=&quot;self&quot; fetch=&quot;仓库地址&quot; /&gt;
+#在&lt;manifest&gt;里加上指向自己仓库的地址&lt;remote name=&quot;self&quot; fetch=&quot;仓库地址&quot; /&gt;
+#然后将&lt;project path=&quot;friendlywrt&quot; name=&quot;friendlywrt&quot; remote=&quot;origin&quot; revision=&quot;refs/heads/master-v18.06.1&quot; /&gt; 里面的remote改成self即可
+#随后esc， ：wq退出
 </code></pre>
-<p>这里提供一个已修改的h5.xml文件，复制即可：</p>
+<p>这里提供一个已修改的h5.xml文件，复制也可以：</p>
 <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;manifest&gt;
  &lt;remote name=&quot;origin&quot;

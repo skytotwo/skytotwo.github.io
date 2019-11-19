@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1574140117505">
+<link rel="shortcut icon" href="https://skytotwo.github.io//favicon.ico?v=1574155446284">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://skytotwo.github.io//styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://skytotwo.github.io/">
-        <img src="https://skytotwo.github.io//images/avatar.png?v=1574140117505" class="site-logo">
+        <img src="https://skytotwo.github.io//images/avatar.png?v=1574155446284" class="site-logo">
         <h1 class="site-title">Totoro の Home</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -187,8 +187,28 @@ git clone https://github.com/friendlyarm/repo
 sudo cp repo/repo /usr/bin/
 </code></pre>
 <h4 id="下载源码"><strong>下载源码</strong></h4>
+<p><strong>方案一：</strong></p>
+<p>进入jolly用户文件夹下，具体在/home/jolly/，然后执行如下：</p>
+<pre><code class="language-shell">mkdir friendlywrt-h5
+cd friendlywrt-h5
+repo init -u https://github.com/friendlyarm/friendlywrt_manifests -b master -m h5.xml --repo-url=https://github.com/friendlyarm/repo  --no-clone-bundle
+repo sync -c  --no-clone-bundle
+</code></pre>
+<p>此处由于repo拉取的代码不会和git合并，所以改用git重新拉取代码源，一样的，衔接上游openwrt代码</p>
+<pre><code class="language-shell">rm -rf friendlywrt
+mkdir friendlywrt
+cd friendlywrt
+git init
+git config user.email abc@abc.com
+git config user.name abc
+git remote add origin https://github.com/friendlyarm/friendlywrt.git
+git remote add upstream https://github.com/openwrt/openwrt.git
+git pull origin master-v18.06.1
+git pull upstream openwrt-18.06 --no-edit
+</code></pre>
+<p><strong>方案二：</strong></p>
 <ul>
-<li>这里先别着急，因为friendlywrt的代码源是openwrt18.06 但是他没有跟随上游更新，所以这里需要替换为我们已经同步好openwrt上游后的代码。</li>
+<li>因为friendlywrt的代码源是openwrt18.06 但是他没有跟随上游更新，所以这里需要替换为我们已经同步好openwrt上游后的代码。</li>
 </ul>
 <p>具体同步方法不做解说，这里给出几个同步后的仓库地址：<br>
 <a href="https://github.com/skytotwo/friendlywrt">地址一</a><br>

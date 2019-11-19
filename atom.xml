@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-11-19T05:08:40.527Z</updated>
+    <updated>2019-11-19T09:24:17.967Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -82,8 +82,28 @@ git clone https://github.com/friendlyarm/repo
 sudo cp repo/repo /usr/bin/
 </code></pre>
 <h4 id="下载源码"><strong>下载源码</strong></h4>
+<p><strong>方案一：</strong></p>
+<p>进入jolly用户文件夹下，具体在/home/jolly/，然后执行如下：</p>
+<pre><code class="language-shell">mkdir friendlywrt-h5
+cd friendlywrt-h5
+repo init -u https://github.com/friendlyarm/friendlywrt_manifests -b master -m h5.xml --repo-url=https://github.com/friendlyarm/repo  --no-clone-bundle
+repo sync -c  --no-clone-bundle
+</code></pre>
+<p>此处由于repo拉取的代码不会和git合并，所以改用git重新拉取代码源，一样的，衔接上游openwrt代码</p>
+<pre><code class="language-shell">rm -rf friendlywrt
+mkdir friendlywrt
+cd friendlywrt
+git init
+git config user.email abc@abc.com
+git config user.name abc
+git remote add origin https://github.com/friendlyarm/friendlywrt.git
+git remote add upstream https://github.com/openwrt/openwrt.git
+git pull origin master-v18.06.1
+git pull upstream openwrt-18.06 --no-edit
+</code></pre>
+<p><strong>方案二：</strong></p>
 <ul>
-<li>这里先别着急，因为friendlywrt的代码源是openwrt18.06 但是他没有跟随上游更新，所以这里需要替换为我们已经同步好openwrt上游后的代码。</li>
+<li>因为friendlywrt的代码源是openwrt18.06 但是他没有跟随上游更新，所以这里需要替换为我们已经同步好openwrt上游后的代码。</li>
 </ul>
 <p>具体同步方法不做解说，这里给出几个同步后的仓库地址：<br>
 <a href="https://github.com/skytotwo/friendlywrt">地址一</a><br>

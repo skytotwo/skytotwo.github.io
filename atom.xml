@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-11-19T03:36:31.500Z</updated>
+    <updated>2019-11-19T05:08:40.527Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -45,6 +45,7 @@ LAN LED（绿色）x1</p>
 <figure data-type="image" tabindex="6"><img src="https://picture.totoro.site/images/2019/11/19/R1S_en_08.jpg" alt="R1S_en_08.jpg"></figure>
 <p>NanoPi_R1S-H3维基百科：<a href="http://wiki.friendlyarm.com/wiki/index.php/NanoPi_R1S-H3">http://wiki.friendlyarm.com/wiki/index.php/NanoPi_R1S-H3</a></p>
 <p>NanoPi_R1S-H5维基百科：<a href="http://wiki.friendlyarm.com/wiki/index.php/NanoPi_R1S-H5">http://wiki.friendlyarm.com/wiki/index.php/NanoPi_R1S-H5</a></p>
+<hr>
 <h3 id="软路由"><strong>软路由</strong></h3>
 <p>实际上我买这个是用作软路由使用的，实际使用情况也超出我预期，h5版本比NanoPi-R1强太多了。拿到机器其实就想自己能够编译个属于自己的插件，多番学习后，也确实编译出来了，这里要谢谢帮助过我指点过我的大佬们，谢谢！</p>
 <h3 id="开始准备"><strong>开始准备</strong></h3>

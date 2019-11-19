@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-11-19T09:29:46.802Z</updated>
+    <updated>2019-11-19T10:09:15.713Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -167,7 +167,7 @@ vi h5.xml
 <pre><code class="language-shell">git clone https://github.com/coolsnowwolf/lede
 </code></pre>
 <p>接着将lede包复制到我们的源码里</p>
-<pre><code class="language-shell">cp -r ./lede/package/lean friendlywrt-h5/friendlywrt/package/
+<pre><code class="language-shell">cp -r ./lede/package/lean /home/jolly/friendlywrt-h5/friendlywrt/package/
 </code></pre>
 <p>然后修改feeds.conf.default文件内容，将/friendlywrt-h5/friendlywrt/feeds.conf.default中的luci内容替换为lean下feeds.conf.default文件luci的对应内容，其他不用动，保存退出。</p>
 <h3 id="编译"><strong>编译</strong></h3>

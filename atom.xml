@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://skytotwo.github.io/</id>
     <title>Totoro の Home</title>
-    <updated>2019-11-19T09:28:26.971Z</updated>
+    <updated>2019-11-19T09:29:46.802Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://skytotwo.github.io/"/>
     <link rel="self" href="https://skytotwo.github.io//atom.xml"/>
@@ -112,6 +112,7 @@ git pull upstream openwrt-18.06 --no-edit
 <pre><code class="language-shell">mkdir friendlywrt-h5
 cd friendlywrt-h5
 repo init -u https://github.com/friendlyarm/friendlywrt_manifests -b master -m h5.xml
+  --repo-url=https://github.com/friendlyarm/repo  --no-clone-bundle
 </code></pre>
 <p>这一步后需要注意，要修改上面命令生成的h5.xml文件，将代码指向自己同步后的源码。</p>
 <pre><code class="language-shell">cd .repo/manifests/

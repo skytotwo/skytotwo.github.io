@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://totoro.site/</loc>
+  <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://totoro.site/archives/</loc>
+  <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://totoro.site/tags/</loc>
+  <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://totoro.site/post/about/</loc>
+  <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+
+
+<url>
+    <loc>https://totoro.site/post/ali_refund/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/asyncio-jian-jie/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/bbr-setup/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/centos-nginx/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/centos-resolvconf-dns/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/centos7-flask-env/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/centos7-nginx-uswgi-django/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/centos7-nginx-uwsgi-flask/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/centos7-python-env/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/chevereto-setup/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/css-centered/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/diy-ssl-cloudflare/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/django-csrf/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/django-drf-disanfang/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/django-settings-meida-lujing/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/django-xadmin-excel/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/django-xadmin/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/dropbox-mklink/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/flask-404-decorator/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/flask-blueprint/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/flask-content/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/flask-jsonencoder/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/flask-url_for/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/go-channel/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/go-python-decorator/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/golang-import/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/hello-gridea/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/iter-generator/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/java-delete-file/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/java-get-url/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/java-on2/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/java-regex/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/jquery-pop-window/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/js-check-browser/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/js-cookie-set/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/jsp-word-config/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/linux-command/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/linux-docker-setup/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/linux-resend/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/linux-vi/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/mac-android-env/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/mac-mysql57-resetpd/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/mysql-connect-num/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/NanoPi-R1S/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/netflix-proxy-setup/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/nginx-ssl/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/openoffice/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/python-collections/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/python-copy/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/python-decorator/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/python-dict-set/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/python-docktype/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/python-generators/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/python-gil/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/python-iter-decorator/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/python-mianshi/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/python-singelton/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/python-with-context/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/scrapy-item-loaders/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/single-mutipage/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/sqlalchemy-relationship/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/ss-and-ssr/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/tencent-dev/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/upload-or-download-ftp/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/v2ray-setup/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/vps-test/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/wechat-invalid-total_fee/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/wechat-learning-2/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/wechat-miniapp-learning-mark/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+<url>
+    <loc>https://totoro.site/post/wechat-pay-java/</loc>
+    <lastmod>2019-11-21T01:18:28+00:00</lastmod>
+    <priority>0.80</priority>
+</url>
+
+
+
+</urlset>
